@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Kirurobo;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,10 +24,39 @@ public class GameManager : MonoBehaviour
         {
             IN = this;
             DontDestroyOnLoad(gameObject);
+            
+            SetToMonitor(1);
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+    
+    public void SetToMonitor(int monitorIndex = 0)
+    {
+        // Get the UniWindowController instance
+        var uniWin = Kirurobo.UniWindowController.current;
+        if (uniWin != null)
+        {
+            // Disable fitting to prevent automatic monitor switching
+            uniWin.shouldFitMonitor = false;
+            uniWin.monitorToFit = 0; // Try monitor 0 first (usually primary)
+
+            // On macOS, monitor 0 might not be primary, so let's find the primary monitor
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            
+            if(monitorCount > monitorIndex)
+            {
+                uniWin.monitorToFit = monitorIndex;
+            }
+            
+            if (DebugText != null)
+                DebugText.text = $"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.";
+                
+            // If you want to force to a specific monitor, uncomment and adjust:
+            uniWin.monitorToFit = monitorIndex; // 0 for first monitor, 1 for second, etc.
+            uniWin.shouldFitMonitor = true;
         }
     }
 
@@ -42,13 +72,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (isBgShowing)
-            {
-                StartCoroutine(FadeOutBackground());
-            }
+                FadeOutBackground();
             else
-            {
-                StartCoroutine(FadeInBackground());
-            }
+                FadeInBackground();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -60,42 +86,49 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (DebugText != null)
-            {
                 DebugText.text = $"Frame Count: {Time.frameCount}";
-            }
+        }
+        
+        // Debug key to show monitor information
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            ShowMonitorInfo();
+        }
+        
+        // Debug keys to manually switch monitors
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SwitchToMonitor(0);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SwitchToMonitor(1);
         }
     }
 
-    private IEnumerator FadeInBackground()
+    private void FadeInBackground()
     {
         isBgShowing = true;
-        float duration = 0.5f;
-        float elapsed = 0f;
-        while (elapsed < duration)
+        
+        bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
-            elapsed += Time.deltaTime;
-            bgCanvasGroup.alpha = Mathf.Clamp01(elapsed / duration);
-            yield return null;
-        }
-        bgCanvasGroup.alpha = 1f;
-        bgCanvasGroup.interactable = true;
-        bgCanvasGroup.blocksRaycasts = true;
+            bgCanvasGroup.alpha = 1f;
+            bgCanvasGroup.interactable = true;
+            bgCanvasGroup.blocksRaycasts = true;
+        });
     }
 
-    private IEnumerator FadeOutBackground()
+    private void FadeOutBackground()
     {
         isBgShowing = false;
-        float duration = 0.5f;
-        float elapsed = 0f;
-        while (elapsed < duration)
+
+        bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
-            elapsed += Time.deltaTime;
-            bgCanvasGroup.alpha = 1f - Mathf.Clamp01(elapsed / duration);
-            yield return null;
-        }
-        bgCanvasGroup.alpha = 0f;
-         bgCanvasGroup.interactable = false;
-        bgCanvasGroup.blocksRaycasts = false;
+            bgCanvasGroup.alpha = 0f;
+            bgCanvasGroup.interactable = false;
+            bgCanvasGroup.blocksRaycasts = false;
+        });
     }
 
     public void HandleQuitButtonClick()
@@ -113,5 +146,47 @@ public class GameManager : MonoBehaviour
     {
         if(DebugText != null)
             DebugText.text = "App Paused: " + pauseStatus;
+    }
+    
+    private void ShowMonitorInfo()
+    {
+        var uniWin = Kirurobo.UniWindowController.current;
+        if (uniWin != null)
+        {
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            string info = $"Monitors: {monitorCount}\n";
+            
+            for (int i = 0; i < monitorCount; i++)
+            {
+                var rect = Kirurobo.UniWindowController.GetMonitorRect(i);
+                info += $"Monitor {i}: {rect.width}x{rect.height} at ({rect.x}, {rect.y})\n";
+            }
+            
+            info += $"Current: Monitor {uniWin.monitorToFit}, Fit: {uniWin.shouldFitMonitor}";
+            
+            if (DebugText != null)
+                DebugText.text = info;
+                
+            Debug.Log(info);
+        }
+    }
+    
+    private void SwitchToMonitor(int monitorIndex)
+    {
+        var uniWin = Kirurobo.UniWindowController.current;
+        if (uniWin != null)
+        {
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            if (monitorIndex < monitorCount)
+            {
+                uniWin.monitorToFit = monitorIndex;
+                uniWin.shouldFitMonitor = true;
+                
+                if (DebugText != null)
+                    DebugText.text = $"Switched to Monitor {monitorIndex}";
+                    
+                Debug.Log($"Switched to Monitor {monitorIndex}");
+            }
+        }
     }
 }
