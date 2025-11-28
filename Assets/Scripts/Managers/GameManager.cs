@@ -14,7 +14,10 @@ public class GameManager : MonoBehaviour
 
     public static Action<bool> OnDragModeChanged;
 
+    [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
+
+    [SerializeField] private GameObject showButton;
 
     private bool isBgShowing;
 
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         isBgShowing = bgCanvasGroup.alpha > 0f;
+        showButton.SetActive(false);
         SwitchToMonitor(monitorIndex);
     }
 
@@ -45,7 +49,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            HandleQuitButtonClick();
+            FadeOutRoot();
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -74,12 +78,39 @@ public class GameManager : MonoBehaviour
             if (DebugText != null)
                 DebugText.text = $"Frame Count: {Time.frameCount}";
         }
-        
+
         // Debug key to show monitor information
         if (Input.GetKeyDown(KeyCode.M))
         {
             ShowMonitorInfo();
         }
+    }
+    
+    public void FadeInRoot()
+    {
+        showButton.SetActive(false);
+
+        rootCanvasGroup.gameObject.SetActive(true);
+        
+        rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        {
+            rootCanvasGroup.alpha = 1f;
+            rootCanvasGroup.interactable = true;
+            rootCanvasGroup.blocksRaycasts = true;
+        });
+    }
+
+    public void FadeOutRoot()
+    {
+        showButton.SetActive(true);
+
+        rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
+        {
+            rootCanvasGroup.alpha = 0f;
+            rootCanvasGroup.interactable = false;
+            rootCanvasGroup.blocksRaycasts = false;
+            rootCanvasGroup.gameObject.SetActive(false);
+        });
     }
 
     private void FadeInBackground()

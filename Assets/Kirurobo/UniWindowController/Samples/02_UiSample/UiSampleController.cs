@@ -276,14 +276,14 @@ namespace Kirurobo
             }
 
             // Quit or stop playing when pressed [ESC]
-            if (InputProxy.GetKeyUp("escape"))
-            {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
-            }
+//             if (InputProxy.GetKeyUp("escape"))
+//             {
+// #if UNITY_EDITOR
+//                 UnityEditor.EditorApplication.isPlaying = false;
+// #else
+//                 Application.Quit();
+// #endif
+//             }
         }
 
         /// <summary>
