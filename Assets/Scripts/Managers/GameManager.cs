@@ -28,13 +28,17 @@ public class GameManager : MonoBehaviour
         {
             IN = this;
             DontDestroyOnLoad(gameObject);
-            
-            SwitchToMonitor(this.monitorIndex);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        isBgShowing = bgCanvasGroup.alpha > 0f;
+        SwitchToMonitor(monitorIndex);
     }
 
     private void Update()
@@ -102,7 +106,7 @@ public class GameManager : MonoBehaviour
         });
     }
     
-    public void SwitchToMonitor(int monitorIndex = 0)
+    public void SwitchToMonitor(int monitorIndex)
     {
         // Get the UniWindowController instance
         var uniWin = Kirurobo.UniWindowController.current;
@@ -110,20 +114,15 @@ public class GameManager : MonoBehaviour
         {
             // Disable fitting to prevent automatic monitor switching
             uniWin.shouldFitMonitor = false;
-            uniWin.monitorToFit = 0; // Try monitor 0 first (usually primary)
 
             // On macOS, monitor 0 might not be primary, so let's find the primary monitor
             int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-            
-            if(monitorCount > monitorIndex)
-            {
-                uniWin.monitorToFit = monitorIndex;
-            }
+
+            uniWin.monitorToFit = monitorIndex < monitorCount ? monitorIndex : 0;
             
             if (DebugText != null)
                 DebugText.text = $"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.";
                 
-            uniWin.monitorToFit = monitorIndex;
             uniWin.shouldFitMonitor = true;
         }
     }
