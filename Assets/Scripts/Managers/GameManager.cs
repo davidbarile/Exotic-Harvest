@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
 
     private bool isBgShowing;
 
+    private int monitorIndex = 1;
+
+    public TMP_Text DebugText;
+
     private void Awake()
     {
         if (IN == null)
@@ -25,42 +29,13 @@ public class GameManager : MonoBehaviour
             IN = this;
             DontDestroyOnLoad(gameObject);
             
-            SetToMonitor(1);
+            SwitchToMonitor(this.monitorIndex);
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
-    public void SetToMonitor(int monitorIndex = 0)
-    {
-        // Get the UniWindowController instance
-        var uniWin = Kirurobo.UniWindowController.current;
-        if (uniWin != null)
-        {
-            // Disable fitting to prevent automatic monitor switching
-            uniWin.shouldFitMonitor = false;
-            uniWin.monitorToFit = 0; // Try monitor 0 first (usually primary)
-
-            // On macOS, monitor 0 might not be primary, so let's find the primary monitor
-            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-            
-            if(monitorCount > monitorIndex)
-            {
-                uniWin.monitorToFit = monitorIndex;
-            }
-            
-            if (DebugText != null)
-                DebugText.text = $"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.";
-                
-            // If you want to force to a specific monitor, uncomment and adjust:
-            uniWin.monitorToFit = monitorIndex; // 0 for first monitor, 1 for second, etc.
-            uniWin.shouldFitMonitor = true;
-        }
-    }
-
-    public TMP_Text DebugText;
 
     private void Update()
     {
@@ -83,6 +58,13 @@ public class GameManager : MonoBehaviour
             OnDragModeChanged?.Invoke(IsDragModeActivated);
         }
 
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            this.monitorIndex = (this.monitorIndex + 1) % monitorCount;
+            SwitchToMonitor(this.monitorIndex);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (DebugText != null)
@@ -93,17 +75,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             ShowMonitorInfo();
-        }
-        
-        // Debug keys to manually switch monitors
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SwitchToMonitor(0);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SwitchToMonitor(1);
         }
     }
 
@@ -130,10 +101,63 @@ public class GameManager : MonoBehaviour
             bgCanvasGroup.blocksRaycasts = false;
         });
     }
-
-    public void HandleQuitButtonClick()
+    
+    public void SwitchToMonitor(int monitorIndex = 0)
     {
+        // Get the UniWindowController instance
+        var uniWin = Kirurobo.UniWindowController.current;
+        if (uniWin != null)
+        {
+            // Disable fitting to prevent automatic monitor switching
+            uniWin.shouldFitMonitor = false;
+            uniWin.monitorToFit = 0; // Try monitor 0 first (usually primary)
+
+            // On macOS, monitor 0 might not be primary, so let's find the primary monitor
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            
+            if(monitorCount > monitorIndex)
+            {
+                uniWin.monitorToFit = monitorIndex;
+            }
+            
+            if (DebugText != null)
+                DebugText.text = $"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.";
+                
+            uniWin.monitorToFit = monitorIndex;
+            uniWin.shouldFitMonitor = true;
+        }
+    }
+
+    private void ShowMonitorInfo()
+    {
+        var uniWin = Kirurobo.UniWindowController.current;
+        if (uniWin != null)
+        {
+            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+            string info = $"Monitors: {monitorCount}\n";
+
+            for (int i = 0; i < monitorCount; i++)
+            {
+                var rect = Kirurobo.UniWindowController.GetMonitorRect(i);
+                info += $"Monitor {i}: {rect.width}x{rect.height} at ({rect.x}, {rect.y})\n";
+            }
+
+            info += $"Current: Monitor {uniWin.monitorToFit}, Fit: {uniWin.shouldFitMonitor}";
+
+            if (DebugText != null)
+                DebugText.text = info;
+
+            Debug.Log(info);
+        }
+    }
+    
+     public void HandleQuitButtonClick()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
         Application.Quit();
+        #endif
     }
 
     void OnApplicationFocus(bool hasFocus)
@@ -144,49 +168,7 @@ public class GameManager : MonoBehaviour
 
     void OnApplicationPause(bool pauseStatus)
     {
-        if(DebugText != null)
+        if (DebugText != null)
             DebugText.text = "App Paused: " + pauseStatus;
-    }
-    
-    private void ShowMonitorInfo()
-    {
-        var uniWin = Kirurobo.UniWindowController.current;
-        if (uniWin != null)
-        {
-            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-            string info = $"Monitors: {monitorCount}\n";
-            
-            for (int i = 0; i < monitorCount; i++)
-            {
-                var rect = Kirurobo.UniWindowController.GetMonitorRect(i);
-                info += $"Monitor {i}: {rect.width}x{rect.height} at ({rect.x}, {rect.y})\n";
-            }
-            
-            info += $"Current: Monitor {uniWin.monitorToFit}, Fit: {uniWin.shouldFitMonitor}";
-            
-            if (DebugText != null)
-                DebugText.text = info;
-                
-            Debug.Log(info);
-        }
-    }
-    
-    private void SwitchToMonitor(int monitorIndex)
-    {
-        var uniWin = Kirurobo.UniWindowController.current;
-        if (uniWin != null)
-        {
-            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-            if (monitorIndex < monitorCount)
-            {
-                uniWin.monitorToFit = monitorIndex;
-                uniWin.shouldFitMonitor = true;
-                
-                if (DebugText != null)
-                    DebugText.text = $"Switched to Monitor {monitorIndex}";
-                    
-                Debug.Log($"Switched to Monitor {monitorIndex}");
-            }
-        }
     }
 }
