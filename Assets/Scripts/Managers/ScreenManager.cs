@@ -6,9 +6,9 @@ using TMPro;
 using DG.Tweening;
 using Kirurobo;
 
-public class GameManager : MonoBehaviour
+public class ScreenManager : MonoBehaviour
 {
-    public static GameManager IN; 
+    public static ScreenManager IN; 
 
     public static bool IsDragModeActivated = false;
 

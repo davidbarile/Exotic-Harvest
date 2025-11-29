@@ -16,7 +16,7 @@ This project heavily integrates **UniWindowController** (Kirurobo namespace) for
   - File drop handling and monitor management
 
 ### Key Systems
-- **GameManager**: Singleton managing global state with drag mode toggling (Tab key for background fade, D key for drag mode, Escape to quit)
+- **ScreenManager**: Singleton managing global state with drag mode toggling (Tab key for background fade, D key for drag mode, Escape to quit)
 - **UI Framework**: Combination of Unity UI with ProceduralUIImage for advanced shapes and DOTween for animations
 - **Project Structure**: Multi-assembly setup with separate UniWindowController assemblies for runtime and editor functionality
 
@@ -31,7 +31,7 @@ UniWindowController.current.SetTransparentType(TransparentType.Alpha);
 
 ### UI Interaction Modes
 - **Normal Mode**: Standard UI interactions
-- **Drag Mode**: Activated via `GameManager.IsDragModeActivated` - enables `UiDraggablePanel` components to move UI elements
+- **Drag Mode**: Activated via `ScreenManager.IsDragModeActivated` - enables `UiDraggablePanel` components to move UI elements
 - **Click-Through**: Automatic detection based on pixel opacity or raycast hits when window is transparent
 
 ### Custom UI Components
@@ -51,12 +51,12 @@ UniWindowController.current.SetTransparentType(TransparentType.Alpha);
 - **Assembly References**: Project uses 5 separate assemblies including UniWindowController runtime and editor assemblies
 
 ## Dependencies & External Libraries
-- **DOTween** (`Assets/Plugins/Demigiant/DOTween/`) - Animation framework used by GameManager for UI transitions
-- **TextMeshPro** - Text rendering (referenced in GameManager debug display)
+- **DOTween** (`Assets/Plugins/Demigiant/DOTween/`) - Animation framework used by ScreenManager for UI transitions
+- **TextMeshPro** - Text rendering (referenced in ScreenManager debug display)
 - **ProceduralUIImage** - Custom procedural UI shapes system with extensive editor integration
 
 ## Key Files for AI Context
-- `Assets/Scripts/Managers/GameManager.cs` - Central game state and input handling
+- `Assets/Scripts/Managers/ScreenManager.cs` - Central game state and input handling
 - `Assets/Kirurobo/UniWindowController/Runtime/Scripts/UniWindowController.cs` - Window control core
 - `Assets/Scripts/UiDraggablePanel.cs` - UI dragging behavior
 - `Exotic Harvest.slnx` - Solution structure with 5 assemblies
@@ -74,7 +74,7 @@ UniWindowController.current.SetTransparentType(TransparentType.Alpha);
 - **Hit Testing**: Two methods available - Opacity (pixel-based, slower but accurate) and Raycast (collider-based, faster)
 
 ## Common Patterns
-- Singleton access via `UniWindowController.current` and `GameManager.IN`
-- Event-driven UI updates via `GameManager.OnDragModeChanged`
+- Singleton access via `UniWindowController.current` and `ScreenManager.IN`
+- Event-driven UI updates via `ScreenManager.OnDragModeChanged`
 - Assembly-based organization with clear separation between runtime and editor code
 - Prefab-based component system for reusable window management features

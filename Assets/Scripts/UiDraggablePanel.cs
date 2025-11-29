@@ -12,13 +12,13 @@ public class UiDraggablePanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 
     private void Start()
     {
-        GameManager.OnDragModeChanged += HandleDragModeChanged;
-        HandleDragModeChanged(GameManager.IsDragModeActivated);
+        ScreenManager.OnDragModeChanged += HandleDragModeChanged;
+        HandleDragModeChanged(ScreenManager.IsDragModeActivated);
     }
 
     private void OnDestroy()
     {
-        GameManager.OnDragModeChanged -= HandleDragModeChanged;
+        ScreenManager.OnDragModeChanged -= HandleDragModeChanged;
     }
     
     private void HandleDragModeChanged(bool isDragMode)
@@ -31,7 +31,7 @@ public class UiDraggablePanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!GameManager.IsDragModeActivated)
+        if (!ScreenManager.IsDragModeActivated)
             return;
             
         isDragging = true;
