@@ -1,169 +1,304 @@
-# Exotic Harvest — Design Document
+# Exotic Harvest – Game Design Document (GDD)
 
-## Working Titles
-- Jungle Harvest  
-- Amazon Harvest  
-- Exotic Harvest  
-- Enchanted Harvest
+*(a.k.a. Enchanted Harvest / Jungle Harvest / Amazon Harvest)*
 
----
+## Table of Contents
 
-## Core Concept
-A Unity desktop-overlay idle/harvesting game with a transparent background that sits on top of the user's desktop. Combines a cozy, decorative environment (customizable pets, draggable decorations) with an incremental harvesting/foraging loop and upgrades.
-
----
-
-# 1. Game Design Document (Lean GDD)
-
-## High-Level Overview
-Players decorate a desktop space with jungle-themed items and pets while collecting resources that spawn over time or via interaction. Progression is achieved via upgrades, pets, tools, puzzles and timed events.
-
-## Core Gameplay Loop
-1. Collect resources manually or passively (time, weather, pets).  
-2. Upgrade harvesters, pets, tools, inventory capacity.  
-3. Decorate the environment and lock layouts.  
-4. Unlock new resources, puzzles, and rare encounters.  
-5. Repeat, with daily/weekly/monthly cycles and events.
-
-## Primary Systems
-
-### Decorative Environment
-- Transparent overlay; draggable, placeable decorations with lock mode.  
-- Jungle motif: plants, vines, tiki elements, small structures.  
-- Optional day/night cycle and weather (rain, snow, clouds).  
-- Ambient life: birds, snakes, cocoons, hatching eggs, fireflies.  
-- Draggable foliage patches to avoid blocking important screen areas.
-
-### Pets & Helpers
-- Pet examples: cat, gecko, chameleon, fish, octopus, squirrel, rabbit, spider, caterpillar→butterfly.  
-- Behaviors: eye-follow cursor, be petted, get hungry/clean, help harvest (catch flies, gather nuts), make sounds/emotes.  
-- Pets live in small windows/terrariums/bowls and can interact with the desktop world.
-
-### Resources & Time Effects
-- Morning: dew, nectar, sap, feathers, shells, clovers.  
-- Day: insects, butterflies, berries, flowers, mushrooms.  
-- Night: moonbeams, shooting stars, auroras.  
-- Rare: amethyst, spiderwebs, 4-leaf clovers, rainbow events, pot of gold.  
-- Weather affects resource types (rain fills buckets, storms yield lightning items).
-
-### Foraging & Harvesting
-- Actions: click, multi-click, hold-to-fill, drag backgrounds, dig, overturn rocks, open shells.  
-- Tools: nets, shovels, buckets, magnifying glass, mirrors, telescope, microscope.  
-- Auto-collectors: limited-life devices that can be purchased/upgraded.  
-- Catan-style spawn likelihoods: upgrades modify spawn frequencies.
-
-### Progression Systems
-- Daily tasks, daily challenges, and streak bonuses (with purchasable streak protection).  
-- Puzzle fragments awarded from activities — complete puzzles for keys/rewards.  
-- Rare encounters (mermaid, unicorn) with long cooldowns.  
-- Quests: collect, interact, discover; reward tiers scale with difficulty.
-
-### Economy & Store
-- Soft currency: resources.  
-- Hard currency: IAP.  
-- Ads: optional boosts or direct currency offers.  
-- Store tabs: Decorations, Pets, Resources, Harvesters, Currency, Ads.  
-- Inventory: limited, upgradeable; combine resources to craft items.
-
-### UI / UX
-- Draggable windows: inventory, store, quests, pets.  
-- Hotkey/hot-corner show-hide; minimized 'cockpit' mode.  
-- Notification toasts.  
-- Mailbox for messages and mobile-client sync.
-
-### Technical
-- Transparent overlay window; addressables for assets.  
-- Global hotkey detection (need platform-specific handling when unfocused).  
-- Dynamic ambient audio that mutes when app hidden.  
-- Save/load layouts via JSON.
-
-### Mobile Companion
-- Lightweight mobile app for remote harvesting; syncs with desktop client.
+1. [Overview](#overview)
+2. [Visual Experience & Desktop Integration](#visual-experience--desktop-integration)
+3. [User Interface Systems](#user-interface-systems)
+4. [Economy & Resource Systems](#economy--resource-systems)
+5. [Pet Systems](#pet-systems)
+6. [Time & Weather Systems](#time--weather-systems)
+7. [Inventory & Store Systems](#inventory--store-systems)
+8. [Progression & Maintenance Systems](#progression--maintenance-systems)
+9. [Map & Exploration Systems](#map--exploration-systems)
+10. [Audio Systems](#audio-systems)
+11. [Cross-Platform Systems](#cross-platform-systems)
+12. [Special Event Systems](#special-event-systems)
 
 ---
 
-# 2. Missing Systems / Gaps
+## Overview
 
-- **Balance & Economy:** spawn rates, cost curves, caps, diminishing returns.  
-- **Pet AI:** state machines, emotion/need timers, productivity influence.  
-- **Placement Logic:** z-ordering, collision, snap/grid vs freeform.  
-- **Biome Progression:** how/when biomes unlock and transition rules.  
-- **Quest Templates:** types, reward structure, difficulty curve.  
-- **Cloud Sync / Accounts:** play across devices, conflict resolution.  
-- **Anti-frustration:** overflow handling, away compensation.  
-- **Failure Modes:** consequences for neglect (pets/resources).  
-- **Event Scheduling:** templates for weekly/monthly events.
+### Core Concept
 
----
+A peaceful desktop companion game built in Unity, running with a transparent background so the player's Windows/Mac desktop remains visible. The game blends two major components:
 
-# 3. Minimal MVP — Scalable Prototype Plan
+**Cozy Visual Environment**
+Decorative jungle-themed items, ambient wildlife, day/night/weather effects, pets, and a draggable/arrangeable environment that becomes part of the user's workspace.
 
-**Goal:** Prove core experience: transparent overlay, draggable decoration, one pet, basic harvesting loop.
+**Resource Collection Gameplay**
+A combination of active foraging and passive idle harvesting, fueling an economy used to unlock new decorations, tools, pets, and upgrades.
 
-## Phase 1 — Foundation (Weekend)
-- Transparent overlay window (URP + native shim).  
-- Global hotkey to toggle visibility.  
-- Drag-and-drop decorative objects with lock.  
-- Save/load layout (JSON).  
-- One jungle theme sprite set.  
-- One pet: eye-follow + click reaction.  
-- Basic resource: Dew Drops spawn on a timer; manual click to collect.  
-- ResourceDefinition ScriptableObject for extensibility.
+The fantasy-cozy aesthetic includes jungle flora, tiki objects, wildlife, magical night-sky resources, and whimsical rare events (mermaid, unicorn, etc.).
 
-## Phase 2 — Time & Weather
-- Day/night cycle.  
-- Rain event that fills a bucket object.  
-- Ambient sound and mute-on-hide.  
-- Toggle visibility/opacity.
-
-## Phase 3 — Inventory & Store
-- Draggable inventory UI.  
-- Grid inventory for collected items.  
-- Store UI with one purchasable upgrade (Bigger Bucket).  
-- One auto-collector (Bee) with limited charges.
-
-## Phase 4 — Pets & Foraging
-- One helper pet (Chameleon) that catches flies.  
-- Flies spawn and move across screen; pet catches them.  
-- Simple dig interaction: click dirt mound → reward.
-
-## Phase 5 — Quests & Daily
-- Daily login reward.  
-- 3 starter quests (collect X dew, catch Y flies).  
-- Puzzle fragment placeholder.
-
-## Phase 6 — Optional Mobile Sync
-- Minimal mobile client showing timers and auto-collect.  
-- Sync via PlayFab/Firebase.
+### Monetization Strategy
+- **Steam price target**: $8 minimum
+- **Optional IAPs** (hard currency)
+- **Optional ads for boosts** (PC version may disable ads)
 
 ---
 
-# Development Notes & Next Steps
-- Create visual mockups and a prototype task list (Trello/Jira).  
-- Implement core data-driven systems (ResourceDefinition, QuestDefinition SOs).  
-- Plan crowdfunding pitch and dev-log schedule.
+## Visual Experience & Desktop Integration
+
+### Desktop Integration
+- **Transparent background** lets the player see their actual computer desktop
+- **Draggable decorations** decorate screen corners, yet avoid blocking important screen areas
+- **Moving wildlife**: snakes slither occasionally, birds fly in to nest, fireflies twinkle, caterpillars become cocoons → butterflies
+- **Sky background** has adjustable alpha (fully transparent → fully visible)
+- **Weather cycles**: rain, storms, snow, wind, fireflies at night
+- **Slow day–night cycle** with sunrise, sunset, moon phases, visible clouds
+
+
+### Decorations (Draggable World Objects)
+Jungle plants, houseplants, bamboo wind chimes, masks, tiki torches, lamps, vines, fountains, bird perches, mailboxes, huts, terrariums, etc.
+
+**Decoration Features:**
+- Drag placement
+- Lock/unlock position
+- Some may animate or have passive effects (branches grow fruit, etc.)
 
 ---
 
-# Contacts / Assets
-- Use Addressables for art/music.  
-- Consider Unity-native plugins for global hotkey and transparent overlay compatibility (Windows & macOS).
+## User Interface Systems
+
+### Core UI Components
+- **Side Menu Tabs**: Settings, Inventory, Shop, Pets, Maps, Crafting, Upgrades
+- **Draggable UI Windows**: moveable and dockable
+- **Notification Toasts**: resource gained, pet event, inventory full, etc.
+
+### Interaction Systems
+- **Minimize/Maximize Button**: with hotkey press or button click/rollover
+- **Hot corners**: optional minimize/maximize triggers
+- **Toggle for Drag Mode**: enables rearranging decorations; clear UI indicator
+
+### Visual Feedback
+- Clear visual indicators for drag mode activation
+- Toast notifications for all major events
+- Responsive UI elements that adapt to transparency settings
 
 ---
 
-# Appendix: Quick Feature Checklist (MVP+)
-- [ ] Transparent overlay window  
-- [ ] Hotkey toggle  
-- [ ] Drag & lock decorations  
-- [ ] Save/load layout  
-- [ ] One pet with cursor-follow  
-- [ ] Dew resource spawn + manual collect  
-- [ ] Basic inventory grid  
-- [ ] Store with 1 upgrade  
-- [ ] Day/night + rain events  
-- [ ] One auto-collector (bee)  
-- [ ] Daily reward + simple quests
+## Economy & Resource Systems
+
+### Economic Flow
+**Resources → Crafting → Upgrades → More Resources**
+
+### Resource Categories
+
+#### Primary Resources
+- **Water**: raindrops, dew
+- **Bugs**: caterpillars, butterflies, dragonflies, bees, crickets, fireflies, ladybugs
+- **Nature**: seeds, clovers (incl. 4-leaf), nuts, berries, feathers, shells, tree sap, nectar, pollen
+- **Night Sky**: moonbeams, stardust, comets, falling stars, planets
+
+#### Valuable Resources
+- **Valuables**: gems, gold, jewelry, rare relics
+- **Abstract**: secrets, shadows, memories, lullabies
+
+#### Special Event Resources
+- **Special Events**: unicorn blessing, mermaid song (rare; once/month resets)
+
+### Acquisition Systems
+
+#### Foraging (Active)
+Player interacts directly with screen elements:
+- Click leaves/rocks/dewdrops to collect them
+- Swipe butterflies, fireflies, dragonflies using a net
+- Drag bushes aside to reveal hidden objects
+- Click-and-hold to mine rocks/dig soil
+- Drag bucket across the screen to catch raindrops
+- Click flowers to send bees to pollinate
+- Use tools (jar/telescope/moon crystal) to capture stardust, moonbeams, lightning
+
+*Foraging slightly speeds up some passive systems ("Cookie Clicker effect").*
+
+#### Harvesting (Passive/Idle)
+Placed structures and pets generate resources over time:
+- **Buckets** generate water when it rains
+- **Flower pots** grow seeds → plants → fruits
+- **Beehives** send bees to collect pollen/honey
+- **Pets** collect their specialized resources
+- **Spider webs** catch fireflies and flies
+- **Lightning rods** collect lightning energy
+- **Moon crystals** charge at night/moon phases
+
+**Tool Properties:**
+- Limited lifespan
+- Max capacity (must be emptied manually)
 
 ---
 
-_End of document._
+## Pet Systems
+
+### Pet Types & Behaviors
+Visible creatures that live on the screen and interact with both the environment and the player:
+
+- **Chameleon/Frog**: catches bugs with long tongue; reactive animations
+- **Squirrel**: collects nuts
+- **Bee colony**: produces pollen/honey
+- **Spider**: creates web traps
+- **Caterpillar → Cocoon → Butterfly**: natural lifecycle
+- **Fish/Octopus**: in desktop terrarium/bowl
+
+### Pet Interactions
+- **Follow the mouse** with eyes
+- **Respond to petting**
+- **Have moods** (hungry, playful, sleepy)
+- **Require light maintenance** (feeding, cleaning habitats)
+
+### Pet Progression
+- Pets can be upgraded for better resource collection
+- Different pets specialize in different resource types
+- Pet happiness affects collection efficiency
+
+---
+
+## Time & Weather Systems
+
+### Time-Based Gameplay
+Time influences appearance, resource availability, and passive generation speed:
+
+- **Morning**: dewdrops, early birds, nectar bursts
+- **Day**: seeds, berries, bugs, oysters, shells, starfish
+- **Evening**: fireflies, sunset pollen bloom
+- **Night**: moonbeams, stardust, falling stars
+- **Full moon**: special rare events (charging crystals)
+- **Storms**: increased water, lightning, rare items
+- **Seasonal/Monthly**: special creatures, rare shells, unique events
+
+### Daily/Weekly Systems
+- **Daily Task, Challenge, Reward**
+- **Daily/Weekly streak bonuses**
+- **Day-specific puzzles, goals, offers/bonuses**
+
+---
+
+## Inventory & Store Systems
+
+### Store Structure
+Full-screen multipage store with tabs:
+- **Decorations**
+- **Pets**
+- **Resources** (buy missing types)
+- **Tools/Harvesters**
+- **Boosts** (speed, timers)
+- **Inventory expansions**
+- **Streak protection**
+- **Hard Currency**
+- **Ads & Offers**
+
+### Inventory Management
+- **Limited space**, upgradeable
+- **Stores resources**, crafted items, tools, and decorations
+- **Crafting** uses Catan-like cost patterns (combinations of multiple resource types)
+
+---
+
+## Progression & Maintenance Systems
+
+### Maintenance Loop
+Players check in regularly to:
+- Water plants
+- Feed pets
+- Empty full tools (buckets, honeycombs)
+- Collect from trees
+- Manage inventory space
+- Check mailbox for gifts/quests
+
+### Upgrades
+Upgradable items include:
+- **Beehives**
+- **Flowers/gardens**
+- **Harvesting tools**
+- **Tool efficiency** (buckets, nets, telescopes, shovels)
+- **Decorations**
+- **Pets**
+
+*Costs use multi-resource combinations and scale gradually.*
+
+### Ground/Screen Space Management
+Finite area means players must decide:
+- Which harvesters to place
+- How many buckets vs. potted plants vs. crystals
+- Whether the screen becomes visually busy or resource-optimized
+
+---
+
+## Map & Exploration Systems
+
+### Map Types
+Players unlock or find maps to new "zones," each with unique resources and visuals:
+
+- **Meadows**: clovers, ladybugs, honeybees, flowers
+- **Sky Realm**: stars, planets, comets, moonbeams
+- **Beach**: shells, oysters, pearls, sand dollars, treasure coins, messages in bottles
+
+### Map Implementation
+Maps are sometimes hidden inside other maps and can be:
+- **Mini overlays**
+- **Full-screen zones**
+- **Desktop-mounted "portals"**
+
+---
+
+## Audio Systems
+
+### Audio Design
+- **Relaxing ambient soundtrack**
+- **Dynamic layers** that change based on time of day
+- **Option to mute when app is hidden**
+- **Background SFX**: crickets, rain, wind chimes, birds, frogs, bubbling water
+
+---
+
+## Cross-Platform Systems
+
+### Mobile Companion App
+A mobile app allows:
+- Harvesting
+- Buying items
+- Upgrading tools
+- Managing inventory
+- Completing daily tasks
+
+*Syncs with PC so progress carries over.*
+
+---
+
+## Special Event Systems
+
+### Rare Events
+Occasional magical encounters grant rare one-time items:
+- **Mermaid** appears on a beach map
+- **Unicorn** in meadow during full moon
+- **Phoenix feather** from rare meteor
+- **Ancient jungle spirit** drops enchanted items
+
+*After discovering one, a month-long cooldown before another encounter.*
+
+---
+
+## Technical Notes
+
+### Prototype Requirements
+A simple first prototype should include:
+- Transparent background window
+- Draggable decoration
+- One passive harvester (e.g., bucket that fills when rain activates)
+- One active foraging mechanic (click to pick up dew)
+- Basic day/night & weather cycle
+- Simple inventory and store placeholder
+- Minimal UI (toggle show/hide, drag mode, toast notifications)
+
+### Future Development Areas
+- Visual mockups and UI flow
+- Dev log creation
+- Kickstarter pitch development
+- Monetization tuning
+- Steam page & trailer
+
+---
+
+*Last updated: November 30, 2025*
