@@ -177,6 +177,12 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    public void SetDragMode(bool isDragMode)
+    {
+        IsDragModeActivated = isDragMode;
+        OnDragModeChanged?.Invoke(IsDragModeActivated);
+    }
+
     void OnApplicationFocus(bool hasFocus)
     {
         UiManager.IN.SetDebugText("App Focus: " + hasFocus);
