@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UiDraggablePanel : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private Button dragButton;
+    [SerializeField] private bool isDraggingPermanent;
     [SerializeField] private RectTransform targetRectTransform;
+    [SerializeField] private GameObject dragEnabledDisplay;
     private Vector2 originalLocalPointerPosition;
     private Vector3 originalPanelLocalPosition;
     private bool isDragging = false;
@@ -23,15 +23,15 @@ public class UiDraggablePanel : MonoBehaviour, IDragHandler, IBeginDragHandler, 
     
     private void HandleDragModeChanged(bool isDragMode)
     {
-        if (dragButton != null)
+        if (dragEnabledDisplay != null)
         {
-            dragButton.gameObject.SetActive(isDragMode);
+            dragEnabledDisplay.SetActive(isDragMode);
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!ScreenManager.IsDragModeActivated)
+        if (!ScreenManager.IsDragModeActivated && !isDraggingPermanent)
             return;
             
         isDragging = true;

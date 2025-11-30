@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
-using Kirurobo;
 
 public class ScreenManager : MonoBehaviour
 {
@@ -17,78 +13,78 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
 
-    [SerializeField] private GameObject showButton;
+    [SerializeField] private GameObject maximizeButton;
 
     private bool isBgShowing;
 
     private int monitorIndex = 1;
 
-    public TMP_Text DebugText;
-
-    private void Awake()
-    {
-        if (IN == null)
-        {
-            IN = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     private void Start()
     {
         isBgShowing = bgCanvasGroup.alpha > 0f;
-        showButton.SetActive(false);
+        maximizeButton.SetActive(false);
         SwitchToMonitor(monitorIndex);
+
+        InputManager.OnEscapePress += FadeOutRoot;
+        InputManager.OnTabPress += ToggleBackgroundVisibility;
+        InputManager.OnDragPress += HandleDragModeChanged;
+        InputManager.OnF1Press += ToggleMonitor;
+        InputManager.OnMPress += ShowMonitorInfo;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        InputManager.OnEscapePress -= FadeOutRoot;
+        InputManager.OnTabPress -= ToggleBackgroundVisibility;
+        InputManager.OnDragPress -= HandleDragModeChanged;
+        InputManager.OnF1Press -= ToggleMonitor;
+        InputManager.OnMPress -= ShowMonitorInfo;
+    }
+
+    public void ToggleRootVisibility()
+    {
+        if (rootCanvasGroup.alpha > 0f)
         {
             FadeOutRoot();
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
+        else
         {
-            if (isBgShowing)
-                FadeOutBackground();
-            else
-                FadeInBackground();
+            FadeInRoot();
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.D))
+    private void ToggleBackgroundVisibility()
+    {
+        if (isBgShowing)
         {
-            IsDragModeActivated = !IsDragModeActivated;
-            OnDragModeChanged?.Invoke(IsDragModeActivated);
+            FadeOutBackground();
         }
+        else
+        {
+            FadeInBackground();
+        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-            this.monitorIndex = (this.monitorIndex + 1) % monitorCount;
-            SwitchToMonitor(this.monitorIndex);
-        }
+    private void HandleDragModeChanged()
+    {
+        IsDragModeActivated = !IsDragModeActivated;
+        OnDragModeChanged?.Invoke(IsDragModeActivated);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void ToggleMonitor()
+    {
+        monitorIndex++;
+        int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+        if (monitorIndex >= monitorCount)
         {
-            if (DebugText != null)
-                DebugText.text = $"Frame Count: {Time.frameCount}";
+            monitorIndex = 0;
         }
-
-        // Debug key to show monitor information
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            ShowMonitorInfo();
-        }
+        SwitchToMonitor(monitorIndex);
     }
     
     public void FadeInRoot()
     {
-        showButton.SetActive(false);
+        maximizeButton.SetActive(false);
 
         rootCanvasGroup.gameObject.SetActive(true);
         
@@ -102,7 +98,10 @@ public class ScreenManager : MonoBehaviour
 
     public void FadeOutRoot()
     {
-        showButton.SetActive(true);
+        if (UIPanelBase.CurrentOpenPanel != null)
+            return;
+            
+        maximizeButton.SetActive(true);
 
         rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {
@@ -151,8 +150,7 @@ public class ScreenManager : MonoBehaviour
 
             uniWin.monitorToFit = monitorIndex < monitorCount ? monitorIndex : 0;
             
-            if (DebugText != null)
-                DebugText.text = $"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.";
+            UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.");
                 
             uniWin.shouldFitMonitor = true;
         }
@@ -174,31 +172,27 @@ public class ScreenManager : MonoBehaviour
 
             info += $"Current: Monitor {uniWin.monitorToFit}, Fit: {uniWin.shouldFitMonitor}";
 
-            if (DebugText != null)
-                DebugText.text = info;
-
+            UiManager.IN.SetDebugText(info);
             Debug.Log(info);
         }
     }
-    
-     public void HandleQuitButtonClick()
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        UiManager.IN.SetDebugText("App Focus: " + hasFocus);
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        UiManager.IN.SetDebugText("App Paused: " + pauseStatus);
+    }
+
+    public void HandleQuitButtonClick()
     {
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
         Application.Quit();
         #endif
-    }
-
-    void OnApplicationFocus(bool hasFocus)
-    {
-        if(DebugText != null)
-            DebugText.text = "App Focus: " + hasFocus;
-    }
-
-    void OnApplicationPause(bool pauseStatus)
-    {
-        if (DebugText != null)
-            DebugText.text = "App Paused: " + pauseStatus;
     }
 }
