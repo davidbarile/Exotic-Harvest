@@ -15,13 +15,13 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private GameObject maximizeButton;
 
-    private bool isBgShowing;
+    private bool doesBgBlockClicks;
+    private bool appHasFocus = true;
 
     private int monitorIndex = 1;
 
     private void Start()
     {
-        isBgShowing = bgCanvasGroup.alpha > 0f;
         maximizeButton.SetActive(false);
         SwitchToMonitor(monitorIndex);
 
@@ -55,14 +55,21 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleBackgroundVisibility()
     {
-        if (isBgShowing)
-        {
-            FadeOutBackground();
-        }
-        else
-        {
-            FadeInBackground();
-        }
+        doesBgBlockClicks = !doesBgBlockClicks;
+        bgCanvasGroup.interactable = doesBgBlockClicks;
+        bgCanvasGroup.blocksRaycasts = doesBgBlockClicks;
+
+        UiManager.IN.SetDebugText($"App Focus: {appHasFocus}\nBackground Click-thru: {!doesBgBlockClicks}");
+            
+        // if (isBgShowing)
+        // {
+        //     FadeOutBackground();
+
+        // }
+        // else
+        // {
+        //     FadeInBackground();
+        // }
     }
 
     private void HandleDragModeChanged()
@@ -114,7 +121,7 @@ public class ScreenManager : MonoBehaviour
 
     private void FadeInBackground()
     {
-        isBgShowing = true;
+        doesBgBlockClicks = true;
         
         bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
@@ -126,7 +133,7 @@ public class ScreenManager : MonoBehaviour
 
     private void FadeOutBackground()
     {
-        isBgShowing = false;
+        doesBgBlockClicks = false;
 
         bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
@@ -185,12 +192,13 @@ public class ScreenManager : MonoBehaviour
 
     void OnApplicationFocus(bool hasFocus)
     {
-        UiManager.IN.SetDebugText("App Focus: " + hasFocus);
+        appHasFocus = hasFocus;
+        UiManager.IN.SetDebugText($"App Focus: {appHasFocus}\nBackground Click-thru: {!doesBgBlockClicks}");
     }
 
     void OnApplicationPause(bool pauseStatus)
     {
-        UiManager.IN.SetDebugText("App Paused: " + pauseStatus);
+        UiManager.IN.SetDebugText($"App Paused: {pauseStatus}");
     }
 
     public void HandleQuitButtonClick()
