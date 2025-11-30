@@ -25,7 +25,7 @@ public class ScreenManager : MonoBehaviour
         maximizeButton.SetActive(false);
         SwitchToMonitor(monitorIndex);
 
-        InputManager.OnEscapePress += FadeOutRoot;
+        InputManager.OnEscapePress += HandleEscapeKeyPress;
         InputManager.OnTabPress += ToggleBackgroundVisibility;
         InputManager.OnDragPress += HandleDragModeChanged;
         InputManager.OnF1Press += ToggleMonitor;
@@ -34,7 +34,7 @@ public class ScreenManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.OnEscapePress -= FadeOutRoot;
+        InputManager.OnEscapePress -= HandleEscapeKeyPress;
         InputManager.OnTabPress -= ToggleBackgroundVisibility;
         InputManager.OnDragPress -= HandleDragModeChanged;
         InputManager.OnF1Press -= ToggleMonitor;
@@ -103,11 +103,16 @@ public class ScreenManager : MonoBehaviour
         });
     }
 
-    public void FadeOutRoot()
+    private void HandleEscapeKeyPress()
     {
         if (UIPanelBase.CurrentOpenPanel != null)
             return;
-            
+
+        FadeOutRoot();
+    }
+    
+    public void FadeOutRoot()
+    {            
         maximizeButton.SetActive(true);
 
         rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>

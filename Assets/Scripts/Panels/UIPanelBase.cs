@@ -37,16 +37,24 @@ public class UIPanelBase : MonoBehaviour
     [Header("Serialized Automatically if null")]
     [SerializeField] private Canvas canvas;
 
+    private void OnEnable()
+    {
+        InputManager.OnEscapePress += SetCurrentPanel; 
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnEscapePress -= SetCurrentPanel;
+    }
+
     public virtual void Show()
     {
-        InputManager.OnEscapePress += SetCurrentPanel;
         SetVisible(true);
     }
 
     public virtual void Hide()
     {
-        SetVisible(false);
-        InputManager.OnEscapePress -= SetCurrentPanel; 
+        SetVisible(false); 
     }
 
     private void SetCurrentPanel()
