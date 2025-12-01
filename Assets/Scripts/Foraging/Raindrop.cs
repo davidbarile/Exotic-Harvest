@@ -1,12 +1,19 @@
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
 /// Raindrop collectable - appears during rain, collect by dragging bucket
+/// UI-based for desktop overlay gameplay
 /// </summary>
 public class Raindrop : Collectable
 {
-    [SerializeField] private float fallSpeed = 5f;
+    [Header("Raindrop Animation")]
+    [SerializeField] private float fallDuration = 3f; // Time to fall across screen
+    [SerializeField] private float sideWave = 20f; // Horizontal movement
+    
     private bool isFalling = true;
+    private Tweener fallTween;
+    private Tweener waveTween;
     
     protected override void Start()
     {
@@ -17,27 +24,50 @@ public class Raindrop : Collectable
         autoDestroy = false; // Will destroy when hitting ground
         
         base.Start();
+        StartFallingAnimation();
     }
     
-    private void Update()
+    private void StartFallingAnimation()
     {
-        if (isFalling)
+        if (rectTransform != null && parentCanvas != null)
         {
-            transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
+            // Get canvas bounds for ground detection
+            RectTransform canvasRect = parentCanvas.GetComponent<RectTransform>();
+            float groundY = -canvasRect.rect.height * 0.5f - 50f; // Below canvas
             
-            // Check if hit ground (assuming y = -5 is ground level)
-            if (transform.position.y <= -5f)
-            {
-                HitGround();
-            }
+            Vector2 startPos = rectTransform.anchoredPosition;
+            
+            // Falling animation
+            fallTween = rectTransform.DOAnchorPosY(groundY, fallDuration)
+                .SetEase(Ease.InQuad)
+                .OnComplete(HitGround);
+            
+            // Subtle horizontal wave motion
+            waveTween = rectTransform.DOAnchorPosX(startPos.x + sideWave, fallDuration * 0.5f)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo);
         }
     }
     
     private void HitGround()
     {
-        isFalling = false;
-        // TODO: Add splash effect
-        Destroy(gameObject);
+        if (!isCollected)
+        {
+            isFalling = false;
+            
+            // Splash effect animation
+            if (collectableImage != null)
+            {
+                var splashSequence = DOTween.Sequence()
+                    .Append(rectTransform.DOScale(1.3f, 0.1f))
+                    .Join(collectableImage.DOFade(0f, 0.2f))
+                    .OnComplete(() => Destroy(gameObject));
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
     }
     
     public override void OnDragOver()
@@ -49,7 +79,27 @@ public class Raindrop : Collectable
     protected override void OnCollected()
     {
         isFalling = false;
-        // TODO: Add collection effect
+        
+        // Stop falling animations
+        fallTween?.Kill();
+        waveTween?.Kill();
+        
+        // Collection effect
+        if (rectTransform != null && collectableImage != null)
+        {
+            var collectSequence = DOTween.Sequence()
+                .Append(rectTransform.DOScale(0.8f, 0.1f))
+                .Join(collectableImage.DOFade(0.3f, 0.15f))
+                .Append(rectTransform.DOScale(0f, 0.05f))
+                .OnComplete(() => Destroy(gameObject));
+        }
+        
         base.OnCollected();
+    }
+    
+    private void OnDestroy()
+    {
+        fallTween?.Kill();
+        waveTween?.Kill();
     }
 }

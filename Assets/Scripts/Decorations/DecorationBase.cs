@@ -102,6 +102,25 @@ public abstract class DecorationBase : MonoBehaviour
         // Override for removal effects
     }
     
+    /// <summary>
+    /// Called when decoration is interacted with (clicked/tapped)
+    /// </summary>
+    public virtual void OnInteract()
+    {
+        // Override in derived classes for specific interaction behavior
+        Debug.Log($"Interacted with decoration: {decorationName}");
+    }
+    
+    /// <summary>
+    /// Called when decoration position changes (for UI updates, save data, etc.)
+    /// </summary>
+    public virtual void OnPositionChanged(Vector2 newUIPosition)
+    {
+        // Update any position-dependent logic
+        // Save position changes will be handled by the decoration manager
+        Debug.Log($"Decoration {decorationName} moved to UI position: {newUIPosition}");
+    }
+    
     // Drag handling (works with existing UiDraggable if needed)
     public virtual bool CanStartDrag()
     {

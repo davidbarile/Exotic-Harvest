@@ -14,9 +14,12 @@ public class DecorationManager : MonoBehaviour
     [SerializeField] private GameObject plantPrefab;
     [SerializeField] private GameObject[] allDecorationPrefabs; // Array for all decoration types
     
-    [Header("Spawn Settings")]
-    [SerializeField] private Transform decorationParent;
-    [SerializeField] private Vector2 placementBounds = new Vector2(10f, 6f);
+    [Header("UI Placement Settings")]
+    [SerializeField] private RectTransform decorationCanvas; // Canvas for decorations
+    [SerializeField] private RectTransform decorationParent; // UI container
+    [SerializeField] private Vector2 placementPadding = new Vector2(100f, 100f); // Padding from edges
+    [SerializeField] private float gridSpacing = 80f; // UI spacing
+    [SerializeField] private bool useGridPlacement = true;
     
     private Dictionary<DecorationType, GameObject> decorationPrefabs;
     private List<DecorationBase> placedDecorations = new List<DecorationBase>();
@@ -31,7 +34,10 @@ public class DecorationManager : MonoBehaviour
         InitializePrefabs();
         
         if (decorationParent == null)
-            decorationParent = transform;
+            decorationParent = GetComponent<RectTransform>();
+            
+        if (decorationCanvas == null)
+            decorationCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
     }
     
     private void OnEnable()
@@ -67,18 +73,27 @@ public class DecorationManager : MonoBehaviour
         return true;
     }
     
-    public DecorationBase PlaceDecoration(DecorationType type, Vector3 position)
+    public DecorationBase PlaceDecoration(DecorationType type, Vector2 uiPosition)
     {
         if (!CanPlaceDecoration(type))
             return null;
             
+        if (!IsValidUIPlacementPosition(uiPosition))
+            return null;
+            
         GameObject prefab = decorationPrefabs[type];
-        GameObject instance = Instantiate(prefab, position, Quaternion.identity, decorationParent);
+        GameObject instance = Instantiate(prefab, decorationParent);
+        
+        // Set UI position
+        RectTransform instanceRect = instance.GetComponent<RectTransform>();
+        if (instanceRect != null)
+        {
+            instanceRect.anchoredPosition = uiPosition;
+        }
         
         DecorationBase decoration = instance.GetComponent<DecorationBase>();
         if (decoration != null)
         {
-            decoration.SetPosition(position);
             return decoration;
         }
         
@@ -89,17 +104,58 @@ public class DecorationManager : MonoBehaviour
     
     public DecorationBase PlaceDecoration(DecorationType type)
     {
-        Vector3 randomPosition = GetRandomPlacementPosition();
+        Vector2 randomPosition = GetRandomUIPlacementPosition();
         return PlaceDecoration(type, randomPosition);
     }
     
-    private Vector3 GetRandomPlacementPosition()
+    private Vector2 GetRandomUIPlacementPosition()
     {
-        return new Vector3(
-            UnityEngine.Random.Range(-placementBounds.x, placementBounds.x),
-            UnityEngine.Random.Range(-placementBounds.y, placementBounds.y),
-            0f
+        if (decorationCanvas == null)
+            return Vector2.zero;
+            
+        Rect canvasRect = decorationCanvas.rect;
+        
+        return new Vector2(
+            UnityEngine.Random.Range(canvasRect.xMin + placementPadding.x, canvasRect.xMax - placementPadding.x),
+            UnityEngine.Random.Range(canvasRect.yMin + placementPadding.y, canvasRect.yMax - placementPadding.y)
         );
+    }
+    
+    private bool IsValidUIPlacementPosition(Vector2 uiPosition)
+    {
+        if (decorationCanvas == null)
+            return false;
+            
+        Rect canvasRect = decorationCanvas.rect;
+        
+        // Check UI bounds with padding
+        if (uiPosition.x < canvasRect.xMin + placementPadding.x || 
+            uiPosition.x > canvasRect.xMax - placementPadding.x ||
+            uiPosition.y < canvasRect.yMin + placementPadding.y || 
+            uiPosition.y > canvasRect.yMax - placementPadding.y)
+        {
+            return false;
+        }
+        
+        // Check for overlapping decorations if using grid placement
+        if (useGridPlacement)
+        {
+            foreach (var decoration in placedDecorations)
+            {
+                if (decoration != null)
+                {
+                    RectTransform decorationRect = decoration.GetComponent<RectTransform>();
+                    if (decorationRect != null)
+                    {
+                        float distance = Vector2.Distance(decorationRect.anchoredPosition, uiPosition);
+                        if (distance < gridSpacing)
+                            return false;
+                    }
+                }
+            }
+        }
+        
+        return true;
     }
     
     public void RemoveDecoration(DecorationBase decoration)

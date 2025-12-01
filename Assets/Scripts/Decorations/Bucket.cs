@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 /// <summary>
 /// Bucket decoration - collects water during rain (Phase 1 MVP)
+/// UI-based for desktop overlay gameplay
 /// </summary>
 public class Bucket : PassiveHarvester
 {
-    [Header("Bucket Specific")]
-    [SerializeField] private Transform waterVisual;
-    [SerializeField] private float fillAnimationSpeed = 2f;
+    [Header("Bucket UI Components")]
+    [SerializeField] private Image bucketImage;
+    [SerializeField] private Image waterFillImage; // Shows water level
+    [SerializeField] private float fillAnimationDuration = 0.5f;
     
-    private Vector3 originalWaterScale;
+    private float targetFillAmount;
     
     protected override void Start()
     {
@@ -21,8 +25,11 @@ public class Bucket : PassiveHarvester
         generationInterval = 5f; // Collect water every 5 seconds during rain
         requiresSpecificConditions = true;
         
-        if (waterVisual != null)
-            originalWaterScale = waterVisual.localScale;
+        // Initialize UI components
+        if (bucketImage == null)
+            bucketImage = GetComponent<Image>();
+        if (waterFillImage == null)
+            waterFillImage = transform.Find("WaterFill")?.GetComponent<Image>();
             
         base.Start();
         UpdateWaterVisual();
@@ -59,33 +66,15 @@ public class Bucket : PassiveHarvester
     
     private void UpdateWaterVisual()
     {
-        if (waterVisual == null)
+        if (waterFillImage == null)
             return;
             
-        float fillPercent = CapacityPercent;
-        Vector3 targetScale = new Vector3(
-            originalWaterScale.x,
-            originalWaterScale.y * fillPercent,
-            originalWaterScale.z
-        );
+        targetFillAmount = CapacityPercent;
         
-        waterVisual.localScale = targetScale;
+        // Smooth fill animation
+        waterFillImage.DOFillAmount(targetFillAmount, fillAnimationDuration)
+            .SetEase(Ease.OutQuad);
     }
     
-    private void Update()
-    {
-        // Smooth water level animation
-        if (waterVisual != null)
-        {
-            float targetY = originalWaterScale.y * CapacityPercent;
-            float currentY = waterVisual.localScale.y;
-            float newY = Mathf.MoveTowards(currentY, targetY, fillAnimationSpeed * Time.deltaTime);
-            
-            waterVisual.localScale = new Vector3(
-                originalWaterScale.x,
-                newY,
-                originalWaterScale.z
-            );
-        }
-    }
+    // Update method removed - DOTween handles all animations automatically
 }

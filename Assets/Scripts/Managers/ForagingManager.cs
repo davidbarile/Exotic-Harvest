@@ -9,9 +9,10 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
     
-    [Header("Spawn Settings")]
-    [SerializeField] private Transform spawnParent;
-    [SerializeField] private Camera mainCamera;
+    [Header("UI Spawn Configuration")]
+    [SerializeField] private RectTransform gameplayCanvas; // Main gameplay area
+    [SerializeField] private RectTransform spawnParent; // UI container for collectables
+    [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
     
     [Header("Collectable Prefabs")]
     [SerializeField] private GameObject dewdropPrefab; // Assign Dewdrop prefab here
@@ -25,10 +26,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Raindrop Settings")]
     [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
     
-    [Header("Spawn Boundaries")]
-    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-8, 3);
-    [SerializeField] private Vector2 spawnAreaMax = new Vector2(8, 5);
-    
     private List<Collectable> activeCollectables = new List<Collectable>();
     private float secondTimer = 0f;
     
@@ -37,11 +34,11 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void Awake()
     {
-        if (mainCamera == null)
-            mainCamera = Camera.main;
-            
         if (spawnParent == null)
-            spawnParent = transform;
+            spawnParent = GetComponent<RectTransform>();
+            
+        if (gameplayCanvas == null)
+            gameplayCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
     }
     
     private void OnEnable()
@@ -98,8 +95,13 @@ public class ForagingManager : MonoBehaviour, ITickable
             
         if (UnityEngine.Random.value < dewdropSpawnChance)
         {
-            Vector3 spawnPos = GetRandomSpawnPosition();
-            Instantiate(dewdropPrefab, spawnPos, Quaternion.identity, spawnParent);
+            Vector2 spawnPos = GetRandomUIPosition();
+            GameObject dewdrop = Instantiate(dewdropPrefab, spawnParent);
+            RectTransform dewdropRect = dewdrop.GetComponent<RectTransform>();
+            if (dewdropRect != null)
+            {
+                dewdropRect.anchoredPosition = spawnPos;
+            }
         }
     }
     
@@ -113,22 +115,40 @@ public class ForagingManager : MonoBehaviour, ITickable
         
         if (UnityEngine.Random.value < spawnChance)
         {
-            Vector3 spawnPos = new Vector3(
-                UnityEngine.Random.Range(spawnAreaMin.x, spawnAreaMax.x),
-                spawnAreaMax.y,
-                0f
-            );
-            
-            Instantiate(raindropPrefab, spawnPos, Quaternion.identity, spawnParent);
+            Vector2 spawnPos = GetRaindropSpawnPosition();
+            GameObject raindrop = Instantiate(raindropPrefab, spawnParent);
+            RectTransform raindropRect = raindrop.GetComponent<RectTransform>();
+            if (raindropRect != null)
+            {
+                raindropRect.anchoredPosition = spawnPos;
+            }
         }
     }
     
-    private Vector3 GetRandomSpawnPosition()
+    private Vector2 GetRandomUIPosition()
     {
-        return new Vector3(
-            UnityEngine.Random.Range(spawnAreaMin.x, spawnAreaMax.x),
-            UnityEngine.Random.Range(spawnAreaMin.y, spawnAreaMax.y),
-            0f
+        if (gameplayCanvas == null)
+            return Vector2.zero;
+            
+        Rect canvasRect = gameplayCanvas.rect;
+        
+        return new Vector2(
+            UnityEngine.Random.Range(canvasRect.xMin + spawnAreaPadding.x, canvasRect.xMax - spawnAreaPadding.x),
+            UnityEngine.Random.Range(canvasRect.yMin + spawnAreaPadding.y, canvasRect.yMax - spawnAreaPadding.y)
+        );
+    }
+    
+    private Vector2 GetRaindropSpawnPosition()
+    {
+        if (gameplayCanvas == null)
+            return Vector2.zero;
+            
+        Rect canvasRect = gameplayCanvas.rect;
+        
+        // Raindrops spawn from the top
+        return new Vector2(
+            UnityEngine.Random.Range(canvasRect.xMin + spawnAreaPadding.x, canvasRect.xMax - spawnAreaPadding.x),
+            canvasRect.yMax + 100f // Slightly above canvas
         );
     }
     
