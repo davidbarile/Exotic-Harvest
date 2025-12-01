@@ -70,9 +70,11 @@ public class Dewdrop : Collectable
         base.OnCollected();
     }
     
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         bobSequence?.Kill();
         shimmerSequence?.Kill();
+
+        base.OnDestroy();
     }
 }

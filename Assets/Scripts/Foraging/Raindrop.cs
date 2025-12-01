@@ -97,9 +97,11 @@ public class Raindrop : Collectable
         base.OnCollected();
     }
     
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         fallTween?.Kill();
         waveTween?.Kill();
+        
+        base.OnDestroy();
     }
 }
