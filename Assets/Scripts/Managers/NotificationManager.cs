@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
+
 /// <summary>
 /// Manages all game notifications and toast messages
 /// </summary>
@@ -32,7 +34,7 @@ public class NotificationManager : MonoBehaviour
     {
         if (notificationParent == null)
             notificationParent = transform;
-            
+
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
     }
