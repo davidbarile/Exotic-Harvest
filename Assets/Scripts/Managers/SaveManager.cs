@@ -32,7 +32,13 @@ public class SaveManager : MonoBehaviour
     
     private void Awake()
     {
-        savePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        var saveFolder = Application.persistentDataPath;
+
+#if UNITY_EDITOR
+        saveFolder = "Assets/PlayerData";
+#endif
+
+        savePath = Path.Combine(saveFolder, saveFileName);
         sessionStartTime = Time.time;
     }
     
@@ -90,15 +96,19 @@ public class SaveManager : MonoBehaviour
         {
             // Update save data from current game state
             CollectSaveDataFromGame();
-            
+
             // Serialize to JSON
             string json = JsonUtility.ToJson(currentSaveData, true);
-            
+
             // Write to file
             File.WriteAllText(savePath, json);
-            
+
             OnGameSaved?.Invoke();
             Debug.Log($"Game saved successfully to {savePath}");
+
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
             return true;
         }
         catch (Exception e)

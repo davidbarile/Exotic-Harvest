@@ -9,24 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: [RESOURCE_DEFINITION_SCRIPT_GUID], type: 3}
+  m_Script: {fileID: 11500000, guid: 68d8b037a5f474a51aea388e35ee8190, type: 3}
   m_Name: Seeds
   m_EditorClassIdentifier: 
-  displayName: Seeds
-  description: Small packages of life that can grow into beautiful plants.
+  displayName: 
+  description: 
   icon: {fileID: 0}
-  uiColor: {r: 0.6, g: 0.4, b: 0.2, a: 1}
-  resourceType: 8
-  category: 2
-  baseValue: 2
+  uiColor: {r: 1, g: 1, b: 1, a: 1}
+  resourceType: 0
+  category: 0
+  baseValue: 1
   maxStackSize: 999
-  isAvailableAtStart: 0
-  availableTimes:
-  - 1
-  availableWeather: []
+  isAvailableAtStart: 1
+  availableTimes: 
+  availableWeather: 
   canBeActivelyForaged: 1
   canBePassivelyGenerated: 0
-  baseGenerationRate: 0.5
-  rarityMultiplier: 2
+  baseGenerationRate: 1
+  rarityMultiplier: 1
   collectionSound: {fileID: 0}
   spawnSound: {fileID: 0}

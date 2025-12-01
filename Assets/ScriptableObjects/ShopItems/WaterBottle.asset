@@ -9,26 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: [SHOP_ITEM_DEFINITION_SCRIPT_GUID], type: 3}
+  m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: WaterBottle
   m_EditorClassIdentifier: 
-  displayName: Water Bottle
-  description: A refreshing bottle of pure water. Instantly adds 10 water to your inventory.
+  displayName: 
+  description: 
   icon: {fileID: 0}
-  category: 1
-  itemType: 1
+  category: 0
+  itemType: 0
   cost:
-    requiredResources:
-    - type: 25
-      amount: 1
+    requiredResources: []
   isUnlockedByDefault: 1
   playerLevelRequired: 1
   prerequisiteItems: []
   hasLimitedQuantity: 0
-  maxPurchases: 99
+  maxPurchases: 1
   decorationType: 0
   resourceType: 0
-  resourceAmount: 10
+  resourceAmount: 1
   decorationPrefab: {fileID: 0}
-  backgroundColor: {r: 0.3, g: 0.7, b: 1, a: 1}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   showInShop: 1
