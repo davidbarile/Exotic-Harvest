@@ -10,7 +10,7 @@ public class NotificationManager : MonoBehaviour
     public static NotificationManager IN;
     
     [Header("Notification Settings")]
-    [SerializeField] private GameObject toastNotificationPrefab;
+    [SerializeField] private GameObject toastNotificationPrefab; // Assign ToastNotification prefab here
     [SerializeField] private Transform notificationParent;
     [SerializeField] private int maxNotifications = 5;
     [SerializeField] private float notificationSpacing = 10f;

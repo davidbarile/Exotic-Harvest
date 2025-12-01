@@ -10,8 +10,10 @@ public class ShopManager : MonoBehaviour
     public static ShopManager IN;
     
     [Header("Shop Configuration")]
-    [SerializeField] private List<ShopItem> allShopItems = new List<ShopItem>();
+    [SerializeField] private ShopItemDefinition[] allShopItemDefinitions;
     [SerializeField] private bool debugMode = false;
+    
+    private List<ShopItem> allShopItems = new List<ShopItem>();
     
     private Dictionary<string, ShopItem> shopItemsById;
     private Dictionary<ShopCategory, List<ShopItem>> itemsByCategory;
@@ -45,20 +47,41 @@ public class ShopManager : MonoBehaviour
     
     private void SetupDefaultItems()
     {
-        // Phase 1 MVP items
-        CreateDecorationItem("bucket_basic", "Water Bucket", "Collects rainwater automatically", 
-            DecorationType.Bucket, new ResourceCost(ResourceType.Water, 5));
-            
-        CreateDecorationItem("plant_basic", "Jungle Plant", "Decorative plant for your desktop", 
-            DecorationType.Plant, new ResourceCost(ResourceType.Water, 3));
-            
-        CreateResourceItem("water_small", "Water Drop", "Small amount of water", 
-            ResourceType.Water, 1, new ResourceCost(ResourceType.Gems, 1));
-            
-        CreateResourceItem("water_large", "Water Bottle", "Large amount of water", 
-            ResourceType.Water, 10, new ResourceCost(ResourceType.Gems, 8));
-            
+        // Create ShopItems from ScriptableObject definitions
+        if (allShopItemDefinitions != null)
+        {
+            foreach (var definition in allShopItemDefinitions)
+            {
+                if (definition != null)
+                {
+                    var shopItem = CreateShopItemFromDefinition(definition);
+                    if (shopItem != null)
+                    {
+                        AddItem(shopItem);
+                    }
+                }
+            }
+        }
+        
         RefreshShop();
+    }
+    
+    private ShopItem CreateShopItemFromDefinition(ShopItemDefinition definition)
+    {
+        var shopItem = new ShopItem(definition.ID, definition.displayName, definition.category, definition.itemType)
+        {
+            description = definition.description,
+            cost = definition.cost,
+            isUnlocked = definition.isUnlockedByDefault,
+            isLimitedQuantity = definition.hasLimitedQuantity,
+            maxPurchases = definition.maxPurchases,
+            decorationType = definition.decorationType,
+            resourceType = definition.resourceType,
+            resourceAmount = definition.resourceAmount,
+            icon = definition.icon
+        };
+        
+        return shopItem;
     }
     
     public ShopItem CreateDecorationItem(string id, string name, string description, DecorationType decorationType, ResourceCost cost)
@@ -159,7 +182,7 @@ public class ShopManager : MonoBehaviour
         else
         {
             // Refund resources if execution failed
-            foreach (var resource in item.cost.requiredResources)
+            foreach (var resource in item.cost.RequiredResources)
             {
                 ResourceManager.IN.AddResource(resource.type, resource.amount);
             }

@@ -12,6 +12,7 @@ public class DecorationManager : MonoBehaviour
     [Header("Decoration Prefabs")]
     [SerializeField] private GameObject bucketPrefab;
     [SerializeField] private GameObject plantPrefab;
+    [SerializeField] private GameObject[] allDecorationPrefabs; // Array for all decoration types
     
     [Header("Spawn Settings")]
     [SerializeField] private Transform decorationParent;

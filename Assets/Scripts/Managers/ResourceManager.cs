@@ -9,8 +9,15 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager IN;
     
-    [SerializeField] private Dictionary<ResourceType, Resource> inventory = new Dictionary<ResourceType, Resource>();
+    [Header("Resource Database")]
+    [SerializeField] private ResourceDatabase resourceDatabase;
+    
+    [Header("Inventory Settings")]
     [SerializeField] private int maxInventorySize = 100; // Total item limit across all resources
+    
+    private Dictionary<ResourceType, Resource> inventory = new Dictionary<ResourceType, Resource>();
+    
+    public ResourceDatabase Database => resourceDatabase;
     
     // Events for UI updates
     public static event Action<ResourceType, int> OnResourceChanged;
@@ -63,7 +70,7 @@ public class ResourceManager : MonoBehaviour
         if (!cost.CanAfford(this))
             return false;
             
-        foreach (var resource in cost.requiredResources)
+        foreach (var resource in cost.RequiredResources)
         {
             inventory[resource.type].Subtract(resource.amount);
             OnResourceChanged?.Invoke(resource.type, inventory[resource.type].amount);

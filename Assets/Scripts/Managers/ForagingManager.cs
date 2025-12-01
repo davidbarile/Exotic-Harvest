@@ -13,13 +13,16 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private Transform spawnParent;
     [SerializeField] private Camera mainCamera;
     
+    [Header("Collectable Prefabs")]
+    [SerializeField] private GameObject dewdropPrefab; // Assign Dewdrop prefab here
+    [SerializeField] private GameObject raindropPrefab; // Assign Raindrop prefab here
+    [SerializeField] private GameObject[] allCollectablePrefabs; // Array for all collectable types
+    
     [Header("Dewdrop Settings")]
-    [SerializeField] private GameObject dewdropPrefab;
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
     
     [Header("Raindrop Settings")]
-    [SerializeField] private GameObject raindropPrefab;
     [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
     
     [Header("Spawn Boundaries")]

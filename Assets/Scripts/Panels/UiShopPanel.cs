@@ -8,7 +8,7 @@ public class UiShopPanel : UIPanelBase
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
-    [SerializeField] private GameObject shopItemPrefab;
+    [SerializeField] private GameObject shopItemPrefab; // Assign ShopItemUI prefab here
     [SerializeField] private Button[] categoryTabs;
     
     [Header("Item Detail Panel")]
@@ -223,7 +223,7 @@ public class UiShopPanel : UIPanelBase
             return;
             
         // Create cost displays
-        foreach (var resource in selectedItem.cost.requiredResources)
+        foreach (var resource in selectedItem.cost.RequiredResources)
         {
             GameObject costObj = Instantiate(costItemPrefab, costDisplayParent);
             currentCostDisplays.Add(costObj);
