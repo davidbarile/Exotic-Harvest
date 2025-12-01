@@ -1,7 +1,7 @@
 /// <summary>
 /// Categories for organizing shop items
 /// </summary>
-public enum ShopCategory
+public enum EShopCategory
 {
     Decorations,    // Visual and functional decorations
     Resources,      // Direct resource purchases
@@ -14,7 +14,7 @@ public enum ShopCategory
 /// <summary>
 /// Types of items that can be purchased
 /// </summary>
-public enum ItemType
+public enum EItemType
 {
     Decoration,     // Placeable decoration
     Resource,       // Direct resource grant

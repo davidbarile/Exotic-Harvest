@@ -21,7 +21,7 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private Transform costDisplayParent;
     [SerializeField] private GameObject costItemPrefab;
     
-    private ShopCategory currentCategory = ShopCategory.Decorations;
+    private EShopCategory currentCategory = EShopCategory.Decorations;
     private ShopItem selectedItem;
     private List<GameObject> currentItemDisplays = new List<GameObject>();
     private List<GameObject> currentCostDisplays = new List<GameObject>();
@@ -71,9 +71,11 @@ public class UiShopPanel : UIPanelBase
             for (int i = 0; i < categoryTabs.Length; i++)
             {
                 int categoryIndex = i;
-                if (categoryTabs[i] != null)
+                var tab = categoryTabs[i];
+                if (tab != null)
                 {
-                    categoryTabs[i].onClick.AddListener(() => SwitchCategory((ShopCategory)categoryIndex));
+                    tab.onClick.AddListener(() => SwitchCategory((EShopCategory)categoryIndex));
+                    tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
                 }
             }
         }
@@ -87,7 +89,7 @@ public class UiShopPanel : UIPanelBase
         }
     }
     
-    public void SwitchCategory(ShopCategory category)
+    public void SwitchCategory(EShopCategory category)
     {
         currentCategory = category;
         selectedItem = null;
@@ -232,9 +234,10 @@ public class UiShopPanel : UIPanelBase
             var costText = costObj.GetComponentInChildren<TextMeshProUGUI>();
             if (costText != null)
             {
-                bool hasEnough = ResourceManager.IN?.HasResource(resource.type, resource.amount) ?? false;
+                bool hasEnough = ResourceManager.IN.HasResource(resource.type, resource.amount);
                 string color = hasEnough ? "white" : "red";
-                costText.text = $"<color={color}>{resource.amount} {resource.type}</color>";
+                costText.text = $"<color={color}>{resource.amount}\n{resource.type}</color>";
+                //TODO: add icon and make class for this
             }
         }
     }

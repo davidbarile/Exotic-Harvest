@@ -11,12 +11,12 @@ public class ShopManager : MonoBehaviour
     
     [Header("Shop Configuration")]
     [SerializeField] private ShopItemDefinition[] allShopItemDefinitions;
-    [SerializeField] private bool debugMode = false;
+    [SerializeField] private bool debugMode;
     
-    private List<ShopItem> allShopItems = new List<ShopItem>();
+    private List<ShopItem> allShopItems = new();
     
     private Dictionary<string, ShopItem> shopItemsById;
-    private Dictionary<ShopCategory, List<ShopItem>> itemsByCategory;
+    private Dictionary<EShopCategory, List<ShopItem>> itemsByCategory;
     
     // Events
     public static event Action<ShopItem> OnItemPurchased;
@@ -36,10 +36,10 @@ public class ShopManager : MonoBehaviour
     private void InitializeShop()
     {
         shopItemsById = new Dictionary<string, ShopItem>();
-        itemsByCategory = new Dictionary<ShopCategory, List<ShopItem>>();
+        itemsByCategory = new Dictionary<EShopCategory, List<ShopItem>>();
         
         // Initialize category lists
-        foreach (ShopCategory category in System.Enum.GetValues(typeof(ShopCategory)))
+        foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
             itemsByCategory[category] = new List<ShopItem>();
         }
@@ -86,7 +86,7 @@ public class ShopManager : MonoBehaviour
     
     public ShopItem CreateDecorationItem(string id, string name, string description, DecorationType decorationType, ResourceCost cost)
     {
-        var item = new ShopItem(id, name, ShopCategory.Decorations, ItemType.Decoration)
+        var item = new ShopItem(id, name, EShopCategory.Decorations, EItemType.Decoration)
         {
             description = description,
             decorationType = decorationType,
@@ -99,7 +99,7 @@ public class ShopManager : MonoBehaviour
     
     public ShopItem CreateResourceItem(string id, string name, string description, ResourceType resourceType, int amount, ResourceCost cost)
     {
-        var item = new ShopItem(id, name, ShopCategory.Resources, ItemType.Resource)
+        var item = new ShopItem(id, name, EShopCategory.Resources, EItemType.Resource)
         {
             description = description,
             resourceType = resourceType,
@@ -195,15 +195,15 @@ public class ShopManager : MonoBehaviour
     {
         switch (item.itemType)
         {
-            case ItemType.Decoration:
+            case EItemType.Decoration:
                 return PurchaseDecoration(item);
-            case ItemType.Resource:
+            case EItemType.Resource:
                 return PurchaseResource(item);
-            case ItemType.ToolUpgrade:
-            case ItemType.Capacity:
-            case ItemType.Multiplier:
-            case ItemType.Unlock:
-            case ItemType.Consumable:
+            case EItemType.ToolUpgrade:
+            case EItemType.Capacity:
+            case EItemType.Multiplier:
+            case EItemType.Unlock:
+            case EItemType.Consumable:
                 // TODO: Implement in future phases
                 return true;
             default:
@@ -230,14 +230,14 @@ public class ShopManager : MonoBehaviour
         return false;
     }
     
-    public List<ShopItem> GetItemsByCategory(ShopCategory category)
+    public List<ShopItem> GetItemsByCategory(EShopCategory category)
     {
         if (itemsByCategory.TryGetValue(category, out List<ShopItem> items))
             return new List<ShopItem>(items);
         return new List<ShopItem>();
     }
     
-    public List<ShopItem> GetAvailableItems(ShopCategory category)
+    public List<ShopItem> GetAvailableItems(EShopCategory category)
     {
         var categoryItems = GetItemsByCategory(category);
         return categoryItems.FindAll(item => item.CanPurchase);

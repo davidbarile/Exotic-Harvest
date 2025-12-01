@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Text;
 
 /// <summary>
 /// UI component for displaying shop items
@@ -61,6 +62,8 @@ public class ShopItemUI : MonoBehaviour
     private void UpdateDisplay()
     {
         if (shopItem == null || itemDefinition == null) return;
+
+        Debug.Log("Updating display for shop item: " + shopItem.displayName);
         
         // Update item name
         if (itemNameText != null)
@@ -90,22 +93,22 @@ public class ShopItemUI : MonoBehaviour
     private void UpdatePriceDisplay()
     {
         if (priceText == null || shopItem?.cost == null) return;
-        
-        string priceString = "";
+
+        var sb = new StringBuilder();
         bool canAfford = true;
-        
+
         foreach (var resource in shopItem.cost.RequiredResources)
         {
-            if (priceString.Length > 0) priceString += " ";
-            
+            if (sb.Length > 0) sb.Append(" ");
+
             bool hasEnough = ResourceManager.IN?.HasResource(resource.type, resource.amount) ?? false;
             if (!hasEnough) canAfford = false;
-            
+
             string color = hasEnough ? "white" : "red";
-            priceString += $"<color={color}>{resource.amount} {resource.DisplayName}</color>";
+            sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.amount, resource.DisplayName);
         }
-        
-        priceText.text = priceString;
+
+        priceText.text = sb.ToString();
     }
     
     private void UpdateAvailabilityOverlays()

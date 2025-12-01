@@ -13,8 +13,8 @@ public class ShopItem
     public Sprite icon;
     
     [Header("Item Properties")]
-    public ShopCategory category;
-    public ItemType itemType;
+    public EShopCategory category;
+    public EItemType itemType;
     public ResourceCost cost;
     
     [Header("Purchase Rules")]
@@ -33,7 +33,7 @@ public class ShopItem
     public bool IsMaxedOut => isLimitedQuantity && currentPurchases >= maxPurchases;
     public int RemainingPurchases => isLimitedQuantity ? maxPurchases - currentPurchases : -1;
     
-    public ShopItem(string id, string name, ShopCategory category, ItemType type)
+    public ShopItem(string id, string name, EShopCategory category, EItemType type)
     {
         this.id = id;
         this.displayName = name;

@@ -12,8 +12,8 @@ public class ShopItemDefinition : ScriptableObject
     public Sprite icon;
     
     [Header("Shop Properties")]
-    public ShopCategory category;
-    public ItemType itemType;
+    public EShopCategory category;
+    public EItemType itemType;
     public ResourceCost cost;
     
     [Header("Availability")]
