@@ -8,17 +8,19 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [SerializeField] private GameObject dragEnabledDisplay;
     private Vector2 originalLocalPointerPosition;
     private Vector3 originalPanelLocalPosition;
+
+    private Transform originalParent;
     private bool isDragging = false;
 
     private void Start()
     {
-        ScreenManager.OnDragModeChanged += HandleDragModeChanged;
-        HandleDragModeChanged(ScreenManager.IsDragModeActivated);
+        DragManager.OnDragModeChanged += HandleDragModeChanged;
+        HandleDragModeChanged(DragManager.IsDragModeActivated);
     }
 
     private void OnDestroy()
     {
-        ScreenManager.OnDragModeChanged -= HandleDragModeChanged;
+        DragManager.OnDragModeChanged -= HandleDragModeChanged;
     }
     
     private void HandleDragModeChanged(bool isDragMode)
@@ -31,12 +33,14 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!ScreenManager.IsDragModeActivated && !isDraggingPermanent)
+        if (!DragManager.IsDragModeActivated && !isDraggingPermanent)
             return;
             
         isDragging = true;
         // Use the parent RectTransform for correct pointer offset
         RectTransform parentRect = targetRectTransform.parent as RectTransform;
+        originalParent = targetRectTransform.parent;
+        targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             parentRect,
             eventData.position,
@@ -65,5 +69,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         isDragging = false;
+
+        if (originalParent != null)
+        {
+            targetRectTransform.SetParent(originalParent, true);
+        }
     }
 }

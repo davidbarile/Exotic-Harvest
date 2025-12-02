@@ -127,7 +127,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     // Mouse interaction for collection
     protected virtual void OnMouseDown()
     {
-        if (!IsEmpty && !ScreenManager.IsDragModeActivated)
+        if (!IsEmpty && !DragManager.IsDragModeActivated)
         {
             CollectAll();
         }

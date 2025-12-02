@@ -57,7 +57,7 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     public void OnPointerClick(PointerEventData eventData)
     {
         // Check if we're in decoration drag mode
-        if (ScreenManager.IsDragModeActivated)
+        if (DragManager.IsDragModeActivated)
         {
             // Allow dragging in drag mode, but also handle clicks for interaction
             if (decoration != null && !isDragging)
@@ -178,7 +178,7 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     private bool CanDrag()
     {
         // Only allow dragging when in drag mode
-        return ScreenManager.IsDragModeActivated;
+        return DragManager.IsDragModeActivated;
     }
     
     private Vector2 ConstrainToCanvas(Vector2 position)

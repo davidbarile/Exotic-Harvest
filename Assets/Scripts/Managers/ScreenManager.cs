@@ -6,10 +6,6 @@ public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager IN; 
 
-    public static bool IsDragModeActivated = false;
-
-    public static Action<bool> OnDragModeChanged;
-
     [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
 
@@ -27,7 +23,6 @@ public class ScreenManager : MonoBehaviour
 
         InputManager.OnEscapePress += HandleEscapeKeyPress;
         InputManager.OnTabPress += ToggleBackgroundVisibility;
-        InputManager.OnDragPress += HandleDragModeChanged;
         InputManager.OnF1Press += ToggleMonitor;
         InputManager.OnMPress += ShowMonitorInfo;
     }
@@ -36,7 +31,6 @@ public class ScreenManager : MonoBehaviour
     {
         InputManager.OnEscapePress -= HandleEscapeKeyPress;
         InputManager.OnTabPress -= ToggleBackgroundVisibility;
-        InputManager.OnDragPress -= HandleDragModeChanged;
         InputManager.OnF1Press -= ToggleMonitor;
         InputManager.OnMPress -= ShowMonitorInfo;
     }
@@ -70,12 +64,6 @@ public class ScreenManager : MonoBehaviour
         // {
         //     FadeInBackground();
         // }
-    }
-
-    private void HandleDragModeChanged()
-    {
-        IsDragModeActivated = !IsDragModeActivated;
-        OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
     private void ToggleMonitor()
@@ -187,12 +175,6 @@ public class ScreenManager : MonoBehaviour
             UiManager.IN.SetDebugText(info);
             Debug.Log(info);
         }
-    }
-
-    public void SetDragMode(bool isDragMode)
-    {
-        IsDragModeActivated = isDragMode;
-        OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
     void OnApplicationFocus(bool hasFocus)

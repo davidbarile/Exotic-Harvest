@@ -124,7 +124,7 @@ public abstract class DecorationBase : MonoBehaviour
     // Drag handling (works with existing UiDraggable if needed)
     public virtual bool CanStartDrag()
     {
-        return IsDraggable && ScreenManager.IN != null && ScreenManager.IsDragModeActivated;
+        return IsDraggable && DragManager.IsDragModeActivated;
     }
     
     public virtual void OnStartDrag()
