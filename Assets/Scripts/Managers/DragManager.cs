@@ -11,6 +11,8 @@ public class DragManager : MonoBehaviour
 
     public RectTransform DragCanvas;
 
+    public Transform DefaultParent;
+
      private void Start()
     {
         InputManager.OnDragPress += HandleDragModeChanged;

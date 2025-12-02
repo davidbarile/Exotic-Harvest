@@ -921,6 +921,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiDraggablePanel
   isDraggingPermanent: 0
+  onlyDragToTargets: 0
+  limitToParentTargetBounds: 0
+  shouldDetectDropTargets: 1
+  shouldReturnToOriginalParent: 0
   targetRectTransform: {fileID: 6970618749069963688}
   dragEnabledDisplay: {fileID: 0}
 --- !u!1 &8971023710941370431
@@ -986,5 +990,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiDraggablePanel
   isDraggingPermanent: 1
+  onlyDragToTargets: 0
+  limitToParentTargetBounds: 0
+  shouldDetectDropTargets: 0
+  shouldReturnToOriginalParent: 1
   targetRectTransform: {fileID: 6970618749069963688}
   dragEnabledDisplay: {fileID: 0}

@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
 
     public static bool IsInputBlocked;
 
+    public static List<GameObject> ObjectsUnderMouse = new();
+
     public static Action OnEscapePress;
     public static Action OnTabPress;
     public static Action OnSpacePress;
@@ -64,11 +66,19 @@ public class InputManager : MonoBehaviour
         {
             position = new Vector2(Input.mousePosition.x, Input.mousePosition.y)
         };
+
         var results = new List<RaycastResult>();
 
         if (EventSystem.current)
         {
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            ObjectsUnderMouse.Clear();
+
+            foreach (var result in results)
+            {
+                ObjectsUnderMouse.Add(result.gameObject);
+            }
 
             foreach (var result in results)
             {
