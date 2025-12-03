@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 /// <summary>
 /// Manages weather effects and weather-based resource generation
@@ -7,6 +8,8 @@ using UnityEngine;
 public class WeatherManager : MonoBehaviour, ITickable
 {
     public static WeatherManager IN;
+
+    [SerializeField] private TMP_Text weatherDisplayText;
     
     [SerializeField] private WeatherType currentWeather = WeatherType.Clear;
     [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
@@ -29,6 +32,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     private void Start()
     {
         nextWeatherChange = weatherChangeInterval;
+        ChangeWeather();
     }
     
     private void OnEnable()
@@ -66,9 +70,12 @@ public class WeatherManager : MonoBehaviour, ITickable
         // Simple weather transition logic
         WeatherType[] possibleWeathers = GetPossibleWeathers(currentWeather);
         currentWeather = possibleWeathers[UnityEngine.Random.Range(0, possibleWeathers.Length)];
-        
+
         // Set intensity based on weather type
         weatherIntensity = GetWeatherIntensity(currentWeather);
+        
+        if(weatherDisplayText != null)
+            weatherDisplayText.text = $"Weather: {currentWeather} (Intensity: {weatherIntensity:F2})";
         
         // Fire events
         if (oldWeather != currentWeather)

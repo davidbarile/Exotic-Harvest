@@ -4,6 +4,7 @@
 public enum CollectionMethod
 {
     Click,        // Click to collect (dewdrops, seeds)
+    Hover,       // Hover over to collect (raindrops)
     Drag,         // Drag across screen (bucket for raindrops)
     Swipe,        // Net swiping (butterflies, fireflies)
     Hold,         // Click and hold (mining rocks, digging)

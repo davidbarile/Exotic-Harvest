@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Raindrop collectable - appears during rain, collect by dragging bucket
@@ -8,7 +9,7 @@ using DG.Tweening;
 public class Raindrop : Collectable
 {
     [Header("Raindrop Animation")]
-    [SerializeField] private float fallDuration = 3f; // Time to fall across screen
+    [SerializeField] private float fallDuration = 10f; // Time to fall across screen
     [SerializeField] private float sideWave = 20f; // Horizontal movement
     
     private bool isFalling = true;
@@ -19,7 +20,7 @@ public class Raindrop : Collectable
     {
         resourceType = ResourceType.Water;
         amount = 1;
-        collectionMethod = CollectionMethod.Drag;
+        collectionMethod = CollectionMethod.Hover;
         lifetime = 10f; // Raindrops fall quickly
         autoDestroy = false; // Will destroy when hitting ground
         
@@ -70,10 +71,10 @@ public class Raindrop : Collectable
         }
     }
     
-    public override void OnDragOver()
+    public override void OnPointerEnter(PointerEventData eventData)
     {
         if (isFalling) // Can only collect while falling
-            base.OnDragOver();
+            base.OnPointerEnter(eventData);
     }
     
     protected override void OnCollected()

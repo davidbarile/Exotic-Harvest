@@ -54,12 +54,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 0
   amount: 1
-  collectionMethod: 0
+  collectionMethod: 1
   lifetime: 30
   autoDestroy: 1
   collectableImage: {fileID: 3772982203238556228}
-  fallDuration: 3
-  sideWave: 20
+  fallDuration: 10
+  sideWave: 40
 --- !u!114 &3772982203238556228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -4.91}
-  m_Radius: 9
+  m_Radius: 14
 --- !u!50 &7234567890123460
 Rigidbody2D:
   serializedVersion: 5

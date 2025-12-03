@@ -8,10 +8,11 @@ using UnityEngine;
 public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
-    
+
     [Header("UI Spawn Configuration")]
     [SerializeField] private RectTransform gameplayCanvas; // Main gameplay area
-    [SerializeField] private RectTransform spawnParent; // UI container for collectables
+    [SerializeField] private RectTransform rainSpawnParent; // UI container for rain collectables
+    [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
     
     [Header("Collectable Prefabs")]
@@ -33,16 +34,14 @@ public class ForagingManager : MonoBehaviour, ITickable
     public static event Action<int> OnCollectableCountChanged;
     
     private void Awake()
-    {
-        if (spawnParent == null)
-            spawnParent = GetComponent<RectTransform>();
-            
+    {            
         if (gameplayCanvas == null)
             gameplayCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
     }
     
     private void OnEnable()
     {
+        TickManager.OnTick += Tick;
         TickManager.OnSecondTick += SecondTick;
         Collectable.OnCollectableSpawned += OnCollectableSpawned;
         Collectable.OnCollectableCollected += OnCollectableCollected;
@@ -56,6 +55,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void OnDisable()
     {
+        TickManager.OnTick -= Tick;
         TickManager.OnSecondTick -= SecondTick;
         Collectable.OnCollectableSpawned -= OnCollectableSpawned;
         Collectable.OnCollectableCollected -= OnCollectableCollected;
@@ -68,7 +68,13 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     public void Tick()
     {
-        // Fast tick updates if needed
+        // Spawn raindrops during rain
+        // if (WeatherManager.IN.IsRaining)
+        // {
+        //     SpawnRaindrops();
+        // }
+
+        SpawnRaindrops();
     }
     
     public void SecondTick()
@@ -76,16 +82,16 @@ public class ForagingManager : MonoBehaviour, ITickable
         secondTimer += 1f;
         
         // Spawn dewdrops during morning
-        if (TimeManager.IN != null && TimeManager.IN.CurrentTimeOfDay == TimeOfDay.Morning)
+        if (TimeManager.IN.CurrentTimeOfDay == TimeOfDay.Morning)
         {
             SpawnDewdrops();
         }
         
-        // Spawn raindrops during rain
-        if (WeatherManager.IN != null && WeatherManager.IN.IsRaining)
-        {
-            SpawnRaindrops();
-        }
+        // // Spawn raindrops during rain
+        // if (WeatherManager.IN != null && WeatherManager.IN.IsRaining)
+        // {
+        //     SpawnRaindrops();
+        // }
     }
     
     private void SpawnDewdrops()
@@ -96,7 +102,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         if (UnityEngine.Random.value < dewdropSpawnChance)
         {
             Vector2 spawnPos = GetRandomUIPosition();
-            GameObject dewdrop = Instantiate(dewdropPrefab, spawnParent);
+            GameObject dewdrop = Instantiate(dewdropPrefab, dewDropSpawnParent);
             RectTransform dewdropRect = dewdrop.GetComponent<RectTransform>();
             if (dewdropRect != null)
             {
@@ -116,7 +122,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         if (UnityEngine.Random.value < spawnChance)
         {
             Vector2 spawnPos = GetRaindropSpawnPosition();
-            GameObject raindrop = Instantiate(raindropPrefab, spawnParent);
+            GameObject raindrop = Instantiate(raindropPrefab, rainSpawnParent);
             RectTransform raindropRect = raindrop.GetComponent<RectTransform>();
             if (raindropRect != null)
             {

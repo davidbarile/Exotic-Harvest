@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 /// Base class for collectable objects that can be harvested by the player
 /// UI-based for desktop overlay gameplay
 /// </summary>
-public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
     [SerializeField] protected ResourceType resourceType;
     [SerializeField] protected int amount = 1;
@@ -60,13 +60,21 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     {
         return !isCollected && gameObject.activeInHierarchy;
     }
-    
+
     // UI Event System handlers
     public virtual void OnPointerClick(PointerEventData eventData)
     {
         if (collectionMethod == CollectionMethod.Click)
         {
             OnClick();
+        }
+    }
+    
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        if (collectionMethod == CollectionMethod.Hover)
+        {
+            Collect();
         }
     }
     

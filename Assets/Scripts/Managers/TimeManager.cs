@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 /// <summary>
 /// Manages the day/night cycle and time-based events
@@ -7,6 +8,8 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
+
+    [SerializeField] private TMP_Text timeDisplayText;
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private TimeOfDay currentTimeOfDay = TimeOfDay.Morning;
@@ -33,12 +36,13 @@ public class TimeManager : MonoBehaviour, ITickable
     {
         TickManager.OnSecondTick -= SecondTick;
     }
-    
+
     public void Tick()
     {
         // Optional: Fast tick updates if needed
     }
     
+    //TODO: make this work with real time, using SecondTick for debug only
     public void SecondTick()
     {
         // Advance time
@@ -61,6 +65,9 @@ public class TimeManager : MonoBehaviour, ITickable
             currentTimeOfDay = newTimeOfDay;
             OnTimeOfDayChanged?.Invoke(currentTimeOfDay);
         }
+
+         if(timeDisplayText != null)
+                timeDisplayText.text = $"Time: {currentHour:00.00} ({currentTimeOfDay})";
     }
     
     private TimeOfDay GetTimeOfDayFromHour(float hour)
