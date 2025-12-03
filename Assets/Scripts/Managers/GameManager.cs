@@ -10,5 +10,7 @@ public class GameManager : MonoBehaviour
     {
         singletonManager.Init();
         DontDestroyOnLoad(gameObject);
+        Application.runInBackground = true;
+        Application.targetFrameRate = 60;
     }
 }
