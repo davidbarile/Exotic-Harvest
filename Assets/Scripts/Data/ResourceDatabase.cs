@@ -74,20 +74,21 @@ public class ResourceDatabase : ScriptableObject
         if (allResources == null) return new ResourceDefinition[0];
         return allResources.Where(r => r != null && r.canBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
     }
-    
+
     public ResourceDefinition[] GetPassiveResources()
     {
         if (allResources == null) return new ResourceDefinition[0];
         return allResources.Where(r => r != null && r.canBePassivelyGenerated).ToArray();
     }
-    
+
+#if UNITY_EDITOR
     [ContextMenu("Auto-Populate Resources")]
     private void AutoPopulateResources()
     {
         // This would be called in editor to automatically find all ResourceDefinition assets
         var resourceGuids = UnityEditor.AssetDatabase.FindAssets("t:ResourceDefinition");
         var foundResources = new List<ResourceDefinition>();
-        
+
         foreach (var guid in resourceGuids)
         {
             var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
@@ -95,11 +96,12 @@ public class ResourceDatabase : ScriptableObject
             if (resource != null)
                 foundResources.Add(resource);
         }
-        
+
         allResources = foundResources.ToArray();
         BuildLookupTables();
-        
+
         UnityEditor.EditorUtility.SetDirty(this);
         Debug.Log($"Auto-populated {allResources.Length} resources");
     }
+#endif
 }
