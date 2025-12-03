@@ -69,12 +69,10 @@ public class ForagingManager : MonoBehaviour, ITickable
     public void Tick()
     {
         // Spawn raindrops during rain
-        // if (WeatherManager.IN.IsRaining)
-        // {
-        //     SpawnRaindrops();
-        // }
-
-        SpawnRaindrops();
+        if (WeatherManager.IN.IsRaining)
+        {
+            SpawnRaindrops();
+        }
     }
     
     public void SecondTick()
