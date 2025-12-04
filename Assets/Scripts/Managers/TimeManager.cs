@@ -8,12 +8,15 @@ using TMPro;
 public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
-
-    [SerializeField] private TMP_Text timeDisplayText;
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private TimeOfDay currentTimeOfDay = TimeOfDay.Morning;
     [SerializeField, Range(0f, 24f)] private float currentHour = 8f; // Start at 8 AM
+
+    [Header("UI Elements")]
+    [SerializeField] private TMP_Text timeDisplayText;
+    [Space, SerializeField] private TMP_Text timeSliderText;
+    [SerializeField] private TMP_Text timeScaleSliderText;
     
     private float timeScale = 1f;
     
@@ -104,16 +107,22 @@ public class TimeManager : MonoBehaviour, ITickable
         }
     }
     
-    public void SetTimeScale(float scale)
+    public void SetTimeScale(Single scale)
     {
         timeScale = Mathf.Max(0f, scale);
+
+        if (timeScaleSliderText != null)
+            timeScaleSliderText.text = $"Time Scale: {timeScale:0.0}x";
     }
     
-    public void SetTime(float hour)
+    public void SetTime(Single hour)
     {
         currentHour = Mathf.Clamp(hour, 0f, 24f);
         currentTimeOfDay = GetTimeOfDayFromHour(currentHour);
         OnHourChanged?.Invoke(currentHour);
         OnTimeOfDayChanged?.Invoke(currentTimeOfDay);
+
+        if (timeSliderText != null)
+            timeSliderText.text = $"Time: {currentHour:00.00} ({currentTimeOfDay})";
     }
 }

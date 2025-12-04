@@ -144,7 +144,7 @@ public class NotificationManager : MonoBehaviour
         {
             var oldest = activeNotifications.Dequeue();
             if (oldest != null)
-                oldest.Dismiss();
+                oldest.Dismiss(true);
         }
         
         // Create notification UI

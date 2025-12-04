@@ -14,11 +14,11 @@ public class ToastNotificationUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Image iconImage;
     [SerializeField] private Button dismissButton;
-    
+    [SerializeField] private RectTransform animRoot;
+
     [Header("Animation Settings")]
     [SerializeField] private float slideInDuration = 0.5f;
     [SerializeField] private float slideOutDuration = 0.3f;
-    [SerializeField] private Vector2 slideOffset = new Vector2(300f, 0f);
     [SerializeField] private Ease slideInEase = Ease.OutBack;
     [SerializeField] private Ease slideOutEase = Ease.InBack;
     
@@ -105,20 +105,18 @@ public class ToastNotificationUI : MonoBehaviour
     private void StartShowAnimation()
     {
         // Start off-screen
-        Vector2 startPos = rectTransform.anchoredPosition + slideOffset;
-        rectTransform.anchoredPosition = startPos;
-        canvasGroup.alpha = 0f;
+        Vector2 startPos = animRoot.anchoredPosition + new Vector2(animRoot.rect.width * .5f, 0f);
+        animRoot.anchoredPosition = startPos;
         
         // Create animation sequence
         Sequence showSequence = DOTween.Sequence();
         
-        showSequence.Append(rectTransform.DOAnchorPos(rectTransform.anchoredPosition - slideOffset, slideInDuration)
+        showSequence.Append(animRoot.DOAnchorPos(Vector2.zero, slideInDuration)
             .SetEase(slideInEase));
-        showSequence.Join(canvasGroup.DOFade(1f, slideInDuration * 0.7f));
         
         animationTween = showSequence;
     }
-    
+
     private void AutoDismiss()
     {
         if (gameObject != null && gameObject.activeInHierarchy)
@@ -129,19 +127,31 @@ public class ToastNotificationUI : MonoBehaviour
     
     public void Dismiss()
     {
+        Dismiss(false);
+    }
+    
+    public void Dismiss(bool isImmediate)
+    {
         CancelInvoke(nameof(AutoDismiss));
-        
+
         if (animationTween != null)
         {
             animationTween.Kill();
         }
         
+        if(isImmediate)
+        {
+            onDismissed?.Invoke(this);
+            Destroy(gameObject);
+            return;
+        }
+        
         // Start hide animation
         Sequence hideSequence = DOTween.Sequence();
         
-        hideSequence.Append(rectTransform.DOAnchorPos(rectTransform.anchoredPosition + slideOffset, slideOutDuration)
+        hideSequence.Append(animRoot.DOAnchorPos(animRoot.anchoredPosition + new Vector2(animRoot.rect.width * .5f, 0f), slideOutDuration)
             .SetEase(slideOutEase));
-        hideSequence.Join(canvasGroup.DOFade(0f, slideOutDuration));
+
         hideSequence.OnComplete(() => {
             onDismissed?.Invoke(this);
             Destroy(gameObject);
