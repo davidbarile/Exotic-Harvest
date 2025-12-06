@@ -21,6 +21,10 @@ This project heavily integrates **UniWindowController** (Kirurobo namespace) for
 - **Project Structure**: Multi-assembly setup with separate UniWindowController assemblies for runtime and editor functionality
 
 ## Development Patterns
+For public, private and protected class variables, add "this." prefix when accessing them inside methods.
+When generating new code and prefabs and creating such classes as menu items, inventory items, etc. create classes for these prefabs with public Initialize() and/or Configure() methods to pass them the information they need to populate their fields, images, etc.  When needed, cache these variables in private fields for use in OnPress methods or other event handlers.
+Name scriptable objects for Data containers with "Config" suffix, e.g. ItemConfig, EnemyConfig, etc.
+Serialized data objects (that need to be JSON serialized) should have "Data" suffix, e.g. PlayerData, GameData, etc.
 
 ### Window Management
 ```csharp
