@@ -8,6 +8,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text debugText;
     [SerializeField] private UiSettingsPanel settingsPanel;
     [SerializeField] private UiShopPanel shopPanel;
+    [SerializeField] private UiInventoryPanel inventoryPanel;
 
     private void Awake()
     {
@@ -19,8 +20,10 @@ public class UiManager : MonoBehaviour
         InputManager.OnSpacePress += HandleSpacePress;
         InputManager.OnSettingsPress += ToggleSettingsPanelVisibility;
         InputManager.OnShopPress += ToggleShopPanelVisibility;
+        InputManager.OnInventoryPress += ToggleInventoryPanelVisibility;
         shopPanel.SetVisible(false, true);
         settingsPanel.SetVisible(true);
+        inventoryPanel.SetVisible(false);
     }
 
     private void OnDestroy()
@@ -28,6 +31,7 @@ public class UiManager : MonoBehaviour
         InputManager.OnSpacePress -= HandleSpacePress;
         InputManager.OnSettingsPress -= ToggleSettingsPanelVisibility;
         InputManager.OnShopPress -= ToggleShopPanelVisibility;
+        InputManager.OnInventoryPress -= ToggleInventoryPanelVisibility;
     }
 
     private void HandleSpacePress()
@@ -61,6 +65,17 @@ public class UiManager : MonoBehaviour
             settingsPanel.SetVisible(false);
             shopPanel.Show();
         }
+    }
+
+    public void ToggleInventoryPanelVisibility()
+    {
+        if (!inventoryPanel)
+            return;
+
+        if (inventoryPanel.IsShowing)
+            inventoryPanel.Hide();
+        else
+            inventoryPanel.Show();
     }
 
     public void SetDebugText(string text)

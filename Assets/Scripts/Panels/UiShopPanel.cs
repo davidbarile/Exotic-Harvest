@@ -8,8 +8,8 @@ public class UiShopPanel : UIPanelBase
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
-    [SerializeField] private ShopItemUI shopItemPrefab; // Assign ShopItemUI prefab here
     [SerializeField] private Toggle[] categoryTabs;
+    [SerializeField] private ShopItemUI shopItemPrefab;
     
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -23,8 +23,8 @@ public class UiShopPanel : UIPanelBase
     
     private EShopCategory currentCategory = EShopCategory.Decorations;
     private ShopItem selectedItem;
-    private List<GameObject> currentItemDisplays = new List<GameObject>();
-    private List<GameObject> currentCostDisplays = new List<GameObject>();
+    private List<GameObject> currentItemDisplays = new();
+    private List<GameObject> currentCostDisplays = new();
     
     private void Start()
     {

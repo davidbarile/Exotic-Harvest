@@ -13,6 +13,7 @@ using UnityEngine;
 [RequireComponent(typeof(DecorationManager))]
 [RequireComponent(typeof(SaveManager))]
 [RequireComponent(typeof(ShopManager))]
+[RequireComponent(typeof(InventoryManager))]
 [RequireComponent(typeof(NotificationManager))]
 public class SingletonManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class SingletonManager : MonoBehaviour
         DecorationManager.IN = this.GetComponent<DecorationManager>();
         SaveManager.IN = this.GetComponent<SaveManager>();
         ShopManager.IN = this.GetComponent<ShopManager>();
+        InventoryManager.IN = this.GetComponent<InventoryManager>();
         NotificationManager.IN = this.GetComponent<NotificationManager>();
 
         UIConfirmPanel.IN = this.confirmPanel;
