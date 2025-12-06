@@ -16,6 +16,9 @@ public class GameSaveData
     [Header("Player Progress")]
     public int playerLevel = 1;
     public float experience = 0f;
+
+    [Header("Inventory")]
+    public List<DecorationData> Inventory = new();
     
     [Header("Resources")]
     public ResourceData resources = new();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static InventoryManager;
 
 public class UiInventoryPanel : UIPanelBase
 {
@@ -18,7 +19,10 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
     [SerializeField] private Image itemIcon;
 
-    private EShopCategory currentCategory = EShopCategory.Decorations;
+    [Header("Inventory Stats")]
+    [SerializeField] private int numInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
+
+    private EItemCategory currentCategory = EItemCategory.Decorations;
     private ShopItem selectedItem;
     private List<GameObject> currentItemDisplays = new();
 
@@ -70,8 +74,8 @@ public class UiInventoryPanel : UIPanelBase
             var tab = categoryTabs[i];
             if (tab != null)
             {
-                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EShopCategory)categoryIndex); });
-                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
+                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EItemCategory)categoryIndex); });
+                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EItemCategory)categoryIndex).ToString();
             }
         }
 
@@ -84,7 +88,7 @@ public class UiInventoryPanel : UIPanelBase
         
     }
 
-    public void SwitchCategory(EShopCategory category)
+    public void SwitchCategory(EItemCategory category)
     {
         this.currentCategory = category;
         this.selectedItem = null;
@@ -109,14 +113,14 @@ public class UiInventoryPanel : UIPanelBase
         this.currentItemDisplays.Clear();
             
         // Get items for current category
-        // var items = InventoryManager.IN.GetItemsByCategory(currentCategory);
+        var items = InventoryManager.IN.GetItemsByCategory(currentCategory);
         
         // // Create UI elements for each item
-        // foreach (var item in items)
-        // {
-        //     if (item.isUnlocked)
-        //         CreateItemDisplay(item);
-        // }
+        foreach (var item in items)
+        {
+            if (item.isUnlocked)
+                CreateItemDisplay(item);
+        }
     }
     
     private void CreateItemDisplay(ShopItem item)

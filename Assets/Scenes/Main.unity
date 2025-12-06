@@ -1791,10 +1791,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2070750926879128448, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3445617288611546604, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1818,10 +1814,6 @@ PrefabInstance:
     - target: {fileID: 5038856050058966399, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_Name
       value: Inventory Panel
-      objectReference: {fileID: 0}
-    - target: {fileID: 5038856050058966399, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111084667751687155, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1929,10 +1921,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879573879685113319, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7977102462541684268, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060976176224209735, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
@@ -8726,6 +8714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e30454e372249c2ac6e1c10d5726bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
+  StartingShopItemConfigs:
+  - {fileID: 11400000, guid: cacfa321c709b4c42a80c2d8078d28b2, type: 2}
 --- !u!1 &1717538038
 GameObject:
   m_ObjectHideFlags: 0

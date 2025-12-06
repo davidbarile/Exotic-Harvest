@@ -9,7 +9,6 @@ public class DecorationData
 {
     public DecorationType type;
     public Vector3 position;
-    public bool isLocked;
     
     // For passive harvesters
     public int currentAmount;

@@ -14,7 +14,7 @@ public abstract class DecorationBase : MonoBehaviour
     [SerializeField] protected ResourceCost purchaseCost;
     
     [Header("State")]
-    [SerializeField] protected bool isLocked = false;
+
     [SerializeField] protected Vector3 defaultPosition;
     
     protected bool isInitialized = false;
@@ -22,8 +22,7 @@ public abstract class DecorationBase : MonoBehaviour
     // Properties
     public DecorationType Type => this.decorationType;
     public string Name => this.decorationName;
-    public bool IsDraggable => this.isDraggable && !this.isLocked;
-    public bool IsLocked => this.isLocked;
+    public bool IsDraggable => this.isDraggable;
     public ResourceCost PurchaseCost => this.purchaseCost;
     
     // Events
@@ -62,32 +61,6 @@ public abstract class DecorationBase : MonoBehaviour
     protected virtual void OnMoved()
     {
         // Override for movement effects
-    }
-    
-    public virtual void SetLocked(bool locked)
-    {
-        this.isLocked = locked;
-        
-        if (locked)
-        {
-            OnLocked();
-            OnDecorationLocked?.Invoke(this);
-        }
-        else
-        {
-            OnUnlocked();
-            OnDecorationUnlocked?.Invoke(this);
-        }
-    }
-    
-    protected virtual void OnLocked()
-    {
-        // Override for lock effects (visual feedback, etc.)
-    }
-    
-    protected virtual void OnUnlocked()
-    {
-        // Override for unlock effects
     }
     
     public virtual void Remove()
@@ -145,13 +118,11 @@ public abstract class DecorationBase : MonoBehaviour
         {
             type = this.decorationType,
             position = transform.position,
-            isLocked = this.isLocked
         };
     }
     
     public virtual void LoadSaveData(DecorationData data)
     {
         transform.position = data.position;
-        this.isLocked = data.isLocked;
     }
 }

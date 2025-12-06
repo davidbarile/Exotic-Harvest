@@ -6,6 +6,10 @@ public class UiManager : MonoBehaviour
     public static UiManager IN;
 
     [SerializeField] private TMP_Text debugText;
+    public UiSettingsPanel SettingsPanel => this.settingsPanel;
+    public UiShopPanel ShopPanel => this.shopPanel;
+    public UiInventoryPanel InventoryPanel => this.inventoryPanel;
+    
     [SerializeField] private UiSettingsPanel settingsPanel;
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
