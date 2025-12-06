@@ -19,7 +19,7 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private GameObject cannotAffordOverlay;
     
     private ShopItem shopItem;
-    private ShopItemDefinition itemDefinition;
+    // private ShopItemDefinition itemDefinition;
     
     public event Action<ShopItem> OnItemSelected;
     
@@ -31,10 +31,10 @@ public class ShopItemUI : MonoBehaviour
         }
     }
     
-    public void Initialize(ShopItem item, ShopItemDefinition definition)
+    public void Initialize(ShopItem item)
     {
         shopItem = item;
-        itemDefinition = definition;
+        //itemDefinition = definition;
         
         UpdateDisplay();
         
@@ -61,26 +61,26 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdateDisplay()
     {
-        if (shopItem == null || itemDefinition == null) return;
+        if (shopItem == null) return;
 
         Debug.Log("Updating display for shop item: " + shopItem.displayName);
         
         // Update item name
         if (itemNameText != null)
         {
-            itemNameText.text = itemDefinition.displayName;
+            itemNameText.text = shopItem.displayName;
         }
         
         // Update icon
         if (itemIcon != null)
         {
-            itemIcon.sprite = itemDefinition.icon;
+            itemIcon.sprite = shopItem.icon;
         }
         
         // Update background color
         if (backgroundImage != null)
         {
-            backgroundImage.color = itemDefinition.backgroundColor;
+            backgroundImage.color = shopItem.backgroundColor;
         }
         
         // Update price display

@@ -22,12 +22,6 @@ public class InputManager : MonoBehaviour
     public static Action OnF2Press;
     public static Action OnF3Press;
 
-
-    [Header("Wait X seconds before fire new rail round")]
-    [Range(0, 1)] public float RapidFireRate;
-    [Header("Press Mouse X seconds before autofire")]
-    [Range(0, 1)][SerializeField] private float delayBeforeRapidFire;
-
     public bool IsShiftPressed => this.isShiftPressed;
     private bool isShiftPressed;
 

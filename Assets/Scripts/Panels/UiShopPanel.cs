@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
+using UnityEngine.EventSystems;
 
 public class UiShopPanel : UIPanelBase
 {
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
-    [SerializeField] private GameObject shopItemPrefab; // Assign ShopItemUI prefab here
-    [SerializeField] private Button[] categoryTabs;
+    [SerializeField] private ShopItemUI shopItemPrefab; // Assign ShopItemUI prefab here
+    [SerializeField] private Toggle[] categoryTabs;
     
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -41,11 +43,13 @@ public class UiShopPanel : UIPanelBase
             ShopManager.OnPurchaseFailed += OnPurchaseFailed;
             ShopManager.OnShopRefreshed += RefreshShop;
         }
-        
+
         if (ResourceManager.IN != null)
         {
             ResourceManager.OnResourceChanged += OnResourceChanged;
         }
+
+        RefreshShop();
     }
     
     private void OnDisable()
@@ -66,19 +70,19 @@ public class UiShopPanel : UIPanelBase
     private void SetupCategoryTabs()
     {
         // Setup category tab buttons if they exist
-        if (categoryTabs != null)
+        for (int i = 0; i < categoryTabs.Length; i++)
         {
-            for (int i = 0; i < categoryTabs.Length; i++)
+            int categoryIndex = i;
+            var tab = categoryTabs[i];
+            if (tab != null)
             {
-                int categoryIndex = i;
-                var tab = categoryTabs[i];
-                if (tab != null)
-                {
-                    tab.onClick.AddListener(() => SwitchCategory((EShopCategory)categoryIndex));
-                    tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
-                }
+                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EShopCategory)categoryIndex); });
+                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
             }
         }
+
+        var selectedTab = categoryTabs[(int)currentCategory];
+        selectedTab.isOn = true;
     }
     
     private void SetupEventListeners()
@@ -112,9 +116,6 @@ public class UiShopPanel : UIPanelBase
                 Destroy(item);
         }
         currentItemDisplays.Clear();
-        
-        if (ShopManager.IN == null || itemsGridParent == null)
-            return;
             
         // Get items for current category
         var items = ShopManager.IN.GetItemsByCategory(currentCategory);
@@ -128,24 +129,18 @@ public class UiShopPanel : UIPanelBase
     }
     
     private void CreateItemDisplay(ShopItem item)
-    {
-        if (shopItemPrefab == null)
-            return;
-            
-        GameObject itemObj = Instantiate(shopItemPrefab, itemsGridParent);
-        currentItemDisplays.Add(itemObj);
+    {            
+        var shopItemUI = Instantiate(shopItemPrefab, itemsGridParent);
+        currentItemDisplays.Add(shopItemUI.gameObject);
         
         // Setup item display (this would be expanded with actual UI components)
-        Button itemButton = itemObj.GetComponent<Button>();
+        Button itemButton = shopItemUI.GetComponent<Button>();
         if (itemButton != null)
         {
             itemButton.onClick.AddListener(() => SelectItem(item));
         }
-        
-        // Setup visual elements (name, icon, etc.) - requires actual prefab setup
-        var nameText = itemObj.GetComponentInChildren<TextMeshProUGUI>();
-        if (nameText != null)
-            nameText.text = item.displayName;
+
+        shopItemUI.Initialize(item);
     }
     
     private void SelectItem(ShopItem item)
@@ -244,7 +239,7 @@ public class UiShopPanel : UIPanelBase
     
     private void PurchaseSelectedItem()
     {
-        if (selectedItem != null && ShopManager.IN != null)
+        if (selectedItem != null)
         {
             ShopManager.IN.TryPurchaseItem(selectedItem);
         }

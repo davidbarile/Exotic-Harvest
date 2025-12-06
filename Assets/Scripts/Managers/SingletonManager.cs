@@ -16,6 +16,7 @@ using UnityEngine;
 [RequireComponent(typeof(NotificationManager))]
 public class SingletonManager : MonoBehaviour
 {
+    [SerializeField] private UIConfirmPanel confirmPanel;
     public void Init()
     {
         GameManager.IN = this.GetComponent<GameManager>();
@@ -32,5 +33,7 @@ public class SingletonManager : MonoBehaviour
         SaveManager.IN = this.GetComponent<SaveManager>();
         ShopManager.IN = this.GetComponent<ShopManager>();
         NotificationManager.IN = this.GetComponent<NotificationManager>();
+
+        UIConfirmPanel.IN = this.confirmPanel;
     }
 }

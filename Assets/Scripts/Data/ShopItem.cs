@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Represents an item that can be purchased in the shop
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class ShopItem
 {
     [Header("Item Identity")]
@@ -27,6 +28,10 @@ public class ShopItem
     public DecorationType decorationType; // For decoration items
     public ResourceType resourceType;     // For resource items
     public int resourceAmount = 1;        // Amount when purchasing resources
+
+    [Header("Visual")]
+    public Color backgroundColor = Color.white;
+    public bool showInShop = true;
     
     // Properties
     public bool CanPurchase => isUnlocked && (!isLimitedQuantity || currentPurchases < maxPurchases);

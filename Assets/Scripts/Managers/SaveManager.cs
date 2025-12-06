@@ -310,16 +310,31 @@ public class SaveManager : MonoBehaviour
         if (currentSaveData?.stats != null)
             currentSaveData.stats.decorationsPlaced++;
     }
-    
+
     public void RecordRareEvent(ResourceType eventType)
     {
         if (currentSaveData?.stats == null) return;
-        
+
         currentSaveData.stats.rareEventsWitnessed++;
-        
+
         if (eventType == ResourceType.UnicornBlessing)
             currentSaveData.stats.unicornEncounters++;
         else if (eventType == ResourceType.MermaidSong)
             currentSaveData.stats.mermaidEncounters++;
+    }
+    
+    public void HandeDeleteDataButtonPress()
+    {
+        UIConfirmPanel.IN.Show("Delete Save Data", "Are you sure you want to delete all save data?\nThis action cannot be undone.\nThis will also quit the game.", () =>
+        {
+            DeleteSave();
+
+#if UNITY_EDITOR
+            UnityEditor.AssetDatabase.Refresh();
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif  
+        });
     }
 }
