@@ -10,13 +10,15 @@ public class ShopManager : MonoBehaviour
     public static ShopManager IN;
     
     [Header("Shop Configuration")]
-    [SerializeField] private ShopItemConfig[] allShopItemDefinitions;
+    [SerializeField] private ShopDatabase shopDatabase;
     [SerializeField] private bool debugMode;
     
     private List<ShopItem> allShopItems = new();
     
     private Dictionary<string, ShopItem> shopItemsById;
     private Dictionary<EShopCategory, List<ShopItem>> itemsByCategory;
+    
+    public ShopDatabase Database => this.shopDatabase;
     
     // Events
     public static event Action<ShopItem> OnItemPurchased;
@@ -25,6 +27,17 @@ public class ShopManager : MonoBehaviour
     
     private void Awake()
     {
+        if (IN == null)
+        {
+            IN = this;
+        }
+        else if (IN != this)
+        {
+            Debug.LogWarning("Multiple ShopManager instances found. Destroying duplicate.");
+            Destroy(gameObject);
+            return;
+        }
+        
         InitializeShop();
     }
     
@@ -48,9 +61,9 @@ public class ShopManager : MonoBehaviour
     private void SetupDefaultItems()
     {
         // Create ShopItems from ScriptableObject definitions
-        if (this.allShopItemDefinitions != null)
+        if (this.shopDatabase != null && this.shopDatabase.AllShopItems != null)
         {
-            foreach (var definition in this.allShopItemDefinitions)
+            foreach (var definition in this.shopDatabase.AllShopItems)
             {
                 if (definition != null)
                 {
@@ -247,6 +260,30 @@ public class ShopManager : MonoBehaviour
     {
         shopItemsById.TryGetValue(id, out ShopItem item);
         return item;
+    }
+    
+    /// <summary>
+    /// Get shop item config from database by ID
+    /// </summary>
+    public ShopItemConfig GetItemConfigById(string id)
+    {
+        if (this.shopDatabase != null)
+        {
+            return this.shopDatabase.GetShopItem(id);
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// Get shop item configs by category from database
+    /// </summary>
+    public ShopItemConfig[] GetItemConfigsByCategory(EShopCategory category)
+    {
+        if (this.shopDatabase != null)
+        {
+            return this.shopDatabase.GetItemsByCategory(category);
+        }
+        return new ShopItemConfig[0];
     }
     
     public void RefreshShop()

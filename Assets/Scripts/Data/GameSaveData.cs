@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Complete save data structure for the game
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class GameSaveData
 {
     [Header("Save Metadata")]
@@ -18,13 +18,13 @@ public class GameSaveData
     public float experience = 0f;
     
     [Header("Resources")]
-    public ResourceData resources = new ResourceData();
+    public ResourceData resources = new();
     
     [Header("Decorations")]
-    public List<DecorationData> decorations = new List<DecorationData>();
+    public List<DecorationData> decorations = new();
     
     [Header("Settings")]
-    public GameSettingsData settings = new GameSettingsData();
+    public GameSettingsData settings = new();
     
     [Header("Time & Weather")]
     public float currentGameHour = 8f;
@@ -32,7 +32,7 @@ public class GameSaveData
     public float weatherIntensity = 0.5f;
     
     [Header("Statistics")]
-    public GameStatsData stats = new GameStatsData();
+    public GameStatsData stats = new();
     
     public GameSaveData()
     {

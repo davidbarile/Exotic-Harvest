@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class ResourceCost
 {
-    [SerializeField] private List<Resource> requiredResources = new List<Resource>();
+    [SerializeField] private List<Resource> requiredResources = new();
     
     public List<Resource> RequiredResources => requiredResources;
     
