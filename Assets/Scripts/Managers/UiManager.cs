@@ -21,9 +21,9 @@ public class UiManager : MonoBehaviour
         InputManager.OnSettingsPress += ToggleSettingsPanelVisibility;
         InputManager.OnShopPress += ToggleShopPanelVisibility;
         InputManager.OnInventoryPress += ToggleInventoryPanelVisibility;
-        shopPanel.SetVisible(false, true);
-        settingsPanel.SetVisible(true);
-        inventoryPanel.SetVisible(false);
+        this.shopPanel.SetVisible(false, true);
+        this.settingsPanel.SetVisible(true);
+        this.inventoryPanel.SetVisible(false);
     }
 
     private void OnDestroy()
@@ -41,46 +41,46 @@ public class UiManager : MonoBehaviour
     
     public void ToggleSettingsPanelVisibility()
     {
-        if (!settingsPanel)
+        if (!this.settingsPanel)
             return;
 
-        if (settingsPanel.IsShowing)
-            settingsPanel.Hide();
+        if (this.settingsPanel.IsShowing)
+            this.settingsPanel.Hide();
         else
         {
-            shopPanel.SetVisible(false);
-            settingsPanel.Show();
+            this.shopPanel.SetVisible(false);
+            this.settingsPanel.Show();
         }
     }
 
     public void ToggleShopPanelVisibility()
     {
-        if (!shopPanel)
+        if (!this.shopPanel)
             return;
 
-        if (shopPanel.IsShowing)
-            shopPanel.Hide();
+        if (this.shopPanel.IsShowing)
+            this.shopPanel.Hide();
         else
         {
-            settingsPanel.SetVisible(false);
-            shopPanel.Show();
+            this.settingsPanel.SetVisible(false);
+            this.shopPanel.Show();
         }
     }
 
     public void ToggleInventoryPanelVisibility()
     {
-        if (!inventoryPanel)
+        if (!this.inventoryPanel)
             return;
 
-        if (inventoryPanel.IsShowing)
-            inventoryPanel.Hide();
+        if (this.inventoryPanel.IsShowing)
+            this.inventoryPanel.Hide();
         else
-            inventoryPanel.Show();
+            this.inventoryPanel.Show();
     }
 
     public void SetDebugText(string text)
     {
-        if (debugText != null)
-            debugText.text = text;
+        if (this.debugText != null)
+            this.debugText.text = text;
     }
 }

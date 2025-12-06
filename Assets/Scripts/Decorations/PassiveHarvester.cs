@@ -55,13 +55,13 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     
     protected virtual bool CanGenerate()
     {
-        if (!isActive || IsFull)
+        if (!this.isActive || IsFull)
             return false;
             
-        if (Time.time - lastGenerationTime < generationInterval)
+        if (Time.time - this.lastGenerationTime < this.generationInterval)
             return false;
             
-        if (requiresSpecificConditions && !CheckGenerationConditions())
+        if (this.requiresSpecificConditions && !CheckGenerationConditions())
             return false;
             
         return true;
@@ -75,9 +75,9 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
         
         if (amountToGenerate > 0)
         {
-            int actualAmount = Mathf.Min(amountToGenerate, maxCapacity - currentAmount);
-            currentAmount += actualAmount;
-            lastGenerationTime = Time.time;
+            int actualAmount = Mathf.Min(amountToGenerate, this.maxCapacity - this.currentAmount);
+            this.currentAmount += actualAmount;
+            this.lastGenerationTime = Time.time;
             
             OnResourceGenerated?.Invoke(this, actualAmount);
             OnGenerated(actualAmount);
@@ -102,10 +102,10 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
         if (IsEmpty)
             return false;
             
-        if (ResourceManager.IN.AddResource(generatedResource, currentAmount))
+        if (ResourceManager.IN.AddResource(this.generatedResource, this.currentAmount))
         {
-            int collectedAmount = currentAmount;
-            currentAmount = 0;
+            int collectedAmount = this.currentAmount;
+            this.currentAmount = 0;
             OnResourceCollected?.Invoke(this, collectedAmount);
             OnCollected(collectedAmount);
             return true;
@@ -121,7 +121,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     
     public virtual void SetActive(bool active)
     {
-        isActive = active;
+        this.isActive = active;
     }
     
     // Mouse interaction for collection
@@ -136,17 +136,17 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     public override DecorationData GetSaveData()
     {
         var baseData = base.GetSaveData();
-        baseData.currentAmount = currentAmount;
-        baseData.lastGenerationTime = lastGenerationTime;
-        baseData.isActive = isActive;
+        baseData.currentAmount = this.currentAmount;
+        baseData.lastGenerationTime = this.lastGenerationTime;
+        baseData.isActive = this.isActive;
         return baseData;
     }
     
     public override void LoadSaveData(DecorationData data)
     {
         base.LoadSaveData(data);
-        currentAmount = data.currentAmount;
-        lastGenerationTime = data.lastGenerationTime;
-        isActive = data.isActive;
+        this.currentAmount = data.currentAmount;
+        this.lastGenerationTime = data.lastGenerationTime;
+        this.isActive = data.isActive;
     }
 }

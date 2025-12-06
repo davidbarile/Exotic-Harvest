@@ -28,30 +28,30 @@ public class Resource
     
     public ResourceDefinition GetDefinition()
     {
-        if (cachedDefinition == null && ResourceManager.IN?.Database != null)
+        if (this.cachedDefinition == null && ResourceManager.IN?.Database != null)
         {
-            cachedDefinition = ResourceManager.IN.Database.GetResource(type);
+            this.cachedDefinition = ResourceManager.IN.Database.GetResource(this.type);
         }
-        return cachedDefinition;
+        return this.cachedDefinition;
     }
     
     public void Add(int value)
     {
         var definition = GetDefinition();
         int maxAmount = definition?.maxStackSize ?? 999;
-        amount = Mathf.Min(amount + value, maxAmount);
+        this.amount = Mathf.Min(this.amount + value, maxAmount);
     }
     
     public bool CanSubtract(int value)
     {
-        return amount >= value;
+        return this.amount >= value;
     }
     
     public bool Subtract(int value)
     {
         if (CanSubtract(value))
         {
-            amount -= value;
+            this.amount -= value;
             return true;
         }
         return false;
@@ -59,8 +59,8 @@ public class Resource
     
     public Resource Copy()
     {
-        var copy = new Resource(type, amount);
-        copy.cachedDefinition = cachedDefinition;
+        var copy = new Resource(this.type, this.amount);
+        copy.cachedDefinition = this.cachedDefinition;
         return copy;
     }
     

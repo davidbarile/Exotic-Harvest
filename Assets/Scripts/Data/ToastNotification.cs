@@ -34,34 +34,34 @@ public class ToastNotification
     
     private void SetDefaultStyle()
     {
-        switch (type)
+        switch (this.type)
         {
             case NotificationType.Success:
-                backgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
-                textColor = Color.white;
+                this.backgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
+                this.textColor = Color.white;
                 break;
             case NotificationType.Error:
-                backgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
-                textColor = Color.white;
-                displayDuration = 5f; // Errors stay longer
+                this.backgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
+                this.textColor = Color.white;
+                this.displayDuration = 5f; // Errors stay longer
                 break;
             case NotificationType.Warning:
-                backgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
-                textColor = Color.white;
+                this.backgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
+                this.textColor = Color.white;
                 break;
             case NotificationType.ResourceGained:
-                backgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
-                textColor = Color.white;
-                displayDuration = 2f; // Quick for resource gains
+                this.backgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
+                this.textColor = Color.white;
+                this.displayDuration = 2f; // Quick for resource gains
                 break;
             case NotificationType.Achievement:
-                backgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
-                textColor = Color.white;
-                displayDuration = 4f; // Achievements stay longer
+                this.backgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
+                this.textColor = Color.white;
+                this.displayDuration = 4f; // Achievements stay longer
                 break;
             default:
-                backgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
-                textColor = Color.white;
+                this.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
+                this.textColor = Color.white;
                 break;
         }
     }

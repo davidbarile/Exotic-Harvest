@@ -18,8 +18,8 @@ public class ScreenManager : MonoBehaviour
 
     private void Start()
     {
-        maximizeButton.SetActive(false);
-        SwitchToMonitor(monitorIndex);
+        this.maximizeButton.SetActive(false);
+        SwitchToMonitor(this.monitorIndex);
 
         InputManager.OnEscapePress += HandleEscapeKeyPress;
         InputManager.OnTabPress += ToggleBackgroundVisibility;
@@ -49,11 +49,11 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleBackgroundVisibility()
     {
-        doesBgBlockClicks = !doesBgBlockClicks;
-        bgCanvasGroup.interactable = doesBgBlockClicks;
-        bgCanvasGroup.blocksRaycasts = doesBgBlockClicks;
+        this.doesBgBlockClicks = !this.doesBgBlockClicks;
+        this.bgCanvasGroup.interactable = this.doesBgBlockClicks;
+        this.bgCanvasGroup.blocksRaycasts = this.doesBgBlockClicks;
 
-        UiManager.IN.SetDebugText($"App Focus: {appHasFocus}\nBackground Click-thru: {!doesBgBlockClicks}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.doesBgBlockClicks}");
             
         // if (isBgShowing)
         // {
@@ -68,26 +68,26 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleMonitor()
     {
-        monitorIndex++;
+        this.monitorIndex++;
         int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
-        if (monitorIndex >= monitorCount)
+        if (this.monitorIndex >= monitorCount)
         {
-            monitorIndex = 0;
+            this.monitorIndex = 0;
         }
-        SwitchToMonitor(monitorIndex);
+        SwitchToMonitor(this.monitorIndex);
     }
     
     public void FadeInRoot()
     {
-        maximizeButton.SetActive(false);
+        this.maximizeButton.SetActive(false);
 
-        rootCanvasGroup.gameObject.SetActive(true);
+        this.rootCanvasGroup.gameObject.SetActive(true);
         
-        rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
         {
-            rootCanvasGroup.alpha = 1f;
-            rootCanvasGroup.interactable = true;
-            rootCanvasGroup.blocksRaycasts = true;
+            this.rootCanvasGroup.alpha = 1f;
+            this.rootCanvasGroup.interactable = true;
+            this.rootCanvasGroup.blocksRaycasts = true;
         });
     }
 
@@ -101,38 +101,38 @@ public class ScreenManager : MonoBehaviour
     
     public void FadeOutRoot()
     {            
-        maximizeButton.SetActive(true);
+        this.maximizeButton.SetActive(true);
 
-        rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
+        this.rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {
-            rootCanvasGroup.alpha = 0f;
-            rootCanvasGroup.interactable = false;
-            rootCanvasGroup.blocksRaycasts = false;
-            rootCanvasGroup.gameObject.SetActive(false);
+            this.rootCanvasGroup.alpha = 0f;
+            this.rootCanvasGroup.interactable = false;
+            this.rootCanvasGroup.blocksRaycasts = false;
+            this.rootCanvasGroup.gameObject.SetActive(false);
         });
     }
 
     private void FadeInBackground()
     {
-        doesBgBlockClicks = true;
+        this.doesBgBlockClicks = true;
         
-        bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
+        this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
-            bgCanvasGroup.alpha = 1f;
-            bgCanvasGroup.interactable = true;
-            bgCanvasGroup.blocksRaycasts = true;
+            this.bgCanvasGroup.alpha = 1f;
+            this.bgCanvasGroup.interactable = true;
+            this.bgCanvasGroup.blocksRaycasts = true;
         });
     }
 
     private void FadeOutBackground()
     {
-        doesBgBlockClicks = false;
+        this.doesBgBlockClicks = false;
 
-        bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
+        this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
-            bgCanvasGroup.alpha = 0f;
-            bgCanvasGroup.interactable = false;
-            bgCanvasGroup.blocksRaycasts = false;
+            this.bgCanvasGroup.alpha = 0f;
+            this.bgCanvasGroup.interactable = false;
+            this.bgCanvasGroup.blocksRaycasts = false;
         });
     }
     
@@ -179,8 +179,8 @@ public class ScreenManager : MonoBehaviour
 
     void OnApplicationFocus(bool hasFocus)
     {
-        appHasFocus = hasFocus;
-        UiManager.IN.SetDebugText($"App Focus: {appHasFocus}\nBackground Click-thru: {!doesBgBlockClicks}");
+        this.appHasFocus = hasFocus;
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.doesBgBlockClicks}");
     }
 
     void OnApplicationPause(bool pauseStatus)

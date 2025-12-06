@@ -68,10 +68,10 @@ public class UiShopPanel : UIPanelBase
     private void SetupCategoryTabs()
     {
         // Setup category tab buttons if they exist
-        for (int i = 0; i < categoryTabs.Length; i++)
+        for (int i = 0; i < this.categoryTabs.Length; i++)
         {
             int categoryIndex = i;
-            var tab = categoryTabs[i];
+            var tab = this.categoryTabs[i];
             if (tab != null)
             {
                 tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EShopCategory)categoryIndex); });
@@ -79,22 +79,22 @@ public class UiShopPanel : UIPanelBase
             }
         }
 
-        var selectedTab = categoryTabs[(int)currentCategory];
+        var selectedTab = this.categoryTabs[(int)this.currentCategory];
         selectedTab.isOn = true;
     }
     
     private void SetupEventListeners()
     {
-        if (purchaseButton != null)
+        if (this.purchaseButton != null)
         {
-            purchaseButton.onClick.AddListener(PurchaseSelectedItem);
+            this.purchaseButton.onClick.AddListener(PurchaseSelectedItem);
         }
     }
     
     public void SwitchCategory(EShopCategory category)
     {
-        currentCategory = category;
-        selectedItem = null;
+        this.currentCategory = category;
+        this.selectedItem = null;
         RefreshItemGrid();
         HideItemDetail();
     }

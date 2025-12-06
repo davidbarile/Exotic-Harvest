@@ -38,35 +38,35 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     
     private void HandleDragModeChanged(bool isDragMode)
     {
-        if (dragEnabledDisplay != null)
+        if (this.dragEnabledDisplay != null)
         {
-            dragEnabledDisplay.SetActive(isDragMode);
+            this.dragEnabledDisplay.SetActive(isDragMode);
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!DragManager.IsDragModeActivated && !isDraggingPermanent)
+        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
 
-        isDragging = true;
+        this.isDragging = true;
 
-        originalParent = targetRectTransform.parent;
-        originalSiblingIndex = targetRectTransform.GetSiblingIndex();
+        this.originalParent = this.targetRectTransform.parent;
+        this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
 
-        targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
+        this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             DragManager.IN.DragCanvas,
             eventData.position,
             eventData.pressEventCamera,
-            out originalLocalPointerPosition);
-        originalLocalPosition = targetRectTransform.localPosition;
-        originalWorldPosition = targetRectTransform.position;
+            out this.originalLocalPointerPosition);
+        this.originalLocalPosition = this.targetRectTransform.localPosition;
+        this.originalWorldPosition = this.targetRectTransform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDragging)
+        if (this.isDragging)
         {
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 DragManager.IN.DragCanvas,
@@ -74,22 +74,22 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 eventData.pressEventCamera,
                 out Vector2 localPointerPosition))
             {
-                Vector3 offsetToOriginal = localPointerPosition - originalLocalPointerPosition;
-                targetRectTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
+                Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
+                this.targetRectTransform.localPosition = this.originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
             }
 
-            if (!shouldDetectDropTargets)
+            if (!this.shouldDetectDropTargets)
                 return;
 
-            if(limitToParentTargetBounds && originalParent != null)
+            if(this.limitToParentTargetBounds && this.originalParent != null)
             {
-                if (originalParent.TryGetComponent(out UiDragTarget parentDragTarget))
+                if (this.originalParent.TryGetComponent(out UiDragTarget parentDragTarget))
                 {
-                    Vector3 clampedPosition = targetRectTransform.position;
+                    Vector3 clampedPosition = this.targetRectTransform.position;
                     if (parentDragTarget.BoundsCollider != null)
                     {
                         // Clamp position using BoundsCollider by raycasting from the center of the dragged object
-                        Vector3 dragCenter = targetRectTransform.position;
+                        Vector3 dragCenter = this.targetRectTransform.position;
 
                         // Check if the point is inside the 2D collider
                         if (!parentDragTarget.BoundsCollider.OverlapPoint(dragCenter))
@@ -101,7 +101,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     }
                     else
                     {
-                        RectTransform parentRect = originalParent.GetComponent<RectTransform>();
+                        RectTransform parentRect = this.originalParent.GetComponent<RectTransform>();
                         if (parentRect != null)
                         {
                             Vector3[] worldCorners = new Vector3[4];
@@ -109,7 +109,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                             Vector3 min = worldCorners[0];
                             Vector3 max = worldCorners[2];
 
-                            clampedPosition = targetRectTransform.position;
+                            clampedPosition = this.targetRectTransform.position;
                             clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
                             clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
                         }
@@ -126,7 +126,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                         }
                     }
                     
-                    targetRectTransform.position = clampedPosition;
+                    this.targetRectTransform.position = clampedPosition;
                 }   
             }
 
@@ -136,14 +136,14 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
                 if (dragTarget != null)
                 {
-                    currentHighlightedTargets.Add(dragTarget);
+                    this.currentHighlightedTargets.Add(dragTarget);
                     dragTarget.SetHighlight(true);
                 }
             }
             
             // Clear highlights from targets no longer under the mouse
             List<UiDragTarget> targetsToClear = new();
-            foreach (var highlightedTarget in currentHighlightedTargets)
+            foreach (var highlightedTarget in this.currentHighlightedTargets)
             {
                 if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
                 {
@@ -154,40 +154,40 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
             foreach (var targetToClear in targetsToClear)
             {
-                currentHighlightedTargets.Remove(targetToClear);
+                this.currentHighlightedTargets.Remove(targetToClear);
             }
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        isDragging = false;
+        this.isDragging = false;
 
-        if(shouldDetectDropTargets)
+        if(this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
                 if (dragTarget != null)
                 {
-                    dragTarget.SetAsParent(targetRectTransform);
+                    dragTarget.SetAsParent(this.targetRectTransform);
                     dragTarget.SetHighlight(false);
                     return;
                 }
             }
         }
 
-        if (originalParent != null)
+        if (this.originalParent != null)
         {
-            var originalParent = shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-            targetRectTransform.SetParent(originalParent, true);
+            var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+            this.targetRectTransform.SetParent(originalParent, true);
 
-            if (shouldReturnToOriginalParent)
-                targetRectTransform.SetSiblingIndex(originalSiblingIndex);
+            if (this.shouldReturnToOriginalParent)
+                this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
-            if (onlyDragToTargets)
+            if (this.onlyDragToTargets)
             {
-                transform.DOMove(originalWorldPosition, 0.2f);
+                transform.DOMove(this.originalWorldPosition, 0.2f);
             }
         }
     }

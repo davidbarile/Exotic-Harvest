@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        singletonManager.Init();
+        this.singletonManager.Init();
         DontDestroyOnLoad(gameObject);
         Application.runInBackground = true;
         Application.targetFrameRate = 60;

@@ -35,14 +35,14 @@ public abstract class DecorationBase : MonoBehaviour
     
     protected virtual void Start()
     {
-        if (!isInitialized)
+        if (!this.isInitialized)
             Initialize();
     }
     
     public virtual void Initialize()
     {
-        defaultPosition = transform.position;
-        isInitialized = true;
+        this.defaultPosition = transform.position;
+        this.isInitialized = true;
         OnPlaced();
         OnDecorationPlaced?.Invoke(this);
     }
@@ -66,7 +66,7 @@ public abstract class DecorationBase : MonoBehaviour
     
     public virtual void SetLocked(bool locked)
     {
-        isLocked = locked;
+        this.isLocked = locked;
         
         if (locked)
         {
@@ -108,7 +108,7 @@ public abstract class DecorationBase : MonoBehaviour
     public virtual void OnInteract()
     {
         // Override in derived classes for specific interaction behavior
-        Debug.Log($"Interacted with decoration: {decorationName}");
+        Debug.Log($"Interacted with decoration: {this.decorationName}");
     }
     
     /// <summary>
@@ -118,7 +118,7 @@ public abstract class DecorationBase : MonoBehaviour
     {
         // Update any position-dependent logic
         // Save position changes will be handled by the decoration manager
-        Debug.Log($"Decoration {decorationName} moved to UI position: {newUIPosition}");
+        Debug.Log($"Decoration {this.decorationName} moved to UI position: {newUIPosition}");
     }
     
     // Drag handling (works with existing UiDraggable if needed)
@@ -143,15 +143,15 @@ public abstract class DecorationBase : MonoBehaviour
     {
         return new DecorationData
         {
-            type = decorationType,
+            type = this.decorationType,
             position = transform.position,
-            isLocked = isLocked
+            isLocked = this.isLocked
         };
     }
     
     public virtual void LoadSaveData(DecorationData data)
     {
         transform.position = data.position;
-        isLocked = data.isLocked;
+        this.isLocked = data.isLocked;
     }
 }

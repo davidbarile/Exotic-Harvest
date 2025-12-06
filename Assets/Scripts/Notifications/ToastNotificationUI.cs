@@ -30,24 +30,24 @@ public class ToastNotificationUI : MonoBehaviour
     
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        this.rectTransform = GetComponent<RectTransform>();
+        this.canvasGroup = GetComponent<CanvasGroup>();
         
-        if (canvasGroup == null)
+        if (this.canvasGroup == null)
         {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            this.canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
         
-        if (dismissButton != null)
+        if (this.dismissButton != null)
         {
-            dismissButton.onClick.AddListener(Dismiss);
+            this.dismissButton.onClick.AddListener(Dismiss);
         }
     }
     
     public void Initialize(ToastNotification notification, System.Action<ToastNotificationUI> onDismissCallback)
     {
-        notificationData = notification;
-        onDismissed = onDismissCallback;
+        this.notificationData = notification;
+        this.onDismissed = onDismissCallback;
         
         SetupVisuals();
         StartShowAnimation();
@@ -61,42 +61,42 @@ public class ToastNotificationUI : MonoBehaviour
     private void SetupVisuals()
     {
         // Set background color
-        if (backgroundImage != null)
+        if (this.backgroundImage != null)
         {
-            backgroundImage.color = notificationData.backgroundColor;
+            this.backgroundImage.color = this.notificationData.backgroundColor;
         }
         
         // Set title
-        if (titleText != null)
+        if (this.titleText != null)
         {
-            titleText.text = notificationData.title;
-            titleText.color = notificationData.textColor;
-            titleText.gameObject.SetActive(!string.IsNullOrEmpty(notificationData.title));
+            this.titleText.text = this.notificationData.title;
+            this.titleText.color = this.notificationData.textColor;
+            this.titleText.gameObject.SetActive(!string.IsNullOrEmpty(this.notificationData.title));
         }
         
         // Set message
-        if (messageText != null)
+        if (this.messageText != null)
         {
-            messageText.text = notificationData.message;
-            messageText.color = notificationData.textColor;
+            this.messageText.text = this.notificationData.message;
+            this.messageText.color = this.notificationData.textColor;
         }
         
         // Set icon
-        if (iconImage != null)
+        if (this.iconImage != null)
         {
-            if (notificationData.icon != null)
+            if (this.notificationData.icon != null)
             {
-                iconImage.sprite = notificationData.icon;
-                iconImage.gameObject.SetActive(true);
+                this.iconImage.sprite = this.notificationData.icon;
+                this.iconImage.gameObject.SetActive(true);
             }
             else
             {
-                iconImage.gameObject.SetActive(false);
+                this.iconImage.gameObject.SetActive(false);
             }
         }
         
         // Set dismiss button visibility
-        if (dismissButton != null)
+        if (this.dismissButton != null)
         {
             dismissButton.gameObject.SetActive(!notificationData.autoDismiss);
         }
@@ -111,10 +111,10 @@ public class ToastNotificationUI : MonoBehaviour
         // Create animation sequence
         Sequence showSequence = DOTween.Sequence();
         
-        showSequence.Append(animRoot.DOAnchorPos(Vector2.zero, slideInDuration)
-            .SetEase(slideInEase));
+        showSequence.Append(this.animRoot.DOAnchorPos(Vector2.zero, this.slideInDuration)
+            .SetEase(this.slideInEase));
         
-        animationTween = showSequence;
+        this.animationTween = showSequence;
     }
 
     private void AutoDismiss()
@@ -134,14 +134,14 @@ public class ToastNotificationUI : MonoBehaviour
     {
         CancelInvoke(nameof(AutoDismiss));
 
-        if (animationTween != null)
+        if (this.animationTween != null)
         {
-            animationTween.Kill();
+            this.animationTween.Kill();
         }
         
         if(isImmediate)
         {
-            onDismissed?.Invoke(this);
+            this.onDismissed?.Invoke(this);
             Destroy(gameObject);
             return;
         }
@@ -149,29 +149,29 @@ public class ToastNotificationUI : MonoBehaviour
         // Start hide animation
         Sequence hideSequence = DOTween.Sequence();
         
-        hideSequence.Append(animRoot.DOAnchorPos(animRoot.anchoredPosition + new Vector2(animRoot.rect.width * .5f, 0f), slideOutDuration)
-            .SetEase(slideOutEase));
+        hideSequence.Append(this.animRoot.DOAnchorPos(this.animRoot.anchoredPosition + new Vector2(this.animRoot.rect.width * .5f, 0f), this.slideOutDuration)
+            .SetEase(this.slideOutEase));
 
         hideSequence.OnComplete(() => {
-            onDismissed?.Invoke(this);
+            this.onDismissed?.Invoke(this);
             Destroy(gameObject);
         });
         
-        animationTween = hideSequence;
+        this.animationTween = hideSequence;
     }
     
     private void OnDestroy()
     {
-        if (animationTween != null)
+        if (this.animationTween != null)
         {
-            animationTween.Kill();
+            this.animationTween.Kill();
         }
     }
     
     // Allow clicking anywhere on the notification to dismiss (optional)
     public void OnPointerClick()
     {
-        if (!notificationData.autoDismiss)
+        if (!this.notificationData.autoDismiss)
         {
             Dismiss();
         }

@@ -38,8 +38,8 @@ public class SaveManager : MonoBehaviour
         saveFolder = "Assets/PlayerData";
 #endif
 
-        savePath = Path.Combine(saveFolder, saveFileName);
-        sessionStartTime = Time.time;
+        this.savePath = Path.Combine(saveFolder, this.saveFileName);
+        this.sessionStartTime = Time.time;
     }
     
     private void Start()
@@ -57,12 +57,12 @@ public class SaveManager : MonoBehaviour
     
     private void Update()
     {
-        if (autoSaveEnabled)
+        if (this.autoSaveEnabled)
         {
-            autoSaveTimer += Time.deltaTime;
-            if (autoSaveTimer >= autoSaveInterval)
+            this.autoSaveTimer += Time.deltaTime;
+            if (this.autoSaveTimer >= this.autoSaveInterval)
             {
-                autoSaveTimer = 0f;
+                this.autoSaveTimer = 0f;
                 SaveGame();
             }
         }
@@ -70,7 +70,7 @@ public class SaveManager : MonoBehaviour
     
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (pauseStatus && saveOnApplicationPause)
+        if (pauseStatus && this.saveOnApplicationPause)
         {
             SaveGame();
         }
@@ -78,7 +78,7 @@ public class SaveManager : MonoBehaviour
     
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (!hasFocus && saveOnApplicationPause)
+        if (!hasFocus && this.saveOnApplicationPause)
         {
             SaveGame();
         }
@@ -86,7 +86,7 @@ public class SaveManager : MonoBehaviour
     
     public void CreateNewSave()
     {
-        currentSaveData = new GameSaveData();
+        this.currentSaveData = new GameSaveData();
         ApplySaveDataToGame();
     }
     
@@ -98,13 +98,13 @@ public class SaveManager : MonoBehaviour
             CollectSaveDataFromGame();
 
             // Serialize to JSON
-            string json = JsonUtility.ToJson(currentSaveData, true);
+            string json = JsonUtility.ToJson(this.currentSaveData, true);
 
             // Write to file
-            File.WriteAllText(savePath, json);
+            File.WriteAllText(this.savePath, json);
 
             OnGameSaved?.Invoke();
-            Debug.Log($"Game saved successfully to {savePath}");
+            Debug.Log($"Game saved successfully to {this.savePath}");
 
 #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
@@ -132,12 +132,12 @@ public class SaveManager : MonoBehaviour
             }
             
             // Read file
-            string json = File.ReadAllText(savePath);
+            string json = File.ReadAllText(this.savePath);
             
             // Deserialize
-            currentSaveData = JsonUtility.FromJson<GameSaveData>(json);
+            this.currentSaveData = JsonUtility.FromJson<GameSaveData>(json);
             
-            if (currentSaveData == null)
+            if (this.currentSaveData == null)
             {
                 throw new Exception("Failed to deserialize save data");
             }
@@ -163,29 +163,29 @@ public class SaveManager : MonoBehaviour
     
     private void CollectSaveDataFromGame()
     {
-        if (currentSaveData == null)
-            currentSaveData = new GameSaveData();
+        if (this.currentSaveData == null)
+            this.currentSaveData = new GameSaveData();
             
         // Update metadata
-        currentSaveData.saveTime = DateTime.Now;
-        currentSaveData.totalPlayTime += Time.time - sessionStartTime;
-        sessionStartTime = Time.time;
+        this.currentSaveData.saveTime = DateTime.Now;
+        this.currentSaveData.totalPlayTime += Time.time - this.sessionStartTime;
+        this.sessionStartTime = Time.time;
         
         // Resources
         if (ResourceManager.IN != null)
-            currentSaveData.resources = ResourceManager.IN.GetSaveData();
+            this.currentSaveData.resources = ResourceManager.IN.GetSaveData();
         
         // Decorations
         if (DecorationManager.IN != null)
-            currentSaveData.decorations = DecorationManager.IN.GetSaveData();
+            this.currentSaveData.decorations = DecorationManager.IN.GetSaveData();
         
         // Time & Weather
         if (TimeManager.IN != null)
-            currentSaveData.currentGameHour = TimeManager.IN.CurrentHour;
+            this.currentSaveData.currentGameHour = TimeManager.IN.CurrentHour;
         if (WeatherManager.IN != null)
         {
-            currentSaveData.currentWeather = WeatherManager.IN.CurrentWeather;
-            currentSaveData.weatherIntensity = WeatherManager.IN.WeatherIntensity;
+            this.currentSaveData.currentWeather = WeatherManager.IN.CurrentWeather;
+            this.currentSaveData.weatherIntensity = WeatherManager.IN.WeatherIntensity;
         }
         
         // Settings (window position, etc.)

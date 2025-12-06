@@ -35,36 +35,36 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     protected virtual void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        parentCanvas = GetComponentInParent<Canvas>();
+        this.rectTransform = GetComponent<RectTransform>();
+        this.parentCanvas = GetComponentInParent<Canvas>();
         
-        if (collectableImage == null)
-            collectableImage = GetComponent<Image>();
+        if (this.collectableImage == null)
+            this.collectableImage = GetComponent<Image>();
             
-        spawnTime = Time.time;
+        this.spawnTime = Time.time;
         OnCollectableSpawned?.Invoke(this);
         
-        if (autoDestroy)
+        if (this.autoDestroy)
         {
-            Destroy(gameObject, lifetime);
+            Destroy(gameObject, this.lifetime);
         }
     }
     
     protected virtual void OnDestroy()
     {
-        if (!isCollected)
+        if (!this.isCollected)
             OnCollectableExpired?.Invoke(this);
     }
     
     public virtual bool CanBeCollected()
     {
-        return !isCollected && gameObject.activeInHierarchy;
+        return !this.isCollected && gameObject.activeInHierarchy;
     }
 
     // UI Event System handlers
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (collectionMethod == CollectionMethod.Click)
+        if (this.collectionMethod == CollectionMethod.Click)
         {
             OnClick();
         }
@@ -72,7 +72,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        if (collectionMethod == CollectionMethod.Hover)
+        if (this.collectionMethod == CollectionMethod.Hover)
         {
             Collect();
         }
@@ -80,16 +80,16 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        if (collectionMethod == CollectionMethod.Drag)
+        if (this.collectionMethod == CollectionMethod.Drag)
         {
-            isDragging = true;
+            this.isDragging = true;
             OnDragStart();
         }
     }
     
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (collectionMethod == CollectionMethod.Drag && isDragging)
+        if (this.collectionMethod == CollectionMethod.Drag && this.isDragging)
         {
             OnDragOver();
         }
@@ -97,9 +97,9 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        if (collectionMethod == CollectionMethod.Drag && isDragging)
+        if (this.collectionMethod == CollectionMethod.Drag && this.isDragging)
         {
-            isDragging = false;
+            this.isDragging = false;
             OnDragEnd();
         }
     }
@@ -126,10 +126,10 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (!CanBeCollected())
             return;
             
-        isCollected = true;
+        this.isCollected = true;
         
         // Try to add to inventory
-        if (ResourceManager.IN.AddResource(resourceType, amount))
+        if (ResourceManager.IN.AddResource(this.resourceType, this.amount))
         {
             OnCollected();
             OnCollectableCollected?.Invoke(this);
@@ -137,7 +137,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         else
         {
             // Inventory full - don't collect
-            isCollected = false;
+            this.isCollected = false;
             return;
         }
     }
@@ -151,13 +151,13 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     // Additional collection methods for future use
     public virtual void OnSwipe()
     {
-        if (collectionMethod == CollectionMethod.Swipe)
+        if (this.collectionMethod == CollectionMethod.Swipe)
             Collect();
     }
     
     public virtual void OnHold()
     {
-        if (collectionMethod == CollectionMethod.Hold)
+        if (this.collectionMethod == CollectionMethod.Hold)
             Collect();
     }
 }

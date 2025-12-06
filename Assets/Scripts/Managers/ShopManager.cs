@@ -35,22 +35,22 @@ public class ShopManager : MonoBehaviour
     
     private void InitializeShop()
     {
-        shopItemsById = new Dictionary<string, ShopItem>();
-        itemsByCategory = new Dictionary<EShopCategory, List<ShopItem>>();
+        this.shopItemsById = new Dictionary<string, ShopItem>();
+        this.itemsByCategory = new Dictionary<EShopCategory, List<ShopItem>>();
         
         // Initialize category lists
         foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
-            itemsByCategory[category] = new List<ShopItem>();
+            this.itemsByCategory[category] = new List<ShopItem>();
         }
     }
     
     private void SetupDefaultItems()
     {
         // Create ShopItems from ScriptableObject definitions
-        if (allShopItemDefinitions != null)
+        if (this.allShopItemDefinitions != null)
         {
-            foreach (var definition in allShopItemDefinitions)
+            foreach (var definition in this.allShopItemDefinitions)
             {
                 if (definition != null)
                 {

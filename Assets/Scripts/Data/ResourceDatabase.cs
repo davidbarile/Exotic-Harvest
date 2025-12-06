@@ -28,25 +28,25 @@ public class ResourceDatabase : ScriptableObject
     
     private void BuildLookupTables()
     {
-        if (allResources == null) return;
+        if (this.allResources == null) return;
         
-        resourceLookup = new Dictionary<ResourceType, ResourceDefinition>();
-        resourceByIdLookup = new Dictionary<string, ResourceDefinition>();
+        this.resourceLookup = new Dictionary<ResourceType, ResourceDefinition>();
+        this.resourceByIdLookup = new Dictionary<string, ResourceDefinition>();
         
-        foreach (var resource in allResources)
+        foreach (var resource in this.allResources)
         {
             if (resource != null)
             {
-                resourceLookup[resource.resourceType] = resource;
-                resourceByIdLookup[resource.ID] = resource;
+                this.resourceLookup[resource.resourceType] = resource;
+                this.resourceByIdLookup[resource.ID] = resource;
             }
         }
     }
     
     public ResourceDefinition GetResource(ResourceType type)
     {
-        if (resourceLookup == null) BuildLookupTables();
-        resourceLookup.TryGetValue(type, out ResourceDefinition resource);
+        if (this.resourceLookup == null) BuildLookupTables();
+        this.resourceLookup.TryGetValue(type, out ResourceDefinition resource);
         return resource;
     }
     
