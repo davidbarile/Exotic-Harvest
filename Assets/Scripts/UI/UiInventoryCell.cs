@@ -4,7 +4,7 @@ using TMPro;
 
 public class UiInventoryCell : MonoBehaviour
 {
-    public Transform Container => container;
+    public Transform Container => this.container;
     [SerializeField] private Transform container;
     [SerializeField] private GameObject selectedOutline;
 
@@ -18,9 +18,9 @@ public class UiInventoryCell : MonoBehaviour
     
     public void SetSelected(bool selected)
     {
-        if (selectedOutline != null)
+        if (this.selectedOutline != null)
         {
-            selectedOutline.SetActive(selected);
+            this.selectedOutline.SetActive(selected);
         }
     }
 }

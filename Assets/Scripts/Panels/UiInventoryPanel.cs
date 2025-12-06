@@ -75,7 +75,7 @@ public class UiInventoryPanel : UIPanelBase
             }
         }
 
-        var selectedTab = categoryTabs[(int)currentCategory];
+        var selectedTab = this.categoryTabs[(int)this.currentCategory];
         selectedTab.isOn = true;
     }
     
@@ -86,8 +86,8 @@ public class UiInventoryPanel : UIPanelBase
 
     public void SwitchCategory(EShopCategory category)
     {
-        currentCategory = category;
-        selectedItem = null;
+        this.currentCategory = category;
+        this.selectedItem = null;
         RefreshItemGrid();
         HideItemDetail();
     }
@@ -101,12 +101,12 @@ public class UiInventoryPanel : UIPanelBase
     private void RefreshItemGrid()
     {
         // Clear existing items
-        foreach (var item in currentItemDisplays)
+        foreach (var item in this.currentItemDisplays)
         {
             if (item != null)
                 Destroy(item);
         }
-        currentItemDisplays.Clear();
+        this.currentItemDisplays.Clear();
             
         // Get items for current category
         // var items = InventoryManager.IN.GetItemsByCategory(currentCategory);
@@ -121,8 +121,8 @@ public class UiInventoryPanel : UIPanelBase
     
     private void CreateItemDisplay(ShopItem item)
     {            
-        var invCellItem = Instantiate(inventoryCellPrefab, itemsGridParent);
-        currentItemDisplays.Add(invCellItem.gameObject);
+        var invCellItem = Instantiate(this.inventoryCellPrefab, this.itemsGridParent);
+        this.currentItemDisplays.Add(invCellItem.gameObject);
         
         // Setup item display (this would be expanded with actual UI components)
         Button itemButton = invCellItem.GetComponent<Button>();
@@ -136,38 +136,38 @@ public class UiInventoryPanel : UIPanelBase
     
     private void SelectItem(ShopItem item)
     {
-        selectedItem = item;
+        this.selectedItem = item;
         ShowItemDetail();
     }
     
     private void ShowItemDetail()
     {
-        if (itemDetailPanel != null)
-            itemDetailPanel.SetActive(true);
+        if (this.itemDetailPanel != null)
+            this.itemDetailPanel.SetActive(true);
             
         RefreshItemDetail();
     }
     
     private void HideItemDetail()
     {
-        if (itemDetailPanel != null)
-            itemDetailPanel.SetActive(false);
+        if (this.itemDetailPanel != null)
+            this.itemDetailPanel.SetActive(false);
     }
 
     private void RefreshItemDetail()
     {
-        if (selectedItem == null)
+        if (this.selectedItem == null)
             return;
 
         // Update item info
-        if (itemNameText != null)
-            itemNameText.text = selectedItem.displayName;
+        if (this.itemNameText != null)
+            this.itemNameText.text = this.selectedItem.displayName;
 
-        if (itemDescriptionText != null)
-            itemDescriptionText.text = selectedItem.description;
+        if (this.itemDescriptionText != null)
+            this.itemDescriptionText.text = this.selectedItem.description;
 
-        if (itemIcon != null && selectedItem.icon != null)
-            itemIcon.sprite = selectedItem.icon;
+        if (this.itemIcon != null && this.selectedItem.icon != null)
+            this.itemIcon.sprite = this.selectedItem.icon;
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)

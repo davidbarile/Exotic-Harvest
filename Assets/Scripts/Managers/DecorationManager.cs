@@ -22,7 +22,7 @@ public class DecorationManager : MonoBehaviour
     [SerializeField] private bool useGridPlacement = true;
     
     private Dictionary<DecorationType, GameObject> decorationPrefabs;
-    private List<DecorationBase> placedDecorations = new List<DecorationBase>();
+    private List<DecorationBase> placedDecorations = new();
     
     // Events
     public static event Action<DecorationBase> OnDecorationAdded;
@@ -54,7 +54,7 @@ public class DecorationManager : MonoBehaviour
     
     private void InitializePrefabs()
     {
-        decorationPrefabs = new Dictionary<DecorationType, GameObject>();
+        this.decorationPrefabs = new();
         
         if (bucketPrefab != null)
             decorationPrefabs[DecorationType.Bucket] = bucketPrefab;
@@ -166,12 +166,12 @@ public class DecorationManager : MonoBehaviour
     
     public List<DecorationBase> GetAllDecorations()
     {
-        return new List<DecorationBase>(placedDecorations);
+        return new(this.placedDecorations);
     }
     
     public List<T> GetDecorationsOfType<T>() where T : DecorationBase
     {
-        List<T> result = new List<T>();
+        List<T> result = new();
         foreach (var decoration in placedDecorations)
         {
             if (decoration is T typed)
@@ -213,7 +213,7 @@ public class DecorationManager : MonoBehaviour
     // For save system
     public List<DecorationData> GetSaveData()
     {
-        List<DecorationData> saveData = new List<DecorationData>();
+        List<DecorationData> saveData = new();
         foreach (var decoration in placedDecorations)
         {
             if (decoration != null)

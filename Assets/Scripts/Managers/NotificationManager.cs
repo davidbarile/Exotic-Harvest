@@ -190,7 +190,7 @@ public class NotificationManager : MonoBehaviour
     private void OnNotificationDismissedCallback(ToastNotificationUI notification)
     {
         // Remove from active notifications (it might not be the first one if manually dismissed)
-        var notificationsList = new List<ToastNotificationUI>(activeNotifications);
+        var notificationsList = new List<ToastNotificationUI>(this.activeNotifications);
         notificationsList.Remove(notification);
         
         activeNotifications.Clear();

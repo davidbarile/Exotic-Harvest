@@ -26,10 +26,10 @@ public class Bucket : PassiveHarvester
         requiresSpecificConditions = true;
         
         // Initialize UI components
-        if (bucketImage == null)
-            bucketImage = GetComponent<Image>();
-        if (waterFillImage == null)
-            waterFillImage = transform.Find("WaterFill")?.GetComponent<Image>();
+        if (this.bucketImage == null)
+            this.bucketImage = GetComponent<Image>();
+        if (this.waterFillImage == null)
+            this.waterFillImage = transform.Find("WaterFill")?.GetComponent<Image>();
             
         base.Start();
         UpdateWaterVisual();
@@ -66,13 +66,13 @@ public class Bucket : PassiveHarvester
     
     private void UpdateWaterVisual()
     {
-        if (waterFillImage == null)
+        if (this.waterFillImage == null)
             return;
             
-        targetFillAmount = CapacityPercent;
+        this.targetFillAmount = CapacityPercent;
         
         // Smooth fill animation
-        waterFillImage.DOFillAmount(targetFillAmount, fillAnimationDuration)
+        this.waterFillImage.DOFillAmount(this.targetFillAmount, this.fillAnimationDuration)
             .SetEase(Ease.OutQuad);
     }
     

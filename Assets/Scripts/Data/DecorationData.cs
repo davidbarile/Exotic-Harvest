@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Serializable data for saving/loading decorations
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class DecorationData
 {
     public DecorationType type;

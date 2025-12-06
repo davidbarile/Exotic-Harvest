@@ -31,20 +31,20 @@ public class ShopDatabase : ScriptableObject
     {
         if (this.allShopItems == null) return;
         
-        this.itemLookup = new Dictionary<string, ShopItemConfig>();
-        this.itemsByCategory = new Dictionary<EShopCategory, List<ShopItemConfig>>();
-        this.itemsByType = new Dictionary<EItemType, List<ShopItemConfig>>();
+        this.itemLookup = new();
+        this.itemsByCategory = new();
+        this.itemsByType = new();
         
         // Initialize category lists
         foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
-            this.itemsByCategory[category] = new List<ShopItemConfig>();
+            this.itemsByCategory[category] = new();
         }
         
         // Initialize type lists  
         foreach (EItemType type in System.Enum.GetValues(typeof(EItemType)))
         {
-            this.itemsByType[type] = new List<ShopItemConfig>();
+            this.itemsByType[type] = new();
         }
         
         foreach (var item in this.allShopItems)

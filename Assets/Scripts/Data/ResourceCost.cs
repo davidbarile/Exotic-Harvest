@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Represents the cost of an item in multiple resources (Catan-style)
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class ResourceCost
 {
     [SerializeField] private List<Resource> requiredResources = new();
@@ -13,22 +14,22 @@ public class ResourceCost
     
     public ResourceCost()
     {
-        requiredResources = new List<Resource>();
+        requiredResources = new();
     }
     
     public ResourceCost(ResourceType type, int amount)
     {
-        requiredResources = new List<Resource> { new Resource(type, amount) };
+        requiredResources = new() { new Resource(type, amount) };
     }
     
     public ResourceCost(ResourceDefinition definition, int amount)
     {
-        requiredResources = new List<Resource> { new Resource(definition, amount) };
+        requiredResources = new() { new Resource(definition, amount) };
     }
     
     public ResourceCost(params Resource[] resources)
     {
-        requiredResources = new List<Resource>(resources);
+        requiredResources = new(resources);
     }
     
     public void AddCost(ResourceType type, int amount)

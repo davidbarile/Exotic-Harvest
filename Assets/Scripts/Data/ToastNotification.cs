@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Data structure for toast notifications
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class ToastNotification
 {
     [Header("Notification Content")]

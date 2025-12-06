@@ -30,8 +30,8 @@ public class ResourceDatabase : ScriptableObject
     {
         if (this.allResources == null) return;
         
-        this.resourceLookup = new Dictionary<ResourceType, ResourceDefinition>();
-        this.resourceByIdLookup = new Dictionary<string, ResourceDefinition>();
+        this.resourceLookup = new();
+        this.resourceByIdLookup = new();
         
         foreach (var resource in this.allResources)
         {

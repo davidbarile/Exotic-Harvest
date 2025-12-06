@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Represents a resource with type and quantity (runtime data)
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class Resource
 {
     public ResourceType type;

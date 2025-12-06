@@ -13,7 +13,7 @@ public class ResourceDisplayManager : MonoBehaviour
     [SerializeField] private ResourceCategory[] categoriesToShow; // Which categories to display
     [SerializeField] private bool showOnlyOwnedResources = true;
     
-    private Dictionary<ResourceType, ResourceDisplayUI> activeDisplays = new Dictionary<ResourceType, ResourceDisplayUI>();
+    private Dictionary<ResourceType, ResourceDisplayUI> activeDisplays = new();
     
     private void Start()
     {

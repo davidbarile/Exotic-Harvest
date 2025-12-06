@@ -27,7 +27,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Raindrop Settings")]
     [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
     
-    private List<Collectable> activeCollectables = new List<Collectable>();
+    private List<Collectable> activeCollectables = new();
     private float secondTimer = 0f;
     
     // Events
@@ -219,6 +219,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     public List<Collectable> GetActiveCollectables()
     {
-        return new List<Collectable>(activeCollectables);
+        return new(this.activeCollectables);
     }
 }

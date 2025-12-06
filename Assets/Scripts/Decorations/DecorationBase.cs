@@ -20,11 +20,11 @@ public abstract class DecorationBase : MonoBehaviour
     protected bool isInitialized = false;
     
     // Properties
-    public DecorationType Type => decorationType;
-    public string Name => decorationName;
-    public bool IsDraggable => isDraggable && !isLocked;
-    public bool IsLocked => isLocked;
-    public ResourceCost PurchaseCost => purchaseCost;
+    public DecorationType Type => this.decorationType;
+    public string Name => this.decorationName;
+    public bool IsDraggable => this.isDraggable && !this.isLocked;
+    public bool IsLocked => this.isLocked;
+    public ResourceCost PurchaseCost => this.purchaseCost;
     
     // Events
     public static event Action<DecorationBase> OnDecorationPlaced;

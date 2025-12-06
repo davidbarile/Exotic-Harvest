@@ -17,7 +17,7 @@ public class ResourceManager : MonoBehaviour
     
     private Dictionary<ResourceType, Resource> inventory = new();
     
-    public ResourceDatabase Database => resourceDatabase;
+    public ResourceDatabase Database => this.resourceDatabase;
     
     // Events for UI updates
     public static event Action<ResourceType, int> OnResourceChanged;
@@ -90,7 +90,7 @@ public class ResourceManager : MonoBehaviour
     
     public Dictionary<ResourceType, Resource> GetAllResources()
     {
-        return new Dictionary<ResourceType, Resource>(this.inventory);
+        return new(this.inventory);
     }
     
     // For save system

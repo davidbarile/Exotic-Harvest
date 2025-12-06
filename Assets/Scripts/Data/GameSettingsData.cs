@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Player settings and preferences
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class GameSettingsData
 {
     [Header("Window Settings")]

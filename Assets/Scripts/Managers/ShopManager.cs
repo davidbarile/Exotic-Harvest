@@ -48,13 +48,13 @@ public class ShopManager : MonoBehaviour
     
     private void InitializeShop()
     {
-        this.shopItemsById = new Dictionary<string, ShopItem>();
-        this.itemsByCategory = new Dictionary<EShopCategory, List<ShopItem>>();
+        this.shopItemsById = new();
+        this.itemsByCategory = new();
         
         // Initialize category lists
         foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
-            this.itemsByCategory[category] = new List<ShopItem>();
+            this.itemsByCategory[category] = new();
         }
     }
     
@@ -245,9 +245,9 @@ public class ShopManager : MonoBehaviour
     
     public List<ShopItem> GetItemsByCategory(EShopCategory category)
     {
-        if (itemsByCategory.TryGetValue(category, out List<ShopItem> items))
-            return new List<ShopItem>(items);
-        return new List<ShopItem>();
+        if (this.itemsByCategory.TryGetValue(category, out List<ShopItem> items))
+            return new(items);
+        return new();
     }
     
     public List<ShopItem> GetAvailableItems(EShopCategory category)
@@ -258,7 +258,7 @@ public class ShopManager : MonoBehaviour
     
     public ShopItem GetItemById(string id)
     {
-        shopItemsById.TryGetValue(id, out ShopItem item);
+        this.shopItemsById.TryGetValue(id, out ShopItem item);
         return item;
     }
     
@@ -314,7 +314,7 @@ public class ShopManager : MonoBehaviour
     public Dictionary<string, int> GetPurchaseData()
     {
         var purchaseData = new Dictionary<string, int>();
-        foreach (var item in allShopItems)
+        foreach (var item in this.allShopItems)
         {
             if (item.currentPurchases > 0)
                 purchaseData[item.id] = item.currentPurchases;
@@ -326,7 +326,7 @@ public class ShopManager : MonoBehaviour
     {
         foreach (var kvp in purchaseData)
         {
-            if (shopItemsById.TryGetValue(kvp.Key, out ShopItem item))
+            if (this.shopItemsById.TryGetValue(kvp.Key, out ShopItem item))
             {
                 item.currentPurchases = kvp.Value;
             }
