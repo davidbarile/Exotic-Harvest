@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     public static ShopManager IN;
     
     [Header("Shop Configuration")]
-    [SerializeField] private ShopItemDefinition[] allShopItemDefinitions;
+    [SerializeField] private ShopItemConfig[] allShopItemDefinitions;
     [SerializeField] private bool debugMode;
     
     private List<ShopItem> allShopItems = new();
@@ -66,7 +66,7 @@ public class ShopManager : MonoBehaviour
         RefreshShop();
     }
     
-    private ShopItem CreateShopItemFromDefinition(ShopItemDefinition definition)
+    private ShopItem CreateShopItemFromDefinition(ShopItemConfig definition)
     {
         var shopItem = new ShopItem(definition.ID, definition.displayName, definition.category, definition.itemType)
         {

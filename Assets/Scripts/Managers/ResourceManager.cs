@@ -15,7 +15,7 @@ public class ResourceManager : MonoBehaviour
     [Header("Inventory Settings")]
     [SerializeField] private int maxInventorySize = 100; // Total item limit across all resources
     
-    private Dictionary<ResourceType, Resource> inventory = new Dictionary<ResourceType, Resource>();
+    private Dictionary<ResourceType, Resource> inventory = new();
     
     public ResourceDatabase Database => resourceDatabase;
     

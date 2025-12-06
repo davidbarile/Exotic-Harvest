@@ -22,5 +22,6 @@ public enum EItemType
     Capacity,       // Increase limits (inventory, etc.)
     Multiplier,     // Boost generation rates
     Unlock,         // Unlock new features
-    Consumable      // One-time use items
+    Consumable,      // One-time use items
+    Permanent
 }

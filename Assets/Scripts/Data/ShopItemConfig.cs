@@ -4,7 +4,7 @@ using UnityEngine;
 /// ScriptableObject definition for shop items
 /// </summary>
 [CreateAssetMenu(fileName = "New Shop Item", menuName = "Exotic Harvest/Shop Item Definition")]
-public class ShopItemDefinition : ScriptableObject
+public class ShopItemConfig : ScriptableObject
 {
     [Header("Basic Info")]
     public string displayName;

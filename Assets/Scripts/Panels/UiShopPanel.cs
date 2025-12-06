@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor;
-using UnityEngine.EventSystems;
 
 public class UiShopPanel : UIPanelBase
 {

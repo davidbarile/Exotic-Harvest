@@ -128,11 +128,11 @@ public class ShopItemUI : MonoBehaviour
             cannotAffordOverlay.SetActive(canPurchase && !canAfford);
         }
         
-        // Update button interactability
-        if (itemButton != null)
-        {
-            itemButton.interactable = canPurchase && canAfford;
-        }
+        // // Update button interactability
+        // if (itemButton != null)
+        // {
+        //     itemButton.interactable = canPurchase && canAfford;
+        // }
     }
     
     private void SelectItem()
