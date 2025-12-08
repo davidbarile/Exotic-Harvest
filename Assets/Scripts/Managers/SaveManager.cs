@@ -104,11 +104,19 @@ public class SaveManager : MonoBehaviour, ITickable
             // Update save data from current game state
             CollectSaveDataFromGame();
 
-            // Serialize to JSON
-            string json = JsonUtility.ToJson(this.currentSaveData, true);
 
-            // Write to file
-            File.WriteAllText(this.savePath, json);
+
+            JSON json = JSON.Serialize(this.currentSaveData);
+
+#if UNITY_EDITOR
+            string jsonAsString = json.CreatePrettyString();
+#else
+            string jsonAsString = json.CreateString();
+#endif
+
+            var writer = new StreamWriter(this.savePath);
+            writer.WriteLine(jsonAsString);
+            writer.Close();
 
             OnGameSaved?.Invoke();
             Debug.Log($"Game saved successfully to {this.savePath}");
@@ -126,7 +134,7 @@ public class SaveManager : MonoBehaviour, ITickable
             return false;
         }
     }
-    
+
     public bool LoadGame()
     {
         try
@@ -137,21 +145,23 @@ public class SaveManager : MonoBehaviour, ITickable
                 CreateNewSave();
                 return true;
             }
-            
-            // Read file
-            string json = File.ReadAllText(this.savePath);
-            
-            // Deserialize
-            this.currentSaveData = JsonUtility.FromJson<GameSaveData>(json);
-            
+
+            DeserializeSettings deserializeSettings = new DeserializeSettings()
+            {
+                RequireAllFieldsArePopulated = false
+            };
+
+            JSON savedMapProgressDataJSON = LoadTextFileToJsonObject(this.savePath);
+            this.currentSaveData = savedMapProgressDataJSON.Deserialize<GameSaveData>(deserializeSettings);
+
             if (this.currentSaveData == null)
             {
                 throw new Exception("Failed to deserialize save data");
             }
-            
+
             // Apply to game
             ApplySaveDataToGame();
-            
+
             OnGameLoaded?.Invoke();
             Debug.Log("Game loaded successfully");
             return true;
@@ -161,11 +171,20 @@ public class SaveManager : MonoBehaviour, ITickable
             string error = $"Failed to load game: {e.Message}";
             Debug.LogError(error);
             OnLoadError?.Invoke(error);
-            
+
             // Fallback to new save
             CreateNewSave();
             return false;
         }
+    }
+    
+    private static JSON LoadTextFileToJsonObject(string inFilePath)
+    {
+        var reader = new StreamReader(inFilePath);
+        string jsonAsString = reader.ReadToEnd();
+        reader.Close();
+        JSON jsonObject = JSON.ParseString(jsonAsString);
+        return jsonObject;
     }
     
     private void CollectSaveDataFromGame()

@@ -53,6 +53,19 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
+    public void AddSavedItemsToInventory(Dictionary<string, InventoryItemData[]> savedInventoryData)
+    {
+        foreach (var kvp in savedInventoryData)
+        {
+            if (Enum.TryParse<EInventoryCategory>(kvp.Key, out var category))
+            {
+                this.itemsByCategory[category] = kvp.Value;
+            }
+        }
+
+        OnInventoryRefreshed?.Invoke();
+    }
+
     public void AddItemToInventory(InventoryItemData itemData, EInventoryCategory category, int itemIndex, int quantity = 1)
     {
         // Implementation for adding item to inventory
