@@ -31,6 +31,7 @@ When creating events, use the Action type from System namespace, e.g. "public st
 When doing [System.Serializable], use [Serializable] instead and import System namespace.
 When referencing an external enum, class, or method, only use the full namespace path if there is a naming conflict.  Otherwise, use the short name and import the static class or namespace at the top of the file.
 When declaring class variables, do not make them equal null, just declare them.  For example, use "private GameManager gameManager;" instead of "private GameManager gameManager = null;".
+Enums should be named with an "E" prefix, e.g. EItemType, EGameState, etc. and their values should be in PascalCase.
 
 ### Window Management
 ```csharp
