@@ -116,13 +116,13 @@ public abstract class DecorationBase : MonoBehaviour
     {
         return new DecorationData
         {
-            type = this.decorationType,
-            position = transform.position,
+            Type = this.decorationType,
+            Position = transform.position,
         };
     }
     
     public virtual void LoadSaveData(DecorationData data)
     {
-        transform.position = data.position;
+        transform.position = data.Position;
     }
 }

@@ -107,6 +107,8 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshItemGrid()
     {
+        if (ShopManager.IN == null) return;
+        
         // Clear existing items
         foreach (var item in currentItemDisplays)
         {
@@ -116,12 +118,12 @@ public class UiShopPanel : UIPanelBase
         currentItemDisplays.Clear();
             
         // Get items for current category
-        var items = ShopManager.IN.GetItemsByCategory(currentCategory);
+        var items = ShopManager.IN.GetItemsByCategory(this.currentCategory);
         
         // Create UI elements for each item
         foreach (var item in items)
         {
-            if (item.isUnlocked)
+            if (item.IsUnlocked)
                 CreateItemDisplay(item);
         }
     }
@@ -129,7 +131,7 @@ public class UiShopPanel : UIPanelBase
     private void CreateItemDisplay(ShopItem item)
     {            
         var shopItemUI = Instantiate(shopItemPrefab, itemsGridParent);
-        currentItemDisplays.Add(shopItemUI.gameObject);
+        this.currentItemDisplays.Add(shopItemUI.gameObject);
         
         // Setup item display (this would be expanded with actual UI components)
         Button itemButton = shopItemUI.GetComponent<Button>();
@@ -143,22 +145,22 @@ public class UiShopPanel : UIPanelBase
     
     private void SelectItem(ShopItem item)
     {
-        selectedItem = item;
+        this.selectedItem = item;
         ShowItemDetail();
     }
     
     private void ShowItemDetail()
     {
-        if (itemDetailPanel != null)
-            itemDetailPanel.SetActive(true);
+        if (this.itemDetailPanel != null)
+            this.itemDetailPanel.SetActive(true);
             
         RefreshItemDetail();
     }
     
     private void HideItemDetail()
     {
-        if (itemDetailPanel != null)
-            itemDetailPanel.SetActive(false);
+        if (this.itemDetailPanel != null)
+            this.itemDetailPanel.SetActive(false);
     }
     
     private void RefreshItemDetail()
@@ -167,14 +169,12 @@ public class UiShopPanel : UIPanelBase
             return;
             
         // Update item info
-        if (itemNameText != null)
-            itemNameText.text = selectedItem.displayName;
-            
-        if (itemDescriptionText != null)
-            itemDescriptionText.text = selectedItem.description;
-            
-        if (itemIcon != null && selectedItem.icon != null)
-            itemIcon.sprite = selectedItem.icon;
+        if (this.itemNameText != null)
+            this.itemNameText.text = this.selectedItem.DisplayName;
+
+        if (this.itemDescriptionText != null)
+            this.itemDescriptionText.text = this.selectedItem.Description;        if (this.itemIcon != null && this.selectedItem.Icon != null)
+            this.itemIcon.sprite = this.selectedItem.Icon;
         
         // Update purchase button
         RefreshPurchaseButton();
@@ -185,40 +185,40 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshPurchaseButton()
     {
-        if (purchaseButton == null || selectedItem == null)
+        if (this.purchaseButton == null || this.selectedItem == null)
             return;
             
-        bool canPurchase = selectedItem.CanPurchase && 
-                          (selectedItem.cost?.CanAfford(ResourceManager.IN) ?? false);
+        bool canPurchase = this.selectedItem.CanPurchase && 
+                          (this.selectedItem.Cost?.CanAfford(ResourceManager.IN) ?? false);
         
-        purchaseButton.interactable = canPurchase;
+        this.purchaseButton.interactable = canPurchase;
         
-        if (purchaseButtonText != null)
+        if (this.purchaseButtonText != null)
         {
-            if (!selectedItem.CanPurchase)
-                purchaseButtonText.text = selectedItem.IsMaxedOut ? "Max Purchased" : "Locked";
+            if (!this.selectedItem.CanPurchase)
+                this.purchaseButtonText.text = this.selectedItem.IsMaxedOut ? "Max Purchased" : "Locked";
             else if (!canPurchase)
-                purchaseButtonText.text = "Can't Afford";
+                this.purchaseButtonText.text = "Can't Afford";
             else
-                purchaseButtonText.text = "Purchase";
+                this.purchaseButtonText.text = "Purchase";
         }
     }
     
     private void RefreshCostDisplay()
     {
         // Clear existing cost displays
-        foreach (var costDisplay in currentCostDisplays)
+        foreach (var costDisplay in this.currentCostDisplays)
         {
             if (costDisplay != null)
                 Destroy(costDisplay);
         }
-        currentCostDisplays.Clear();
+        this.currentCostDisplays.Clear();
         
-        if (selectedItem?.cost == null || costDisplayParent == null || costItemPrefab == null)
+        if (this.selectedItem?.Cost == null || costDisplayParent == null || costItemPrefab == null)
             return;
             
         // Create cost displays
-        foreach (var resource in selectedItem.cost.RequiredResources)
+        foreach (var resource in this.selectedItem.Cost.RequiredResources)
         {
             GameObject costObj = Instantiate(costItemPrefab, costDisplayParent);
             currentCostDisplays.Add(costObj);
@@ -227,9 +227,9 @@ public class UiShopPanel : UIPanelBase
             var costText = costObj.GetComponentInChildren<TextMeshProUGUI>();
             if (costText != null)
             {
-                bool hasEnough = ResourceManager.IN.HasResource(resource.type, resource.amount);
+                bool hasEnough = ResourceManager.IN.HasResource(resource.Type, resource.Amount);
                 string color = hasEnough ? "white" : "red";
-                costText.text = $"<color={color}>{resource.amount}\n{resource.type}</color>";
+                costText.text = $"<color={color}>{resource.Amount}\n{resource.Type}</color>";
                 //TODO: add icon and make class for this
             }
         }
@@ -237,9 +237,9 @@ public class UiShopPanel : UIPanelBase
     
     private void PurchaseSelectedItem()
     {
-        if (selectedItem != null)
+        if (this.selectedItem != null)
         {
-            ShopManager.IN.TryPurchaseItem(selectedItem);
+            ShopManager.IN.TryPurchaseItem(this.selectedItem);
         }
     }
     

@@ -9,28 +9,28 @@ using UnityEngine;
 public class GameStatsData
 {
     [Header("Collection Stats")]
-    public int totalResourcesCollected = 0;
-    public int totalActivelyForaged = 0;
-    public int totalPassivelyHarvested = 0;
+    public int TotalResourcesCollected = 0;
+    public int TotalActivelyForaged = 0;
+    public int TotalPassivelyHarvested = 0;
     
     [Header("Resource Specific")]
-    public int waterCollected = 0;
-    public int bugsCollected = 0;
-    public int seedsCollected = 0;
-    public int gemsCollected = 0;
+    public int WaterCollected = 0;
+    public int BugsCollected = 0;
+    public int SeedsCollected = 0;
+    public int GemsCollected = 0;
     
     [Header("Decoration Stats")]
-    public int decorationsPlaced = 0;
-    public int decorationsMoved = 0;
-    public int harvestersBuilt = 0;
+    public int DecorationsPlaced = 0;
+    public int DecorationsMoved = 0;
+    public int HarvestersBuilt = 0;
     
     [Header("Time Stats")]
-    public int daysPlayed = 0;
-    public float longestSession = 0f;
-    public int sessionsPlayed = 0;
+    public int DaysPlayed = 0;
+    public float LongestSession = 0f;
+    public int SessionsPlayed = 0;
     
     [Header("Special Events")]
-    public int rareEventsWitnessed = 0;
-    public int unicornEncounters = 0;
-    public int mermaidEncounters = 0;
+    public int RareEventsWitnessed = 0;
+    public int UnicornEncounters = 0;
+    public int MermaidEncounters = 0;
 }

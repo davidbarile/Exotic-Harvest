@@ -129,7 +129,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         this.isCollected = true;
         
         // Try to add to inventory
-        if (ResourceManager.IN.AddResource(this.resourceType, this.amount))
+        if (ResourceManager.IN.AddResource(this.ResourceType, this.Amount))
         {
             OnCollected();
             OnCollectableCollected?.Invoke(this);

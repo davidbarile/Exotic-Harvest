@@ -8,43 +8,43 @@ using UnityEngine;
 public class ShopItem
 {
     [Header("Item Identity")]
-    public string id;
-    public string displayName;
-    [TextArea(2, 4)] public string description;
-    public Sprite icon;
+    public string Id;
+    public string DisplayName;
+    [TextArea(2, 4)] public string Description;
+    public Sprite Icon;
     
     [Header("Item Properties")]
-    public EShopCategory category;
-    public EItemType itemType;
-    public ResourceCost cost;
+    public EShopCategory Category;
+    public EItemType ItemType;
+    public ResourceCost Cost;
     
     [Header("Purchase Rules")]
-    public bool isUnlocked = true;
-    public bool isLimitedQuantity = false;
-    public int maxPurchases = 1;
-    public int currentPurchases = 0;
+    public bool IsUnlocked = true;
+    public bool IsLimitedQuantity = false;
+    public int MaxPurchases = 1;
+    public int CurrentPurchases = 0;
     
     [Header("Item Data")]
-    public DecorationType decorationType; // For decoration items
-    public ResourceType resourceType;     // For resource items
-    public int resourceAmount = 1;        // Amount when purchasing resources
+    public DecorationType DecorationType; // For decoration items
+    public ResourceType ResourceType;     // For resource items
+    public int ResourceAmount = 1;        // Amount when purchasing resources
 
     [Header("Visual")]
-    public Color backgroundColor = Color.white;
-    public bool showInShop = true;
+    public Color BackgroundColor = Color.white;
+    public bool ShowInShop = true;
     
     // Properties
-    public bool CanPurchase => isUnlocked && (!isLimitedQuantity || currentPurchases < maxPurchases);
-    public bool IsMaxedOut => isLimitedQuantity && currentPurchases >= maxPurchases;
-    public int RemainingPurchases => isLimitedQuantity ? maxPurchases - currentPurchases : -1;
+    public bool CanPurchase => IsUnlocked && (!IsLimitedQuantity || CurrentPurchases < MaxPurchases);
+    public bool IsMaxedOut => IsLimitedQuantity && CurrentPurchases >= MaxPurchases;
+    public int RemainingPurchases => IsLimitedQuantity ? MaxPurchases - CurrentPurchases : -1;
     
     public ShopItem(string id, string name, EShopCategory category, EItemType type)
     {
-        this.id = id;
-        this.displayName = name;
-        this.category = category;
-        this.itemType = type;
-        this.cost = new ResourceCost();
+        this.Id = id;
+        this.DisplayName = name;
+        this.Category = category;
+        this.ItemType = type;
+        this.Cost = new ResourceCost();
     }
     
     public bool TryPurchase()
@@ -52,14 +52,14 @@ public class ShopItem
         if (!CanPurchase)
             return false;
             
-        if (isLimitedQuantity)
-            currentPurchases++;
+        if (IsLimitedQuantity)
+            CurrentPurchases++;
             
         return true;
     }
     
     public void ResetPurchases()
     {
-        currentPurchases = 0;
+        CurrentPurchases = 0;
     }
 }

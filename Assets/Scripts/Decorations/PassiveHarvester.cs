@@ -136,17 +136,17 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     public override DecorationData GetSaveData()
     {
         var baseData = base.GetSaveData();
-        baseData.currentAmount = this.currentAmount;
-        baseData.lastGenerationTime = this.lastGenerationTime;
-        baseData.isActive = this.isActive;
+        baseData.CurrentAmount = this.currentAmount;
+        baseData.LastGenerationTime = this.lastGenerationTime;
+        baseData.IsActive = this.isActive;
         return baseData;
     }
     
     public override void LoadSaveData(DecorationData data)
     {
         base.LoadSaveData(data);
-        this.currentAmount = data.currentAmount;
-        this.lastGenerationTime = data.lastGenerationTime;
-        this.isActive = data.isActive;
+        this.currentAmount = data.CurrentAmount;
+        this.lastGenerationTime = data.LastGenerationTime;
+        this.isActive = data.IsActive;
     }
 }

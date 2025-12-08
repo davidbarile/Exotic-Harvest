@@ -37,7 +37,7 @@ public class ResourceDatabase : ScriptableObject
         {
             if (resource != null)
             {
-                this.resourceLookup[resource.resourceType] = resource;
+                this.resourceLookup[resource.ResourceType] = resource;
                 this.resourceByIdLookup[resource.ID] = resource;
             }
         }
@@ -60,7 +60,7 @@ public class ResourceDatabase : ScriptableObject
     public ResourceDefinition[] GetResourcesByCategory(ResourceCategory category)
     {
         if (allResources == null) return new ResourceDefinition[0];
-        return allResources.Where(r => r != null && r.category == category).ToArray();
+        return allResources.Where(r => r != null && r.Category == category).ToArray();
     }
     
     public ResourceDefinition[] GetAvailableResources()
@@ -72,13 +72,13 @@ public class ResourceDatabase : ScriptableObject
     public ResourceDefinition[] GetForageableResources()
     {
         if (allResources == null) return new ResourceDefinition[0];
-        return allResources.Where(r => r != null && r.canBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
+        return allResources.Where(r => r != null && r.CanBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
     }
 
     public ResourceDefinition[] GetPassiveResources()
     {
         if (allResources == null) return new ResourceDefinition[0];
-        return allResources.Where(r => r != null && r.canBePassivelyGenerated).ToArray();
+        return allResources.Where(r => r != null && r.CanBePassivelyGenerated).ToArray();
     }
 
 #if UNITY_EDITOR

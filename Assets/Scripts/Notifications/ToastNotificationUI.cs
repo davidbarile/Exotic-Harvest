@@ -52,9 +52,9 @@ public class ToastNotificationUI : MonoBehaviour
         SetupVisuals();
         StartShowAnimation();
         
-        if (notification.autoDismiss)
+        if (notification.AutoDismiss)
         {
-            Invoke(nameof(AutoDismiss), notification.displayDuration);
+            Invoke(nameof(AutoDismiss), notification.DisplayDuration);
         }
     }
     
@@ -63,30 +63,30 @@ public class ToastNotificationUI : MonoBehaviour
         // Set background color
         if (this.backgroundImage != null)
         {
-            this.backgroundImage.color = this.notificationData.backgroundColor;
+            this.backgroundImage.color = this.notificationData.BackgroundColor;
         }
         
         // Set title
         if (this.titleText != null)
         {
-            this.titleText.text = this.notificationData.title;
-            this.titleText.color = this.notificationData.textColor;
-            this.titleText.gameObject.SetActive(!string.IsNullOrEmpty(this.notificationData.title));
+            this.titleText.text = this.notificationData.Title;
+            this.titleText.color = this.notificationData.TextColor;
+            this.titleText.gameObject.SetActive(!string.IsNullOrEmpty(this.notificationData.Title));
         }
         
         // Set message
         if (this.messageText != null)
         {
-            this.messageText.text = this.notificationData.message;
-            this.messageText.color = this.notificationData.textColor;
+            this.messageText.text = this.notificationData.Message;
+            this.messageText.color = this.notificationData.TextColor;
         }
         
         // Set icon
         if (this.iconImage != null)
         {
-            if (this.notificationData.icon != null)
+            if (this.notificationData.Icon != null)
             {
-                this.iconImage.sprite = this.notificationData.icon;
+                this.iconImage.sprite = this.notificationData.Icon;
                 this.iconImage.gameObject.SetActive(true);
             }
             else
@@ -98,7 +98,7 @@ public class ToastNotificationUI : MonoBehaviour
         // Set dismiss button visibility
         if (this.dismissButton != null)
         {
-            dismissButton.gameObject.SetActive(!notificationData.autoDismiss);
+            dismissButton.gameObject.SetActive(!notificationData.AutoDismiss);
         }
     }
     
@@ -171,7 +171,7 @@ public class ToastNotificationUI : MonoBehaviour
     // Allow clicking anywhere on the notification to dismiss (optional)
     public void OnPointerClick()
     {
-        if (!this.notificationData.autoDismiss)
+        if (!this.notificationData.AutoDismiss)
         {
             Dismiss();
         }

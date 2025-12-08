@@ -46,7 +46,7 @@ public class ResourceCost
     {
         foreach (var resource in requiredResources)
         {
-            if (!resourceManager.HasResource(resource.type, resource.amount))
+            if (!resourceManager.HasResource(resource.Type, resource.Amount))
                 return false;
         }
         return true;
@@ -57,7 +57,7 @@ public class ResourceCost
         int totalValue = 0;
         foreach (var resource in requiredResources)
         {
-            totalValue += resource.BaseValue * resource.amount;
+            totalValue += resource.BaseValue * resource.Amount;
         }
         return totalValue;
     }

@@ -167,25 +167,25 @@ public class SaveManager : MonoBehaviour
             this.currentSaveData = new GameSaveData();
             
         // Update metadata
-        this.currentSaveData.saveTime = DateTime.Now;
-        this.currentSaveData.totalPlayTime += Time.time - this.sessionStartTime;
+        this.currentSaveData.SaveTime = DateTime.Now;
+        this.currentSaveData.TotalPlayTime += Time.time - this.sessionStartTime;
         this.sessionStartTime = Time.time;
         
         // Resources
         if (ResourceManager.IN != null)
-            this.currentSaveData.resources = ResourceManager.IN.GetSaveData();
+            this.currentSaveData.Resources = ResourceManager.IN.GetSaveData();
         
         // Decorations
         if (DecorationManager.IN != null)
-            this.currentSaveData.decorations = DecorationManager.IN.GetSaveData();
+            this.currentSaveData.Decorations = DecorationManager.IN.GetSaveData();
         
         // Time & Weather
         if (TimeManager.IN != null)
-            this.currentSaveData.currentGameHour = TimeManager.IN.CurrentHour;
+            this.currentSaveData.CurrentGameHour = TimeManager.IN.CurrentHour;
         if (WeatherManager.IN != null)
         {
-            this.currentSaveData.currentWeather = WeatherManager.IN.CurrentWeather;
-            this.currentSaveData.weatherIntensity = WeatherManager.IN.WeatherIntensity;
+            this.currentSaveData.CurrentWeather = WeatherManager.IN.CurrentWeather;
+            this.currentSaveData.WeatherIntensity = WeatherManager.IN.WeatherIntensity;
         }
         
         // Settings (window position, etc.)
@@ -202,17 +202,17 @@ public class SaveManager : MonoBehaviour
             
         // Resources
         if (ResourceManager.IN != null)
-            ResourceManager.IN.LoadSaveData(currentSaveData.resources);
+            ResourceManager.IN.LoadSaveData(currentSaveData.Resources);
         
         // Decorations
         if (DecorationManager.IN != null)
-            DecorationManager.IN.LoadSaveData(currentSaveData.decorations);
+            DecorationManager.IN.LoadSaveData(currentSaveData.Decorations);
         
         // Time & Weather
         if (TimeManager.IN != null)
-            TimeManager.IN.SetTime(currentSaveData.currentGameHour);
+            TimeManager.IN.SetTime(currentSaveData.CurrentGameHour);
         if (WeatherManager.IN != null)
-            WeatherManager.IN.ForceWeather(currentSaveData.currentWeather);
+            WeatherManager.IN.ForceWeather(currentSaveData.CurrentWeather);
         
         // Settings
         ApplySettingsData();
@@ -224,14 +224,14 @@ public class SaveManager : MonoBehaviour
         if (Kirurobo.UniWindowController.current != null)
         {
             var controller = Kirurobo.UniWindowController.current;
-            currentSaveData.settings.windowTransparency = controller.isTransparent ? 0.8f : 1f;
-            currentSaveData.settings.alwaysOnTop = controller.isTopmost;
+            currentSaveData.Settings.WindowTransparency = controller.isTransparent ? 0.8f : 1f;
+            currentSaveData.Settings.AlwaysOnTop = controller.isTopmost;
         }
         
         // Audio settings (placeholder - implement when audio system is added)
         // Time scale
         if (TimeManager.IN != null)
-            currentSaveData.settings.timeScale = 1f; // Will be implemented
+            currentSaveData.Settings.TimeScale = 1f; // Will be implemented
     }
     
     private void ApplySettingsData()
@@ -240,18 +240,18 @@ public class SaveManager : MonoBehaviour
         if (Kirurobo.UniWindowController.current != null)
         {
             var controller = Kirurobo.UniWindowController.current;
-            controller.isTransparent = currentSaveData.settings.windowTransparency < 1f;
-            controller.isTopmost = currentSaveData.settings.alwaysOnTop;
+            controller.isTransparent = currentSaveData.Settings.WindowTransparency < 1f;
+            controller.isTopmost = currentSaveData.Settings.AlwaysOnTop;
         }
     }
     
     private void CollectStatsData()
     {
         // This will be expanded as we track more statistics
-        if (currentSaveData.stats == null)
-            currentSaveData.stats = new GameStatsData();
-        
-        currentSaveData.stats.sessionsPlayed++;
+        if (currentSaveData.Stats == null)
+            currentSaveData.Stats = new GameStatsData();
+
+        currentSaveData.Stats.SessionsPlayed++;
     }
     
     public bool DeleteSave()
@@ -287,40 +287,40 @@ public class SaveManager : MonoBehaviour
     // Statistics helpers
     public void RecordResourceCollected(ResourceType type, int amount)
     {
-        if (currentSaveData?.stats == null) return;
+        if (currentSaveData?.Stats == null) return;
         
-        currentSaveData.stats.totalResourcesCollected += amount;
+        currentSaveData.Stats.TotalResourcesCollected += amount;
         
         switch (type)
         {
             case ResourceType.Water:
-                currentSaveData.stats.waterCollected += amount;
+                currentSaveData.Stats.WaterCollected += amount;
                 break;
             case ResourceType.Seeds:
-                currentSaveData.stats.seedsCollected += amount;
+                currentSaveData.Stats.SeedsCollected += amount;
                 break;
             case ResourceType.Gems:
-                currentSaveData.stats.gemsCollected += amount;
+                currentSaveData.Stats.GemsCollected += amount;
                 break;
         }
     }
     
     public void RecordDecorationPlaced()
     {
-        if (currentSaveData?.stats != null)
-            currentSaveData.stats.decorationsPlaced++;
+        if (currentSaveData?.Stats != null)
+            currentSaveData.Stats.DecorationsPlaced++;
     }
 
     public void RecordRareEvent(ResourceType eventType)
     {
-        if (currentSaveData?.stats == null) return;
+        if (currentSaveData?.Stats == null) return;
 
-        currentSaveData.stats.rareEventsWitnessed++;
+        currentSaveData.Stats.RareEventsWitnessed++;
 
         if (eventType == ResourceType.UnicornBlessing)
-            currentSaveData.stats.unicornEncounters++;
+            currentSaveData.Stats.UnicornEncounters++;
         else if (eventType == ResourceType.MermaidSong)
-            currentSaveData.stats.mermaidEncounters++;
+            currentSaveData.Stats.MermaidEncounters++;
     }
     
     public void HandeDeleteDataButtonPress()

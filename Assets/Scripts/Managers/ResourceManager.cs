@@ -40,12 +40,12 @@ public class ResourceManager : MonoBehaviour
     
     public bool HasResource(ResourceType type, int amount)
     {
-        return this.inventory.ContainsKey(type) && this.inventory[type].amount >= amount;
+        return this.inventory.ContainsKey(type) && this.inventory[type].Amount >= amount;
     }
     
     public int GetResourceAmount(ResourceType type)
     {
-        return this.inventory.ContainsKey(type) ? this.inventory[type].amount : 0;
+        return this.inventory.ContainsKey(type) ? this.inventory[type].Amount : 0;
     }
     
     public bool AddResource(ResourceType type, int amount)
@@ -60,7 +60,7 @@ public class ResourceManager : MonoBehaviour
             this.inventory[type] = new Resource(type, 0);
         
         this.inventory[type].Add(amount);
-        OnResourceChanged?.Invoke(type, this.inventory[type].amount);
+        OnResourceChanged?.Invoke(type, this.inventory[type].Amount);
         OnResourceGained?.Invoke(type, amount);
         return true;
     }
@@ -72,8 +72,8 @@ public class ResourceManager : MonoBehaviour
             
         foreach (var resource in cost.RequiredResources)
         {
-            this.inventory[resource.type].Subtract(resource.amount);
-            OnResourceChanged?.Invoke(resource.type, this.inventory[resource.type].amount);
+            this.inventory[resource.Type].Subtract(resource.Amount);
+            OnResourceChanged?.Invoke(resource.Type, this.inventory[resource.Type].Amount);
         }
         return true;
     }
@@ -83,7 +83,7 @@ public class ResourceManager : MonoBehaviour
         int total = 0;
         foreach (var resource in this.inventory.Values)
         {
-            total += resource.amount;
+            total += resource.Amount;
         }
         return total;
     }
@@ -99,10 +99,10 @@ public class ResourceManager : MonoBehaviour
         var saveData = new ResourceData();
         foreach (var kvp in this.inventory)
         {
-            if (kvp.Value.amount > 0)
-                saveData.resources.Add(kvp.Value.Copy());
+            if (kvp.Value.Amount > 0)
+                saveData.Resources.Add(kvp.Value.Copy());
         }
-        saveData.maxInventorySize = this.maxInventorySize;
+        saveData.MaxInventorySize = this.maxInventorySize;
         return saveData;
     }
     
@@ -110,18 +110,18 @@ public class ResourceManager : MonoBehaviour
     {
         InitializeInventory(); // Reset to 0
         
-        foreach (var resource in saveData.resources)
+        foreach (var resource in saveData.Resources)
         {
-            if (this.inventory.ContainsKey(resource.type))
-                this.inventory[resource.type] = resource.Copy();
+            if (this.inventory.ContainsKey(resource.Type))
+                this.inventory[resource.Type] = resource.Copy();
         }
         
-        this.maxInventorySize = saveData.maxInventorySize;
+        this.maxInventorySize = saveData.MaxInventorySize;
         
         // Notify UI of all changes
         foreach (var kvp in this.inventory)
         {
-            OnResourceChanged?.Invoke(kvp.Key, kvp.Value.amount);
+            OnResourceChanged?.Invoke(kvp.Key, kvp.Value.Amount);
         }
     }
 }

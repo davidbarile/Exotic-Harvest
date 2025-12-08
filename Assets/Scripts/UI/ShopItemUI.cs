@@ -63,24 +63,24 @@ public class ShopItemUI : MonoBehaviour
     {
         if (shopItem == null) return;
 
-        Debug.Log("Updating display for shop item: " + shopItem.displayName);
+        Debug.Log("Updating display for shop item: " + shopItem.DisplayName);
         
         // Update item name
         if (itemNameText != null)
         {
-            itemNameText.text = shopItem.displayName;
+            itemNameText.text = shopItem.DisplayName;
         }
         
         // Update icon
         if (itemIcon != null)
         {
-            itemIcon.sprite = shopItem.icon;
+            itemIcon.sprite = shopItem.Icon;
         }
         
         // Update background color
         if (backgroundImage != null)
         {
-            backgroundImage.color = shopItem.backgroundColor;
+            backgroundImage.color = shopItem.BackgroundColor;
         }
         
         // Update price display
@@ -92,20 +92,20 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdatePriceDisplay()
     {
-        if (priceText == null || shopItem?.cost == null) return;
+        if (priceText == null || shopItem?.Cost == null) return;
 
         var sb = new StringBuilder();
         bool canAfford = true;
 
-        foreach (var resource in shopItem.cost.RequiredResources)
+        foreach (var resource in shopItem.Cost.RequiredResources)
         {
             if (sb.Length > 0) sb.Append(" ");
 
-            bool hasEnough = ResourceManager.IN?.HasResource(resource.type, resource.amount) ?? false;
+            bool hasEnough = ResourceManager.IN?.HasResource(resource.Type, resource.Amount) ?? false;
             if (!hasEnough) canAfford = false;
 
             string color = hasEnough ? "white" : "red";
-            sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.amount, resource.DisplayName);
+            sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.Amount, resource.DisplayName);
         }
 
         priceText.text = sb.ToString();
@@ -114,7 +114,7 @@ public class ShopItemUI : MonoBehaviour
     private void UpdateAvailabilityOverlays()
     {
         bool canPurchase = shopItem != null && shopItem.CanPurchase;
-        bool canAfford = shopItem?.cost?.CanAfford(ResourceManager.IN) ?? false;
+        bool canAfford = shopItem?.Cost?.CanAfford(ResourceManager.IN) ?? false;
         
         // Show sold out overlay
         if (soldOutOverlay != null)

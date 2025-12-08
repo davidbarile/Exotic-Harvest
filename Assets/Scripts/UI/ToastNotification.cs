@@ -8,25 +8,25 @@ using UnityEngine;
 public class ToastNotification
 {
     [Header("Notification Content")]
-    public string title;
-    public string message;
-    public Sprite icon;
+    public string Title;
+    public string Message;
+    public Sprite Icon;
     
     [Header("Notification Properties")]
-    public NotificationType type;
-    public float displayDuration = 3f;
-    public bool autoDismiss = true;
-    public bool playSound = true;
+    public NotificationType Type;
+    public float DisplayDuration = 3f;
+    public bool AutoDismiss = true;
+    public bool PlaySound = true;
     
     [Header("Visual Style")]
-    public Color backgroundColor = Color.white;
-    public Color textColor = Color.black;
+    public Color BackgroundColor = Color.white;
+    public Color TextColor = Color.black;
     
     public ToastNotification(string title, string message, NotificationType type = NotificationType.Info)
     {
-        this.title = title;
-        this.message = message;
-        this.type = type;
+        this.Title = title;
+        this.Message = message;
+        this.Type = type;
         SetDefaultStyle();
     }
     
@@ -35,34 +35,34 @@ public class ToastNotification
     
     private void SetDefaultStyle()
     {
-        switch (this.type)
+        switch (this.Type)
         {
             case NotificationType.Success:
-                this.backgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
-                this.textColor = Color.white;
+                this.BackgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
+                this.TextColor = Color.white;
                 break;
             case NotificationType.Error:
-                this.backgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
-                this.textColor = Color.white;
-                this.displayDuration = 5f; // Errors stay longer
+                this.BackgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
+                this.TextColor = Color.white;
+                this.DisplayDuration = 5f; // Errors stay longer
                 break;
             case NotificationType.Warning:
-                this.backgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
-                this.textColor = Color.white;
+                this.BackgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
+                this.TextColor = Color.white;
                 break;
             case NotificationType.ResourceGained:
-                this.backgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
-                this.textColor = Color.white;
-                this.displayDuration = 2f; // Quick for resource gains
+                this.BackgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
+                this.TextColor = Color.white;
+                this.DisplayDuration = 2f; // Quick for resource gains
                 break;
             case NotificationType.Achievement:
-                this.backgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
-                this.textColor = Color.white;
-                this.displayDuration = 4f; // Achievements stay longer
+                this.BackgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
+                this.TextColor = Color.white;
+                this.DisplayDuration = 4f; // Achievements stay longer
                 break;
             default:
-                this.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
-                this.textColor = Color.white;
+                this.BackgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
+                this.TextColor = Color.white;
                 break;
         }
     }

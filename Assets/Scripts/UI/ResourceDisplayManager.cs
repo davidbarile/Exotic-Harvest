@@ -66,14 +66,14 @@ public class ResourceDisplayManager : MonoBehaviour
             // Filter by category if specified
             if (categoriesToShow != null && categoriesToShow.Length > 0)
             {
-                bool inCategory = categoriesToShow.Contains(r.category);
+                bool inCategory = categoriesToShow.Contains(r.Category);
                 if (!inCategory) return false;
             }
             
             // Filter by ownership if specified
             if (showOnlyOwnedResources)
             {
-                int amount = ResourceManager.IN.GetResourceAmount(r.resourceType);
+                int amount = ResourceManager.IN.GetResourceAmount(r.ResourceType);
                 if (amount <= 0) return false;
             }
             
@@ -88,8 +88,8 @@ public class ResourceDisplayManager : MonoBehaviour
         
         if (displayUI != null)
         {
-            displayUI.Initialize(resourceDef.resourceType, resourceDef);
-            activeDisplays[resourceDef.resourceType] = displayUI;
+            displayUI.Initialize(resourceDef.ResourceType, resourceDef);
+            activeDisplays[resourceDef.ResourceType] = displayUI;
         }
         else
         {

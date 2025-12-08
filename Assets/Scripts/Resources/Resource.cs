@@ -7,22 +7,22 @@ using UnityEngine;
 [Serializable]
 public class Resource
 {
-    public ResourceType type;
-    public int amount;
+    public ResourceType Type;
+    public int Amount;
     
     // Cache reference to definition (not serialized)
     [System.NonSerialized] private ResourceDefinition cachedDefinition;
     
     public Resource(ResourceType type, int amount = 0)
     {
-        this.type = type;
-        this.amount = amount;
+        this.Type = type;
+        this.Amount = amount;
     }
     
     public Resource(ResourceDefinition definition, int amount = 0)
     {
-        this.type = definition.resourceType;
-        this.amount = amount;
+        this.Type = definition.ResourceType;
+        this.Amount = amount;
         this.cachedDefinition = definition;
     }
     
@@ -30,7 +30,7 @@ public class Resource
     {
         if (this.cachedDefinition == null && ResourceManager.IN?.Database != null)
         {
-            this.cachedDefinition = ResourceManager.IN.Database.GetResource(this.type);
+            this.cachedDefinition = ResourceManager.IN.Database.GetResource(this.Type);
         }
         return this.cachedDefinition;
     }
@@ -38,20 +38,20 @@ public class Resource
     public void Add(int value)
     {
         var definition = GetDefinition();
-        int maxAmount = definition?.maxStackSize ?? 999;
-        this.amount = Mathf.Min(this.amount + value, maxAmount);
+        int maxAmount = definition?.MaxStackSize ?? 999;
+        this.Amount = Mathf.Min(this.Amount + value, maxAmount);
     }
     
     public bool CanSubtract(int value)
     {
-        return this.amount >= value;
+        return this.Amount >= value;
     }
     
     public bool Subtract(int value)
     {
         if (CanSubtract(value))
         {
-            this.amount -= value;
+            this.Amount -= value;
             return true;
         }
         return false;
@@ -59,15 +59,15 @@ public class Resource
     
     public Resource Copy()
     {
-        var copy = new Resource(this.type, this.amount);
+        var copy = new Resource(this.Type, this.Amount);
         copy.cachedDefinition = this.cachedDefinition;
         return copy;
     }
     
     // Convenience properties that use definition
-    public string DisplayName => GetDefinition()?.displayName ?? type.ToString();
-    public string Description => GetDefinition()?.description ?? "";
-    public Sprite Icon => GetDefinition()?.icon;
-    public Color UIColor => GetDefinition()?.uiColor ?? Color.white;
-    public int BaseValue => GetDefinition()?.baseValue ?? 1;
+    public string DisplayName => GetDefinition()?.DisplayName ?? Type.ToString();
+    public string Description => GetDefinition()?.Description ?? "";
+    public Sprite Icon => GetDefinition()?.Icon;
+    public Color UIColor => GetDefinition()?.UiColor ?? Color.white;
+    public int BaseValue => GetDefinition()?.BaseValue ?? 1;
 }

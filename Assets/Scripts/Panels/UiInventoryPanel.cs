@@ -104,6 +104,8 @@ public class UiInventoryPanel : UIPanelBase
     
     private void RefreshItemGrid()
     {
+        if (InventoryManager.IN == null) return;
+        
         // Clear existing items
         foreach (var item in this.currentItemDisplays)
         {
@@ -118,7 +120,7 @@ public class UiInventoryPanel : UIPanelBase
         // // Create UI elements for each item
         foreach (var item in items)
         {
-            if (item.isUnlocked)
+            if (item.IsUnlocked)
                 CreateItemDisplay(item);
         }
     }
@@ -165,13 +167,13 @@ public class UiInventoryPanel : UIPanelBase
 
         // Update item info
         if (this.itemNameText != null)
-            this.itemNameText.text = this.selectedItem.displayName;
+            this.itemNameText.text = this.selectedItem.DisplayName;
 
         if (this.itemDescriptionText != null)
-            this.itemDescriptionText.text = this.selectedItem.description;
+            this.itemDescriptionText.text = this.selectedItem.Description;
 
-        if (this.itemIcon != null && this.selectedItem.icon != null)
-            this.itemIcon.sprite = this.selectedItem.icon;
+        if (this.itemIcon != null && this.selectedItem.Icon != null)
+            this.itemIcon.sprite = this.selectedItem.Icon;
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)

@@ -81,17 +81,17 @@ public class ShopManager : MonoBehaviour
     
     private ShopItem CreateShopItemFromDefinition(ShopItemConfig definition)
     {
-        var shopItem = new ShopItem(definition.ID, definition.displayName, definition.category, definition.itemType)
+        var shopItem = new ShopItem(definition.ID, definition.DisplayName, definition.Category, definition.ItemType)
         {
-            description = definition.description,
-            cost = definition.cost,
-            isUnlocked = definition.isUnlockedByDefault,
-            isLimitedQuantity = definition.hasLimitedQuantity,
-            maxPurchases = definition.maxPurchases,
-            decorationType = definition.decorationType,
-            resourceType = definition.resourceType,
-            resourceAmount = definition.resourceAmount,
-            icon = definition.icon
+            Description = definition.Description,
+            Cost = definition.Cost,
+            IsUnlocked = definition.IsUnlockedByDefault,
+            IsLimitedQuantity = definition.HasLimitedQuantity,
+            MaxPurchases = definition.MaxPurchases,
+            DecorationType = definition.DecorationType,
+            ResourceType = definition.ResourceType,
+            ResourceAmount = definition.ResourceAmount,
+            Icon = definition.Icon
         };
         
         return shopItem;
@@ -101,9 +101,9 @@ public class ShopManager : MonoBehaviour
     {
         var item = new ShopItem(id, name, EShopCategory.Decorations, EItemType.Decoration)
         {
-            description = description,
-            decorationType = decorationType,
-            cost = cost
+            Description = description,
+            DecorationType = decorationType,
+            Cost = cost
         };
         
         AddItem(item);
@@ -114,10 +114,10 @@ public class ShopManager : MonoBehaviour
     {
         var item = new ShopItem(id, name, EShopCategory.Resources, EItemType.Resource)
         {
-            description = description,
-            resourceType = resourceType,
-            resourceAmount = amount,
-            cost = cost
+            Description = description,
+            ResourceType = resourceType,
+            ResourceAmount = amount,
+            Cost = cost
         };
         
         AddItem(item);
@@ -126,7 +126,7 @@ public class ShopManager : MonoBehaviour
     
     public void AddItem(ShopItem item)
     {
-        if (item == null || string.IsNullOrEmpty(item.id))
+        if (item == null || string.IsNullOrEmpty(item.Id))
         {
             Debug.LogError("Invalid shop item");
             return;
@@ -137,8 +137,8 @@ public class ShopManager : MonoBehaviour
             allShopItems.Add(item);
             
         // Update lookup dictionaries
-        shopItemsById[item.id] = item;
-        itemsByCategory[item.category].Add(item);
+        shopItemsById[item.Id] = item;
+        itemsByCategory[item.Category].Add(item);
     }
     
     public bool TryPurchaseItem(string itemId)
@@ -168,14 +168,14 @@ public class ShopManager : MonoBehaviour
         }
         
         // Check if player can afford it
-        if (!item.cost.CanAfford(ResourceManager.IN))
+        if (!item.Cost.CanAfford(ResourceManager.IN))
         {
             OnPurchaseFailed?.Invoke(item, "Cannot afford this item");
             return false;
         }
         
         // Spend resources
-        if (!ResourceManager.IN.SpendResources(item.cost))
+        if (!ResourceManager.IN.SpendResources(item.Cost))
         {
             OnPurchaseFailed?.Invoke(item, "Failed to spend resources");
             return false;
@@ -188,16 +188,16 @@ public class ShopManager : MonoBehaviour
             OnItemPurchased?.Invoke(item);
             
             if (debugMode)
-                Debug.Log($"Purchased {item.displayName}");
+                Debug.Log($"Purchased {item.DisplayName}");
                 
             return true;
         }
         else
         {
             // Refund resources if execution failed
-            foreach (var resource in item.cost.RequiredResources)
+            foreach (var resource in item.Cost.RequiredResources)
             {
-                ResourceManager.IN.AddResource(resource.type, resource.amount);
+                ResourceManager.IN.AddResource(resource.Type, resource.Amount);
             }
             OnPurchaseFailed?.Invoke(item, "Failed to execute purchase");
             return false;
@@ -206,7 +206,7 @@ public class ShopManager : MonoBehaviour
     
     private bool ExecutePurchase(ShopItem item)
     {
-        switch (item.itemType)
+        switch (item.ItemType)
         {
             case EItemType.Decoration:
                 return PurchaseDecoration(item);
@@ -228,7 +228,7 @@ public class ShopManager : MonoBehaviour
     {
         if (DecorationManager.IN != null)
         {
-            var decoration = DecorationManager.IN.PlaceDecoration(item.decorationType);
+            var decoration = DecorationManager.IN.PlaceDecoration(item.DecorationType);
             return decoration != null;
         }
         return false;
@@ -238,7 +238,7 @@ public class ShopManager : MonoBehaviour
     {
         if (ResourceManager.IN != null)
         {
-            return ResourceManager.IN.AddResource(item.resourceType, item.resourceAmount);
+            return ResourceManager.IN.AddResource(item.ResourceType, item.ResourceAmount);
         }
         return false;
     }
@@ -296,7 +296,7 @@ public class ShopManager : MonoBehaviour
     {
         if (shopItemsById.TryGetValue(itemId, out ShopItem item))
         {
-            item.isUnlocked = true;
+            item.IsUnlocked = true;
             RefreshShop();
         }
     }
@@ -305,7 +305,7 @@ public class ShopManager : MonoBehaviour
     {
         if (shopItemsById.TryGetValue(itemId, out ShopItem item))
         {
-            item.isUnlocked = false;
+            item.IsUnlocked = false;
             RefreshShop();
         }
     }
@@ -316,8 +316,8 @@ public class ShopManager : MonoBehaviour
         var purchaseData = new Dictionary<string, int>();
         foreach (var item in this.allShopItems)
         {
-            if (item.currentPurchases > 0)
-                purchaseData[item.id] = item.currentPurchases;
+            if (item.CurrentPurchases > 0)
+                purchaseData[item.Id] = item.CurrentPurchases;
         }
         return purchaseData;
     }
@@ -328,7 +328,7 @@ public class ShopManager : MonoBehaviour
         {
             if (this.shopItemsById.TryGetValue(kvp.Key, out ShopItem item))
             {
-                item.currentPurchases = kvp.Value;
+                item.CurrentPurchases = kvp.Value;
             }
         }
         RefreshShop();

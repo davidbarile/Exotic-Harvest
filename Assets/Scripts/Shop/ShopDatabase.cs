@@ -52,8 +52,8 @@ public class ShopDatabase : ScriptableObject
             if (item != null)
             {
                 this.itemLookup[item.ID] = item;
-                this.itemsByCategory[item.category].Add(item);
-                this.itemsByType[item.itemType].Add(item);
+                this.itemsByCategory[item.Category].Add(item);
+                this.itemsByType[item.ItemType].Add(item);
             }
         }
     }

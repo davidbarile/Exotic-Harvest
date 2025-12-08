@@ -55,20 +55,20 @@ public class ResourceDisplayUI : MonoBehaviour
         if (amountText != null)
         {
             amountText.text = currentAmount.ToString();
-            amountText.color = resourceDefinition?.uiColor ?? Color.white;
+            amountText.color = resourceDefinition?.UiColor ?? Color.white;
         }
         
         // Update icon
         if (iconImage != null && resourceDefinition != null)
         {
-            iconImage.sprite = resourceDefinition.icon;
-            iconImage.color = resourceDefinition.uiColor;
+            iconImage.sprite = resourceDefinition.Icon;
+            iconImage.color = resourceDefinition.UiColor;
         }
         
         // Update background color based on resource category
         if (backgroundImage != null && resourceDefinition != null)
         {
-            Color bgColor = GetCategoryColor(resourceDefinition.category);
+            Color bgColor = GetCategoryColor(resourceDefinition.Category);
             bgColor.a = 0.3f;
             backgroundImage.color = bgColor;
         }

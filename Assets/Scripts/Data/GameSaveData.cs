@@ -9,36 +9,36 @@ using UnityEngine;
 public class GameSaveData
 {
     [Header("Save Metadata")]
-    public string saveVersion = "1.0";
-    public DateTime saveTime;
-    public float totalPlayTime = 0f;
+    public string SaveVersion = "1.0";
+    public DateTime SaveTime;
+    public float TotalPlayTime = 0f;
     
     [Header("Player Progress")]
-    public int playerLevel = 1;
-    public float experience = 0f;
+    public int PlayerLevel = 1;
+    public float Experience = 0f;
 
     [Header("Inventory")]
     public List<DecorationData> Inventory = new();
     
     [Header("Resources")]
-    public ResourceData resources = new();
+    public ResourceData Resources = new();
     
     [Header("Decorations")]
-    public List<DecorationData> decorations = new();
+    public List<DecorationData> Decorations = new();
     
     [Header("Settings")]
-    public GameSettingsData settings = new();
+    public GameSettingsData Settings = new();
     
     [Header("Time & Weather")]
-    public float currentGameHour = 8f;
-    public WeatherType currentWeather = WeatherType.Clear;
-    public float weatherIntensity = 0.5f;
+    public float CurrentGameHour = 8f;
+    public WeatherType CurrentWeather = WeatherType.Clear;
+    public float WeatherIntensity = 0.5f;
     
     [Header("Statistics")]
-    public GameStatsData stats = new();
+    public GameStatsData Stats = new();
     
     public GameSaveData()
     {
-        saveTime = DateTime.Now;
+        SaveTime = DateTime.Now;
     }
 }

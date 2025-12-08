@@ -7,49 +7,49 @@ using UnityEngine;
 public class ShopItemConfig : ScriptableObject
 {
     [Header("Basic Info")]
-    public string displayName;
-    [TextArea(2, 4)] public string description;
-    public Sprite icon;
+    public string DisplayName;
+    [TextArea(2, 4)] public string Description;
+    public Sprite Icon;
     
     [Header("Shop Properties")]
-    public EShopCategory category;
-    public EItemType itemType;
-    public ResourceCost cost;
+    public EShopCategory Category;
+    public EItemType ItemType;
+    public ResourceCost Cost;
     
     [Header("Availability")]
-    public bool isUnlockedByDefault = true;
-    public int playerLevelRequired = 1;
-    public string[] prerequisiteItems; // IDs of items that must be purchased first
+    public bool IsUnlockedByDefault = true;
+    public int PlayerLevelRequired = 1;
+    public string[] PrerequisiteItems; // IDs of items that must be purchased first
     
     [Header("Purchase Limits")]
-    public bool hasLimitedQuantity = false;
-    public int maxPurchases = 1;
+    public bool HasLimitedQuantity = false;
+    public int MaxPurchases = 1;
     
     [Header("Item Effects")]
-    public DecorationType decorationType; // For decoration items
-    public ResourceType resourceType;     // For resource items
-    public int resourceAmount = 1;        // Amount when purchasing resources
-    public GameObject decorationPrefab;   // Prefab to spawn for decorations
+    public DecorationType DecorationType; // For decoration items
+    public ResourceType ResourceType;     // For resource items
+    public int ResourceAmount = 1;        // Amount when purchasing resources
+    public GameObject DecorationPrefab;   // Prefab to spawn for decorations
     
     [Header("Visual")]
-    public Color backgroundColor = Color.white;
-    public bool showInShop = true;
+    public Color BackgroundColor = Color.white;
+    public bool ShowInShop = true;
     
     // Runtime properties
     public string ID => name; // Use ScriptableObject name as ID
     
     public bool IsUnlocked(int playerLevel, string[] purchasedItemIds)
     {
-        if (!isUnlockedByDefault)
+        if (!IsUnlockedByDefault)
             return false;
             
-        if (playerLevel < playerLevelRequired)
+        if (playerLevel < PlayerLevelRequired)
             return false;
             
         // Check prerequisites
-        if (prerequisiteItems != null && prerequisiteItems.Length > 0)
+        if (PrerequisiteItems != null && PrerequisiteItems.Length > 0)
         {
-            foreach (var prereq in prerequisiteItems)
+            foreach (var prereq in PrerequisiteItems)
             {
                 bool found = false;
                 if (purchasedItemIds != null)

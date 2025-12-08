@@ -7,41 +7,41 @@ using UnityEngine;
 public class ResourceDefinition : ScriptableObject
 {
     [Header("Basic Info")]
-    public string displayName;
-    [TextArea(2, 4)] public string description;
-    public Sprite icon;
-    public Color uiColor = Color.white;
+    public string DisplayName;
+    [TextArea(2, 4)] public string Description;
+    public Sprite Icon;
+    public Color UiColor = Color.white;
     
     [Header("Resource Properties")]
-    public ResourceType resourceType;
-    public ResourceCategory category;
-    public int baseValue = 1; // Base worth for trading/selling
-    public int maxStackSize = 999;
+    public ResourceType ResourceType;
+    public ResourceCategory Category;
+    public int BaseValue = 1; // Base worth for trading/selling
+    public int MaxStackSize = 999;
     
     [Header("Availability")]
-    public bool isAvailableAtStart = true;
-    public TimeOfDay[] availableTimes; // Empty = always available
-    public WeatherType[] availableWeather; // Empty = all weather
+    public bool IsAvailableAtStart = true;
+    public TimeOfDay[] AvailableTimes; // Empty = always available
+    public WeatherType[] AvailableWeather; // Empty = all weather
     
     [Header("Generation Settings")]
-    public bool canBeActivelyForaged = true;
-    public bool canBePassivelyGenerated = false;
-    public float baseGenerationRate = 1f; // Resources per minute
-    public float rarityMultiplier = 1f; // 1 = common, 10 = very rare
+    public bool CanBeActivelyForaged = true;
+    public bool CanBePassivelyGenerated = false;
+    public float BaseGenerationRate = 1f; // Resources per minute
+    public float RarityMultiplier = 1f; // 1 = common, 10 = very rare
     
     [Header("Audio")]
-    public AudioClip collectionSound;
-    public AudioClip spawnSound;
+    public AudioClip CollectionSound;
+    public AudioClip SpawnSound;
     
     // Runtime properties
     public string ID => name; // Use ScriptableObject name as ID
     
     public bool IsAvailableAtTime(TimeOfDay currentTime)
     {
-        if (availableTimes == null || availableTimes.Length == 0)
+        if (AvailableTimes == null || AvailableTimes.Length == 0)
             return true;
             
-        foreach (var time in availableTimes)
+        foreach (var time in AvailableTimes)
         {
             if (time == currentTime)
                 return true;
@@ -51,10 +51,10 @@ public class ResourceDefinition : ScriptableObject
     
     public bool IsAvailableInWeather(WeatherType currentWeather)
     {
-        if (availableWeather == null || availableWeather.Length == 0)
+        if (AvailableWeather == null || AvailableWeather.Length == 0)
             return true;
             
-        foreach (var weather in availableWeather)
+        foreach (var weather in AvailableWeather)
         {
             if (weather == currentWeather)
                 return true;

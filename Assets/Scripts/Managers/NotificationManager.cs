@@ -160,8 +160,8 @@ public class NotificationManager : MonoBehaviour
             PositionNotification(notificationUI);
             
             // Play sound
-            if (notification.playSound)
-                PlayNotificationSound(notification.type);
+            if (notification.PlaySound)
+                PlayNotificationSound(notification.Type);
                 
             OnNotificationShown?.Invoke(notification);
         }
@@ -263,7 +263,7 @@ public class NotificationManager : MonoBehaviour
     
     private void OnItemPurchased(ShopItem item)
     {
-        ShowNotification(ToastNotification.ItemPurchased(item.displayName));
+        ShowNotification(ToastNotification.ItemPurchased(item.DisplayName));
     }
     
     private void OnPurchaseFailed(ShopItem item, string reason)
@@ -293,7 +293,7 @@ public class NotificationManager : MonoBehaviour
             "Your progress has been saved",
             NotificationType.Info
         );
-        notification.displayDuration = 1.5f; // Brief confirmation
+        notification.DisplayDuration = 1.5f; // Brief confirmation
         ShowNotification(notification);
     }
     

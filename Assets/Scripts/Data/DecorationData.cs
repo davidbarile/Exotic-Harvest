@@ -7,11 +7,11 @@ using UnityEngine;
 [Serializable]
 public class DecorationData
 {
-    public DecorationType type;
-    public Vector3 position;
+    public DecorationType Type;
+    public Vector3 Position;
     
     // For passive harvesters
-    public int currentAmount;
-    public float lastGenerationTime;
-    public bool isActive = true;
+    public int CurrentAmount;
+    public float LastGenerationTime;
+    public bool IsActive = true;
 }

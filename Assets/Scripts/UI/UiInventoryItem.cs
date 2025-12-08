@@ -12,7 +12,7 @@ public class UiInventoryItem : MonoBehaviour
     {
         if (itemIcon != null)
         {
-            itemIcon.sprite = item.icon;
+            itemIcon.sprite = item.Icon;
         }
 
         if (itemQuantityText != null)

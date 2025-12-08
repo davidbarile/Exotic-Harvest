@@ -12,25 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: BucketItem
   m_EditorClassIdentifier: 
-  displayName: Bucket
-  description: 
-  icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
-  category: 2
-  itemType: 7
-  cost:
-    requiredResources:
-    - type: 8
-      amount: 10
-    - type: 11
-      amount: 5
-  isUnlockedByDefault: 1
-  playerLevelRequired: 1
-  prerequisiteItems: []
-  hasLimitedQuantity: 0
-  maxPurchases: 1
-  decorationType: 0
-  resourceType: 0
-  resourceAmount: 1
-  decorationPrefab: {fileID: 4234567890123456, guid: 1844e9ae2b9234e46a9bddf144927a14, type: 3}
-  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
-  showInShop: 1
+  DisplayName: Bucket
+  Description: 
+  Icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
+  Category: 2
+  ItemType: 7
+  Cost:
+    requiredResources: []
+  IsUnlockedByDefault: 1
+  PlayerLevelRequired: 1
+  PrerequisiteItems: []
+  HasLimitedQuantity: 0
+  MaxPurchases: 1
+  DecorationType: 0
+  ResourceType: 0
+  ResourceAmount: 1
+  DecorationPrefab: {fileID: 0}
+  BackgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  ShowInShop: 1
