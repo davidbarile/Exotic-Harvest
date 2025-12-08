@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Complete save data structure for the game
@@ -20,8 +21,8 @@ public class GameSaveData
     [Header("Inventory")]
     public List<DecorationData> Inventory = new();
     
-    [Header("Resources")]
-    public ResourceData Resources = new();
+    [FormerlySerializedAs("ResourceDatas")] [Header("resourcesSave")]
+    public ResourceSaveData resourcesSave = new();
     
     [Header("Decorations")]
     public List<DecorationData> Decorations = new();

@@ -8,11 +8,11 @@ public class UiInventoryItem : MonoBehaviour
     [SerializeField] private Image shadow;
     [SerializeField] private TextMeshProUGUI itemQuantityText;
 
-    public void Setup(ShopItem item, int quantity)
+    public void Setup(ShopItemData itemData, int quantity)
     {
         if (itemIcon != null)
         {
-            itemIcon.sprite = item.Icon;
+            itemIcon.sprite = itemData.Icon;
         }
 
         if (itemQuantityText != null)

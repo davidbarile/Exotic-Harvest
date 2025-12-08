@@ -13,8 +13,8 @@ public class InventoryManager : MonoBehaviour
     public enum EItemCategory
     {
         Decorations,
-        Resources,
         Tools,
+        Resources,
         Special
     }
 
@@ -31,10 +31,10 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
-    public ShopItem[] GetItemsByCategory(EItemCategory category)
+    public ShopItemData[] GetItemsByCategory(EItemCategory category)
     {
         // Implementation for retrieving items by category
         // This is a placeholder implementation
-        return Array.Empty<ShopItem>();
+        return Array.Empty<ShopItemData>();
     }
 }

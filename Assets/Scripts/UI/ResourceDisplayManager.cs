@@ -53,11 +53,11 @@ public class ResourceDisplayManager : MonoBehaviour
         }
     }
     
-    private ResourceDefinition[] GetResourcesToDisplay()
+    private ResourceConfig[] GetResourcesToDisplay()
     {
         var allResources = ResourceManager.IN.Database.AllResources;
         
-        if (allResources == null) return new ResourceDefinition[0];
+        if (allResources == null) return new ResourceConfig[0];
         
         return allResources.Where(r => 
         {
@@ -81,7 +81,7 @@ public class ResourceDisplayManager : MonoBehaviour
         }).ToArray();
     }
     
-    private void CreateResourceDisplay(ResourceDefinition resourceDef)
+    private void CreateResourceDisplay(ResourceConfig resourceDef)
     {
         GameObject displayObj = Instantiate(resourceDisplayPrefab, resourceDisplayParent);
         ResourceDisplayUI displayUI = displayObj.GetComponent<ResourceDisplayUI>();

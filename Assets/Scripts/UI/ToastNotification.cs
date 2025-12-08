@@ -70,7 +70,7 @@ public class ToastNotification
     public static ToastNotification ResourceGained(ResourceType resourceType, int amount)
     {
         return new ToastNotification(
-            "Resource Collected!",
+            "ResourceData Collected!",
             $"+{amount} {resourceType}",
             NotificationType.ResourceGained
         );

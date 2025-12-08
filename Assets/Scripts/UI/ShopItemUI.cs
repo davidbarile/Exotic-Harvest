@@ -18,10 +18,10 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject cannotAffordOverlay;
     
-    private ShopItem shopItem;
+    private ShopItemData shopItemData;
     // private ShopItemDefinition itemDefinition;
     
-    public event Action<ShopItem> OnItemSelected;
+    public event Action<ShopItemData> OnItemSelected;
     
     private void Awake()
     {
@@ -31,9 +31,9 @@ public class ShopItemUI : MonoBehaviour
         }
     }
     
-    public void Initialize(ShopItem item)
+    public void Initialize(ShopItemData itemData)
     {
-        shopItem = item;
+        shopItemData = itemData;
         //itemDefinition = definition;
         
         UpdateDisplay();
@@ -61,26 +61,26 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdateDisplay()
     {
-        if (shopItem == null) return;
+        if (shopItemData == null) return;
 
-        Debug.Log("Updating display for shop item: " + shopItem.DisplayName);
+        Debug.Log("Updating display for shop itemData: " + shopItemData.DisplayName);
         
-        // Update item name
+        // Update itemData name
         if (itemNameText != null)
         {
-            itemNameText.text = shopItem.DisplayName;
+            itemNameText.text = shopItemData.DisplayName;
         }
         
         // Update icon
         if (itemIcon != null)
         {
-            itemIcon.sprite = shopItem.Icon;
+            itemIcon.sprite = shopItemData.Icon;
         }
         
         // Update background color
         if (backgroundImage != null)
         {
-            backgroundImage.color = shopItem.BackgroundColor;
+            backgroundImage.color = shopItemData.BackgroundColor;
         }
         
         // Update price display
@@ -92,12 +92,12 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdatePriceDisplay()
     {
-        if (priceText == null || shopItem?.Cost == null) return;
+        if (priceText == null || shopItemData?.Cost == null) return;
 
         var sb = new StringBuilder();
         bool canAfford = true;
 
-        foreach (var resource in shopItem.Cost.RequiredResources)
+        foreach (var resource in shopItemData.Cost.RequiredResources)
         {
             if (sb.Length > 0) sb.Append(" ");
 
@@ -113,8 +113,8 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdateAvailabilityOverlays()
     {
-        bool canPurchase = shopItem != null && shopItem.CanPurchase;
-        bool canAfford = shopItem?.Cost?.CanAfford(ResourceManager.IN) ?? false;
+        bool canPurchase = shopItemData != null && shopItemData.CanPurchase;
+        bool canAfford = shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
         
         // Show sold out overlay
         if (soldOutOverlay != null)
@@ -137,7 +137,7 @@ public class ShopItemUI : MonoBehaviour
     
     private void SelectItem()
     {
-        OnItemSelected?.Invoke(shopItem);
+        OnItemSelected?.Invoke(shopItemData);
     }
     
     public void Refresh()

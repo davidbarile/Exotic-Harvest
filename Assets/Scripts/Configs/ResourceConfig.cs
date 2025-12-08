@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// ScriptableObject definition for resources
 /// </summary>
-[CreateAssetMenu(fileName = "New Resource", menuName = "Exotic Harvest/Resource Definition")]
-public class ResourceDefinition : ScriptableObject
+[CreateAssetMenu(fileName = "ResourceConfig", menuName = "Exotic Harvest/ResourceConfig")]
+public class ResourceConfig : ScriptableObject
 {
     [Header("Basic Info")]
     public string DisplayName;
@@ -12,7 +12,7 @@ public class ResourceDefinition : ScriptableObject
     public Sprite Icon;
     public Color UiColor = Color.white;
     
-    [Header("Resource Properties")]
+    [Header("ResourceData Properties")]
     public ResourceType ResourceType;
     public ResourceCategory Category;
     public int BaseValue = 1; // Base worth for trading/selling
@@ -26,7 +26,7 @@ public class ResourceDefinition : ScriptableObject
     [Header("Generation Settings")]
     public bool CanBeActivelyForaged = true;
     public bool CanBePassivelyGenerated = false;
-    public float BaseGenerationRate = 1f; // Resources per minute
+    public float BaseGenerationRate = 1f; // resourcesSave per minute
     public float RarityMultiplier = 1f; // 1 = common, 10 = very rare
     
     [Header("Audio")]

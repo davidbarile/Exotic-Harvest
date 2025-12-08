@@ -22,18 +22,17 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private GameObject costItemPrefab;
     
     private EShopCategory currentCategory = EShopCategory.Decorations;
-    private ShopItem selectedItem;
+    private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
     private List<GameObject> currentCostDisplays = new();
     
     private void Start()
     {
         SetupCategoryTabs();
-        SetupEventListeners();
         RefreshShop();
     }
     
-    private void OnEnable()
+    protected override void RegisterEvents()
     {
         if (ShopManager.IN != null)
         {
@@ -46,11 +45,17 @@ public class UiShopPanel : UIPanelBase
         {
             ResourceManager.OnResourceChanged += OnResourceChanged;
         }
+        
+        if (this.purchaseButton != null)
+            this.purchaseButton.onClick.AddListener(PurchaseSelectedItem);
 
         RefreshShop();
+        
+        var selectedTab = this.categoryTabs[(int)this.currentCategory];
+        selectedTab.isOn = true;
     }
     
-    private void OnDisable()
+    protected override void UnregisterEvents()
     {
         if (ShopManager.IN != null)
         {
@@ -63,6 +68,9 @@ public class UiShopPanel : UIPanelBase
         {
             ResourceManager.OnResourceChanged -= OnResourceChanged;
         }
+        
+        if (this.purchaseButton != null)
+            this.purchaseButton.onClick.RemoveAllListeners();
     }
     
     private void SetupCategoryTabs()
@@ -78,23 +86,12 @@ public class UiShopPanel : UIPanelBase
                 tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
             }
         }
-
-        var selectedTab = this.categoryTabs[(int)this.currentCategory];
-        selectedTab.isOn = true;
-    }
-    
-    private void SetupEventListeners()
-    {
-        if (this.purchaseButton != null)
-        {
-            this.purchaseButton.onClick.AddListener(PurchaseSelectedItem);
-        }
     }
     
     public void SwitchCategory(EShopCategory category)
     {
         this.currentCategory = category;
-        this.selectedItem = null;
+        this.selectedItemData = null;
         RefreshItemGrid();
         HideItemDetail();
     }
@@ -107,6 +104,7 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshItemGrid()
     {
+        print($"Refresh Items Grid");
         if (ShopManager.IN == null) return;
         
         // Clear existing items
@@ -120,7 +118,9 @@ public class UiShopPanel : UIPanelBase
         // Get items for current category
         var items = ShopManager.IN.GetItemsByCategory(this.currentCategory);
         
-        // Create UI elements for each item
+        print($"Refresh Items {items.Count}");
+        
+        // Create UI elements for each itemData
         foreach (var item in items)
         {
             if (item.IsUnlocked)
@@ -128,24 +128,24 @@ public class UiShopPanel : UIPanelBase
         }
     }
     
-    private void CreateItemDisplay(ShopItem item)
+    private void CreateItemDisplay(ShopItemData itemData)
     {            
         var shopItemUI = Instantiate(shopItemPrefab, itemsGridParent);
         this.currentItemDisplays.Add(shopItemUI.gameObject);
         
-        // Setup item display (this would be expanded with actual UI components)
+        // Setup itemData display (this would be expanded with actual UI components)
         Button itemButton = shopItemUI.GetComponent<Button>();
         if (itemButton != null)
         {
-            itemButton.onClick.AddListener(() => SelectItem(item));
+            itemButton.onClick.AddListener(() => SelectItem(itemData));
         }
 
-        shopItemUI.Initialize(item);
+        shopItemUI.Initialize(itemData);
     }
     
-    private void SelectItem(ShopItem item)
+    private void SelectItem(ShopItemData itemData)
     {
-        this.selectedItem = item;
+        this.selectedItemData = itemData;
         ShowItemDetail();
     }
     
@@ -165,16 +165,16 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshItemDetail()
     {
-        if (selectedItem == null)
+        if (selectedItemData == null)
             return;
             
-        // Update item info
+        // Update itemData info
         if (this.itemNameText != null)
-            this.itemNameText.text = this.selectedItem.DisplayName;
+            this.itemNameText.text = this.selectedItemData.DisplayName;
 
         if (this.itemDescriptionText != null)
-            this.itemDescriptionText.text = this.selectedItem.Description;        if (this.itemIcon != null && this.selectedItem.Icon != null)
-            this.itemIcon.sprite = this.selectedItem.Icon;
+            this.itemDescriptionText.text = this.selectedItemData.Description;        if (this.itemIcon != null && this.selectedItemData.Icon != null)
+            this.itemIcon.sprite = this.selectedItemData.Icon;
         
         // Update purchase button
         RefreshPurchaseButton();
@@ -185,18 +185,18 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshPurchaseButton()
     {
-        if (this.purchaseButton == null || this.selectedItem == null)
+        if (this.purchaseButton == null || this.selectedItemData == null)
             return;
             
-        bool canPurchase = this.selectedItem.CanPurchase && 
-                          (this.selectedItem.Cost?.CanAfford(ResourceManager.IN) ?? false);
+        bool canPurchase = this.selectedItemData.CanPurchase && 
+                          (this.selectedItemData.Cost?.CanAfford(ResourceManager.IN) ?? false);
         
         this.purchaseButton.interactable = canPurchase;
         
         if (this.purchaseButtonText != null)
         {
-            if (!this.selectedItem.CanPurchase)
-                this.purchaseButtonText.text = this.selectedItem.IsMaxedOut ? "Max Purchased" : "Locked";
+            if (!this.selectedItemData.CanPurchase)
+                this.purchaseButtonText.text = this.selectedItemData.IsMaxedOut ? "Max Purchased" : "Locked";
             else if (!canPurchase)
                 this.purchaseButtonText.text = "Can't Afford";
             else
@@ -214,11 +214,11 @@ public class UiShopPanel : UIPanelBase
         }
         this.currentCostDisplays.Clear();
         
-        if (this.selectedItem?.Cost == null || costDisplayParent == null || costItemPrefab == null)
+        if (this.selectedItemData?.Cost == null || costDisplayParent == null || costItemPrefab == null)
             return;
             
         // Create cost displays
-        foreach (var resource in this.selectedItem.Cost.RequiredResources)
+        foreach (var resource in this.selectedItemData.Cost.RequiredResources)
         {
             GameObject costObj = Instantiate(costItemPrefab, costDisplayParent);
             currentCostDisplays.Add(costObj);
@@ -237,13 +237,13 @@ public class UiShopPanel : UIPanelBase
     
     private void PurchaseSelectedItem()
     {
-        if (this.selectedItem != null)
+        if (this.selectedItemData != null)
         {
-            ShopManager.IN.TryPurchaseItem(this.selectedItem);
+            ShopManager.IN.TryPurchaseItem(this.selectedItemData);
         }
     }
     
-    private void OnItemPurchased(ShopItem item)
+    private void OnItemPurchased(ShopItemData itemData)
     {
         // Refresh UI after purchase
         RefreshItemDetail();
@@ -252,7 +252,7 @@ public class UiShopPanel : UIPanelBase
         // TODO: Show purchase success feedback
     }
     
-    private void OnPurchaseFailed(ShopItem item, string reason)
+    private void OnPurchaseFailed(ShopItemData itemData, string reason)
     {
         // TODO: Show purchase failure message
         Debug.Log($"Purchase failed: {reason}");

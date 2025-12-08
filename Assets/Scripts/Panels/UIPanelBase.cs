@@ -56,6 +56,10 @@ public class UIPanelBase : MonoBehaviour
     {
         SetVisible(false); 
     }
+    
+    protected virtual void RegisterEvents() {}
+
+    protected virtual void UnregisterEvents() {}
 
     private void SetCurrentPanel()
     {
@@ -95,6 +99,11 @@ public class UIPanelBase : MonoBehaviour
             this.Canvas.enabled = inIsVisible;
         else
             this.gameObject.SetActive(inIsVisible);
+
+        if (inIsVisible)
+            RegisterEvents();
+        else
+            UnregisterEvents();
     }
 
     public void FadeIn()

@@ -171,9 +171,9 @@ public class SaveManager : MonoBehaviour
         this.currentSaveData.TotalPlayTime += Time.time - this.sessionStartTime;
         this.sessionStartTime = Time.time;
         
-        // Resources
+        // resourcesSave
         if (ResourceManager.IN != null)
-            this.currentSaveData.Resources = ResourceManager.IN.GetSaveData();
+            this.currentSaveData.resourcesSave = ResourceManager.IN.GetSaveData();
         
         // Decorations
         if (DecorationManager.IN != null)
@@ -200,9 +200,9 @@ public class SaveManager : MonoBehaviour
         if (currentSaveData == null)
             return;
             
-        // Resources
+        // resourcesSave
         if (ResourceManager.IN != null)
-            ResourceManager.IN.LoadSaveData(currentSaveData.Resources);
+            ResourceManager.IN.LoadSaveData(currentSaveData.resourcesSave);
         
         // Decorations
         if (DecorationManager.IN != null)

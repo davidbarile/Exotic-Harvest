@@ -8,9 +8,9 @@ using UnityEngine;
 [Serializable]
 public class ResourceCost
 {
-    [SerializeField] private List<Resource> requiredResources = new();
+    [SerializeField] private List<ResourceData> requiredResources = new();
     
-    public List<Resource> RequiredResources => requiredResources;
+    public List<ResourceData> RequiredResources => requiredResources;
     
     public ResourceCost()
     {
@@ -19,27 +19,27 @@ public class ResourceCost
     
     public ResourceCost(ResourceType type, int amount)
     {
-        requiredResources = new() { new Resource(type, amount) };
+        requiredResources = new() { new ResourceData(type, amount) };
     }
     
-    public ResourceCost(ResourceDefinition definition, int amount)
+    public ResourceCost(ResourceConfig config, int amount)
     {
-        requiredResources = new() { new Resource(definition, amount) };
+        requiredResources = new() { new ResourceData(config, amount) };
     }
     
-    public ResourceCost(params Resource[] resources)
+    public ResourceCost(params ResourceData[] resources)
     {
         requiredResources = new(resources);
     }
     
     public void AddCost(ResourceType type, int amount)
     {
-        requiredResources.Add(new Resource(type, amount));
+        requiredResources.Add(new ResourceData(type, amount));
     }
     
-    public void AddCost(ResourceDefinition definition, int amount)
+    public void AddCost(ResourceConfig config, int amount)
     {
-        requiredResources.Add(new Resource(definition, amount));
+        requiredResources.Add(new ResourceData(config, amount));
     }
     
     public bool CanAfford(ResourceManager resourceManager)

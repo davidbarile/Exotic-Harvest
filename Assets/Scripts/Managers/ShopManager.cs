@@ -13,16 +13,16 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopDatabase shopDatabase;
     [SerializeField] private bool debugMode;
     
-    private List<ShopItem> allShopItems = new();
+    private List<ShopItemData> allShopItems = new();
     
-    private Dictionary<string, ShopItem> shopItemsById;
-    private Dictionary<EShopCategory, List<ShopItem>> itemsByCategory;
+    private Dictionary<string, ShopItemData> shopItemsById;
+    private Dictionary<EShopCategory, List<ShopItemData>> itemsByCategory;
     
     public ShopDatabase Database => this.shopDatabase;
     
     // Events
-    public static event Action<ShopItem> OnItemPurchased;
-    public static event Action<ShopItem, string> OnPurchaseFailed; // Item, reason
+    public static event Action<ShopItemData> OnItemPurchased;
+    public static event Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
     public static event Action OnShopRefreshed;
     
     private void Awake()
@@ -79,9 +79,9 @@ public class ShopManager : MonoBehaviour
         RefreshShop();
     }
     
-    private ShopItem CreateShopItemFromDefinition(ShopItemConfig definition)
+    private ShopItemData CreateShopItemFromDefinition(ShopItemConfig definition)
     {
-        var shopItem = new ShopItem(definition.ID, definition.DisplayName, definition.Category, definition.ItemType)
+        var shopItem = new ShopItemData(definition.ID, definition.DisplayName, definition.Category, definition.ItemType)
         {
             Description = definition.Description,
             Cost = definition.Cost,
@@ -97,9 +97,9 @@ public class ShopManager : MonoBehaviour
         return shopItem;
     }
     
-    public ShopItem CreateDecorationItem(string id, string name, string description, DecorationType decorationType, ResourceCost cost)
+    public ShopItemData CreateDecorationItem(string id, string name, string description, DecorationType decorationType, ResourceCost cost)
     {
-        var item = new ShopItem(id, name, EShopCategory.Decorations, EItemType.Decoration)
+        var item = new ShopItemData(id, name, EShopCategory.Decorations, EItemType.Decoration)
         {
             Description = description,
             DecorationType = decorationType,
@@ -110,9 +110,9 @@ public class ShopManager : MonoBehaviour
         return item;
     }
     
-    public ShopItem CreateResourceItem(string id, string name, string description, ResourceType resourceType, int amount, ResourceCost cost)
+    public ShopItemData CreateResourceItem(string id, string name, string description, ResourceType resourceType, int amount, ResourceCost cost)
     {
-        var item = new ShopItem(id, name, EShopCategory.Resources, EItemType.Resource)
+        var item = new ShopItemData(id, name, EShopCategory.Resources, EItemType.Resource)
         {
             Description = description,
             ResourceType = resourceType,
@@ -124,26 +124,26 @@ public class ShopManager : MonoBehaviour
         return item;
     }
     
-    public void AddItem(ShopItem item)
+    public void AddItem(ShopItemData itemData)
     {
-        if (item == null || string.IsNullOrEmpty(item.Id))
+        if (itemData == null || string.IsNullOrEmpty(itemData.Id))
         {
-            Debug.LogError("Invalid shop item");
+            Debug.LogError("Invalid shop itemData");
             return;
         }
         
         // Add to main collection
-        if (!allShopItems.Contains(item))
-            allShopItems.Add(item);
+        if (!allShopItems.Contains(itemData))
+            allShopItems.Add(itemData);
             
         // Update lookup dictionaries
-        shopItemsById[item.Id] = item;
-        itemsByCategory[item.Category].Add(item);
+        shopItemsById[itemData.Id] = itemData;
+        itemsByCategory[itemData.Category].Add(itemData);
     }
     
     public bool TryPurchaseItem(string itemId)
     {
-        if (!shopItemsById.TryGetValue(itemId, out ShopItem item))
+        if (!shopItemsById.TryGetValue(itemId, out ShopItemData item))
         {
             OnPurchaseFailed?.Invoke(null, "Item not found");
             return false;
@@ -152,66 +152,66 @@ public class ShopManager : MonoBehaviour
         return TryPurchaseItem(item);
     }
     
-    public bool TryPurchaseItem(ShopItem item)
+    public bool TryPurchaseItem(ShopItemData itemData)
     {
-        if (item == null)
+        if (itemData == null)
         {
             OnPurchaseFailed?.Invoke(null, "Item is null");
             return false;
         }
         
-        // Check if item can be purchased
-        if (!item.CanPurchase)
+        // Check if itemData can be purchased
+        if (!itemData.CanPurchase)
         {
-            OnPurchaseFailed?.Invoke(item, "Item cannot be purchased");
+            OnPurchaseFailed?.Invoke(itemData, "Item cannot be purchased");
             return false;
         }
         
         // Check if player can afford it
-        if (!item.Cost.CanAfford(ResourceManager.IN))
+        if (!itemData.Cost.CanAfford(ResourceManager.IN))
         {
-            OnPurchaseFailed?.Invoke(item, "Cannot afford this item");
+            OnPurchaseFailed?.Invoke(itemData, "Cannot afford this itemData");
             return false;
         }
         
         // Spend resources
-        if (!ResourceManager.IN.SpendResources(item.Cost))
+        if (!ResourceManager.IN.SpendResources(itemData.Cost))
         {
-            OnPurchaseFailed?.Invoke(item, "Failed to spend resources");
+            OnPurchaseFailed?.Invoke(itemData, "Failed to spend resources");
             return false;
         }
         
         // Execute purchase
-        if (ExecutePurchase(item))
+        if (ExecutePurchase(itemData))
         {
-            item.TryPurchase(); // Update purchase count
-            OnItemPurchased?.Invoke(item);
+            itemData.TryPurchase(); // Update purchase count
+            OnItemPurchased?.Invoke(itemData);
             
             if (debugMode)
-                Debug.Log($"Purchased {item.DisplayName}");
+                Debug.Log($"Purchased {itemData.DisplayName}");
                 
             return true;
         }
         else
         {
             // Refund resources if execution failed
-            foreach (var resource in item.Cost.RequiredResources)
+            foreach (var resource in itemData.Cost.RequiredResources)
             {
                 ResourceManager.IN.AddResource(resource.Type, resource.Amount);
             }
-            OnPurchaseFailed?.Invoke(item, "Failed to execute purchase");
+            OnPurchaseFailed?.Invoke(itemData, "Failed to execute purchase");
             return false;
         }
     }
     
-    private bool ExecutePurchase(ShopItem item)
+    private bool ExecutePurchase(ShopItemData itemData)
     {
-        switch (item.ItemType)
+        switch (itemData.ItemType)
         {
             case EItemType.Decoration:
-                return PurchaseDecoration(item);
+                return PurchaseDecoration(itemData);
             case EItemType.Resource:
-                return PurchaseResource(item);
+                return PurchaseResource(itemData);
             case EItemType.ToolUpgrade:
             case EItemType.Capacity:
             case EItemType.Multiplier:
@@ -224,41 +224,41 @@ public class ShopManager : MonoBehaviour
         }
     }
     
-    private bool PurchaseDecoration(ShopItem item)
+    private bool PurchaseDecoration(ShopItemData itemData)
     {
         if (DecorationManager.IN != null)
         {
-            var decoration = DecorationManager.IN.PlaceDecoration(item.DecorationType);
+            var decoration = DecorationManager.IN.PlaceDecoration(itemData.DecorationType);
             return decoration != null;
         }
         return false;
     }
     
-    private bool PurchaseResource(ShopItem item)
+    private bool PurchaseResource(ShopItemData itemData)
     {
         if (ResourceManager.IN != null)
         {
-            return ResourceManager.IN.AddResource(item.ResourceType, item.ResourceAmount);
+            return ResourceManager.IN.AddResource(itemData.ResourceType, itemData.ResourceAmount);
         }
         return false;
     }
     
-    public List<ShopItem> GetItemsByCategory(EShopCategory category)
+    public List<ShopItemData> GetItemsByCategory(EShopCategory category)
     {
-        if (this.itemsByCategory.TryGetValue(category, out List<ShopItem> items))
+        if (this.itemsByCategory.TryGetValue(category, out List<ShopItemData> items))
             return new(items);
         return new();
     }
     
-    public List<ShopItem> GetAvailableItems(EShopCategory category)
+    public List<ShopItemData> GetAvailableItems(EShopCategory category)
     {
         var categoryItems = GetItemsByCategory(category);
         return categoryItems.FindAll(item => item.CanPurchase);
     }
     
-    public ShopItem GetItemById(string id)
+    public ShopItemData GetItemById(string id)
     {
-        this.shopItemsById.TryGetValue(id, out ShopItem item);
+        this.shopItemsById.TryGetValue(id, out ShopItemData item);
         return item;
     }
     
@@ -294,7 +294,7 @@ public class ShopManager : MonoBehaviour
     
     public void UnlockItem(string itemId)
     {
-        if (shopItemsById.TryGetValue(itemId, out ShopItem item))
+        if (shopItemsById.TryGetValue(itemId, out ShopItemData item))
         {
             item.IsUnlocked = true;
             RefreshShop();
@@ -303,7 +303,7 @@ public class ShopManager : MonoBehaviour
     
     public void LockItem(string itemId)
     {
-        if (shopItemsById.TryGetValue(itemId, out ShopItem item))
+        if (shopItemsById.TryGetValue(itemId, out ShopItemData item))
         {
             item.IsUnlocked = false;
             RefreshShop();
@@ -326,7 +326,7 @@ public class ShopManager : MonoBehaviour
     {
         foreach (var kvp in purchaseData)
         {
-            if (this.shopItemsById.TryGetValue(kvp.Key, out ShopItem item))
+            if (this.shopItemsById.TryGetValue(kvp.Key, out ShopItemData item))
             {
                 item.CurrentPurchases = kvp.Value;
             }
@@ -335,7 +335,7 @@ public class ShopManager : MonoBehaviour
     }
     
     // Debug helpers
-    [ContextMenu("Give Test Resources")]
+    [ContextMenu("Give Test resourcesSave")]
     private void GiveTestResources()
     {
         if (debugMode && ResourceManager.IN != null)

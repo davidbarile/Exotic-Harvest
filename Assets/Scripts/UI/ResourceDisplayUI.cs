@@ -13,12 +13,12 @@ public class ResourceDisplayUI : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     
     private ResourceType resourceType;
-    private ResourceDefinition resourceDefinition;
+    private ResourceConfig resourceConfig;
     
-    public void Initialize(ResourceType type, ResourceDefinition definition)
+    public void Initialize(ResourceType type, ResourceConfig config)
     {
         resourceType = type;
-        resourceDefinition = definition;
+        resourceConfig = config;
         
         UpdateDisplay();
         
@@ -55,20 +55,20 @@ public class ResourceDisplayUI : MonoBehaviour
         if (amountText != null)
         {
             amountText.text = currentAmount.ToString();
-            amountText.color = resourceDefinition?.UiColor ?? Color.white;
+            amountText.color = resourceConfig?.UiColor ?? Color.white;
         }
         
         // Update icon
-        if (iconImage != null && resourceDefinition != null)
+        if (iconImage != null && resourceConfig != null)
         {
-            iconImage.sprite = resourceDefinition.Icon;
-            iconImage.color = resourceDefinition.UiColor;
+            iconImage.sprite = resourceConfig.Icon;
+            iconImage.color = resourceConfig.UiColor;
         }
         
         // Update background color based on resource category
-        if (backgroundImage != null && resourceDefinition != null)
+        if (backgroundImage != null && resourceConfig != null)
         {
-            Color bgColor = GetCategoryColor(resourceDefinition.Category);
+            Color bgColor = GetCategoryColor(resourceConfig.Category);
             bgColor.a = 0.3f;
             backgroundImage.color = bgColor;
         }

@@ -9,13 +9,13 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager IN;
     
-    [Header("Resource Database")]
+    [Header("ResourceData Database")]
     [SerializeField] private ResourceDatabase resourceDatabase;
     
     [Header("Inventory Settings")]
     [SerializeField] private int maxInventorySize = 100; // Total item limit across all resources
     
-    private Dictionary<ResourceType, Resource> inventory = new();
+    private Dictionary<ResourceType, ResourceData> inventory = new();
     
     public ResourceDatabase Database => this.resourceDatabase;
     
@@ -34,7 +34,7 @@ public class ResourceManager : MonoBehaviour
         // Initialize with 0 of each resource type
         foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
         {
-            this.inventory[type] = new Resource(type, 0);
+            this.inventory[type] = new ResourceData(type, 0);
         }
     }
     
@@ -57,7 +57,7 @@ public class ResourceManager : MonoBehaviour
         }
         
         if (!this.inventory.ContainsKey(type))
-            this.inventory[type] = new Resource(type, 0);
+            this.inventory[type] = new ResourceData(type, 0);
         
         this.inventory[type].Add(amount);
         OnResourceChanged?.Invoke(type, this.inventory[type].Amount);
@@ -88,35 +88,35 @@ public class ResourceManager : MonoBehaviour
         return total;
     }
     
-    public Dictionary<ResourceType, Resource> GetAllResources()
+    public Dictionary<ResourceType, ResourceData> GetAllResources()
     {
         return new(this.inventory);
     }
     
     // For save system
-    public ResourceData GetSaveData()
+    public ResourceSaveData GetSaveData()
     {
-        var saveData = new ResourceData();
+        var saveData = new ResourceSaveData();
         foreach (var kvp in this.inventory)
         {
             if (kvp.Value.Amount > 0)
-                saveData.Resources.Add(kvp.Value.Copy());
+                saveData.ResourceDatas.Add(kvp.Value.Copy());
         }
         saveData.MaxInventorySize = this.maxInventorySize;
         return saveData;
     }
     
-    public void LoadSaveData(ResourceData saveData)
+    public void LoadSaveData(ResourceSaveData saveSaveData)
     {
         InitializeInventory(); // Reset to 0
         
-        foreach (var resource in saveData.Resources)
+        foreach (var resource in saveSaveData.ResourceDatas)
         {
             if (this.inventory.ContainsKey(resource.Type))
                 this.inventory[resource.Type] = resource.Copy();
         }
         
-        this.maxInventorySize = saveData.MaxInventorySize;
+        this.maxInventorySize = saveSaveData.MaxInventorySize;
         
         // Notify UI of all changes
         foreach (var kvp in this.inventory)

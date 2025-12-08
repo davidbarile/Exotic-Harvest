@@ -23,7 +23,7 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private int numInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
     private EItemCategory currentCategory = EItemCategory.Decorations;
-    private ShopItem selectedItem;
+    private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
 
     private void Start()
@@ -33,7 +33,7 @@ public class UiInventoryPanel : UIPanelBase
         RefreshInventory();
     }
     
-    private void OnEnable()
+    protected override void RegisterEvents()
     {
         if (InventoryManager.IN != null)
         {
@@ -50,7 +50,7 @@ public class UiInventoryPanel : UIPanelBase
         RefreshInventory();
     }
 
-    private void OnDisable()
+    protected override void UnregisterEvents()
     {
         if (InventoryManager.IN != null)
         {
@@ -91,7 +91,7 @@ public class UiInventoryPanel : UIPanelBase
     public void SwitchCategory(EItemCategory category)
     {
         this.currentCategory = category;
-        this.selectedItem = null;
+        this.selectedItemData = null;
         RefreshItemGrid();
         HideItemDetail();
     }
@@ -117,7 +117,7 @@ public class UiInventoryPanel : UIPanelBase
         // Get items for current category
         var items = InventoryManager.IN.GetItemsByCategory(currentCategory);
         
-        // // Create UI elements for each item
+        // // Create UI elements for each itemData
         foreach (var item in items)
         {
             if (item.IsUnlocked)
@@ -125,24 +125,24 @@ public class UiInventoryPanel : UIPanelBase
         }
     }
     
-    private void CreateItemDisplay(ShopItem item)
+    private void CreateItemDisplay(ShopItemData itemData)
     {            
         var invCellItem = Instantiate(this.inventoryCellPrefab, this.itemsGridParent);
         this.currentItemDisplays.Add(invCellItem.gameObject);
         
-        // Setup item display (this would be expanded with actual UI components)
+        // Setup itemData display (this would be expanded with actual UI components)
         Button itemButton = invCellItem.GetComponent<Button>();
         if (itemButton != null)
         {
-            itemButton.onClick.AddListener(() => SelectItem(item));
+            itemButton.onClick.AddListener(() => SelectItem(itemData));
         }
 
-        // invCellItem.Initialize(item);
+        // invCellItem.Initialize(itemData);
     }
     
-    private void SelectItem(ShopItem item)
+    private void SelectItem(ShopItemData itemData)
     {
-        this.selectedItem = item;
+        this.selectedItemData = itemData;
         ShowItemDetail();
     }
     
@@ -162,18 +162,18 @@ public class UiInventoryPanel : UIPanelBase
 
     private void RefreshItemDetail()
     {
-        if (this.selectedItem == null)
+        if (this.selectedItemData == null)
             return;
 
-        // Update item info
+        // Update itemData info
         if (this.itemNameText != null)
-            this.itemNameText.text = this.selectedItem.DisplayName;
+            this.itemNameText.text = this.selectedItemData.DisplayName;
 
         if (this.itemDescriptionText != null)
-            this.itemDescriptionText.text = this.selectedItem.Description;
+            this.itemDescriptionText.text = this.selectedItemData.Description;
 
-        if (this.itemIcon != null && this.selectedItem.Icon != null)
-            this.itemIcon.sprite = this.selectedItem.Icon;
+        if (this.itemIcon != null && this.selectedItemData.Icon != null)
+            this.itemIcon.sprite = this.selectedItemData.Icon;
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)

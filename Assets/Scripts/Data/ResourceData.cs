@@ -5,34 +5,34 @@ using UnityEngine;
 /// Represents a resource with type and quantity (runtime data)
 /// </summary>
 [Serializable]
-public class Resource
+public class ResourceData
 {
     public ResourceType Type;
     public int Amount;
     
-    // Cache reference to definition (not serialized)
-    [System.NonSerialized] private ResourceDefinition cachedDefinition;
+    // Cache reference to config (not serialized)
+    [System.NonSerialized] private ResourceConfig cachedConfig;
     
-    public Resource(ResourceType type, int amount = 0)
+    public ResourceData(ResourceType type, int amount = 0)
     {
         this.Type = type;
         this.Amount = amount;
     }
     
-    public Resource(ResourceDefinition definition, int amount = 0)
+    public ResourceData(ResourceConfig config, int amount = 0)
     {
-        this.Type = definition.ResourceType;
+        this.Type = config.ResourceType;
         this.Amount = amount;
-        this.cachedDefinition = definition;
+        this.cachedConfig = config;
     }
     
-    public ResourceDefinition GetDefinition()
+    public ResourceConfig GetDefinition()
     {
-        if (this.cachedDefinition == null && ResourceManager.IN?.Database != null)
+        if (this.cachedConfig == null && ResourceManager.IN?.Database != null)
         {
-            this.cachedDefinition = ResourceManager.IN.Database.GetResource(this.Type);
+            this.cachedConfig = ResourceManager.IN.Database.GetResource(this.Type);
         }
-        return this.cachedDefinition;
+        return this.cachedConfig;
     }
     
     public void Add(int value)
@@ -57,14 +57,14 @@ public class Resource
         return false;
     }
     
-    public Resource Copy()
+    public ResourceData Copy()
     {
-        var copy = new Resource(this.Type, this.Amount);
-        copy.cachedDefinition = this.cachedDefinition;
+        var copy = new ResourceData(this.Type, this.Amount);
+        copy.cachedConfig = this.cachedConfig;
         return copy;
     }
     
-    // Convenience properties that use definition
+    // Convenience properties that use config
     public string DisplayName => GetDefinition()?.DisplayName ?? Type.ToString();
     public string Description => GetDefinition()?.Description ?? "";
     public Sprite Icon => GetDefinition()?.Icon;

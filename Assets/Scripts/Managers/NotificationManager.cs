@@ -52,7 +52,7 @@ public class NotificationManager : MonoBehaviour
     
     private void SetupEventListeners()
     {
-        // Resource events
+        // ResourceData events
         if (ResourceManager.IN != null)
         {
             ResourceManager.OnResourceGained += OnResourceGained;
@@ -94,7 +94,7 @@ public class NotificationManager : MonoBehaviour
     
     private void RemoveEventListeners()
     {
-        // Resource events
+        // ResourceData events
         if (ResourceManager.IN != null)
         {
             ResourceManager.OnResourceGained -= OnResourceGained;
@@ -261,12 +261,12 @@ public class NotificationManager : MonoBehaviour
         ShowNotification(ToastNotification.TimeOfDayChanged(timeOfDay));
     }
     
-    private void OnItemPurchased(ShopItem item)
+    private void OnItemPurchased(ShopItemData itemData)
     {
-        ShowNotification(ToastNotification.ItemPurchased(item.DisplayName));
+        ShowNotification(ToastNotification.ItemPurchased(itemData.DisplayName));
     }
     
-    private void OnPurchaseFailed(ShopItem item, string reason)
+    private void OnPurchaseFailed(ShopItemData itemData, string reason)
     {
         var notification = new ToastNotification(
             "Purchase Failed",

@@ -5,7 +5,7 @@ using UnityEngine;
 /// Represents an item that can be purchased in the shop
 /// </summary>
 [Serializable]
-public class ShopItem
+public class ShopItemData
 {
     [Header("Item Identity")]
     public string Id;
@@ -38,7 +38,7 @@ public class ShopItem
     public bool IsMaxedOut => IsLimitedQuantity && CurrentPurchases >= MaxPurchases;
     public int RemainingPurchases => IsLimitedQuantity ? MaxPurchases - CurrentPurchases : -1;
     
-    public ShopItem(string id, string name, EShopCategory category, EItemType type)
+    public ShopItemData(string id, string name, EShopCategory category, EItemType type)
     {
         this.Id = id;
         this.DisplayName = name;

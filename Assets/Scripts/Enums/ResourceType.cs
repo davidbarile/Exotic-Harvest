@@ -3,7 +3,7 @@
 /// </summary>
 public enum ResourceType
 {
-    // Primary Resources
+    // Primary resourcesSave
     Water,
     
     // Bugs

@@ -74,9 +74,4 @@ public class UIConfirmPanel : UIPanelBase
         this.onConfirm?.Invoke();
         this.onConfirm = null;
     }
-
-    public override void Hide()
-    {
-        base.Hide();
-    }
 }

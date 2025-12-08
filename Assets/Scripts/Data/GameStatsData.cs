@@ -13,7 +13,7 @@ public class GameStatsData
     public int TotalActivelyForaged = 0;
     public int TotalPassivelyHarvested = 0;
     
-    [Header("Resource Specific")]
+    [Header("ResourceData Specific")]
     public int WaterCollected = 0;
     public int BugsCollected = 0;
     public int SeedsCollected = 0;

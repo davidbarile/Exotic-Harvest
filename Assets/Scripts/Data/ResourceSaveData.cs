@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Serializable data structure for saving/loading resources
 /// </summary>
 [Serializable]
-public class ResourceData
+public class ResourceSaveData
 {
-    public List<Resource> Resources = new();
+    [FormerlySerializedAs("Resources")] public List<ResourceData> ResourceDatas = new();
     public int MaxInventorySize = 100;
 }

@@ -5,16 +5,16 @@ using UnityEngine;
 /// <summary>
 /// Database of all resource definitions
 /// </summary>
-[CreateAssetMenu(fileName = "ResourceDatabase", menuName = "Exotic Harvest/Resource Database")]
+[CreateAssetMenu(fileName = "ResourceDatabase", menuName = "Exotic Harvest/ResourceData Database")]
 public class ResourceDatabase : ScriptableObject
 {
-    [Header("All Resources")]
-    [SerializeField] private ResourceDefinition[] allResources;
+    [Header("All resourcesSave")]
+    [SerializeField] private ResourceConfig[] allResources;
     
-    private Dictionary<ResourceType, ResourceDefinition> resourceLookup;
-    private Dictionary<string, ResourceDefinition> resourceByIdLookup;
+    private Dictionary<ResourceType, ResourceConfig> resourceLookup;
+    private Dictionary<string, ResourceConfig> resourceByIdLookup;
     
-    public ResourceDefinition[] AllResources => allResources;
+    public ResourceConfig[] AllResources => allResources;
     
     private void OnEnable()
     {
@@ -43,56 +43,56 @@ public class ResourceDatabase : ScriptableObject
         }
     }
     
-    public ResourceDefinition GetResource(ResourceType type)
+    public ResourceConfig GetResource(ResourceType type)
     {
         if (this.resourceLookup == null) BuildLookupTables();
-        this.resourceLookup.TryGetValue(type, out ResourceDefinition resource);
+        this.resourceLookup.TryGetValue(type, out ResourceConfig resource);
         return resource;
     }
     
-    public ResourceDefinition GetResource(string id)
+    public ResourceConfig GetResource(string id)
     {
         if (resourceByIdLookup == null) BuildLookupTables();
-        resourceByIdLookup.TryGetValue(id, out ResourceDefinition resource);
+        resourceByIdLookup.TryGetValue(id, out ResourceConfig resource);
         return resource;
     }
     
-    public ResourceDefinition[] GetResourcesByCategory(ResourceCategory category)
+    public ResourceConfig[] GetResourcesByCategory(ResourceCategory category)
     {
-        if (allResources == null) return new ResourceDefinition[0];
+        if (allResources == null) return new ResourceConfig[0];
         return allResources.Where(r => r != null && r.Category == category).ToArray();
     }
     
-    public ResourceDefinition[] GetAvailableResources()
+    public ResourceConfig[] GetAvailableResources()
     {
-        if (allResources == null) return new ResourceDefinition[0];
+        if (allResources == null) return new ResourceConfig[0];
         return allResources.Where(r => r != null && r.IsCurrentlyAvailable()).ToArray();
     }
     
-    public ResourceDefinition[] GetForageableResources()
+    public ResourceConfig[] GetForageableResources()
     {
-        if (allResources == null) return new ResourceDefinition[0];
+        if (allResources == null) return new ResourceConfig[0];
         return allResources.Where(r => r != null && r.CanBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
     }
 
-    public ResourceDefinition[] GetPassiveResources()
+    public ResourceConfig[] GetPassiveResources()
     {
-        if (allResources == null) return new ResourceDefinition[0];
+        if (allResources == null) return new ResourceConfig[0];
         return allResources.Where(r => r != null && r.CanBePassivelyGenerated).ToArray();
     }
 
 #if UNITY_EDITOR
-    [ContextMenu("Auto-Populate Resources")]
+    [ContextMenu("Auto-Populate resourcesSave")]
     private void AutoPopulateResources()
     {
-        // This would be called in editor to automatically find all ResourceDefinition assets
-        var resourceGuids = UnityEditor.AssetDatabase.FindAssets("t:ResourceDefinition");
-        var foundResources = new List<ResourceDefinition>();
+        // This would be called in editor to automatically find all ResourceConfig assets
+        var resourceGuids = UnityEditor.AssetDatabase.FindAssets("t:ResourceConfig");
+        var foundResources = new List<ResourceConfig>();
 
         foreach (var guid in resourceGuids)
         {
             var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
-            var resource = UnityEditor.AssetDatabase.LoadAssetAtPath<ResourceDefinition>(path);
+            var resource = UnityEditor.AssetDatabase.LoadAssetAtPath<ResourceConfig>(path);
             if (resource != null)
                 foundResources.Add(resource);
         }
