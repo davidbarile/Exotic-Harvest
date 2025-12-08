@@ -12,6 +12,7 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Transform itemsGridParent;
     [SerializeField] private Toggle[] categoryTabs;
     [SerializeField] private UiInventoryCell inventoryCellPrefab;
+    [SerializeField] private UiInventoryItem inventoryItemPrefab;
 
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -20,31 +21,21 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Image itemIcon;
 
     [Header("Inventory Stats")]
-    [SerializeField] private int numInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
-    private EItemCategory currentCategory = EItemCategory.Decorations;
-    private ShopItemData selectedItemData;
-    private List<GameObject> currentItemDisplays = new();
+    private EInventoryCategory currentCategory = EInventoryCategory.Decorations;
+    private InventoryItemData selectedItemData;
+    private List<UiInventoryCell> allInventoryCells = new();
 
-    private void Start()
-    {
-        SetupCategoryTabs();
-        SetupEventListeners();
-        RefreshInventory();
-    }
+    private bool isInitialized;
     
     protected override void RegisterEvents()
     {
+        if (!this.isInitialized)
+            SetupCategoryTabs();
+            
         if (InventoryManager.IN != null)
         {
-            // InventoryManager.OnItemPurchased += OnItemPurchased;
-            // InventoryManager.OnPurchaseFailed += OnPurchaseFailed;
             InventoryManager.OnInventoryRefreshed += RefreshInventory;
-        }
-
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceChanged += OnResourceChanged;
         }
 
         RefreshInventory();
@@ -54,14 +45,7 @@ public class UiInventoryPanel : UIPanelBase
     {
         if (InventoryManager.IN != null)
         {
-            // InventoryManager.OnItemPurchased -= OnItemPurchased;
-            // InventoryManager.OnPurchaseFailed -= OnPurchaseFailed;
             InventoryManager.OnInventoryRefreshed -= RefreshInventory;
-        }
-
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceChanged -= OnResourceChanged;
         }
     }
     
@@ -74,73 +58,92 @@ public class UiInventoryPanel : UIPanelBase
             var tab = categoryTabs[i];
             if (tab != null)
             {
-                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EItemCategory)categoryIndex); });
-                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EItemCategory)categoryIndex).ToString();
+                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EInventoryCategory)categoryIndex); });
+                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EInventoryCategory)categoryIndex).ToString();
             }
         }
 
         var selectedTab = this.categoryTabs[(int)this.currentCategory];
         selectedTab.isOn = true;
-    }
-    
-    private void SetupEventListeners()
-    {
-        
+
+        this.isInitialized = true;
     }
 
-    public void SwitchCategory(EItemCategory category)
+    public void SwitchCategory(EInventoryCategory category)
     {
+        if (this.currentCategory == category)
+            return;
+
+        if (UiInventoryCell.SelectedCell != null)
+            UiInventoryCell.SelectedCell.SetSelected(false);
+            
+        UiInventoryCell.SelectedCell = null;
+        
         this.currentCategory = category;
         this.selectedItemData = null;
-        RefreshItemGrid();
+        
+        RefreshItemGrid(false);
         HideItemDetail();
     }
 
       private void RefreshInventory()
     {
-        RefreshItemGrid();
+        RefreshItemGrid(false);
         RefreshItemDetail();
     }
-    
-    private void RefreshItemGrid()
+
+    private void RefreshItemGrid(bool shouldRecreateCells)
     {
-        if (InventoryManager.IN == null) return;
-        
+        if (!this.isInitialized)
+            return;
+
+        if (shouldRecreateCells || this.allInventoryCells.Count == 0)
+            CreateItemGrid();
+
         // Clear existing items
-        foreach (var item in this.currentItemDisplays)
+        foreach (var item in this.allInventoryCells)
         {
             if (item != null)
-                Destroy(item);
-        }
-        this.currentItemDisplays.Clear();
-            
-        // Get items for current category
-        var items = InventoryManager.IN.GetItemsByCategory(currentCategory);
-        
-        // // Create UI elements for each itemData
-        foreach (var item in items)
-        {
-            if (item.IsUnlocked)
-                CreateItemDisplay(item);
-        }
-    }
-    
-    private void CreateItemDisplay(ShopItemData itemData)
-    {            
-        var invCellItem = Instantiate(this.inventoryCellPrefab, this.itemsGridParent);
-        this.currentItemDisplays.Add(invCellItem.gameObject);
-        
-        // Setup itemData display (this would be expanded with actual UI components)
-        Button itemButton = invCellItem.GetComponent<Button>();
-        if (itemButton != null)
-        {
-            itemButton.onClick.AddListener(() => SelectItem(itemData));
+                item.ClearItem();
         }
 
-        // invCellItem.Initialize(itemData);
+        // Get items for current category
+        var itemsArray = InventoryManager.IN.GetItemsByCategory(currentCategory);
+
+        // // Create UI elements for each itemData
+        for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
+        {
+            var itemData = itemsArray[i];
+            if (itemData != null)
+            {
+                var cell = this.allInventoryCells[i];
+                var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
+                this.allInventoryCells[i].AddItem(prefab, itemData);
+            }
+        }
+    }
+
+    private void CreateItemGrid()
+    {
+        ClearItemGrid();
+
+        for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
+        {
+            this.allInventoryCells.Add(Instantiate(this.inventoryCellPrefab, this.itemsGridParent));
+        }
+    }
+
+    private void ClearItemGrid()
+    {
+        foreach (var item in this.allInventoryCells)
+        {
+            if (item != null)
+                Destroy(item.gameObject);
+        }
+        this.allInventoryCells.Clear();
     }
     
-    private void SelectItem(ShopItemData itemData)
+    private void SelectItem(InventoryItemData itemData)
     {
         this.selectedItemData = itemData;
         ShowItemDetail();
@@ -169,15 +172,6 @@ public class UiInventoryPanel : UIPanelBase
         if (this.itemNameText != null)
             this.itemNameText.text = this.selectedItemData.DisplayName;
 
-        if (this.itemDescriptionText != null)
-            this.itemDescriptionText.text = this.selectedItemData.Description;
-
-        if (this.itemIcon != null && this.selectedItemData.Icon != null)
-            this.itemIcon.sprite = this.selectedItemData.Icon;
-    }
-    
-    private void OnResourceChanged(ResourceType type, int newAmount)
-    {
-        
+        this.itemIcon.sprite = SpriteManager.GetSprite(this.selectedItemData.IconSpriteName);
     }
 }

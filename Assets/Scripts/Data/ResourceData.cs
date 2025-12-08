@@ -11,7 +11,7 @@ public class ResourceData
     public int Amount;
     
     // Cache reference to config (not serialized)
-    [System.NonSerialized] private ResourceConfig cachedConfig;
+    [NonSerialized] private ResourceConfig cachedConfig;
     
     public ResourceData(ResourceType type, int amount = 0)
     {
@@ -26,7 +26,7 @@ public class ResourceData
         this.cachedConfig = config;
     }
     
-    public ResourceConfig GetDefinition()
+    public ResourceConfig GetConfig()
     {
         if (this.cachedConfig == null && ResourceManager.IN?.Database != null)
         {
@@ -37,8 +37,8 @@ public class ResourceData
     
     public void Add(int value)
     {
-        var definition = GetDefinition();
-        int maxAmount = definition?.MaxStackSize ?? 999;
+        var config = GetConfig();
+        int maxAmount = config?.MaxStackSize ?? 999;
         this.Amount = Mathf.Min(this.Amount + value, maxAmount);
     }
     
@@ -59,15 +59,17 @@ public class ResourceData
     
     public ResourceData Copy()
     {
-        var copy = new ResourceData(this.Type, this.Amount);
-        copy.cachedConfig = this.cachedConfig;
+        var copy = new ResourceData(this.Type, this.Amount)
+        {
+            cachedConfig = this.cachedConfig
+        };
         return copy;
     }
     
     // Convenience properties that use config
-    public string DisplayName => GetDefinition()?.DisplayName ?? Type.ToString();
-    public string Description => GetDefinition()?.Description ?? "";
-    public Sprite Icon => GetDefinition()?.Icon;
-    public Color UIColor => GetDefinition()?.UiColor ?? Color.white;
-    public int BaseValue => GetDefinition()?.BaseValue ?? 1;
+    public string DisplayName => GetConfig()?.DisplayName ?? Type.ToString();
+    public string Description => GetConfig()?.Description ?? "";
+    public Sprite Icon => GetConfig()?.Icon;
+    public Color UIColor => GetConfig()?.UiColor ?? Color.white;
+    public int BaseValue => GetConfig()?.BaseValue ?? 1;
 }

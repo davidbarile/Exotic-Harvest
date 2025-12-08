@@ -15,6 +15,7 @@ using UnityEngine;
 [RequireComponent(typeof(ShopManager))]
 [RequireComponent(typeof(InventoryManager))]
 [RequireComponent(typeof(NotificationManager))]
+[RequireComponent(typeof(SpriteManager))]
 public class SingletonManager : MonoBehaviour
 {
     [SerializeField] private UIConfirmPanel confirmPanel;
@@ -35,6 +36,7 @@ public class SingletonManager : MonoBehaviour
         ShopManager.IN = this.GetComponent<ShopManager>();
         InventoryManager.IN = this.GetComponent<InventoryManager>();
         NotificationManager.IN = this.GetComponent<NotificationManager>();
+        SpriteManager.IN = this.GetComponent<SpriteManager>();
 
         UIConfirmPanel.IN = this.confirmPanel;
     }

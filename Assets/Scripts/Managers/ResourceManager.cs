@@ -32,7 +32,7 @@ public class ResourceManager : MonoBehaviour
     private void InitializeInventory()
     {
         // Initialize with 0 of each resource type
-        foreach (ResourceType type in System.Enum.GetValues(typeof(ResourceType)))
+        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
         {
             this.inventory[type] = new ResourceData(type, 0);
         }

@@ -52,7 +52,7 @@ public class ShopManager : MonoBehaviour
         this.itemsByCategory = new();
         
         // Initialize category lists
-        foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
+        foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
             this.itemsByCategory[category] = new();
         }

@@ -1017,6 +1017,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryCellUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4419297042781582162, guid: b008281ad426b4348b090cb457a9e832, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1031,7 +1035,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1039,15 +1043,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1079,11 +1083,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: b008281ad426b4348b090cb457a9e832, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1122,6 +1126,10 @@ PrefabInstance:
     - target: {fileID: 342947785790693565, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -14.747192
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130910214799975657, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 2442703844784753364, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_Pivot.y
@@ -1315,6 +1323,7 @@ MonoBehaviour:
   - {fileID: 6468172473136850425}
   - {fileID: 7594441685193247577}
   inventoryCellPrefab: {fileID: 7970994909893476982, guid: b008281ad426b4348b090cb457a9e832, type: 3}
+  inventoryItemPrefab: {fileID: 2792477337715926531, guid: fb09622b70c624ac487795e6ebe5b06c, type: 3}
   itemDetailPanel: {fileID: 1913089981110589122}
   itemNameText: {fileID: 1257147888974174448}
   itemDescriptionText: {fileID: 4825331779827062228}

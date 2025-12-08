@@ -13,4 +13,15 @@ public class GameManager : MonoBehaviour
         Application.runInBackground = true;
         Application.targetFrameRate = 60;
     }
+
+    private void Start()
+    {
+        var isNewGame = !SaveManager.IN.HasSaveFile;
+        SaveManager.IN.Init();
+
+        InventoryManager.IN.InitInventoryDict();
+
+        if (isNewGame)
+            InventoryManager.IN.AddDefaultItemsToInventory();
+    }
 }

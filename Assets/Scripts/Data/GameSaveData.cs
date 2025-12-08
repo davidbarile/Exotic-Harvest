@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// Complete save data structure for the game
@@ -19,16 +18,16 @@ public class GameSaveData
     public float Experience = 0f;
 
     [Header("Inventory")]
-    public List<DecorationData> Inventory = new();
+    public Dictionary<string, InventoryItemData[]> InventoryDataDict = new();
     
-    [FormerlySerializedAs("ResourceDatas")] [Header("resourcesSave")]
-    public ResourceSaveData resourcesSave = new();
+    [Header("Resources")]
+    public ResourceSaveData ResourcesSaveDatas = new();
     
     [Header("Decorations")]
-    public List<DecorationData> Decorations = new();
+    public List<DecorationData> DecorationDatas = new();
     
     [Header("Settings")]
-    public GameSettingsData Settings = new();
+    public GameSettingsData SettingsData = new();
     
     [Header("Time & Weather")]
     public float CurrentGameHour = 8f;
@@ -36,7 +35,7 @@ public class GameSaveData
     public float WeatherIntensity = 0.5f;
     
     [Header("Statistics")]
-    public GameStatsData Stats = new();
+    public GameStatsData StatsData = new();
     
     public GameSaveData()
     {

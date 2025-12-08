@@ -1,0 +1,86 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class UiInventoryCell : MonoBehaviour
+{
+    public static UiInventoryCell SelectedCell = null;
+
+    public Transform Container => this.container;
+    [SerializeField] private Transform container;
+    [SerializeField] private GameObject selectedOutline;
+
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text itemQuantityText;
+
+    public UiInventoryItem Item { get; private set; }
+
+    private void Start()
+    {
+        SetSelected(false);
+    }
+
+    public void HandleClick()
+    {
+        SetSelected(true);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if (selected)
+        {
+            if (SelectedCell != null && SelectedCell != this)
+            {
+                SelectedCell.SetSelected(false);
+            }
+            SelectedCell = this;
+        }
+        else
+        {
+            if (SelectedCell == this)
+            {
+                SelectedCell = null;
+            }
+        }
+        
+        if (this.selectedOutline != null)
+        {
+            this.selectedOutline.SetActive(selected);
+        }
+    }
+
+    public void ClearItem()
+    {
+        if (itemNameText != null)
+            itemNameText.text = string.Empty;
+
+        if (itemQuantityText != null)
+            itemQuantityText.text = string.Empty;
+
+        if (this.Item != null)
+        {
+           Destroy(this.Item.gameObject);
+           this.Item = null;
+        }
+    }
+    
+    public void AddItem(UiInventoryItem item, InventoryItemData itemData)
+    {
+        if (itemNameText != null)
+        {
+            itemNameText.text = itemData.DisplayName;
+        }
+
+        if (itemQuantityText != null)
+        {
+            itemQuantityText.text = itemData.Quantity > 1 ? itemData.Quantity.ToString() : string.Empty;
+        }
+
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        item.transform.localScale = Vector3.one;
+
+        this.Item = item;
+        this.Item.Setup(itemData, itemData.Quantity);
+    }
+}
