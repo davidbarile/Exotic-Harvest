@@ -88,8 +88,8 @@ public class UiInventoryCell : MonoBehaviour
     public void SwapItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
     {
         var thisItem = this.Item;
-        var thisItemData = InventoryItemData.Clone(thisItem.ItemData);
-        var otherItemData = InventoryItemData.Clone(otherItem.ItemData);
+        var thisItemData = InventoryItemData.Copy(thisItem.ItemData);
+        var otherItemData = InventoryItemData.Copy(otherItem.ItemData);
 
         if (otherCell.Container.TryGetComponent<UiDragTarget>(out var dragTarget))
         {
@@ -118,8 +118,8 @@ public class UiInventoryCell : MonoBehaviour
             return;
         }
 
-        var thisItemData = InventoryItemData.Clone(this.Item.ItemData);
-        var otherItemData = InventoryItemData.Clone(otherItem.ItemData);
+        var thisItemData = InventoryItemData.Copy(this.Item.ItemData);
+        var otherItemData = InventoryItemData.Copy(otherItem.ItemData);
         
         thisItemData.Quantity = quantityInOtherStack;
         otherItemData.Quantity = quantityInThisStack;

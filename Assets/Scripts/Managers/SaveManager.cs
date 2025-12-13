@@ -104,8 +104,6 @@ public class SaveManager : MonoBehaviour, ITickable
             // Update save data from current game state
             CollectSaveDataFromGame();
 
-
-
             JSON json = JSON.Serialize(this.currentSaveData);
 
 #if UNITY_EDITOR

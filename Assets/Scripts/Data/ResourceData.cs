@@ -9,9 +9,11 @@ public class ResourceData
 {
     public ResourceType Type;
     public int Amount;
-    
+
     // Cache reference to config (not serialized)
     [NonSerialized] private ResourceConfig cachedConfig;
+    
+    public ResourceData() { }
     
     public ResourceData(ResourceType type, int amount = 0)
     {

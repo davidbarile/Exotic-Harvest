@@ -15,7 +15,7 @@ public class InventoryItemData
     public bool CanDragToWorld;
     public string IconSpriteName;
 
-    public static InventoryItemData Clone(InventoryItemData cloneTarget)
+    public static InventoryItemData Copy(InventoryItemData cloneTarget)
     {
         return new InventoryItemData
         {
