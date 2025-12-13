@@ -60,7 +60,7 @@ public class ResourceDatabase : ScriptableObject
     public ResourceConfig[] GetResourcesByCategory(ResourceCategory category)
     {
         if (allResources == null) return new ResourceConfig[0];
-        return allResources.Where(r => r != null && r.Category == category).ToArray();
+        return allResources.Where(r => r != null && r.Category.HasFlag(category)).ToArray();
     }
     
     public ResourceConfig[] GetAvailableResources()

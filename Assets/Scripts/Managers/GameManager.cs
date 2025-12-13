@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         if (isNewGame)
             InventoryManager.IN.AddDefaultItemsToInventory();
         else
-            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.IN.CurrentSaveData.InventoryDataDict);
+            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.IN.CurrentSaveData.InventoryDataDict, SaveManager.IN.CurrentSaveData.AllInventoryItems);
+    
+        ResourceDisplayManager.IN.Init();
     }
 }

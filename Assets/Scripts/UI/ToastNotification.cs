@@ -117,9 +117,9 @@ public class ToastNotification
         string message = timeOfDay switch
         {
             TimeOfDay.Morning => "Morning has arrived! Look for dewdrops to collect.",
+            TimeOfDay.Afternoon => "It's afternoon. Perfect time for foraging.",
             TimeOfDay.Evening => "Evening approaches. Fireflies will appear soon.",
             TimeOfDay.Night => "Night falls. Moonbeams and stardust await!",
-            TimeOfDay.Afternoon => "It's afternoon. Perfect time for foraging.",
             _ => $"Time changed to {timeOfDay}"
         };
         

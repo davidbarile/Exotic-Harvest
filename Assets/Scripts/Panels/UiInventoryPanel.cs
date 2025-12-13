@@ -10,7 +10,9 @@ public class UiInventoryPanel : UIPanelBase
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
+    [SerializeField] private Transform resourcesDisplayParent;
     [SerializeField] private Toggle[] categoryTabs;
+    [SerializeField] private Toggle categoryTab_Items, categoryTab_Resources;
     [SerializeField] private UiInventoryCell inventoryCellPrefab;
     [SerializeField] private UiInventoryItem inventoryItemPrefab;
 
@@ -52,18 +54,18 @@ public class UiInventoryPanel : UIPanelBase
     private void SetupCategoryTabs()
     {
         // Setup category tab buttons if they exist
-        for (int i = 0; i < categoryTabs.Length; i++)
-        {
-            int categoryIndex = i;
-            var tab = categoryTabs[i];
-            if (tab != null)
-            {
-                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EInventoryCategory)categoryIndex); });
-                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EInventoryCategory)categoryIndex).ToString();
-            }
-        }
+        // for (int i = 0; i < this.categoryTabs.Length; i++)
+        // {
+        //     var tab = this.categoryTabs[i];
+        //     tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EInventoryCategory)i); });
+        //     tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EInventoryCategory)i).ToString();
+        // }
 
-        var selectedTab = this.categoryTabs[(int)this.currentCategory];
+        this.categoryTab_Items.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EInventoryCategory.Items); });
+        this.categoryTab_Resources.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EInventoryCategory.Resources); });
+
+        //var selectedTab = this.categoryTabs[(int)this.currentCategory];
+        var selectedTab = this.categoryTab_Items;
         selectedTab.isOn = true;
 
         this.isInitialized = true;
@@ -97,6 +99,8 @@ public class UiInventoryPanel : UIPanelBase
         if (!this.isInitialized)
             return;
 
+        var isItems = currentCategory != EInventoryCategory.Resources;
+
         if (shouldRecreateCells || this.allInventoryCells.Count == 0)
             CreateItemGrid();
 
@@ -107,20 +111,39 @@ public class UiInventoryPanel : UIPanelBase
                 item.ClearItem();
         }
 
-        // Get items for current category
-        var itemsArray = InventoryManager.IN.GetItemsByCategory(currentCategory);
+        this.itemsGridParent.gameObject.SetActive(isItems);
+        this.resourcesDisplayParent.gameObject.SetActive(!isItems);
 
-        // // Create UI elements for each itemData
-        for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
+        if(isItems)
         {
-            var itemData = itemsArray[i];
-            if (itemData != null)
+            var itemsArray = new InventoryItemData[NumInventorySlots];
+
+            if(currentCategory == EInventoryCategory.Items)
             {
-                var cell = this.allInventoryCells[i];
-                var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
-                prefab.name = $"Item_{itemData.DisplayName}";
-                this.allInventoryCells[i].AddItem(prefab, itemData);
+                itemsArray = InventoryManager.IN.GetAllInventoryItems();
             }
+            else
+            {
+                // Get items for current category
+                itemsArray = InventoryManager.IN.GetItemsByCategory(currentCategory);
+            }
+
+            // // Create UI elements for each itemData
+            for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
+            {
+                var itemData = itemsArray[i];
+                if (itemData != null)
+                {
+                    var cell = this.allInventoryCells[i];
+                    var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
+                    prefab.name = $"Item_{itemData.DisplayName}";
+                    this.allInventoryCells[i].AddItem(prefab, itemData);
+                }
+            }
+        }
+        else
+        {
+            //handled by ResourceDisplayManager component
         }
     }
 

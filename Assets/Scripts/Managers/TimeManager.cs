@@ -18,7 +18,7 @@ public class TimeManager : MonoBehaviour, ITickable
     [Space, SerializeField] private TMP_Text timeSliderText;
     [SerializeField] private TMP_Text timeScaleSliderText;
     
-    private float timeScale = 1f;
+    public float TimeScale { get; private set; } = 1f; // Speed multiplier for time progression
     
     // Events
     public static event Action<TimeOfDay> OnTimeOfDayChanged;
@@ -50,7 +50,7 @@ public class TimeManager : MonoBehaviour, ITickable
     {
         // Advance time
         float hoursPerSecond = 24f / (dayLengthInMinutes * 60f);
-        currentHour += hoursPerSecond * timeScale;
+        currentHour += hoursPerSecond * TimeScale;
         
         // Handle day rollover
         if (currentHour >= 24f)
@@ -94,14 +94,14 @@ public class TimeManager : MonoBehaviour, ITickable
             case ResourceType.Moonbeams:
             case ResourceType.Stardust:
             case ResourceType.FallingStars:
-                return currentTimeOfDay == TimeOfDay.Night;
+                return currentTimeOfDay.HasFlag(TimeOfDay.Night);
             case ResourceType.Fireflies:
-                return currentTimeOfDay == TimeOfDay.Evening || currentTimeOfDay == TimeOfDay.Night;
+                return currentTimeOfDay.HasFlag(TimeOfDay.Evening) || currentTimeOfDay.HasFlag(TimeOfDay.Night);
             case ResourceType.Nectar:
-                return currentTimeOfDay == TimeOfDay.Morning;
+                return currentTimeOfDay.HasFlag(TimeOfDay.Morning);
             case ResourceType.Seeds:
             case ResourceType.Berries:
-                return currentTimeOfDay == TimeOfDay.Afternoon;
+                return currentTimeOfDay.HasFlag(TimeOfDay.Afternoon);
             default:
                 return true; // Most resources available anytime
         }
@@ -109,10 +109,10 @@ public class TimeManager : MonoBehaviour, ITickable
     
     public void SetTimeScale(Single scale)
     {
-        timeScale = Mathf.Max(0f, scale);
+        TimeScale = Mathf.Max(0f, scale);
 
         if (timeScaleSliderText != null)
-            timeScaleSliderText.text = $"Time Scale: {timeScale:0.0}x";
+            timeScaleSliderText.text = $"Time Scale: {TimeScale:0.0}x";
     }
     
     public void SetTime(Single hour)

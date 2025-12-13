@@ -80,7 +80,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         secondTimer += 1f;
         
         // Spawn dewdrops during morning
-        if (TimeManager.IN.CurrentTimeOfDay == TimeOfDay.Morning)
+        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(TimeOfDay.Morning))
         {
             SpawnDewdrops();
         }
@@ -198,7 +198,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     private void OnTimeOfDayChanged(TimeOfDay newTime)
     {
         // Adjust spawning based on time
-        if (newTime != TimeOfDay.Morning)
+        if (!newTime.HasFlag(TimeOfDay.Morning))
         {
             // Clear existing dewdrops when morning ends
             ClearCollectables(ResourceType.Water, CollectionMethod.Click);

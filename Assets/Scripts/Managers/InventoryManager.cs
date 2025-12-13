@@ -18,12 +18,14 @@ public class InventoryManager : MonoBehaviour
         Decorations,
         Tools,
         Resources,
-        Special
+        Special,
+        Items
     }
 
     public InventoryItemData[] StartingInventoryItemDatas;//TODO: change to config
 
     private Dictionary<EInventoryCategory, InventoryItemData[]> itemsByCategory = new();
+    private InventoryItemData[] allInventoryItems = new InventoryItemData[NumInventorySlots];
 
     public void InitInventoryDict()
     {
@@ -50,10 +52,19 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < this.StartingInventoryItemDatas.Length; i++)
+        {
+            var itemData = this.StartingInventoryItemDatas[i];
+            if (i < InventoryManager.NumInventorySlots)
+            {
+                this.allInventoryItems[i] = itemData;
+            }
+        }
+
         OnInventoryRefreshed?.Invoke();
     }
 
-    public void AddSavedItemsToInventory(Dictionary<string, InventoryItemData[]> savedInventoryData)
+    public void AddSavedItemsToInventory(Dictionary<string, InventoryItemData[]> savedInventoryData, InventoryItemData[] savedAllInventoryItems)
     {
         foreach (var kvp in savedInventoryData)
         {
@@ -62,6 +73,9 @@ public class InventoryManager : MonoBehaviour
                 this.itemsByCategory[category] = kvp.Value;
             }
         }
+
+        this.allInventoryItems = new InventoryItemData[NumInventorySlots];
+        Array.Copy(savedAllInventoryItems, this.allInventoryItems, NumInventorySlots);
 
         OnInventoryRefreshed?.Invoke();
     }
@@ -84,6 +98,8 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        this.allInventoryItems[itemIndex] = itemData;
+
         OnInventoryRefreshed?.Invoke();
     }
     
@@ -103,6 +119,16 @@ public class InventoryManager : MonoBehaviour
                         itemsOfCategory[itemIndex] = null;
                     }
                 }
+            }
+        }
+
+        var itemData2 = this.allInventoryItems[itemIndex];
+        if (itemData2 != null)
+        {
+            itemData2.Quantity -= quantity;
+            if (itemData2.Quantity <= 0)
+            {
+                this.allInventoryItems[itemIndex] = null;
             }
         }
 
@@ -135,7 +161,17 @@ public class InventoryManager : MonoBehaviour
 
         OnInventoryRefreshed?.Invoke();
     }
-    
+
+    public void LoadAllInventory(InventoryItemData[] saveData)
+    {
+        this.allInventoryItems = new InventoryItemData[NumInventorySlots];
+        Array.Copy(saveData, this.allInventoryItems, NumInventorySlots);
+
+        print("Inventory loaded from save data.");
+
+        OnInventoryRefreshed?.Invoke();
+    }
+
     public Dictionary<string, InventoryItemData[]> GetSaveData()
     {
         var saveData = new Dictionary<string, InventoryItemData[]>();
@@ -144,5 +180,10 @@ public class InventoryManager : MonoBehaviour
             saveData[kvp.Key.ToString()] = kvp.Value;
         }
         return saveData;
+    }
+    
+    public InventoryItemData[] GetAllInventoryItems()
+    {
+        return this.allInventoryItems;
     }
 }

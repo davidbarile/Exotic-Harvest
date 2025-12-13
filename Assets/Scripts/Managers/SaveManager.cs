@@ -196,6 +196,7 @@ public class SaveManager : MonoBehaviour, ITickable
         this.sessionStartTime = Time.time;
 
         this.currentSaveData.InventoryDataDict = InventoryManager.IN.GetSaveData();
+        this.currentSaveData.AllInventoryItems = InventoryManager.IN.GetAllInventoryItems();
         this.currentSaveData.ResourcesSaveDatas = ResourceManager.IN.GetSaveData();
         this.currentSaveData.DecorationDatas = DecorationManager.IN.GetSaveData();
 
@@ -215,8 +216,9 @@ public class SaveManager : MonoBehaviour, ITickable
     {
         if (currentSaveData == null)
             return;
-        
+
         InventoryManager.IN.LoadSaveData(currentSaveData.InventoryDataDict);
+        InventoryManager.IN.LoadAllInventory(currentSaveData.AllInventoryItems);
         ResourceManager.IN.LoadSaveData(currentSaveData.ResourcesSaveDatas);
         DecorationManager.IN.LoadSaveData(currentSaveData.DecorationDatas);
         TimeManager.IN.SetTime(currentSaveData.CurrentGameHour);

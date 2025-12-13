@@ -7,31 +7,23 @@ using System.Linq;
 /// </summary>
 public class ResourceDisplayManager : MonoBehaviour
 {
+    public static ResourceDisplayManager IN;
+
     [Header("UI Settings")]
-    [SerializeField] private GameObject resourceDisplayPrefab; // Assign ResourceDisplayUI prefab here
+    [SerializeField] private ResourceDisplayUI resourceDisplayPrefab; // Assign ResourceDisplayUI prefab here
     [SerializeField] private Transform resourceDisplayParent;
-    [SerializeField] private ResourceCategory[] categoriesToShow; // Which categories to display
+    [SerializeField] private ResourceCategory categoriesToShow; // Which categories to display
     [SerializeField] private bool showOnlyOwnedResources = true;
     
-    private Dictionary<ResourceType, ResourceDisplayUI> activeDisplays = new();
+    private Dictionary<ResourceType, ResourceDisplayUI> activeDisplaysDict = new();
     
-    private void Start()
+    public void Init()
     {
-        if (ResourceManager.IN?.Database != null)
-        {
-            CreateResourceDisplays();
-        }
+        CreateResourceDisplays();
+        ResourceManager.OnResourceChanged += OnResourceChanged;
     }
     
-    private void OnEnable()
-    {
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceChanged += OnResourceChanged;
-        }
-    }
-    
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (ResourceManager.IN != null)
         {
@@ -41,15 +33,14 @@ public class ResourceDisplayManager : MonoBehaviour
     
     private void CreateResourceDisplays()
     {
-        if (ResourceManager.IN?.Database == null || resourceDisplayPrefab == null || resourceDisplayParent == null)
-            return;
-            
         // Get resources to display
         var resourcesToShow = GetResourcesToDisplay();
         
-        foreach (var resourceDef in resourcesToShow)
+        print($"CreateResourceDisplays {resourcesToShow.Length} items");
+        
+        foreach (var resourceConfig in resourcesToShow)
         {
-            CreateResourceDisplay(resourceDef);
+            CreateResourceDisplay(resourceConfig);
         }
     }
     
@@ -57,70 +48,45 @@ public class ResourceDisplayManager : MonoBehaviour
     {
         var allResources = ResourceManager.IN.Database.AllResources;
         
-        if (allResources == null) return new ResourceConfig[0];
-        
-        return allResources.Where(r => 
-        {
-            if (r == null) return false;
-            
-            // Filter by category if specified
-            if (categoriesToShow != null && categoriesToShow.Length > 0)
-            {
-                bool inCategory = categoriesToShow.Contains(r.Category);
-                if (!inCategory) return false;
-            }
-            
-            // Filter by ownership if specified
-            if (showOnlyOwnedResources)
-            {
-                int amount = ResourceManager.IN.GetResourceAmount(r.ResourceType);
-                if (amount <= 0) return false;
-            }
-            
-            return true;
-        }).ToArray();
+        return allResources.Where(r => r != null && categoriesToShow.HasFlag(r.Category)).ToArray();
     }
     
-    private void CreateResourceDisplay(ResourceConfig resourceDef)
+    private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        GameObject displayObj = Instantiate(resourceDisplayPrefab, resourceDisplayParent);
-        ResourceDisplayUI displayUI = displayObj.GetComponent<ResourceDisplayUI>();
+        print($"Creating display for resource: {resourceConfig.ResourceType}");
+
+        ResourceDisplayUI displayUI = Instantiate(resourceDisplayPrefab, resourceDisplayParent);
         
-        if (displayUI != null)
-        {
-            displayUI.Initialize(resourceDef.ResourceType, resourceDef);
-            activeDisplays[resourceDef.ResourceType] = displayUI;
-        }
-        else
-        {
-            Debug.LogError("ResourceDisplayUI component not found on prefab");
-            Destroy(displayObj);
-        }
+        displayUI.Initialize(resourceConfig.ResourceType, resourceConfig);
+        activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)
     {
+        if (!this.resourceDisplayParent.gameObject.activeInHierarchy)
+            return;
+            
         // If showing only owned resources, create/destroy displays as needed
         if (showOnlyOwnedResources)
         {
-            bool hasDisplay = activeDisplays.ContainsKey(type);
+            bool hasDisplay = activeDisplaysDict.ContainsKey(type);
             bool shouldHaveDisplay = newAmount > 0;
             
             if (!hasDisplay && shouldHaveDisplay)
             {
                 // Create new display
-                var resourceDef = ResourceManager.IN.Database?.GetResource(type);
-                if (resourceDef != null)
+                var resourceConfig = ResourceManager.IN.Database?.GetResource(type);
+                if (resourceConfig != null)
                 {
-                    CreateResourceDisplay(resourceDef);
+                    CreateResourceDisplay(resourceConfig);
                 }
             }
             else if (hasDisplay && !shouldHaveDisplay)
             {
                 // Remove display
-                if (activeDisplays.TryGetValue(type, out ResourceDisplayUI display))
+                if (activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
                 {
-                    activeDisplays.Remove(type);
+                    activeDisplaysDict.Remove(type);
                     if (display != null)
                         Destroy(display.gameObject);
                 }
@@ -131,12 +97,12 @@ public class ResourceDisplayManager : MonoBehaviour
     public void RefreshAllDisplays()
     {
         // Clear existing displays
-        foreach (var display in activeDisplays.Values)
+        foreach (var display in activeDisplaysDict.Values)
         {
             if (display != null)
                 Destroy(display.gameObject);
         }
-        activeDisplays.Clear();
+        activeDisplaysDict.Clear();
         
         // Recreate displays
         CreateResourceDisplays();

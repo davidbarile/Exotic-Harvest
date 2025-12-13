@@ -27,7 +27,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     // Properties
     public WeatherType CurrentWeather => currentWeather;
     public float WeatherIntensity => weatherIntensity;
-    public bool IsRaining => currentWeather == WeatherType.Rain || currentWeather == WeatherType.Storm;
+    public bool IsRaining => currentWeather.HasFlag(WeatherType.Rain) || currentWeather.HasFlag(WeatherType.Storm);
     
     private void Start()
     {
@@ -52,7 +52,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     public void SecondTick()
     {
-        weatherTimer += 1f;
+        weatherTimer += 1f * TimeManager.IN.TimeScale;
         
         // Check for weather changes
         if (weatherTimer >= nextWeatherChange)
@@ -127,7 +127,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private bool IsWeatherRain(WeatherType weather)
     {
-        return weather == WeatherType.Rain || weather == WeatherType.Storm;
+        return weather.HasFlag(WeatherType.Rain) || weather.HasFlag(WeatherType.Storm);
     }
     
     public float GetResourceMultiplier(ResourceType resourceType)
@@ -137,11 +137,11 @@ public class WeatherManager : MonoBehaviour, ITickable
             case ResourceType.Water:
                 return IsRaining ? (2f + weatherIntensity) : 1f;
             case ResourceType.Seeds:
-                return currentWeather == WeatherType.Rain ? 1.5f : 1f;
+                return currentWeather.HasFlag(WeatherType.Rain) ? 1.5f : 1f;
             case ResourceType.Fireflies:
-                return currentWeather == WeatherType.Clear ? 1.3f : 0.8f;
+                return currentWeather.HasFlag(WeatherType.Clear) ? 1.3f : 0.8f;
             case ResourceType.Stardust:
-                return currentWeather == WeatherType.Clear ? 1.5f : 0.5f;
+                return currentWeather.HasFlag(WeatherType.Clear) ? 1.5f : 0.5f;
             default:
                 return 1f;
         }
