@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UiInventoryCell : MonoBehaviour
@@ -49,7 +48,7 @@ public class UiInventoryCell : MonoBehaviour
         }
     }
 
-    public void ClearItem()
+    public void ClearItem(bool destroyItem = true)
     {
         if (itemNameText != null)
             itemNameText.text = string.Empty;
@@ -59,11 +58,13 @@ public class UiInventoryCell : MonoBehaviour
 
         if (this.Item != null)
         {
-           Destroy(this.Item.gameObject);
-           this.Item = null;
+            if (destroyItem)
+                Destroy(this.Item.gameObject);
+               
+            this.Item = null;
         }
     }
-    
+
     public void AddItem(UiInventoryItem item, InventoryItemData itemData)
     {
         if (itemNameText != null)
@@ -81,6 +82,21 @@ public class UiInventoryCell : MonoBehaviour
         item.transform.localScale = Vector3.one;
 
         this.Item = item;
-        this.Item.Setup(itemData, itemData.Quantity);
+        this.Item.Configure(itemData);
+    }
+    
+    public void SwapItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
+    {
+        var thisItem = this.Item;
+        var thisItemData = InventoryItemData.Clone(thisItem.ItemData);
+        var otherItemData = InventoryItemData.Clone(otherItem.ItemData);
+
+        if (otherCell.Container.TryGetComponent<UiDragTarget>(out var dragTarget))
+        {
+            dragTarget.SetAsParent(otherItem.transform);
+        }
+
+        AddItem(thisItem, otherItemData);
+        otherCell.AddItem(otherItem, thisItemData);
     }
 }

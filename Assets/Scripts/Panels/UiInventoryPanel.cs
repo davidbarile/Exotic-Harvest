@@ -118,6 +118,7 @@ public class UiInventoryPanel : UIPanelBase
             {
                 var cell = this.allInventoryCells[i];
                 var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
+                prefab.name = $"Item_{itemData.DisplayName}";
                 this.allInventoryCells[i].AddItem(prefab, itemData);
             }
         }
@@ -129,7 +130,9 @@ public class UiInventoryPanel : UIPanelBase
 
         for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
         {
-            this.allInventoryCells.Add(Instantiate(this.inventoryCellPrefab, this.itemsGridParent));
+            var cell = Instantiate(this.inventoryCellPrefab, this.itemsGridParent);
+            cell.name = $"Cell_{i}";
+            this.allInventoryCells.Add(cell);
         }
     }
 

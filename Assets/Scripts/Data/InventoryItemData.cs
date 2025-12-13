@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using static InventoryManager;
 
 [Serializable]
@@ -15,4 +14,19 @@ public class InventoryItemData
 
     public bool CanDragToWorld;
     public string IconSpriteName;
+
+    public static InventoryItemData Clone(InventoryItemData cloneTarget)
+    {
+        return new InventoryItemData
+        {
+            DisplayName = cloneTarget.DisplayName,
+            Quantity = cloneTarget.Quantity,
+            QuantityPerStack = cloneTarget.QuantityPerStack,
+            Category = cloneTarget.Category,
+            ItemType = cloneTarget.ItemType,
+            IsUnlocked = cloneTarget.IsUnlocked,
+            CanDragToWorld = cloneTarget.CanDragToWorld,
+            IconSpriteName = cloneTarget.IconSpriteName
+        };
+    }
 }

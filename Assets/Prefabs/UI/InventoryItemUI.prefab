@@ -60,6 +60,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15456de940d6a447e932dbeb1d2fdb83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiInventoryItem
+  isDraggingPermanent: 1
+  onlyDragToTargets: 1
+  limitToParentTargetBounds: 0
+  shouldDetectDropTargets: 1
+  shouldReturnToOriginalParent: 0
+  targetRectTransform: {fileID: 0}
+  dragEnabledDisplay: {fileID: 0}
   itemIcon: {fileID: 8060148061350629382}
   shadow: {fileID: 124930487897692285}
   itemQuantityText: {fileID: 3574800819758532373}

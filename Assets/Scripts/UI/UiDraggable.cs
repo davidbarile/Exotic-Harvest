@@ -1,42 +1,51 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using System.Collections.Generic;
 
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private bool isDraggingPermanent;
-    [SerializeField] private bool onlyDragToTargets;
-    [SerializeField] private bool limitToParentTargetBounds;
+    [SerializeField] protected bool isDraggingPermanent;
+    [SerializeField] protected bool onlyDragToTargets;
+    [SerializeField] protected bool limitToParentTargetBounds;
     [Tooltip("Set False for Menus, etc.")]
-    [SerializeField] private bool shouldDetectDropTargets = true;
+    [SerializeField] protected bool shouldDetectDropTargets = true;
     [Tooltip("Set True for Menus, etc.")]
-    [SerializeField] private bool shouldReturnToOriginalParent;
-    [SerializeField] private RectTransform targetRectTransform;
+    [SerializeField] protected bool shouldReturnToOriginalParent;
+    [SerializeField] protected RectTransform targetRectTransform;
     [Tooltip("Optional outline to show when drag mode is enabled")]
-    [SerializeField] private GameObject dragEnabledDisplay;
-    private Vector2 originalLocalPointerPosition;
-    private Vector3 originalLocalPosition;
-    private Vector3 originalWorldPosition;
+    [SerializeField] protected GameObject dragEnabledDisplay;
 
-    private Transform originalParent;
-    private int originalSiblingIndex;
-    private bool isDragging = false;
+    protected Vector2 originalLocalPointerPosition;
+    protected Vector3 originalLocalPosition;
+    protected Vector3 originalWorldPosition;
 
-    private HashSet<UiDragTarget> currentHighlightedTargets = new();
+    protected Transform originalParent;
+    protected int originalSiblingIndex;
+    protected bool isDragging = false;
 
-    private void Start()
+    protected HashSet<UiDragTarget> currentHighlightedTargets = new();
+
+    private void Awake()
+    {
+        if (this.targetRectTransform == null)
+        {
+            this.targetRectTransform = GetComponent<RectTransform>();
+        }
+    }
+
+    protected virtual void Start()
     {
         DragManager.OnDragModeChanged += HandleDragModeChanged;
         HandleDragModeChanged(DragManager.IsDragModeActivated);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         DragManager.OnDragModeChanged -= HandleDragModeChanged;
     }
-    
-    private void HandleDragModeChanged(bool isDragMode)
+
+    protected virtual void HandleDragModeChanged(bool isDragMode)
     {
         if (this.dragEnabledDisplay != null)
         {
@@ -44,9 +53,30 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    protected virtual bool DoOnBeginDrag()
+    {
+        // Override in subclasses for additional behavior
+        return true;
+    }
+
+    protected virtual bool DoOnDrag()
+    {
+        // Override in subclasses for additional behavior
+        return true;
+    }
+    
+    protected virtual bool DoOnEndDrag()
+    {
+        // Override in subclasses for additional behavior
+        return true;
+    }
+
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+            return;
+
+        if(!DoOnBeginDrag())
             return;
 
         this.isDragging = true;
@@ -55,115 +85,134 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             DragManager.IN.DragCanvas,
             eventData.position,
             eventData.pressEventCamera,
             out this.originalLocalPointerPosition);
+
         this.originalLocalPosition = this.targetRectTransform.localPosition;
         this.originalWorldPosition = this.targetRectTransform.position;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
-        if (this.isDragging)
+        if (!this.isDragging)
+            return;
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            DragManager.IN.DragCanvas,
+            eventData.position,
+            eventData.pressEventCamera,
+            out Vector2 localPointerPosition))
         {
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                DragManager.IN.DragCanvas,
-                eventData.position,
-                eventData.pressEventCamera,
-                out Vector2 localPointerPosition))
-            {
-                Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
-                this.targetRectTransform.localPosition = this.originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
-            }
+            Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
+            this.targetRectTransform.localPosition = this.originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
+        }
 
-            if (!this.shouldDetectDropTargets)
-                return;
+        if (!this.shouldDetectDropTargets)
+            return;
 
-            if(this.limitToParentTargetBounds && this.originalParent != null)
+        if(!DoOnDrag())
+            return;
+
+        if(this.limitToParentTargetBounds && this.originalParent != null)
+        {
+            if (this.originalParent.TryGetComponent(out UiDragTarget parentDragTarget))
             {
-                if (this.originalParent.TryGetComponent(out UiDragTarget parentDragTarget))
+                Vector3 clampedPosition = this.targetRectTransform.position;
+                if (parentDragTarget.BoundsCollider != null)
                 {
-                    Vector3 clampedPosition = this.targetRectTransform.position;
-                    if (parentDragTarget.BoundsCollider != null)
+                    // Clamp position using BoundsCollider by raycasting from the center of the dragged object
+                    Vector3 dragCenter = this.targetRectTransform.position;
+
+                    // Check if the point is inside the 2D collider
+                    if (!parentDragTarget.BoundsCollider.OverlapPoint(dragCenter))
                     {
-                        // Clamp position using BoundsCollider by raycasting from the center of the dragged object
-                        Vector3 dragCenter = this.targetRectTransform.position;
-
-                        // Check if the point is inside the 2D collider
-                        if (!parentDragTarget.BoundsCollider.OverlapPoint(dragCenter))
-                        {
-                            // Find the closest point on the collider's bounds
-                            Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(dragCenter);
-                            clampedPosition = new Vector3(closestPoint.x, closestPoint.y, targetRectTransform.position.z);
-                        }
+                        // Find the closest point on the collider's bounds
+                        Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(dragCenter);
+                        clampedPosition = new Vector3(closestPoint.x, closestPoint.y, targetRectTransform.position.z);
                     }
-                    else
-                    {
-                        RectTransform parentRect = this.originalParent.GetComponent<RectTransform>();
-                        if (parentRect != null)
-                        {
-                            Vector3[] worldCorners = new Vector3[4];
-                            parentRect.GetWorldCorners(worldCorners);
-                            Vector3 min = worldCorners[0];
-                            Vector3 max = worldCorners[2];
-
-                            clampedPosition = this.targetRectTransform.position;
-                            clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
-                            clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
-                        }
-                    }
-
-                    if (parentDragTarget.UnsnapRange > -1)
-                    {
-                        // Distance from drag start point (should be 0 at drag start)
-                        float distance = Vector2.Distance(eventData.position, RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, clampedPosition));
-                        if (distance > parentDragTarget.UnsnapRange)
-                        {
-                            // Outside unsnap range, do not clamp
-                            return;
-                        }
-                    }
-                    
-                    this.targetRectTransform.position = clampedPosition;
-                }   
-            }
-
-            // Highlight potential drop targets
-            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
-            {
-                UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
-                if (dragTarget != null)
-                {
-                    this.currentHighlightedTargets.Add(dragTarget);
-                    dragTarget.SetHighlight(true);
                 }
-            }
-            
-            // Clear highlights from targets no longer under the mouse
-            List<UiDragTarget> targetsToClear = new();
-            foreach (var highlightedTarget in this.currentHighlightedTargets)
-            {
-                if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
+                else
                 {
-                    highlightedTarget.SetHighlight(false);
-                    targetsToClear.Add(highlightedTarget);
-                }
-            }
+                    RectTransform parentRect = this.originalParent.GetComponent<RectTransform>();
+                    if (parentRect != null)
+                    {
+                        Vector3[] worldCorners = new Vector3[4];
+                        parentRect.GetWorldCorners(worldCorners);
+                        Vector3 min = worldCorners[0];
+                        Vector3 max = worldCorners[2];
 
-            foreach (var targetToClear in targetsToClear)
+                        clampedPosition = this.targetRectTransform.position;
+                        clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
+                        clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
+                    }
+                }
+
+                if (parentDragTarget.UnsnapRange > -1)
+                {
+                    // Distance from drag start point (should be 0 at drag start)
+                    float distance = Vector2.Distance(eventData.position, RectTransformUtility.WorldToScreenPoint(eventData.pressEventCamera, clampedPosition));
+                    if (distance > parentDragTarget.UnsnapRange)
+                    {
+                        // Outside unsnap range, do not clamp
+                        return;
+                    }
+                }
+                
+                this.targetRectTransform.position = clampedPosition;
+            }   
+        }
+
+        // Highlight potential drop targets
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        {
+            UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
+
+            if (dragTarget != null)
             {
-                this.currentHighlightedTargets.Remove(targetToClear);
+                this.currentHighlightedTargets.Add(dragTarget);
+                dragTarget.SetHighlight(true);
             }
+        }
+        
+        // Clear highlights from targets no longer under the mouse
+        List<UiDragTarget> targetsToClear = new();
+        foreach (var highlightedTarget in this.currentHighlightedTargets)
+        {
+            if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
+            {
+                highlightedTarget.SetHighlight(false);
+                targetsToClear.Add(highlightedTarget);
+            }
+        }
+
+        foreach (var targetToClear in targetsToClear)
+        {
+            this.currentHighlightedTargets.Remove(targetToClear);
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData)
     {
         this.isDragging = false;
 
-        if(this.shouldDetectDropTargets)
+        bool flowControl = TryReparentToDropTarget();
+        
+        if (!flowControl)
+        {
+            DoOnEndDrag();
+            return;
+        }
+
+        DoSnapBack();
+    }
+
+    protected virtual bool TryReparentToDropTarget()
+    {
+        if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
@@ -172,11 +221,16 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 {
                     dragTarget.SetAsParent(this.targetRectTransform);
                     dragTarget.SetHighlight(false);
-                    return;
+                    return false;//found drag target, reparent and exit
                 }
             }
         }
 
+        return true;
+    }
+
+    protected virtual void DoSnapBack()
+    {
         if (this.originalParent != null)
         {
             var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
@@ -187,6 +241,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
             if (this.onlyDragToTargets)
             {
+                //snap back to original position
                 transform.DOMove(this.originalWorldPosition, 0.2f);
             }
         }
