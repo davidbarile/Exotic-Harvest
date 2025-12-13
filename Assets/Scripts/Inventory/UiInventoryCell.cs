@@ -84,7 +84,7 @@ public class UiInventoryCell : MonoBehaviour
         this.Item = item;
         this.Item.Configure(itemData);
     }
-    
+
     public void SwapItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
     {
         var thisItem = this.Item;
@@ -98,5 +98,36 @@ public class UiInventoryCell : MonoBehaviour
 
         AddItem(thisItem, otherItemData);
         otherCell.AddItem(otherItem, thisItemData);
+    }
+    
+    public void MergeItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
+    {
+        if (otherCell.Container.TryGetComponent<UiDragTarget>(out var dragTarget))
+        {
+            dragTarget.SetAsParent(otherItem.transform);
+        }
+
+        var totalQuantity = this.Item.ItemData.Quantity + otherItem.ItemData.Quantity;
+        int quantityInThisStack = Mathf.Min(totalQuantity, this.Item.ItemData.QuantityPerStack);
+        int quantityInOtherStack = totalQuantity - quantityInThisStack;
+
+        if(this.Item.ItemData.Quantity == this.Item.ItemData.QuantityPerStack)
+        {
+            //this stack is full, just swap items
+            SwapItems(otherCell, otherItem);
+            return;
+        }
+
+        var thisItemData = InventoryItemData.Clone(this.Item.ItemData);
+        var otherItemData = InventoryItemData.Clone(otherItem.ItemData);
+        
+        thisItemData.Quantity = quantityInOtherStack;
+        otherItemData.Quantity = quantityInThisStack;
+
+        AddItem(this.Item, otherItemData);
+        otherCell.AddItem(otherItem, thisItemData);
+
+        if(quantityInOtherStack <= 0) 
+            otherCell.ClearItem();
     }
 }

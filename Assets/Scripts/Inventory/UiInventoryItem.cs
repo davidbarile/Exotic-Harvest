@@ -73,28 +73,8 @@ public class UiInventoryItem : UiDraggable
                 }
                 else
                 {
-                    //same item type, combine stacks if possible
-                    int totalQuantity = item.ItemData.Quantity + this.ItemData.Quantity;
-                    int maxStack = this.ItemData.QuantityPerStack;
-
-                    if (totalQuantity <= maxStack)
-                    {
-                        //all can fit in one stack
-                        item.ItemData.Quantity = totalQuantity;
-                        cell.Item.Configure(item.ItemData);
-                    }
-                    else
-                    {
-                        //fill existing stack to max, leave remainder in original cell
-                        item.ItemData.Quantity = maxStack;
-                        item.Configure(item.ItemData);
-
-                        this.ItemData.Quantity = totalQuantity - maxStack;
-                        if (originalCell != null)
-                        {
-                            originalCell.AddItem(this, this.ItemData);
-                        }
-                    }
+                    // //same item type, combine stacks if possible
+                    cell.MergeItems(originalCell, this);
                 }
             }
             
