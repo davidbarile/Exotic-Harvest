@@ -36,8 +36,6 @@ public class ResourceDisplayManager : MonoBehaviour
         // Get resources to display
         var resourcesToShow = GetResourcesToDisplay();
         
-        print($"CreateResourceDisplays {resourcesToShow.Length} items");
-        
         foreach (var resourceConfig in resourcesToShow)
         {
             CreateResourceDisplay(resourceConfig);
@@ -53,43 +51,21 @@ public class ResourceDisplayManager : MonoBehaviour
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        print($"Creating display for resource: {resourceConfig.ResourceType}");
-
         ResourceDisplayUI displayUI = Instantiate(resourceDisplayPrefab, resourceDisplayParent);
         
         displayUI.Initialize(resourceConfig.ResourceType, resourceConfig);
         activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
+        
+        OnResourceChanged(resourceConfig.ResourceType, ResourceManager.IN.GetResourceAmount(resourceConfig.ResourceType));
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)
-    {
-        if (!this.resourceDisplayParent.gameObject.activeInHierarchy)
-            return;
-            
-        // If showing only owned resources, create/destroy displays as needed
+    {            
         if (showOnlyOwnedResources)
         {
-            bool hasDisplay = activeDisplaysDict.ContainsKey(type);
-            bool shouldHaveDisplay = newAmount > 0;
-            
-            if (!hasDisplay && shouldHaveDisplay)
+            if (activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
             {
-                // Create new display
-                var resourceConfig = ResourceManager.IN.Database?.GetResource(type);
-                if (resourceConfig != null)
-                {
-                    CreateResourceDisplay(resourceConfig);
-                }
-            }
-            else if (hasDisplay && !shouldHaveDisplay)
-            {
-                // Remove display
-                if (activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
-                {
-                    activeDisplaysDict.Remove(type);
-                    if (display != null)
-                        Destroy(display.gameObject);
-                }
+                display.gameObject.SetActive(newAmount > 0);
             }
         }
     }

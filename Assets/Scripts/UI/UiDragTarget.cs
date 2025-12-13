@@ -9,6 +9,8 @@ public class UiDragTarget : MonoBehaviour
     public Collider2D BoundsCollider;
     public float UnsnapRange = -1;
 
+    public bool IsDragOutOfInventoryZone;
+
     private void Awake()
     {
         if (highlightObject != null)

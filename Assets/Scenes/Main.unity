@@ -3960,6 +3960,7 @@ MonoBehaviour:
   shouldSnapToCenter: 0
   BoundsCollider: {fileID: 628749975}
   UnsnapRange: 400
+  IsDragOutOfInventoryZone: 0
 --- !u!114 &628749973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9218,7 +9219,7 @@ MonoBehaviour:
   resourceDisplayPrefab: {fileID: 574298216413674008, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
   resourceDisplayParent: {fileID: 475252655}
   categoriesToShow: -1
-  showOnlyOwnedResources: 0
+  showOnlyOwnedResources: 1
 --- !u!1 &1717538038
 GameObject:
   m_ObjectHideFlags: 0

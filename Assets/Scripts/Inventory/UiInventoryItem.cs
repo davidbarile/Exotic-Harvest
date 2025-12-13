@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class UiInventoryItem : UiDraggable
 {
@@ -43,7 +44,74 @@ public class UiInventoryItem : UiDraggable
 
     protected override bool DoOnDrag()
     {
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        {
+            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone && this.ItemData.CanDragToWorld)
+            {
+                this.isDragging = false;
+
+                UiManager.IN.InventoryPanel.Hide();
+
+                Destroy(this.gameObject);
+                return false;
+            }
+        }
         return true;
+    }
+
+    protected override bool TryReparentToDropTarget()
+    {
+        if (this.shouldDetectDropTargets)
+        {
+            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+            {
+                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                {
+                    var cell = possibleTarget.GetComponentInParent<UiInventoryCell>();
+                    if (cell != null)
+                    {
+                        dragTarget.SetAsParent(this.targetRectTransform);
+                        dragTarget.SetHighlight(false);
+                        return false;//found drag target, reparent and exit
+                    }
+                    else
+                    {
+                        if (!this.ItemData.CanDragToWorld)
+                        {
+                            return true;//bounce back
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+    
+    protected override void DoSnapBack()
+    {
+        if (this.originalParent != null)
+        {
+            if (this.onlyDragToTargets)
+            {
+                //snap back to original position
+                transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+                {
+                    var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+                    this.targetRectTransform.SetParent(originalParent, true);
+
+                    if (this.shouldReturnToOriginalParent)
+                        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+                    var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+                    if (origCell != null)
+                    {
+                        //origCell.SetSelected(true);
+                        origCell.AddItem(this, this.ItemData);
+                    }
+                });
+            }
+        }
     }
     
     protected override bool DoOnEndDrag()

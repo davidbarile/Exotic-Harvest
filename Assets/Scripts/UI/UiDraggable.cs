@@ -216,8 +216,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
-                UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
-                if (dragTarget != null)
+                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
                     dragTarget.SetAsParent(this.targetRectTransform);
                     dragTarget.SetHighlight(false);
@@ -233,16 +232,17 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (this.originalParent != null)
         {
-            var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-            this.targetRectTransform.SetParent(originalParent, true);
-
-            if (this.shouldReturnToOriginalParent)
-                this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
-
             if (this.onlyDragToTargets)
             {
                 //snap back to original position
-                transform.DOMove(this.originalWorldPosition, 0.2f);
+                transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+                {
+                    var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+                    this.targetRectTransform.SetParent(originalParent, true);
+
+                    if (this.shouldReturnToOriginalParent)
+                        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+                });
             }
         }
     }
