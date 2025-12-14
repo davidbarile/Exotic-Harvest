@@ -32,6 +32,8 @@ public class UiInventoryItem : UiDraggable
 
     protected override bool DoOnBeginDrag()
     {
+        UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(true);
+
         var cell = GetComponentInParent<UiInventoryCell>();
         if (cell != null)
         {
@@ -48,15 +50,39 @@ public class UiInventoryItem : UiDraggable
         {
             if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone && this.ItemData.CanDragToWorld)
             {
-                this.isDragging = false;
-
                 UiManager.IN.InventoryPanel.Hide();
 
                 if(!string.IsNullOrEmpty(this.ItemData.WorldPrefabName))
                 {
-                    InventoryManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
+                    // Spawn world item at current position
+                    var worldItem = InventoryManager.IN.SpawnItemInWorldWithReturn(this.ItemData, this.transform.position);
+                    
+                    if (worldItem != null)
+                    {
+                        // Transfer drag to the newly spawned world item
+                        var worldItemRect = worldItem.GetComponent<RectTransform>();
+                        if (worldItemRect != null)
+                        {
+                            UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
+                            
+                            // Initialize the world item with drag state
+                            worldItem.InitializeFromDrag(this.ItemData, DragManager.IN.DragOffset);
+                            
+                            // Swap the dragged object to the new world item
+                            DragManager.IN.SwapDraggedObject(worldItemRect);
+                            
+                            // Mark as not dragging so OnEndDrag doesn't process
+                            this.isDragging = false;
+                            
+                            // Destroy the inventory item
+                            Destroy(this.gameObject);
+                            return false;
+                        }
+                    }
                 }
 
+                // Fallback: just destroy if spawn failed
+                this.isDragging = false;
                 Destroy(this.gameObject);
                 return false;
             }
@@ -121,6 +147,7 @@ public class UiInventoryItem : UiDraggable
     
     protected override bool DoOnEndDrag()
     {
+        UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
         var cell = GetComponentInParent<UiInventoryCell>();
         if (cell != null)
         {

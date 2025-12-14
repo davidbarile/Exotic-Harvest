@@ -28,4 +28,19 @@ public class UiWorldItemBase : UiDraggable
             this.itemQuantityText.text = inItemData.Quantity > 1 ? inItemData.Quantity.ToString() : string.Empty;
         }
     }
+
+    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 dragOffset)
+    {
+        Configure(inItemData);
+        
+        // Mark as actively being dragged
+        this.isDragging = true;
+        
+        // Store drag state for proper cleanup on drag end
+        this.originalLocalPointerPosition = dragOffset;
+        this.originalLocalPosition = this.targetRectTransform.localPosition;
+        this.originalWorldPosition = this.targetRectTransform.position;
+        this.originalParent = DragManager.IN.DefaultParent;
+        this.originalSiblingIndex = 0;
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,8 @@ using static InventoryManager;
 
 public class UiInventoryPanel : UIPanelBase
 {
+    public static Action<bool> OnDragOutOfInventoryZoneActiveChanged;
+
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
@@ -22,12 +25,19 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Image itemIcon;
 
     [Header("Inventory Stats")]
-
     private EInventoryCategory currentCategory = EInventoryCategory.Decorations;
     private InventoryItemData selectedItemData;
     private List<UiInventoryCell> allInventoryCells = new();
 
+    [Header("Misc")]
+    [SerializeField] private GameObject dragOutOfInventoryZone;
+
     private bool isInitialized;
+
+    private void Start()
+    {
+        SetDragOutOfInventoryZoneActive(false);
+    }
     
     protected override void RegisterEvents()
     {
@@ -40,6 +50,8 @@ public class UiInventoryPanel : UIPanelBase
         }
 
         RefreshInventory();
+
+        OnDragOutOfInventoryZoneActiveChanged += SetDragOutOfInventoryZoneActive;
     }
 
     protected override void UnregisterEvents()
@@ -48,6 +60,8 @@ public class UiInventoryPanel : UIPanelBase
         {
             InventoryManager.OnInventoryRefreshed -= RefreshInventory;
         }
+
+        OnDragOutOfInventoryZoneActiveChanged -= SetDragOutOfInventoryZoneActive;
     }
     
     private void SetupCategoryTabs()
@@ -198,5 +212,10 @@ public class UiInventoryPanel : UIPanelBase
             this.itemNameText.text = this.selectedItemData.DisplayName;
 
         this.itemIcon.sprite = SpriteManager.GetSprite(this.selectedItemData.IconSpriteName);
+    }
+
+    private void SetDragOutOfInventoryZoneActive(bool isActive)
+    {
+        this.dragOutOfInventoryZone.SetActive(isActive);
     }
 }

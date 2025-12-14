@@ -94,6 +94,9 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.originalLocalPosition = this.targetRectTransform.localPosition;
         this.originalWorldPosition = this.targetRectTransform.position;
+
+        // Register with drag proxy
+        DragManager.IN.StartDrag(this, this.targetRectTransform, this.originalLocalPointerPosition, eventData.pressEventCamera, this.originalLocalPosition);
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -101,15 +104,8 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (!this.isDragging)
             return;
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            DragManager.IN.DragCanvas,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 localPointerPosition))
-        {
-            Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
-            this.targetRectTransform.localPosition = this.originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
-        }
+        // Use drag proxy for position updates
+        DragManager.IN.UpdateDrag(eventData.position, eventData.pressEventCamera, this.originalLocalPosition);
 
         if (!this.shouldDetectDropTargets)
             return;
@@ -198,6 +194,9 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     public virtual void OnEndDrag(PointerEventData eventData)
     {
         this.isDragging = false;
+
+        // Notify drag proxy that drag ended
+        DragManager.IN.EndDrag();
 
         bool flowControl = TryReparentToDropTarget();
 

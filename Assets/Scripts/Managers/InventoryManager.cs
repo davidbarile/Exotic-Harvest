@@ -189,8 +189,13 @@ public class InventoryManager : MonoBehaviour
     
     public void SpawnItemInWorld(InventoryItemData itemData, Vector3 position)
     {
+        SpawnItemInWorldWithReturn(itemData, position);
+    }
+
+    public UiWorldItemBase SpawnItemInWorldWithReturn(InventoryItemData itemData, Vector3 position)
+    {
         if (itemData == null || string.IsNullOrEmpty(itemData.WorldPrefabName))
-            return;
+            return null;
 
         var prefab = Resources.Load<UiWorldItemBase>($"Prefabs/WorldItems/{itemData.WorldPrefabName}");
         if (prefab != null)
@@ -198,7 +203,10 @@ public class InventoryManager : MonoBehaviour
             var worldItem = Instantiate(prefab, position, Quaternion.identity, DragManager.IN.DefaultParent);
             worldItem.transform.localScale = Vector3.one;
             worldItem.name = $"WorldItem_{itemData.DisplayName}";
-            worldItem.Configure(itemData);
+            worldItem.InitializeFromDrag(itemData, Vector2.zero);
+            return worldItem;
         }
+
+        return null;
     }
 }
