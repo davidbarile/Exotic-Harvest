@@ -33,11 +33,11 @@ public class AdjustScaleForScreenSize : MonoBehaviour
     private void AdjustSize()
     {
         if (this.useDimension == ScreenDimension.Width)
-            this.multiplier = (float)Screen.width / (float)defaultScreenDims[0];
+            this.multiplier = (float)Screen.width / (float)this.defaultScreenDims[0];
         else if( this.useDimension == ScreenDimension.Height)
-            this.multiplier = Screen.height / (float) defaultScreenDims[1];
+            this.multiplier = Screen.height / (float) this.defaultScreenDims[1];
         else
-            this.multiplier = this.scaleOffset * (   ((float)defaultScreenDims[0]/(float)defaultScreenDims[1]) /  ((float)Screen.height / (float)Screen.width)   );
+            this.multiplier = this.scaleOffset * (   ((float)this.defaultScreenDims[0]/(float)this.defaultScreenDims[1]) /  ((float)Screen.height / (float)Screen.width)   );
 
         //((float)Screen.width / (float)defaultScreenDims[0])
 

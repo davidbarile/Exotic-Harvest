@@ -35,7 +35,7 @@ public class ResetScrollRectOnEnable : MonoBehaviour
         if (this.ScrollRect.horizontal)
             this.ScrollRect.horizontalNormalizedPosition = inPosition;
 
-        if(this.scrollRect.vertical)
+        if(this.ScrollRect.vertical)
             this.ScrollRect.verticalNormalizedPosition = inPosition;
     }
 }

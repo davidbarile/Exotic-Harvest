@@ -18,11 +18,11 @@ public class PlantDecoration : DecorationBase
     
     protected override void Start()
     {
-        decorationType = DecorationType.Plant;
-        decorationName = "Jungle Plant";
+        this.decorationType = DecorationType.Plant;
+        this.decorationName = "Jungle Plant";
         
-        if (plantImage == null)
-            plantImage = GetComponent<Image>();
+        if (this.plantImage == null)
+            this.plantImage = GetComponent<Image>();
             
         base.Start();
         StartSwayAnimation();
@@ -33,26 +33,26 @@ public class PlantDecoration : DecorationBase
         // Create gentle swaying motion for the main plant
         if (GetComponent<RectTransform>() != null)
         {
-            swaySequence = DOTween.Sequence()
-                .Append(transform.DORotate(new Vector3(0, 0, swayAmount), swayDuration).SetEase(Ease.InOutSine))
-                .Append(transform.DORotate(new Vector3(0, 0, -swayAmount), swayDuration).SetEase(Ease.InOutSine))
+            this.swaySequence = DOTween.Sequence()
+                .Append(transform.DORotate(new Vector3(0, 0, this.swayAmount), this.swayDuration).SetEase(Ease.InOutSine))
+                .Append(transform.DORotate(new Vector3(0, 0, -this.swayAmount), this.swayDuration).SetEase(Ease.InOutSine))
                 .SetLoops(-1, LoopType.Yoyo);
         }
         
         // Animate individual swaying parts if available
-        if (swayingParts != null)
+        if (this.swayingParts != null)
         {
-            for (int i = 0; i < swayingParts.Length; i++)
+            for (int i = 0; i < this.swayingParts.Length; i++)
             {
-                if (swayingParts[i] != null)
+                if (this.swayingParts[i] != null)
                 {
                     float delay = i * 0.2f; // Offset each part slightly
-                    float partSwayAmount = swayAmount * (0.5f + UnityEngine.Random.value * 0.5f);
+                    float partSwayAmount = this.swayAmount * (0.5f + UnityEngine.Random.value * 0.5f);
                     
                     DOTween.Sequence()
                         .SetDelay(delay)
-                        .Append(swayingParts[i].DORotate(new Vector3(0, 0, partSwayAmount), swayDuration).SetEase(Ease.InOutSine))
-                        .Append(swayingParts[i].DORotate(new Vector3(0, 0, -partSwayAmount), swayDuration).SetEase(Ease.InOutSine))
+                        .Append(this.swayingParts[i].DORotate(new Vector3(0, 0, partSwayAmount), this.swayDuration).SetEase(Ease.InOutSine))
+                        .Append(this.swayingParts[i].DORotate(new Vector3(0, 0, -partSwayAmount), this.swayDuration).SetEase(Ease.InOutSine))
                         .SetLoops(-1, LoopType.Yoyo);
                 }
             }
@@ -61,7 +61,7 @@ public class PlantDecoration : DecorationBase
     
     private void OnDestroy()
     {
-        swaySequence?.Kill();
+        this.swaySequence?.Kill();
     }
     
     protected override void OnPlaced()

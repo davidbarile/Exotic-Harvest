@@ -98,7 +98,7 @@ public class UiInventoryPanel : UIPanelBase
         if (!this.isInitialized)
             return;
 
-        var isItems = currentCategory != EInventoryCategory.Resources;
+        var isItems = this.currentCategory != EInventoryCategory.Resources;
 
         if (shouldRecreateCells || this.allInventoryCells.Count == 0)
             CreateItemGrid();
@@ -117,14 +117,14 @@ public class UiInventoryPanel : UIPanelBase
         {
             var itemsArray = new InventoryItemData[NumInventorySlots];
 
-            if(currentCategory == EInventoryCategory.Items)
+            if(this.currentCategory == EInventoryCategory.Items)
             {
                 itemsArray = InventoryManager.IN.GetAllInventoryItems();
             }
             else
             {
                 // Get items for current category
-                itemsArray = InventoryManager.IN.GetItemsByCategory(currentCategory);
+                itemsArray = InventoryManager.IN.GetItemsByCategory(this.currentCategory);
             }
 
             // // Create UI elements for each itemData

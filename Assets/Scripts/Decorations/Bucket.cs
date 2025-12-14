@@ -18,12 +18,12 @@ public class Bucket : PassiveHarvester
     protected override void Start()
     {
         // Setup bucket properties
-        decorationType = DecorationType.Bucket;
-        decorationName = "Water Bucket";
-        generatedResource = ResourceType.Water;
-        maxCapacity = 5;
-        generationInterval = 5f; // Collect water every 5 seconds during rain
-        requiresSpecificConditions = true;
+        this.decorationType = DecorationType.Bucket;
+        this.decorationName = "Water Bucket";
+        this.generatedResource = ResourceType.Water;
+        this.maxCapacity = 5;
+        this.generationInterval = 5f; // Collect water every 5 seconds during rain
+        this.requiresSpecificConditions = true;
         
         // Initialize UI components
         if (this.bucketImage == null)

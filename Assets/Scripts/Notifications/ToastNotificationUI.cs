@@ -98,15 +98,15 @@ public class ToastNotificationUI : MonoBehaviour
         // Set dismiss button visibility
         if (this.dismissButton != null)
         {
-            dismissButton.gameObject.SetActive(!notificationData.AutoDismiss);
+            this.dismissButton.gameObject.SetActive(!this.notificationData.AutoDismiss);
         }
     }
     
     private void StartShowAnimation()
     {
         // Start off-screen
-        Vector2 startPos = animRoot.anchoredPosition + new Vector2(animRoot.rect.width * .5f, 0f);
-        animRoot.anchoredPosition = startPos;
+        Vector2 startPos = this.animRoot.anchoredPosition + new Vector2(this.animRoot.rect.width * .5f, 0f);
+        this.animRoot.anchoredPosition = startPos;
         
         // Create animation sequence
         Sequence showSequence = DOTween.Sequence();

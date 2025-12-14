@@ -32,11 +32,11 @@ public class NotificationManager : MonoBehaviour
     
     private void Awake()
     {
-        if (notificationParent == null)
-            notificationParent = transform;
+        if (this.notificationParent == null)
+            this.notificationParent = transform;
 
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
+        if (this.audioSource == null)
+            this.audioSource = GetComponent<AudioSource>();
     }
     
     private void OnEnable()
@@ -136,25 +136,25 @@ public class NotificationManager : MonoBehaviour
     
     public void ShowNotification(ToastNotification notification)
     {
-        if (!notificationsEnabled || toastNotificationPrefab == null)
+        if (!this.notificationsEnabled || this.toastNotificationPrefab == null)
             return;
             
         // Remove oldest notification if at max capacity
-        while (activeNotifications.Count >= maxNotifications)
+        while (this.activeNotifications.Count >= this.maxNotifications)
         {
-            var oldest = activeNotifications.Dequeue();
+            var oldest = this.activeNotifications.Dequeue();
             if (oldest != null)
                 oldest.Dismiss(true);
         }
         
         // Create notification UI
-        GameObject notificationObj = Instantiate(toastNotificationPrefab, notificationParent);
+        GameObject notificationObj = Instantiate(this.toastNotificationPrefab, this.notificationParent);
         ToastNotificationUI notificationUI = notificationObj.GetComponent<ToastNotificationUI>();
         
         if (notificationUI != null)
         {
             notificationUI.Initialize(notification, OnNotificationDismissedCallback);
-            activeNotifications.Enqueue(notificationUI);
+            this.activeNotifications.Enqueue(notificationUI);
             
             // Position notification
             PositionNotification(notificationUI);
@@ -178,8 +178,8 @@ public class NotificationManager : MonoBehaviour
         RectTransform rectTransform = notification.GetComponent<RectTransform>();
         if (rectTransform != null)
         {
-            int index = activeNotifications.Count - 1;
-            float yOffset = -index * (rectTransform.rect.height + notificationSpacing);
+            int index = this.activeNotifications.Count - 1;
+            float yOffset = -index * (rectTransform.rect.height + this.notificationSpacing);
             
             Vector2 anchoredPos = rectTransform.anchoredPosition;
             anchoredPos.y = yOffset;
@@ -193,11 +193,11 @@ public class NotificationManager : MonoBehaviour
         var notificationsList = new List<ToastNotificationUI>(this.activeNotifications);
         notificationsList.Remove(notification);
         
-        activeNotifications.Clear();
+        this.activeNotifications.Clear();
         foreach (var n in notificationsList)
         {
             if (n != null)
-                activeNotifications.Enqueue(n);
+                this.activeNotifications.Enqueue(n);
         }
         
         // Reposition remaining notifications
@@ -207,14 +207,14 @@ public class NotificationManager : MonoBehaviour
     private void RepositionNotifications()
     {
         int index = 0;
-        foreach (var notification in activeNotifications)
+        foreach (var notification in this.activeNotifications)
         {
             if (notification != null)
             {
                 RectTransform rectTransform = notification.GetComponent<RectTransform>();
                 if (rectTransform != null)
                 {
-                    float yOffset = -index * (rectTransform.rect.height + notificationSpacing);
+                    float yOffset = -index * (rectTransform.rect.height + this.notificationSpacing);
                     Vector2 anchoredPos = rectTransform.anchoredPosition;
                     anchoredPos.y = yOffset;
                     rectTransform.anchoredPosition = anchoredPos;
@@ -226,18 +226,18 @@ public class NotificationManager : MonoBehaviour
     
     private void PlayNotificationSound(NotificationType type)
     {
-        if (audioSource == null)
+        if (this.audioSource == null)
             return;
             
         AudioClip clipToPlay = type switch
         {
-            NotificationType.Success or NotificationType.ResourceGained or NotificationType.Achievement => successSound,
-            NotificationType.Error or NotificationType.Warning => errorSound,
-            _ => infoSound
+            NotificationType.Success or NotificationType.ResourceGained or NotificationType.Achievement => this.successSound,
+            NotificationType.Error or NotificationType.Warning => this.errorSound,
+            _ => this.infoSound
         };
         
         if (clipToPlay != null)
-            audioSource.PlayOneShot(clipToPlay);
+            this.audioSource.PlayOneShot(clipToPlay);
     }
     
     // Event handlers
@@ -320,7 +320,7 @@ public class NotificationManager : MonoBehaviour
     
     public void SetNotificationsEnabled(bool enabled)
     {
-        notificationsEnabled = enabled;
+        this.notificationsEnabled = enabled;
         
         if (!enabled)
         {
@@ -331,9 +331,9 @@ public class NotificationManager : MonoBehaviour
     
     public void DismissAllNotifications()
     {
-        while (activeNotifications.Count > 0)
+        while (this.activeNotifications.Count > 0)
         {
-            var notification = activeNotifications.Dequeue();
+            var notification = this.activeNotifications.Dequeue();
             if (notification != null)
                 notification.Dismiss();
         }

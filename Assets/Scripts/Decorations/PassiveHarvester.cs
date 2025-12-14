@@ -55,7 +55,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     
     protected virtual bool CanGenerate()
     {
-        if (!this.isActive || IsFull)
+        if (!this.isActive || this.IsFull)
             return false;
             
         if (Time.time - this.lastGenerationTime < this.generationInterval)
@@ -99,7 +99,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     
     public virtual bool CollectAll()
     {
-        if (IsEmpty)
+        if (this.IsEmpty)
             return false;
             
         if (ResourceManager.IN.AddResource(this.generatedResource, this.currentAmount))
@@ -127,7 +127,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     // Mouse interaction for collection
     protected virtual void OnMouseDown()
     {
-        if (!IsEmpty && !DragManager.IsDragModeActivated)
+        if (!this.IsEmpty && !DragManager.IsDragModeActivated)
         {
             CollectAll();
         }

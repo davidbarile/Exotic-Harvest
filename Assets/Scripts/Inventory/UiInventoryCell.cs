@@ -50,11 +50,11 @@ public class UiInventoryCell : MonoBehaviour
 
     public void ClearItem(bool destroyItem = true)
     {
-        if (itemNameText != null)
-            itemNameText.text = string.Empty;
+        if (this.itemNameText != null)
+            this.itemNameText.text = string.Empty;
 
-        if (itemQuantityText != null)
-            itemQuantityText.text = string.Empty;
+        if (this.itemQuantityText != null)
+            this.itemQuantityText.text = string.Empty;
 
         if (this.Item != null)
         {
@@ -67,14 +67,14 @@ public class UiInventoryCell : MonoBehaviour
 
     public void AddItem(UiInventoryItem item, InventoryItemData itemData)
     {
-        if (itemNameText != null)
+        if (this.itemNameText != null)
         {
-            itemNameText.text = itemData.DisplayName;
+            this.itemNameText.text = itemData.DisplayName;
         }
 
-        if (itemQuantityText != null)
+        if (this.itemQuantityText != null)
         {
-            itemQuantityText.text = itemData.Quantity > 1 ? itemData.Quantity.ToString() : string.Empty;
+            this.itemQuantityText.text = itemData.Quantity > 1 ? itemData.Quantity.ToString() : string.Empty;
         }
 
         item.transform.localPosition = Vector3.zero;

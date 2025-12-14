@@ -19,32 +19,32 @@ public class ResourceCost
     
     public ResourceCost(ResourceType type, int amount)
     {
-        requiredResources = new() { new ResourceData(type, amount) };
+        this.requiredResources = new() { new ResourceData(type, amount) };
     }
     
     public ResourceCost(ResourceConfig config, int amount)
     {
-        requiredResources = new() { new ResourceData(config, amount) };
+        this.requiredResources = new() { new ResourceData(config, amount) };
     }
     
     public ResourceCost(params ResourceData[] resources)
     {
-        requiredResources = new(resources);
+        this.requiredResources = new(resources);
     }
     
     public void AddCost(ResourceType type, int amount)
     {
-        requiredResources.Add(new ResourceData(type, amount));
+        this.requiredResources.Add(new ResourceData(type, amount));
     }
     
     public void AddCost(ResourceConfig config, int amount)
     {
-        requiredResources.Add(new ResourceData(config, amount));
+        this.requiredResources.Add(new ResourceData(config, amount));
     }
     
     public bool CanAfford(ResourceManager resourceManager)
     {
-        foreach (var resource in requiredResources)
+        foreach (var resource in this.requiredResources)
         {
             if (!resourceManager.HasResource(resource.Type, resource.Amount))
                 return false;
@@ -55,7 +55,7 @@ public class ResourceCost
     public int GetTotalValue()
     {
         int totalValue = 0;
-        foreach (var resource in requiredResources)
+        foreach (var resource in this.requiredResources)
         {
             totalValue += resource.BaseValue * resource.Amount;
         }

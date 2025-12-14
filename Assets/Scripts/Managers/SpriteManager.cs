@@ -13,9 +13,9 @@ public class SpriteManager : MonoBehaviour
 
     public Sprite GetItemSpriteByIndex(int index)
     {
-        if (index >= 0 && index < itemSprites.Length)
+        if (index >= 0 && index < this.itemSprites.Length)
         {
-            return itemSprites[index];
+            return this.itemSprites[index];
         }
         return null;
     }

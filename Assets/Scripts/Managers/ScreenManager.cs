@@ -37,7 +37,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ToggleRootVisibility()
     {
-        if (rootCanvasGroup.alpha > 0f)
+        if (this.rootCanvasGroup.alpha > 0f)
         {
             FadeOutRoot();
         }

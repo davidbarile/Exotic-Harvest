@@ -49,28 +49,28 @@ public class TimeManager : MonoBehaviour, ITickable
     public void SecondTick()
     {
         // Advance time
-        float hoursPerSecond = 24f / (dayLengthInMinutes * 60f);
-        currentHour += hoursPerSecond * TimeScale;
+        float hoursPerSecond = 24f / (this.dayLengthInMinutes * 60f);
+        this.currentHour += hoursPerSecond * this.TimeScale;
         
         // Handle day rollover
-        if (currentHour >= 24f)
+        if (this.currentHour >= 24f)
         {
-            currentHour -= 24f;
+            this.currentHour -= 24f;
             OnNewDay?.Invoke();
         }
         
-        OnHourChanged?.Invoke(currentHour);
+        OnHourChanged?.Invoke(this.currentHour);
         
         // Check for time of day changes
-        TimeOfDay newTimeOfDay = GetTimeOfDayFromHour(currentHour);
-        if (newTimeOfDay != currentTimeOfDay)
+        TimeOfDay newTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
+        if (newTimeOfDay != this.currentTimeOfDay)
         {
-            currentTimeOfDay = newTimeOfDay;
-            OnTimeOfDayChanged?.Invoke(currentTimeOfDay);
+            this.currentTimeOfDay = newTimeOfDay;
+            OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
         }
 
-         if(timeDisplayText != null)
-                timeDisplayText.text = $"Time: {currentHour:00.00} ({currentTimeOfDay})";
+         if(this.timeDisplayText != null)
+                this.timeDisplayText.text = $"Time: {this.currentHour:00.00} ({this.currentTimeOfDay})";
     }
     
     private TimeOfDay GetTimeOfDayFromHour(float hour)
@@ -94,14 +94,14 @@ public class TimeManager : MonoBehaviour, ITickable
             case ResourceType.Moonbeams:
             case ResourceType.Stardust:
             case ResourceType.FallingStars:
-                return currentTimeOfDay.HasFlag(TimeOfDay.Night);
+                return this.currentTimeOfDay.HasFlag(TimeOfDay.Night);
             case ResourceType.Fireflies:
-                return currentTimeOfDay.HasFlag(TimeOfDay.Evening) || currentTimeOfDay.HasFlag(TimeOfDay.Night);
+                return this.currentTimeOfDay.HasFlag(TimeOfDay.Evening) || this.currentTimeOfDay.HasFlag(TimeOfDay.Night);
             case ResourceType.Nectar:
-                return currentTimeOfDay.HasFlag(TimeOfDay.Morning);
+                return this.currentTimeOfDay.HasFlag(TimeOfDay.Morning);
             case ResourceType.Seeds:
             case ResourceType.Berries:
-                return currentTimeOfDay.HasFlag(TimeOfDay.Afternoon);
+                return this.currentTimeOfDay.HasFlag(TimeOfDay.Afternoon);
             default:
                 return true; // Most resources available anytime
         }
@@ -109,20 +109,20 @@ public class TimeManager : MonoBehaviour, ITickable
     
     public void SetTimeScale(Single scale)
     {
-        TimeScale = Mathf.Max(0f, scale);
+        this.TimeScale = Mathf.Max(0f, scale);
 
-        if (timeScaleSliderText != null)
-            timeScaleSliderText.text = $"Time Scale: {TimeScale:0.0}x";
+        if (this.timeScaleSliderText != null)
+            this.timeScaleSliderText.text = $"Time Scale: {this.TimeScale:0.0}x";
     }
     
     public void SetTime(Single hour)
     {
-        currentHour = Mathf.Clamp(hour, 0f, 24f);
-        currentTimeOfDay = GetTimeOfDayFromHour(currentHour);
-        OnHourChanged?.Invoke(currentHour);
-        OnTimeOfDayChanged?.Invoke(currentTimeOfDay);
+        this.currentHour = Mathf.Clamp(hour, 0f, 24f);
+        this.currentTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
+        OnHourChanged?.Invoke(this.currentHour);
+        OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
 
-        if (timeSliderText != null)
-            timeSliderText.text = $"Time: {currentHour:00.00} ({currentTimeOfDay})";
+        if (this.timeSliderText != null)
+            this.timeSliderText.text = $"Time: {this.currentHour:00.00} ({this.currentTimeOfDay})";
     }
 }

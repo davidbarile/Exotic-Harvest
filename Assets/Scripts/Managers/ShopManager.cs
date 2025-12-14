@@ -133,17 +133,17 @@ public class ShopManager : MonoBehaviour
         }
         
         // Add to main collection
-        if (!allShopItems.Contains(itemData))
-            allShopItems.Add(itemData);
+        if (!this.allShopItems.Contains(itemData))
+            this.allShopItems.Add(itemData);
             
         // Update lookup dictionaries
-        shopItemsById[itemData.Id] = itemData;
-        itemsByCategory[itemData.Category].Add(itemData);
+        this.shopItemsById[itemData.Id] = itemData;
+        this.itemsByCategory[itemData.Category].Add(itemData);
     }
     
     public bool TryPurchaseItem(string itemId)
     {
-        if (!shopItemsById.TryGetValue(itemId, out ShopItemData item))
+        if (!this.shopItemsById.TryGetValue(itemId, out ShopItemData item))
         {
             OnPurchaseFailed?.Invoke(null, "Item not found");
             return false;
@@ -187,7 +187,7 @@ public class ShopManager : MonoBehaviour
             itemData.TryPurchase(); // Update purchase count
             OnItemPurchased?.Invoke(itemData);
             
-            if (debugMode)
+            if (this.debugMode)
                 Debug.Log($"Purchased {itemData.DisplayName}");
                 
             return true;

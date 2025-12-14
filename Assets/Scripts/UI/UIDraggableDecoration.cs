@@ -34,24 +34,24 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
-        decoration = GetComponent<DecorationBase>();
+        this.rectTransform = GetComponent<RectTransform>();
+        this.canvasGroup = GetComponent<CanvasGroup>();
+        this.decoration = GetComponent<DecorationBase>();
         
-        if (canvasGroup == null)
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        if (this.canvasGroup == null)
+            this.canvasGroup = gameObject.AddComponent<CanvasGroup>();
             
-        if (dragCanvas == null)
-            dragCanvas = GetComponentInParent<Canvas>();
+        if (this.dragCanvas == null)
+            this.dragCanvas = GetComponentInParent<Canvas>();
             
-        originalPosition = rectTransform.anchoredPosition;
-        lastValidPosition = originalPosition;
+        this.originalPosition = this.rectTransform.anchoredPosition;
+        this.lastValidPosition = this.originalPosition;
     }
     
     private void Start()
     {
-        originalParent = transform.parent;
-        originalSiblingIndex = transform.GetSiblingIndex();
+        this.originalParent = transform.parent;
+        this.originalSiblingIndex = transform.GetSiblingIndex();
     }
     
     public void OnPointerClick(PointerEventData eventData)
@@ -60,31 +60,31 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
         if (DragManager.IsDragModeActivated)
         {
             // Allow dragging in drag mode, but also handle clicks for interaction
-            if (decoration != null && !isDragging)
+            if (this.decoration != null && !this.isDragging)
             {
                 // Interact with decoration (collect resources, etc.)
-                Debug.Log($"Interacting with decoration: {decoration.name}");
+                Debug.Log($"Interacting with decoration: {this.decoration.name}");
             }
         }
     }
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!isDraggable || !CanDrag())
+        if (!this.isDraggable || !CanDrag())
             return;
             
-        isDragging = true;
-        originalPosition = rectTransform.anchoredPosition;
-        lastValidPosition = originalPosition;
+        this.isDragging = true;
+        this.originalPosition = this.rectTransform.anchoredPosition;
+        this.lastValidPosition = this.originalPosition;
         
         // Visual feedback
-        transform.DOScale(dragScale, 0.1f);
-        canvasGroup.alpha = dragAlpha;
+        transform.DOScale(this.dragScale, 0.1f);
+        this.canvasGroup.alpha = this.dragAlpha;
         
         // Move to drag canvas for proper layering
-        if (dragCanvas != null && dragCanvas != GetComponentInParent<Canvas>())
+        if (this.dragCanvas != null && this.dragCanvas != GetComponentInParent<Canvas>())
         {
-            transform.SetParent(dragCanvas.transform);
+            transform.SetParent(this.dragCanvas.transform);
         }
         
         // Bring to front
@@ -95,14 +95,14 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragging)
+        if (!this.isDragging)
             return;
             
-        if (rectTransform != null)
+        if (this.rectTransform != null)
         {
             Vector2 newPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rectTransform.parent as RectTransform,
+                this.rectTransform.parent as RectTransform,
                 eventData.position,
                 eventData.pressEventCamera,
                 out newPosition
@@ -110,65 +110,65 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
             
             // Constrain to canvas bounds
             Vector2 constrainedPosition = ConstrainToCanvas(newPosition);
-            rectTransform.anchoredPosition = constrainedPosition;
+            this.rectTransform.anchoredPosition = constrainedPosition;
             
             // Check if position is valid for decoration placement
             if (IsValidPosition(constrainedPosition))
             {
-                lastValidPosition = constrainedPosition;
+                this.lastValidPosition = constrainedPosition;
                 // Visual feedback for valid position
-                canvasGroup.alpha = dragAlpha;
+                this.canvasGroup.alpha = this.dragAlpha;
             }
             else
             {
                 // Visual feedback for invalid position
-                canvasGroup.alpha = dragAlpha * 0.5f;
+                this.canvasGroup.alpha = this.dragAlpha * 0.5f;
             }
         }
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDragging)
+        if (!this.isDragging)
             return;
             
-        isDragging = false;
+        this.isDragging = false;
         
         // Return to original parent
-        if (originalParent != null)
+        if (this.originalParent != null)
         {
-            transform.SetParent(originalParent);
-            transform.SetSiblingIndex(originalSiblingIndex);
+            transform.SetParent(this.originalParent);
+            transform.SetSiblingIndex(this.originalSiblingIndex);
         }
         
         // Determine final position
         Vector2 finalPosition;
-        if (IsValidPosition(rectTransform.anchoredPosition))
+        if (IsValidPosition(this.rectTransform.anchoredPosition))
         {
-            finalPosition = rectTransform.anchoredPosition;
+            finalPosition = this.rectTransform.anchoredPosition;
         }
-        else if (returnToOriginalPosition)
+        else if (this.returnToOriginalPosition)
         {
-            finalPosition = originalPosition;
+            finalPosition = this.originalPosition;
         }
         else
         {
-            finalPosition = lastValidPosition;
+            finalPosition = this.lastValidPosition;
         }
         
         // Animate to final position
         var sequence = DOTween.Sequence()
-            .Append(rectTransform.DOAnchorPos(finalPosition, snapBackDuration).SetEase(Ease.OutBack))
-            .Join(transform.DOScale(1f, snapBackDuration))
-            .Join(canvasGroup.DOFade(1f, snapBackDuration))
+            .Append(this.rectTransform.DOAnchorPos(finalPosition, this.snapBackDuration).SetEase(Ease.OutBack))
+            .Join(transform.DOScale(1f, this.snapBackDuration))
+            .Join(this.canvasGroup.DOFade(1f, this.snapBackDuration))
             .OnComplete(() => {
                 OnPositionChanged?.Invoke(this, finalPosition);
                 
                 // Update decoration position if component exists
-                if (decoration != null)
+                if (this.decoration != null)
                 {
                     // Position updated via RectTransform automatically
-                    Debug.Log($"Decoration {decoration.name} moved to {finalPosition}");
+                    Debug.Log($"Decoration {this.decoration.name} moved to {finalPosition}");
                 }
             });
             
@@ -183,10 +183,10 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     
     private Vector2 ConstrainToCanvas(Vector2 position)
     {
-        if (dragCanvas == null)
+        if (this.dragCanvas == null)
             return position;
             
-        RectTransform canvasRect = dragCanvas.GetComponent<RectTransform>();
+        RectTransform canvasRect = this.dragCanvas.GetComponent<RectTransform>();
         if (canvasRect == null)
             return position;
             
@@ -221,25 +221,25 @@ public class UIDraggableDecoration : MonoBehaviour, IBeginDragHandler, IDragHand
     // Public methods for external control
     public void SetDraggable(bool draggable)
     {
-        isDraggable = draggable;
+        this.isDraggable = draggable;
     }
     
     public void SetPosition(Vector2 position)
     {
-        rectTransform.anchoredPosition = position;
-        originalPosition = position;
-        lastValidPosition = position;
+        this.rectTransform.anchoredPosition = position;
+        this.originalPosition = position;
+        this.lastValidPosition = position;
     }
     
     public Vector2 GetPosition()
     {
-        return rectTransform.anchoredPosition;
+        return this.rectTransform.anchoredPosition;
     }
     
     // Animation helpers
     public void AnimateToPosition(Vector2 targetPosition, float duration = 0.5f)
     {
-        rectTransform.DOAnchorPos(targetPosition, duration).SetEase(Ease.OutQuad);
+        this.rectTransform.DOAnchorPos(targetPosition, duration).SetEase(Ease.OutQuad);
     }
     
     public void PulseScale(float scale = 1.2f, float duration = 0.3f)

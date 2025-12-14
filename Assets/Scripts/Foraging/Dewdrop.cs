@@ -18,16 +18,16 @@ public class Dewdrop : Collectable
     
     protected override void Start()
     {
-        resourceType = ResourceType.Water;
-        amount = 1;
-        collectionMethod = CollectionMethod.Click;
-        lifetime = 60f; // Dewdrops last longer
+        this.resourceType = ResourceType.Water;
+        this.amount = 1;
+        this.collectionMethod = CollectionMethod.Click;
+        this.lifetime = 60f; // Dewdrops last longer
         
         base.Start();
         
-        if (rectTransform != null)
+        if (this.rectTransform != null)
         {
-            startAnchoredPosition = rectTransform.anchoredPosition;
+            this.startAnchoredPosition = this.rectTransform.anchoredPosition;
             StartBobAnimation();
             StartShimmerAnimation();
         }
@@ -35,19 +35,19 @@ public class Dewdrop : Collectable
     
     private void StartBobAnimation()
     {
-        bobSequence = DOTween.Sequence()
-            .Append(rectTransform.DOAnchorPosY(startAnchoredPosition.y + bobAmount, 1f / bobSpeed).SetEase(Ease.InOutSine))
-            .Append(rectTransform.DOAnchorPosY(startAnchoredPosition.y - bobAmount, 1f / bobSpeed).SetEase(Ease.InOutSine))
+        this.bobSequence = DOTween.Sequence()
+            .Append(this.rectTransform.DOAnchorPosY(this.startAnchoredPosition.y + this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
+            .Append(this.rectTransform.DOAnchorPosY(this.startAnchoredPosition.y - this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
             .SetLoops(-1, LoopType.Yoyo);
     }
     
     private void StartShimmerAnimation()
     {
-        if (collectableImage != null)
+        if (this.collectableImage != null)
         {
-            shimmerSequence = DOTween.Sequence()
-                .Append(collectableImage.DOFade(0.7f, shimmerInterval * 0.5f))
-                .Append(collectableImage.DOFade(1f, shimmerInterval * 0.5f))
+            this.shimmerSequence = DOTween.Sequence()
+                .Append(this.collectableImage.DOFade(0.7f, this.shimmerInterval * 0.5f))
+                .Append(this.collectableImage.DOFade(1f, this.shimmerInterval * 0.5f))
                 .SetLoops(-1);
         }
     }
@@ -55,16 +55,16 @@ public class Dewdrop : Collectable
     protected override void OnCollected()
     {
         // Stop animations
-        bobSequence?.Kill();
-        shimmerSequence?.Kill();
+        this.bobSequence?.Kill();
+        this.shimmerSequence?.Kill();
         
         // Collection animation
-        if (rectTransform != null && collectableImage != null)
+        if (this.rectTransform != null && this.collectableImage != null)
         {
             var sequence = DOTween.Sequence()
-                .Append(rectTransform.DOScale(1.2f, 0.1f))
-                .Join(collectableImage.DOFade(0f, 0.2f))
-                .Append(rectTransform.DOScale(0f, 0.1f));
+                .Append(this.rectTransform.DOScale(1.2f, 0.1f))
+                .Join(this.collectableImage.DOFade(0f, 0.2f))
+                .Append(this.rectTransform.DOScale(0f, 0.1f));
         }
         
         base.OnCollected();
@@ -72,8 +72,8 @@ public class Dewdrop : Collectable
     
     protected override void OnDestroy()
     {
-        bobSequence?.Kill();
-        shimmerSequence?.Kill();
+        this.bobSequence?.Kill();
+        this.shimmerSequence?.Kill();
 
         base.OnDestroy();
     }

@@ -17,8 +17,8 @@ public class ResourceDisplayUI : MonoBehaviour
     
     public void Initialize(ResourceType type, ResourceConfig config)
     {
-        resourceType = type;
-        resourceConfig = config;
+        this.resourceType = type;
+        this.resourceConfig = config;
         
         UpdateDisplay();
         
@@ -39,7 +39,7 @@ public class ResourceDisplayUI : MonoBehaviour
     
     private void OnResourceChanged(ResourceType type, int newAmount)
     {
-        if (type == resourceType)
+        if (type == this.resourceType)
         {
             UpdateDisplay();
         }
@@ -49,28 +49,28 @@ public class ResourceDisplayUI : MonoBehaviour
     {
         if (ResourceManager.IN == null) return;
         
-        int currentAmount = ResourceManager.IN.GetResourceAmount(resourceType);
+        int currentAmount = ResourceManager.IN.GetResourceAmount(this.resourceType);
         
         // Update amount text
-        if (amountText != null)
+        if (this.amountText != null)
         {
-            amountText.text = currentAmount.ToString();
-            amountText.color = resourceConfig?.UiColor ?? Color.white;
+            this.amountText.text = currentAmount.ToString();
+            this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
         }
         
         // Update icon
-        if (iconImage != null && resourceConfig != null)
+        if (this.iconImage != null && this.resourceConfig != null)
         {
-            iconImage.sprite = resourceConfig.Icon;
-            iconImage.color = resourceConfig.UiColor;
+            this.iconImage.sprite = this.resourceConfig.Icon;
+            this.iconImage.color = this.resourceConfig.UiColor;
         }
         
         // Update background color based on resource category
-        if (backgroundImage != null && resourceConfig != null)
+        if (this.backgroundImage != null && this.resourceConfig != null)
         {
-            Color bgColor = GetCategoryColor(resourceConfig.Category);
+            Color bgColor = GetCategoryColor(this.resourceConfig.Category);
             bgColor.a = 0.3f;
-            backgroundImage.color = bgColor;
+            this.backgroundImage.color = bgColor;
         }
     }
     

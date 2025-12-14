@@ -38,10 +38,10 @@ public class ResourceConfig : ScriptableObject
     
     public bool IsAvailableAtTime(TimeOfDay currentTime)
     {
-        if (AvailableTimes == null || AvailableTimes.Length == 0)
+        if (this.AvailableTimes == null || this.AvailableTimes.Length == 0)
             return true;
             
-        foreach (var time in AvailableTimes)
+        foreach (var time in this.AvailableTimes)
         {
             if (time == currentTime)
                 return true;
@@ -51,10 +51,10 @@ public class ResourceConfig : ScriptableObject
     
     public bool IsAvailableInWeather(WeatherType currentWeather)
     {
-        if (AvailableWeather == null || AvailableWeather.Length == 0)
+        if (this.AvailableWeather == null || this.AvailableWeather.Length == 0)
             return true;
             
-        foreach (var weather in AvailableWeather)
+        foreach (var weather in this.AvailableWeather)
         {
             if (weather == currentWeather)
                 return true;

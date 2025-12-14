@@ -18,11 +18,11 @@ public class Raindrop : Collectable
     
     protected override void Start()
     {
-        resourceType = ResourceType.Water;
-        amount = 1;
-        collectionMethod = CollectionMethod.Hover;
-        lifetime = 10f; // Raindrops fall quickly
-        autoDestroy = false; // Will destroy when hitting ground
+        this.resourceType = ResourceType.Water;
+        this.amount = 1;
+        this.collectionMethod = CollectionMethod.Hover;
+        this.lifetime = 10f; // Raindrops fall quickly
+        this.autoDestroy = false; // Will destroy when hitting ground
         
         base.Start();
         StartFallingAnimation();
@@ -30,21 +30,21 @@ public class Raindrop : Collectable
     
     private void StartFallingAnimation()
     {
-        if (rectTransform != null && parentCanvas != null)
+        if (this.rectTransform != null && this.parentCanvas != null)
         {
             // Get canvas bounds for ground detection
-            RectTransform canvasRect = parentCanvas.GetComponent<RectTransform>();
+            RectTransform canvasRect = this.parentCanvas.GetComponent<RectTransform>();
             float groundY = -canvasRect.rect.height * 0.5f - 50f; // Below canvas
             
-            Vector2 startPos = rectTransform.anchoredPosition;
+            Vector2 startPos = this.rectTransform.anchoredPosition;
             
             // Falling animation
-            fallTween = rectTransform.DOAnchorPosY(groundY, fallDuration)
+            this.fallTween = this.rectTransform.DOAnchorPosY(groundY, this.fallDuration)
                 .SetEase(Ease.InQuad)
                 .OnComplete(HitGround);
             
             // Subtle horizontal wave motion
-            waveTween = rectTransform.DOAnchorPosX(startPos.x + sideWave, fallDuration * 0.5f)
+            this.waveTween = this.rectTransform.DOAnchorPosX(startPos.x + this.sideWave, this.fallDuration * 0.5f)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
         }
@@ -52,16 +52,16 @@ public class Raindrop : Collectable
     
     private void HitGround()
     {
-        if (!isCollected)
+        if (!this.isCollected)
         {
-            isFalling = false;
+            this.isFalling = false;
             
             // Splash effect animation
-            if (collectableImage != null)
+            if (this.collectableImage != null)
             {
                 var splashSequence = DOTween.Sequence()
-                    .Append(rectTransform.DOScale(1.3f, 0.1f))
-                    .Join(collectableImage.DOFade(0f, 0.2f))
+                    .Append(this.rectTransform.DOScale(1.3f, 0.1f))
+                    .Join(this.collectableImage.DOFade(0f, 0.2f))
                     .OnComplete(() => Destroy(gameObject));
             }
             else
@@ -73,25 +73,25 @@ public class Raindrop : Collectable
     
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        if (isFalling) // Can only collect while falling
+        if (this.isFalling) // Can only collect while falling
             base.OnPointerEnter(eventData);
     }
     
     protected override void OnCollected()
     {
-        isFalling = false;
+        this.isFalling = false;
         
         // Stop falling animations
-        fallTween?.Kill();
-        waveTween?.Kill();
+        this.fallTween?.Kill();
+        this.waveTween?.Kill();
         
         // Collection effect
-        if (rectTransform != null && collectableImage != null)
+        if (this.rectTransform != null && this.collectableImage != null)
         {
             var collectSequence = DOTween.Sequence()
-                .Append(rectTransform.DOScale(0.8f, 0.1f))
-                .Join(collectableImage.DOFade(0.3f, 0.15f))
-                .Append(rectTransform.DOScale(0f, 0.05f))
+                .Append(this.rectTransform.DOScale(0.8f, 0.1f))
+                .Join(this.collectableImage.DOFade(0.3f, 0.15f))
+                .Append(this.rectTransform.DOScale(0f, 0.05f))
                 .OnComplete(() => Destroy(gameObject));
         }
         
@@ -100,8 +100,8 @@ public class Raindrop : Collectable
     
     protected override void OnDestroy()
     {
-        fallTween?.Kill();
-        waveTween?.Kill();
+        this.fallTween?.Kill();
+        this.waveTween?.Kill();
         
         base.OnDestroy();
     }

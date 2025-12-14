@@ -46,24 +46,24 @@ public class ResourceDisplayManager : MonoBehaviour
     {
         var allResources = ResourceManager.IN.Database.AllResources;
         
-        return allResources.Where(r => r != null && categoriesToShow.HasFlag(r.Category)).ToArray();
+        return allResources.Where(r => r != null && this.categoriesToShow.HasFlag(r.Category)).ToArray();
     }
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        ResourceDisplayUI displayUI = Instantiate(resourceDisplayPrefab, resourceDisplayParent);
+        ResourceDisplayUI displayUI = Instantiate(this.resourceDisplayPrefab, this.resourceDisplayParent);
         
         displayUI.Initialize(resourceConfig.ResourceType, resourceConfig);
-        activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
+        this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
         
         OnResourceChanged(resourceConfig.ResourceType, ResourceManager.IN.GetResourceAmount(resourceConfig.ResourceType));
     }
     
     private void OnResourceChanged(ResourceType type, int newAmount)
     {            
-        if (showOnlyOwnedResources)
+        if (this.showOnlyOwnedResources)
         {
-            if (activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
+            if (this.activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
             {
                 display.gameObject.SetActive(newAmount > 0);
             }
@@ -73,12 +73,12 @@ public class ResourceDisplayManager : MonoBehaviour
     public void RefreshAllDisplays()
     {
         // Clear existing displays
-        foreach (var display in activeDisplaysDict.Values)
+        foreach (var display in this.activeDisplaysDict.Values)
         {
             if (display != null)
                 Destroy(display.gameObject);
         }
-        activeDisplaysDict.Clear();
+        this.activeDisplaysDict.Clear();
         
         // Recreate displays
         CreateResourceDisplays();

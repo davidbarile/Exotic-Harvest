@@ -52,33 +52,33 @@ public class ResourceDatabase : ScriptableObject
     
     public ResourceConfig GetResource(string id)
     {
-        if (resourceByIdLookup == null) BuildLookupTables();
-        resourceByIdLookup.TryGetValue(id, out ResourceConfig resource);
+        if (this.resourceByIdLookup == null) BuildLookupTables();
+        this.resourceByIdLookup.TryGetValue(id, out ResourceConfig resource);
         return resource;
     }
     
     public ResourceConfig[] GetResourcesByCategory(ResourceCategory category)
     {
-        if (allResources == null) return new ResourceConfig[0];
-        return allResources.Where(r => r != null && r.Category.HasFlag(category)).ToArray();
+        if (this.allResources == null) return new ResourceConfig[0];
+        return this.allResources.Where(r => r != null && r.Category.HasFlag(category)).ToArray();
     }
     
     public ResourceConfig[] GetAvailableResources()
     {
-        if (allResources == null) return new ResourceConfig[0];
-        return allResources.Where(r => r != null && r.IsCurrentlyAvailable()).ToArray();
+        if (this.allResources == null) return new ResourceConfig[0];
+        return this.allResources.Where(r => r != null && r.IsCurrentlyAvailable()).ToArray();
     }
     
     public ResourceConfig[] GetForageableResources()
     {
-        if (allResources == null) return new ResourceConfig[0];
-        return allResources.Where(r => r != null && r.CanBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
+        if (this.allResources == null) return new ResourceConfig[0];
+        return this.allResources.Where(r => r != null && r.CanBeActivelyForaged && r.IsCurrentlyAvailable()).ToArray();
     }
 
     public ResourceConfig[] GetPassiveResources()
     {
-        if (allResources == null) return new ResourceConfig[0];
-        return allResources.Where(r => r != null && r.CanBePassivelyGenerated).ToArray();
+        if (this.allResources == null) return new ResourceConfig[0];
+        return this.allResources.Where(r => r != null && r.CanBePassivelyGenerated).ToArray();
     }
 
 #if UNITY_EDITOR
@@ -97,11 +97,11 @@ public class ResourceDatabase : ScriptableObject
                 foundResources.Add(resource);
         }
 
-        allResources = foundResources.ToArray();
+        this.allResources = foundResources.ToArray();
         BuildLookupTables();
 
         UnityEditor.EditorUtility.SetDirty(this);
-        Debug.Log($"Auto-populated {allResources.Length} resources");
+        Debug.Log($"Auto-populated {this.allResources.Length} resources");
     }
 #endif
 }

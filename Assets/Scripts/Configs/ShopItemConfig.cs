@@ -40,16 +40,16 @@ public class ShopItemConfig : ScriptableObject
     
     public bool IsUnlocked(int playerLevel, string[] purchasedItemIds)
     {
-        if (!IsUnlockedByDefault)
+        if (!this.IsUnlockedByDefault)
             return false;
             
-        if (playerLevel < PlayerLevelRequired)
+        if (playerLevel < this.PlayerLevelRequired)
             return false;
             
         // Check prerequisites
-        if (PrerequisiteItems != null && PrerequisiteItems.Length > 0)
+        if (this.PrerequisiteItems != null && this.PrerequisiteItems.Length > 0)
         {
-            foreach (var prereq in PrerequisiteItems)
+            foreach (var prereq in this.PrerequisiteItems)
             {
                 bool found = false;
                 if (purchasedItemIds != null)

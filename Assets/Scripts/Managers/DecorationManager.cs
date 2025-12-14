@@ -33,11 +33,11 @@ public class DecorationManager : MonoBehaviour
     {
         InitializePrefabs();
         
-        if (decorationParent == null)
-            decorationParent = GetComponent<RectTransform>();
+        if (this.decorationParent == null)
+            this.decorationParent = GetComponent<RectTransform>();
             
-        if (decorationCanvas == null)
-            decorationCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
+        if (this.decorationCanvas == null)
+            this.decorationCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
     }
     
     private void OnEnable()
@@ -56,16 +56,16 @@ public class DecorationManager : MonoBehaviour
     {
         this.decorationPrefabs = new();
         
-        if (bucketPrefab != null)
-            decorationPrefabs[DecorationType.Bucket] = bucketPrefab;
-        if (plantPrefab != null)
-            decorationPrefabs[DecorationType.Plant] = plantPrefab;
+        if (this.bucketPrefab != null)
+            this.decorationPrefabs[DecorationType.Bucket] = this.bucketPrefab;
+        if (this.plantPrefab != null)
+            this.decorationPrefabs[DecorationType.Plant] = this.plantPrefab;
     }
     
     public bool CanPlaceDecoration(DecorationType type)
     {
         // Check if prefab exists
-        if (!decorationPrefabs.ContainsKey(type))
+        if (!this.decorationPrefabs.ContainsKey(type))
             return false;
             
         // Check if player can afford it (will be implemented with shop)
@@ -81,8 +81,8 @@ public class DecorationManager : MonoBehaviour
         if (!IsValidUIPlacementPosition(uiPosition))
             return null;
             
-        GameObject prefab = decorationPrefabs[type];
-        GameObject instance = Instantiate(prefab, decorationParent);
+        GameObject prefab = this.decorationPrefabs[type];
+        GameObject instance = Instantiate(prefab, this.decorationParent);
         
         // Set UI position
         RectTransform instanceRect = instance.GetComponent<RectTransform>();
@@ -110,37 +110,37 @@ public class DecorationManager : MonoBehaviour
     
     private Vector2 GetRandomUIPlacementPosition()
     {
-        if (decorationCanvas == null)
+        if (this.decorationCanvas == null)
             return Vector2.zero;
             
-        Rect canvasRect = decorationCanvas.rect;
+        Rect canvasRect = this.decorationCanvas.rect;
         
         return new Vector2(
-            UnityEngine.Random.Range(canvasRect.xMin + placementPadding.x, canvasRect.xMax - placementPadding.x),
-            UnityEngine.Random.Range(canvasRect.yMin + placementPadding.y, canvasRect.yMax - placementPadding.y)
+            UnityEngine.Random.Range(canvasRect.xMin + this.placementPadding.x, canvasRect.xMax - this.placementPadding.x),
+            UnityEngine.Random.Range(canvasRect.yMin + this.placementPadding.y, canvasRect.yMax - this.placementPadding.y)
         );
     }
     
     private bool IsValidUIPlacementPosition(Vector2 uiPosition)
     {
-        if (decorationCanvas == null)
+        if (this.decorationCanvas == null)
             return false;
             
-        Rect canvasRect = decorationCanvas.rect;
+        Rect canvasRect = this.decorationCanvas.rect;
         
         // Check UI bounds with padding
-        if (uiPosition.x < canvasRect.xMin + placementPadding.x || 
-            uiPosition.x > canvasRect.xMax - placementPadding.x ||
-            uiPosition.y < canvasRect.yMin + placementPadding.y || 
-            uiPosition.y > canvasRect.yMax - placementPadding.y)
+        if (uiPosition.x < canvasRect.xMin + this.placementPadding.x || 
+            uiPosition.x > canvasRect.xMax - this.placementPadding.x ||
+            uiPosition.y < canvasRect.yMin + this.placementPadding.y || 
+            uiPosition.y > canvasRect.yMax - this.placementPadding.y)
         {
             return false;
         }
         
         // Check for overlapping decorations if using grid placement
-        if (useGridPlacement)
+        if (this.useGridPlacement)
         {
-            foreach (var decoration in placedDecorations)
+            foreach (var decoration in this.placedDecorations)
             {
                 if (decoration != null)
                 {
@@ -148,7 +148,7 @@ public class DecorationManager : MonoBehaviour
                     if (decorationRect != null)
                     {
                         float distance = Vector2.Distance(decorationRect.anchoredPosition, uiPosition);
-                        if (distance < gridSpacing)
+                        if (distance < this.gridSpacing)
                             return false;
                     }
                 }
@@ -183,7 +183,7 @@ public class DecorationManager : MonoBehaviour
     public int GetDecorationCount(DecorationType type)
     {
         int count = 0;
-        foreach (var decoration in placedDecorations)
+        foreach (var decoration in this.placedDecorations)
         {
             if (decoration.Type == type)
                 count++;
@@ -193,20 +193,20 @@ public class DecorationManager : MonoBehaviour
     
     private void OnDecorationPlaced(DecorationBase decoration)
     {
-        if (!placedDecorations.Contains(decoration))
+        if (!this.placedDecorations.Contains(decoration))
         {
-            placedDecorations.Add(decoration);
+            this.placedDecorations.Add(decoration);
             OnDecorationAdded?.Invoke(decoration);
-            OnDecorationCountChanged?.Invoke(placedDecorations.Count);
+            OnDecorationCountChanged?.Invoke(this.placedDecorations.Count);
         }
     }
     
     private void OnDecorationRemovedHandler(DecorationBase decoration)
     {
-        if (placedDecorations.Remove(decoration))
+        if (this.placedDecorations.Remove(decoration))
         {
             DecorationManager.OnDecorationRemoved?.Invoke(decoration);
-            OnDecorationCountChanged?.Invoke(placedDecorations.Count);
+            OnDecorationCountChanged?.Invoke(this.placedDecorations.Count);
         }
     }
     
@@ -214,7 +214,7 @@ public class DecorationManager : MonoBehaviour
     public List<DecorationData> GetSaveData()
     {
         List<DecorationData> saveData = new();
-        foreach (var decoration in placedDecorations)
+        foreach (var decoration in this.placedDecorations)
         {
             if (decoration != null)
                 saveData.Add(decoration.GetSaveData());
@@ -225,12 +225,12 @@ public class DecorationManager : MonoBehaviour
     public void LoadSaveData(List<DecorationData> saveData)
     {
         // Clear existing decorations
-        for (int i = placedDecorations.Count - 1; i >= 0; i--)
+        for (int i = this.placedDecorations.Count - 1; i >= 0; i--)
         {
-            if (placedDecorations[i] != null)
-                Destroy(placedDecorations[i].gameObject);
+            if (this.placedDecorations[i] != null)
+                Destroy(this.placedDecorations[i].gameObject);
         }
-        placedDecorations.Clear();
+        this.placedDecorations.Clear();
         
         // Recreate decorations from save data
         foreach (var data in saveData)

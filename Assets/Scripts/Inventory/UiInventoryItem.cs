@@ -17,16 +17,16 @@ public class UiInventoryItem : UiDraggable
     {
         this.ItemData = inItemData;
 
-        if (itemIcon != null)
+        if (this.itemIcon != null)
         {
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
-            itemIcon.sprite = sprite;
-            shadow.sprite = sprite;
+            this.itemIcon.sprite = sprite;
+            this.shadow.sprite = sprite;
         }
 
-        if (itemQuantityText != null)
+        if (this.itemQuantityText != null)
         {
-            itemQuantityText.text = inItemData.Quantity > 1 ? inItemData.Quantity.ToString() : string.Empty;
+            this.itemQuantityText.text = inItemData.Quantity > 1 ? inItemData.Quantity.ToString() : string.Empty;
         }
     }
 

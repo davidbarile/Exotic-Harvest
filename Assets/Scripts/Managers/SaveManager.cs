@@ -214,15 +214,15 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySaveDataToGame()
     {
-        if (currentSaveData == null)
+        if (this.currentSaveData == null)
             return;
 
-        InventoryManager.IN.LoadSaveData(currentSaveData.InventoryDataDict);
-        InventoryManager.IN.LoadAllInventory(currentSaveData.AllInventoryItems);
-        ResourceManager.IN.LoadSaveData(currentSaveData.ResourcesSaveDatas);
-        DecorationManager.IN.LoadSaveData(currentSaveData.DecorationDatas);
-        TimeManager.IN.SetTime(currentSaveData.CurrentGameHour);
-        WeatherManager.IN.ForceWeather(currentSaveData.CurrentWeather);
+        InventoryManager.IN.LoadSaveData(this.currentSaveData.InventoryDataDict);
+        InventoryManager.IN.LoadAllInventory(this.currentSaveData.AllInventoryItems);
+        ResourceManager.IN.LoadSaveData(this.currentSaveData.ResourcesSaveDatas);
+        DecorationManager.IN.LoadSaveData(this.currentSaveData.DecorationDatas);
+        TimeManager.IN.SetTime(this.currentSaveData.CurrentGameHour);
+        WeatherManager.IN.ForceWeather(this.currentSaveData.CurrentWeather);
         
         ApplySettingsData();
     }
@@ -233,14 +233,14 @@ public class SaveManager : MonoBehaviour, ITickable
         if (Kirurobo.UniWindowController.current != null)
         {
             var controller = Kirurobo.UniWindowController.current;
-            currentSaveData.SettingsData.WindowTransparency = controller.isTransparent ? 0.8f : 1f;
-            currentSaveData.SettingsData.AlwaysOnTop = controller.isTopmost;
+            this.currentSaveData.SettingsData.WindowTransparency = controller.isTransparent ? 0.8f : 1f;
+            this.currentSaveData.SettingsData.AlwaysOnTop = controller.isTopmost;
         }
         
         // Audio settings (placeholder - implement when audio system is added)
         // Time scale
         if (TimeManager.IN != null)
-            currentSaveData.SettingsData.TimeScale = 1f; // Will be implemented
+            this.currentSaveData.SettingsData.TimeScale = 1f; // Will be implemented
     }
     
     private void ApplySettingsData()

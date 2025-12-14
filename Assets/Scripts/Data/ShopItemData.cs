@@ -49,17 +49,17 @@ public class ShopItemData
     
     public bool TryPurchase()
     {
-        if (!CanPurchase)
+        if (!this.CanPurchase)
             return false;
             
-        if (IsLimitedQuantity)
-            CurrentPurchases++;
+        if (this.IsLimitedQuantity)
+            this.CurrentPurchases++;
             
         return true;
     }
     
     public void ResetPurchases()
     {
-        CurrentPurchases = 0;
+        this.CurrentPurchases = 0;
     }
 }

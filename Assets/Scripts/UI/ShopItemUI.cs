@@ -25,15 +25,15 @@ public class ShopItemUI : MonoBehaviour
     
     private void Awake()
     {
-        if (itemButton != null)
+        if (this.itemButton != null)
         {
-            itemButton.onClick.AddListener(SelectItem);
+            this.itemButton.onClick.AddListener(SelectItem);
         }
     }
     
     public void Initialize(ShopItemData itemData)
     {
-        shopItemData = itemData;
+        this.shopItemData = itemData;
         //itemDefinition = definition;
         
         UpdateDisplay();
@@ -61,26 +61,26 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdateDisplay()
     {
-        if (shopItemData == null) return;
+        if (this.shopItemData == null) return;
 
-        Debug.Log("Updating display for shop itemData: " + shopItemData.DisplayName);
+        Debug.Log("Updating display for shop itemData: " + this.shopItemData.DisplayName);
         
         // Update itemData name
-        if (itemNameText != null)
+        if (this.itemNameText != null)
         {
-            itemNameText.text = shopItemData.DisplayName;
+            this.itemNameText.text = this.shopItemData.DisplayName;
         }
         
         // Update icon
-        if (itemIcon != null)
+        if (this.itemIcon != null)
         {
-            itemIcon.sprite = shopItemData.Icon;
+            this.itemIcon.sprite = this.shopItemData.Icon;
         }
         
         // Update background color
-        if (backgroundImage != null)
+        if (this.backgroundImage != null)
         {
-            backgroundImage.color = shopItemData.BackgroundColor;
+            this.backgroundImage.color = this.shopItemData.BackgroundColor;
         }
         
         // Update price display
@@ -92,12 +92,12 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdatePriceDisplay()
     {
-        if (priceText == null || shopItemData?.Cost == null) return;
+        if (this.priceText == null || this.shopItemData?.Cost == null) return;
 
         var sb = new StringBuilder();
         bool canAfford = true;
 
-        foreach (var resource in shopItemData.Cost.RequiredResources)
+        foreach (var resource in this.shopItemData.Cost.RequiredResources)
         {
             if (sb.Length > 0) sb.Append(" ");
 
@@ -108,24 +108,24 @@ public class ShopItemUI : MonoBehaviour
             sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.Amount, resource.DisplayName);
         }
 
-        priceText.text = sb.ToString();
+        this.priceText.text = sb.ToString();
     }
     
     private void UpdateAvailabilityOverlays()
     {
-        bool canPurchase = shopItemData != null && shopItemData.CanPurchase;
-        bool canAfford = shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
+        bool canPurchase = this.shopItemData != null && this.shopItemData.CanPurchase;
+        bool canAfford = this.shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
         
         // Show sold out overlay
-        if (soldOutOverlay != null)
+        if (this.soldOutOverlay != null)
         {
-            soldOutOverlay.SetActive(!canPurchase);
+            this.soldOutOverlay.SetActive(!canPurchase);
         }
         
         // Show cannot afford overlay
-        if (cannotAffordOverlay != null)
+        if (this.cannotAffordOverlay != null)
         {
-            cannotAffordOverlay.SetActive(canPurchase && !canAfford);
+            this.cannotAffordOverlay.SetActive(canPurchase && !canAfford);
         }
         
         // // Update button interactability
@@ -137,7 +137,7 @@ public class ShopItemUI : MonoBehaviour
     
     private void SelectItem()
     {
-        OnItemSelected?.Invoke(shopItemData);
+        OnItemSelected?.Invoke(this.shopItemData);
     }
     
     public void Refresh()
