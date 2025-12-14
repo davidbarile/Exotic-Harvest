@@ -165,7 +165,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         // Highlight potential drop targets
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            UiDragTarget dragTarget = possibleTarget.GetComponent<UiDragTarget>();
+            if (possibleTarget == null)
+                continue;
+                
+            var dragTarget = possibleTarget.GetComponent<UiDragTarget>();
 
             if (dragTarget != null)
             {

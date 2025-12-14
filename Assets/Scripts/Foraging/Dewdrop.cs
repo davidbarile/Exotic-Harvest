@@ -18,9 +18,9 @@ public class Dewdrop : Collectable
     
     protected override void Start()
     {
-        this.resourceType = ResourceType.Water;
+        this.resourceType = EResourceType.Dew;
         this.amount = 1;
-        this.collectionMethod = CollectionMethod.Click;
+        this.collectionType = ECollectionMethod.Click;
         this.lifetime = 60f; // Dewdrops last longer
         
         base.Start();

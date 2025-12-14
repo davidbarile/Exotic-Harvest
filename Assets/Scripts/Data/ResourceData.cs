@@ -7,7 +7,7 @@ using UnityEngine;
 [Serializable]
 public class ResourceData
 {
-    public ResourceType Type;
+    public EResourceType Type;
     public int Amount;
 
     // Cache reference to config (not serialized)
@@ -15,7 +15,7 @@ public class ResourceData
     
     public ResourceData() { }
     
-    public ResourceData(ResourceType type, int amount = 0)
+    public ResourceData(EResourceType type, int amount = 0)
     {
         this.Type = type;
         this.Amount = amount;

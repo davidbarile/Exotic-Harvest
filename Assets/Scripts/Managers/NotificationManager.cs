@@ -224,15 +224,15 @@ public class NotificationManager : MonoBehaviour
         }
     }
     
-    private void PlayNotificationSound(NotificationType type)
+    private void PlayNotificationSound(ENotificationType type)
     {
         if (this.audioSource == null)
             return;
             
         AudioClip clipToPlay = type switch
         {
-            NotificationType.Success or NotificationType.ResourceGained or NotificationType.Achievement => this.successSound,
-            NotificationType.Error or NotificationType.Warning => this.errorSound,
+            ENotificationType.Success or ENotificationType.ResourceGained or ENotificationType.Achievement => this.successSound,
+            ENotificationType.Error or ENotificationType.Warning => this.errorSound,
             _ => this.infoSound
         };
         
@@ -241,7 +241,7 @@ public class NotificationManager : MonoBehaviour
     }
     
     // Event handlers
-    private void OnResourceGained(ResourceType resourceType, int amount)
+    private void OnResourceGained(EResourceType resourceType, int amount)
     {
         ShowNotification(ToastNotification.ResourceGained(resourceType, amount));
     }
@@ -251,12 +251,12 @@ public class NotificationManager : MonoBehaviour
         ShowNotification(ToastNotification.InventoryFull());
     }
     
-    private void OnWeatherChanged(WeatherType weatherType)
+    private void OnWeatherChanged(EWeatherType weatherType)
     {
         ShowNotification(ToastNotification.WeatherChanged(weatherType));
     }
     
-    private void OnTimeOfDayChanged(TimeOfDay timeOfDay)
+    private void OnTimeOfDayChanged(ETimeOfDay timeOfDay)
     {
         ShowNotification(ToastNotification.TimeOfDayChanged(timeOfDay));
     }
@@ -271,7 +271,7 @@ public class NotificationManager : MonoBehaviour
         var notification = new ToastNotification(
             "Purchase Failed",
             reason,
-            NotificationType.Error
+            ENotificationType.Error
         );
         ShowNotification(notification);
     }
@@ -281,7 +281,7 @@ public class NotificationManager : MonoBehaviour
         var notification = new ToastNotification(
             "Decoration Placed!",
             $"{decoration.Name} has been placed",
-            NotificationType.Success
+            ENotificationType.Success
         );
         ShowNotification(notification);
     }
@@ -291,7 +291,7 @@ public class NotificationManager : MonoBehaviour
         var notification = new ToastNotification(
             "Game Saved",
             "Your progress has been saved",
-            NotificationType.Info
+            ENotificationType.Info
         );
         notification.DisplayDuration = 1.5f; // Brief confirmation
         ShowNotification(notification);
@@ -302,18 +302,18 @@ public class NotificationManager : MonoBehaviour
         var notification = new ToastNotification(
             "Save Failed",
             $"Could not save: {error}",
-            NotificationType.Error
+            ENotificationType.Error
         );
         ShowNotification(notification);
     }
     
     // Public utility methods
-    public void ShowCustomNotification(string message, NotificationType type = NotificationType.Info)
+    public void ShowCustomNotification(string message, ENotificationType type = ENotificationType.Info)
     {
         ShowNotification(new ToastNotification(message, type));
     }
     
-    public void ShowCustomNotification(string title, string message, NotificationType type = NotificationType.Info)
+    public void ShowCustomNotification(string title, string message, ENotificationType type = ENotificationType.Info)
     {
         ShowNotification(new ToastNotification(title, message, type));
     }

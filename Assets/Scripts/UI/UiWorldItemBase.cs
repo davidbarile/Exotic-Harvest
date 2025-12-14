@@ -8,7 +8,6 @@ public class UiWorldItemBase : UiDraggable
 
     [SerializeField] private Image itemIcon;
     [SerializeField] private Image shadow;
-    [SerializeField] private TextMeshProUGUI itemQuantityText;
 
     public InventoryItemData ItemData { get; private set; }
 
@@ -21,11 +20,6 @@ public class UiWorldItemBase : UiDraggable
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
             this.shadow.sprite = sprite;
-        }
-
-        if (this.itemQuantityText != null)
-        {
-            this.itemQuantityText.text = inItemData.Quantity > 1 ? inItemData.Quantity.ToString() : string.Empty;
         }
     }
 

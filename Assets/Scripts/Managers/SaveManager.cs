@@ -305,7 +305,7 @@ public class SaveManager : MonoBehaviour, ITickable
     }
     
     // Statistics helpers
-    public void RecordResourceCollected(ResourceType type, int amount)
+    public void RecordResourceCollected(EResourceType type, int amount)
     {
         if (currentSaveData?.StatsData == null) return;
         
@@ -313,13 +313,13 @@ public class SaveManager : MonoBehaviour, ITickable
         
         switch (type)
         {
-            case ResourceType.Water:
+            case EResourceType.Rain:
                 currentSaveData.StatsData.WaterCollected += amount;
                 break;
-            case ResourceType.Seeds:
+            case EResourceType.Seeds:
                 currentSaveData.StatsData.SeedsCollected += amount;
                 break;
-            case ResourceType.Gems:
+            case EResourceType.Gems:
                 currentSaveData.StatsData.GemsCollected += amount;
                 break;
         }
@@ -331,15 +331,15 @@ public class SaveManager : MonoBehaviour, ITickable
             currentSaveData.StatsData.DecorationsPlaced++;
     }
 
-    public void RecordRareEvent(ResourceType eventType)
+    public void RecordRareEvent(EResourceType eventType)
     {
         if (currentSaveData?.StatsData == null) return;
 
         currentSaveData.StatsData.RareEventsWitnessed++;
 
-        if (eventType == ResourceType.UnicornBlessing)
+        if (eventType.HasFlag(EResourceType.UnicornBlessing))
             currentSaveData.StatsData.UnicornEncounters++;
-        else if (eventType == ResourceType.MermaidSong)
+        else if (eventType.HasFlag(EResourceType.MermaidSong))
             currentSaveData.StatsData.MermaidEncounters++;
     }
     

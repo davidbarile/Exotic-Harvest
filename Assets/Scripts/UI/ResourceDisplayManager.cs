@@ -12,10 +12,10 @@ public class ResourceDisplayManager : MonoBehaviour
     [Header("UI Settings")]
     [SerializeField] private ResourceDisplayUI resourceDisplayPrefab; // Assign ResourceDisplayUI prefab here
     [SerializeField] private Transform resourceDisplayParent;
-    [SerializeField] private ResourceCategory categoriesToShow; // Which categories to display
+    [SerializeField] private EResourceCategory categoriesToShow; // Which categories to display
     [SerializeField] private bool showOnlyOwnedResources = true;
     
-    private Dictionary<ResourceType, ResourceDisplayUI> activeDisplaysDict = new();
+    private Dictionary<EResourceType, ResourceDisplayUI> activeDisplaysDict = new();
     
     public void Init()
     {
@@ -59,7 +59,7 @@ public class ResourceDisplayManager : MonoBehaviour
         OnResourceChanged(resourceConfig.ResourceType, ResourceManager.IN.GetResourceAmount(resourceConfig.ResourceType));
     }
     
-    private void OnResourceChanged(ResourceType type, int newAmount)
+    private void OnResourceChanged(EResourceType type, int newAmount)
     {            
         if (this.showOnlyOwnedResources)
         {

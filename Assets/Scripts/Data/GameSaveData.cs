@@ -32,7 +32,7 @@ public class GameSaveData
     
     [Header("Time & Weather")]
     public float CurrentGameHour = 8f;
-    public WeatherType CurrentWeather = WeatherType.Clear;
+    public EWeatherType CurrentWeather = EWeatherType.Clear;
     public float WeatherIntensity = 0.5f;
     
     [Header("Statistics")]

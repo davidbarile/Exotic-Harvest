@@ -8,31 +8,19 @@ using DG.Tweening;
 /// </summary>
 public class Bucket : PassiveHarvester
 {
+    public EResourceType CollectableResourceTypes;
+
     [Header("Bucket UI Components")]
-    [SerializeField] private Image bucketImage;
     [SerializeField] private Image waterFillImage; // Shows water level
     [SerializeField] private float fillAnimationDuration = 0.5f;
     
     private float targetFillAmount;
-    
+
     protected override void Start()
     {
-        // Setup bucket properties
-        this.decorationType = DecorationType.Bucket;
-        this.decorationName = "Water Bucket";
-        this.generatedResource = ResourceType.Water;
-        this.maxCapacity = 5;
-        this.generationInterval = 5f; // Collect water every 5 seconds during rain
-        this.requiresSpecificConditions = true;
-        
-        // Initialize UI components
-        if (this.bucketImage == null)
-            this.bucketImage = GetComponent<Image>();
-        if (this.waterFillImage == null)
-            this.waterFillImage = transform.Find("WaterFill")?.GetComponent<Image>();
-            
         base.Start();
-        UpdateWaterVisual();
+        UpdateWaterVisual(false);
+        RefreshQuantityText();
     }
     
     protected override bool CheckGenerationConditions()
@@ -64,17 +52,21 @@ public class Bucket : PassiveHarvester
         // TODO: Add collection effects
     }
     
-    private void UpdateWaterVisual()
+    private void UpdateWaterVisual(bool shouldAnimate = true)
     {
         if (this.waterFillImage == null)
             return;
-            
-        this.targetFillAmount = CapacityPercent;
-        
+
         // Smooth fill animation
-        this.waterFillImage.DOFillAmount(this.targetFillAmount, this.fillAnimationDuration)
-            .SetEase(Ease.OutQuad);
+        if (shouldAnimate)
+        {
+            this.targetFillAmount = this.CapacityPercent;
+
+            this.waterFillImage.DOFillAmount(this.targetFillAmount, this.fillAnimationDuration)
+                .SetEase(Ease.OutQuad);
+            return;
+        }
+        
+        this.waterFillImage.fillAmount = this.targetFillAmount;
     }
-    
-    // Update method removed - DOTween handles all animations automatically
 }

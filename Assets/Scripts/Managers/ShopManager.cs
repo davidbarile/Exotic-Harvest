@@ -97,7 +97,7 @@ public class ShopManager : MonoBehaviour
         return shopItem;
     }
     
-    public ShopItemData CreateDecorationItem(string id, string name, string description, DecorationType decorationType, ResourceCost cost)
+    public ShopItemData CreateDecorationItem(string id, string name, string description, EDecorationType decorationType, ResourceCost cost)
     {
         var item = new ShopItemData(id, name, EShopCategory.Decorations, EItemType.Decoration)
         {
@@ -110,7 +110,7 @@ public class ShopManager : MonoBehaviour
         return item;
     }
     
-    public ShopItemData CreateResourceItem(string id, string name, string description, ResourceType resourceType, int amount, ResourceCost cost)
+    public ShopItemData CreateResourceItem(string id, string name, string description, EResourceType resourceType, int amount, ResourceCost cost)
     {
         var item = new ShopItemData(id, name, EShopCategory.Resources, EItemType.Resource)
         {
@@ -340,8 +340,8 @@ public class ShopManager : MonoBehaviour
     {
         if (debugMode && ResourceManager.IN != null)
         {
-            ResourceManager.IN.AddResource(ResourceType.Water, 100);
-            ResourceManager.IN.AddResource(ResourceType.Gems, 50);
+            ResourceManager.IN.AddResource(EResourceType.Rain, 100);
+            ResourceManager.IN.AddResource(EResourceType.Gems, 50);
             Debug.Log("Added test resources");
         }
     }

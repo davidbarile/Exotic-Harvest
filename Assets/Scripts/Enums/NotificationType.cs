@@ -1,7 +1,7 @@
 /// <summary>
 /// Types of notifications for different game events
 /// </summary>
-public enum NotificationType
+public enum ENotificationType
 {
     ResourceGained,     // Collected resources
     ResourceLost,       // Spent resources

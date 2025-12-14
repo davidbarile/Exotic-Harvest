@@ -11,7 +11,7 @@ public class WeatherManager : MonoBehaviour, ITickable
 
     [SerializeField] private TMP_Text weatherDisplayText;
     
-    [SerializeField] private WeatherType currentWeather = WeatherType.Clear;
+    [SerializeField] private EWeatherType currentWeather = EWeatherType.Clear;
     [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
     [SerializeField] private float weatherIntensity = 1f; // 0-1 for effects strength
     
@@ -19,15 +19,15 @@ public class WeatherManager : MonoBehaviour, ITickable
     private float nextWeatherChange;
     
     // Events
-    public static event Action<WeatherType> OnWeatherChanged;
-    public static event Action<WeatherType, float> OnWeatherIntensityChanged;
+    public static event Action<EWeatherType> OnWeatherChanged;
+    public static event Action<EWeatherType, float> OnWeatherIntensityChanged;
     public static event Action OnRainStarted;
     public static event Action OnRainStopped;
     
     // Properties
-    public WeatherType CurrentWeather => currentWeather;
+    public EWeatherType CurrentWeather => currentWeather;
     public float WeatherIntensity => weatherIntensity;
-    public bool IsRaining => currentWeather.HasFlag(WeatherType.Rain) || currentWeather.HasFlag(WeatherType.Storm);
+    public bool IsRaining => currentWeather.HasFlag(EWeatherType.Rain) || currentWeather.HasFlag(EWeatherType.Storm);
     
     private void Start()
     {
@@ -65,10 +65,10 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private void ChangeWeather()
     {
-        WeatherType oldWeather = this.currentWeather;
+        EWeatherType oldWeather = this.currentWeather;
         
         // Simple weather transition logic
-        WeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
+        EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
         this.currentWeather = possibleWeathers[UnityEngine.Random.Range(0, possibleWeathers.Length)];
 
         // Set intensity based on weather type
@@ -92,64 +92,64 @@ public class WeatherManager : MonoBehaviour, ITickable
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
     }
     
-    private WeatherType[] GetPossibleWeathers(WeatherType current)
+    private EWeatherType[] GetPossibleWeathers(EWeatherType current)
     {
         switch (current)
         {
-            case WeatherType.Clear:
-                return new[] { WeatherType.Clear, WeatherType.Rain, WeatherType.Wind, WeatherType.Foggy };
-            case WeatherType.Rain:
-                return new[] { WeatherType.Rain, WeatherType.Storm, WeatherType.Clear, WeatherType.Foggy };
-            case WeatherType.Storm:
-                return new[] { WeatherType.Rain, WeatherType.Clear, WeatherType.Wind };
-            case WeatherType.Wind:
-                return new[] { WeatherType.Clear, WeatherType.Rain, WeatherType.Wind };
-            case WeatherType.Foggy:
-                return new[] { WeatherType.Clear, WeatherType.Rain };
+            case EWeatherType.Clear:
+                return new[] { EWeatherType.Clear, EWeatherType.Rain, EWeatherType.Wind, EWeatherType.Foggy };
+            case EWeatherType.Rain:
+                return new[] { EWeatherType.Rain, EWeatherType.Storm, EWeatherType.Clear, EWeatherType.Foggy };
+            case EWeatherType.Storm:
+                return new[] { EWeatherType.Rain, EWeatherType.Clear, EWeatherType.Wind };
+            case EWeatherType.Wind:
+                return new[] { EWeatherType.Clear, EWeatherType.Rain, EWeatherType.Wind };
+            case EWeatherType.Foggy:
+                return new[] { EWeatherType.Clear, EWeatherType.Rain };
             default:
-                return new[] { WeatherType.Clear };
+                return new[] { EWeatherType.Clear };
         }
     }
     
-    private float GetWeatherIntensity(WeatherType weather)
+    private float GetWeatherIntensity(EWeatherType weather)
     {
         switch (weather)
         {
-            case WeatherType.Clear: return 0.2f;
-            case WeatherType.Rain: return UnityEngine.Random.Range(0.4f, 0.8f);
-            case WeatherType.Storm: return UnityEngine.Random.Range(0.8f, 1f);
-            case WeatherType.Wind: return UnityEngine.Random.Range(0.3f, 0.6f);
-            case WeatherType.Snow: return UnityEngine.Random.Range(0.4f, 0.7f);
-            case WeatherType.Foggy: return UnityEngine.Random.Range(0.2f, 0.5f);
+            case EWeatherType.Clear: return 0.2f;
+            case EWeatherType.Rain: return UnityEngine.Random.Range(0.4f, 0.8f);
+            case EWeatherType.Storm: return UnityEngine.Random.Range(0.8f, 1f);
+            case EWeatherType.Wind: return UnityEngine.Random.Range(0.3f, 0.6f);
+            case EWeatherType.Snow: return UnityEngine.Random.Range(0.4f, 0.7f);
+            case EWeatherType.Foggy: return UnityEngine.Random.Range(0.2f, 0.5f);
             default: return 0.5f;
         }
     }
     
-    private bool IsWeatherRain(WeatherType weather)
+    private bool IsWeatherRain(EWeatherType weather)
     {
-        return weather.HasFlag(WeatherType.Rain) || weather.HasFlag(WeatherType.Storm);
+        return weather.HasFlag(EWeatherType.Rain) || weather.HasFlag(EWeatherType.Storm);
     }
     
-    public float GetResourceMultiplier(ResourceType resourceType)
+    public float GetResourceMultiplier(EResourceType resourceType)
     {
         switch (resourceType)
         {
-            case ResourceType.Water:
+            case EResourceType.Rain:
                 return IsRaining ? (2f + this.weatherIntensity) : 1f;
-            case ResourceType.Seeds:
-                return this.currentWeather.HasFlag(WeatherType.Rain) ? 1.5f : 1f;
-            case ResourceType.Fireflies:
-                return this.currentWeather.HasFlag(WeatherType.Clear) ? 1.3f : 0.8f;
-            case ResourceType.Stardust:
-                return this.currentWeather.HasFlag(WeatherType.Clear) ? 1.5f : 0.5f;
+            case EResourceType.Seeds:
+                return this.currentWeather.HasFlag(EWeatherType.Rain) ? 1.5f : 1f;
+            case EResourceType.Fireflies:
+                return this.currentWeather.HasFlag(EWeatherType.Clear) ? 1.3f : 0.8f;
+            case EResourceType.Stardust:
+                return this.currentWeather.HasFlag(EWeatherType.Clear) ? 1.5f : 0.5f;
             default:
                 return 1f;
         }
     }
     
-    public void ForceWeather(WeatherType weather)
+    public void ForceWeather(EWeatherType weather)
     {
-        WeatherType oldWeather = this.currentWeather;
+        EWeatherType oldWeather = this.currentWeather;
         this.currentWeather = weather;
         this.weatherIntensity = GetWeatherIntensity(weather);
         this.weatherTimer = 0f;

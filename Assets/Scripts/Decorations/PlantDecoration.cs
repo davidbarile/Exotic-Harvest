@@ -18,7 +18,7 @@ public class PlantDecoration : DecorationBase
     
     protected override void Start()
     {
-        this.decorationType = DecorationType.Plant;
+        this.decorationType = EDecorationType.Plant;
         this.decorationName = "Jungle Plant";
         
         if (this.plantImage == null)

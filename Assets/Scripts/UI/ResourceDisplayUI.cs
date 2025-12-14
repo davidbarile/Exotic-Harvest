@@ -12,10 +12,10 @@ public class ResourceDisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private Image backgroundImage;
     
-    private ResourceType resourceType;
+    private EResourceType resourceType;
     private ResourceConfig resourceConfig;
     
-    public void Initialize(ResourceType type, ResourceConfig config)
+    public void Initialize(EResourceType type, ResourceConfig config)
     {
         this.resourceType = type;
         this.resourceConfig = config;
@@ -37,7 +37,7 @@ public class ResourceDisplayUI : MonoBehaviour
         }
     }
     
-    private void OnResourceChanged(ResourceType type, int newAmount)
+    private void OnResourceChanged(EResourceType type, int newAmount)
     {
         if (type == this.resourceType)
         {
@@ -74,18 +74,18 @@ public class ResourceDisplayUI : MonoBehaviour
         }
     }
     
-    private Color GetCategoryColor(ResourceCategory category)
+    private Color GetCategoryColor(EResourceCategory category)
     {
         return category switch
         {
-            ResourceCategory.Primary => new Color(0.2f, 0.6f, 1f), // Blue
-            ResourceCategory.Bugs => new Color(0.8f, 0.4f, 0.2f), // Orange
-            ResourceCategory.Nature => new Color(0.2f, 0.8f, 0.2f), // Green
-            ResourceCategory.NightSky => new Color(0.4f, 0.2f, 0.8f), // Purple
-            ResourceCategory.Valuables => new Color(1f, 0.8f, 0.2f), // Gold
-            ResourceCategory.Abstract => new Color(0.6f, 0.6f, 0.6f), // Gray
-            ResourceCategory.Special => new Color(1f, 0.2f, 0.8f), // Pink
-            ResourceCategory.Premium => new Color(0.8f, 0.2f, 0.2f), // Red
+            EResourceCategory.Primary => new Color(0.2f, 0.6f, 1f), // Blue
+            EResourceCategory.Bugs => new Color(0.8f, 0.4f, 0.2f), // Orange
+            EResourceCategory.Nature => new Color(0.2f, 0.8f, 0.2f), // Green
+            EResourceCategory.NightSky => new Color(0.4f, 0.2f, 0.8f), // Purple
+            EResourceCategory.Valuables => new Color(1f, 0.8f, 0.2f), // Gold
+            EResourceCategory.Abstract => new Color(0.6f, 0.6f, 0.6f), // Gray
+            EResourceCategory.Special => new Color(1f, 0.2f, 0.8f), // Pink
+            EResourceCategory.Premium => new Color(0.8f, 0.2f, 0.2f), // Red
             _ => Color.white
         };
     }

@@ -15,13 +15,13 @@ public class ResourceManager : MonoBehaviour
     [Header("Inventory Settings")]
     [SerializeField] private int maxInventorySize = 100; // Total item limit across all resources
     
-    private Dictionary<ResourceType, ResourceData> inventory = new();
+    private Dictionary<EResourceType, ResourceData> inventory = new();
     
     public ResourceDatabase Database => this.resourceDatabase;
     
     // Events for UI updates
-    public static event Action<ResourceType, int> OnResourceChanged;
-    public static event Action<ResourceType, int> OnResourceGained;
+    public static event Action<EResourceType, int> OnResourceChanged;
+    public static event Action<EResourceType, int> OnResourceGained;
     public static event Action OnInventoryFull;
     
     private void Awake()
@@ -32,23 +32,23 @@ public class ResourceManager : MonoBehaviour
     private void InitializeInventory()
     {
         // Initialize with 0 of each resource type
-        foreach (ResourceType type in Enum.GetValues(typeof(ResourceType)))
+        foreach (EResourceType type in Enum.GetValues(typeof(EResourceType)))
         {
             this.inventory[type] = new ResourceData(type, 0);
         }
     }
     
-    public bool HasResource(ResourceType type, int amount)
+    public bool HasResource(EResourceType type, int amount)
     {
         return this.inventory.ContainsKey(type) && this.inventory[type].Amount >= amount;
     }
     
-    public int GetResourceAmount(ResourceType type)
+    public int GetResourceAmount(EResourceType type)
     {
         return this.inventory.ContainsKey(type) ? this.inventory[type].Amount : 0;
     }
     
-    public bool AddResource(ResourceType type, int amount)
+    public bool AddResource(EResourceType type, int amount)
     {
         if (GetTotalItemCount() + amount > this.maxInventorySize)
         {
@@ -88,7 +88,7 @@ public class ResourceManager : MonoBehaviour
         return total;
     }
     
-    public Dictionary<ResourceType, ResourceData> GetAllResources()
+    public Dictionary<EResourceType, ResourceData> GetAllResources()
     {
         return new(this.inventory);
     }

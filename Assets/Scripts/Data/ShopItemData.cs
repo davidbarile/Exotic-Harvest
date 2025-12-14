@@ -25,8 +25,8 @@ public class ShopItemData
     public int CurrentPurchases = 0;
     
     [Header("Item Data")]
-    public DecorationType DecorationType; // For decoration items
-    public ResourceType ResourceType;     // For resource items
+    public EDecorationType DecorationType; // For decoration items
+    public EResourceType ResourceType;     // For resource items
     public int ResourceAmount = 1;        // Amount when purchasing resources
 
     [Header("Visual")]

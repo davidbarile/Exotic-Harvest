@@ -1,7 +1,7 @@
 using System;
 
 [Flags]
-public enum WeatherType
+public enum EWeatherType
 {
     Clear = 1 << 0,
     Rain = 1 << 1,

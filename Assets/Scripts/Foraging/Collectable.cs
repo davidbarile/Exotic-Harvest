@@ -9,9 +9,15 @@ using UnityEngine.EventSystems;
 /// </summary>
 public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
-    [SerializeField] protected ResourceType resourceType;
+    public EResourceType ResourceType => resourceType;
+    [SerializeField] protected EResourceType resourceType;
+
+    public int Amount => amount;
     [SerializeField] protected int amount = 1;
-    [SerializeField] protected CollectionMethod collectionMethod = CollectionMethod.Click;
+
+    public ECollectionMethod CollectionMethod => collectionType;
+    [SerializeField] protected ECollectionMethod collectionType = ECollectionMethod.Click;
+
     [SerializeField] protected float lifetime = 30f; // Seconds before disappearing
     [SerializeField] protected bool autoDestroy = true;
     
@@ -23,10 +29,6 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     protected float spawnTime;
     protected bool isCollected = false;
     protected bool isDragging = false;
-    
-    public ResourceType ResourceType => resourceType;
-    public int Amount => amount;
-    public CollectionMethod CollectionMethod => collectionMethod;
     
     // Events
     public static event Action<Collectable> OnCollectableSpawned;
@@ -64,7 +66,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     // UI Event System handlers
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (this.collectionMethod == CollectionMethod.Click)
+        if (this.collectionType.HasFlag(ECollectionMethod.Click))
         {
             OnClick();
         }
@@ -72,7 +74,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        if (this.collectionMethod == CollectionMethod.Hover)
+        if (this.collectionType.HasFlag(ECollectionMethod.Hover))
         {
             Collect();
         }
@@ -80,7 +82,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        if (this.collectionMethod == CollectionMethod.Drag)
+        if (this.collectionType == ECollectionMethod.Drag)
         {
             this.isDragging = true;
             OnDragStart();
@@ -89,7 +91,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (this.collectionMethod == CollectionMethod.Drag && this.isDragging)
+        if (this.collectionType.HasFlag(ECollectionMethod.Drag) && this.isDragging)
         {
             OnDragOver();
         }
@@ -97,7 +99,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        if (this.collectionMethod == CollectionMethod.Drag && this.isDragging)
+        if (this.collectionType.HasFlag(ECollectionMethod.Drag) && this.isDragging)
         {
             this.isDragging = false;
             OnDragEnd();
@@ -151,13 +153,13 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     // Additional collection methods for future use
     public virtual void OnSwipe()
     {
-        if (this.collectionMethod == CollectionMethod.Swipe)
+        if (this.collectionType.HasFlag(ECollectionMethod.Swipe))
             Collect();
     }
     
     public virtual void OnHold()
     {
-        if (this.collectionMethod == CollectionMethod.Hold)
+        if (this.collectionType.HasFlag(ECollectionMethod.Hold))
             Collect();
     }
 }

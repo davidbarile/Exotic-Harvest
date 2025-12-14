@@ -26,8 +26,8 @@ public class ShopItemConfig : ScriptableObject
     public int MaxPurchases = 1;
     
     [Header("Item Effects")]
-    public DecorationType DecorationType; // For decoration items
-    public ResourceType ResourceType;     // For resource items
+    public EDecorationType DecorationType; // For decoration items
+    public EResourceType ResourceType;     // For resource items
     public int ResourceAmount = 1;        // Amount when purchasing resources
     public GameObject DecorationPrefab;   // Prefab to spawn for decorations
     

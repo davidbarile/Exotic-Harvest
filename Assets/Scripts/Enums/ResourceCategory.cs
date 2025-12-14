@@ -1,7 +1,7 @@
 using System;
 
 [Flags]
-public enum ResourceCategory
+public enum EResourceCategory
 {
     Primary = 1 << 0,     // Water and basic resources
     Bugs = 1 << 1,        // All insects and creatures

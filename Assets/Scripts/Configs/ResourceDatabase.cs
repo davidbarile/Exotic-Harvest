@@ -11,7 +11,7 @@ public class ResourceDatabase : ScriptableObject
     [Header("All resourcesSave")]
     [SerializeField] private ResourceConfig[] allResources;
     
-    private Dictionary<ResourceType, ResourceConfig> resourceLookup;
+    private Dictionary<EResourceType, ResourceConfig> resourceLookup;
     private Dictionary<string, ResourceConfig> resourceByIdLookup;
     
     public ResourceConfig[] AllResources => allResources;
@@ -43,7 +43,7 @@ public class ResourceDatabase : ScriptableObject
         }
     }
     
-    public ResourceConfig GetResource(ResourceType type)
+    public ResourceConfig GetResource(EResourceType type)
     {
         if (this.resourceLookup == null) BuildLookupTables();
         this.resourceLookup.TryGetValue(type, out ResourceConfig resource);
@@ -57,7 +57,7 @@ public class ResourceDatabase : ScriptableObject
         return resource;
     }
     
-    public ResourceConfig[] GetResourcesByCategory(ResourceCategory category)
+    public ResourceConfig[] GetResourcesByCategory(EResourceCategory category)
     {
         if (this.allResources == null) return new ResourceConfig[0];
         return this.allResources.Where(r => r != null && r.Category.HasFlag(category)).ToArray();

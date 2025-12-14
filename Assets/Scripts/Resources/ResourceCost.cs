@@ -17,7 +17,7 @@ public class ResourceCost
         requiredResources = new();
     }
     
-    public ResourceCost(ResourceType type, int amount)
+    public ResourceCost(EResourceType type, int amount)
     {
         this.requiredResources = new() { new ResourceData(type, amount) };
     }
@@ -32,7 +32,7 @@ public class ResourceCost
         this.requiredResources = new(resources);
     }
     
-    public void AddCost(ResourceType type, int amount)
+    public void AddCost(EResourceType type, int amount)
     {
         this.requiredResources.Add(new ResourceData(type, amount));
     }

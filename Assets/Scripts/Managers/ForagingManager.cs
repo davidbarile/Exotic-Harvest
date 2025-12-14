@@ -80,7 +80,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         secondTimer += 1f;
         
         // Spawn dewdrops during morning
-        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(TimeOfDay.Morning))
+        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning))
         {
             SpawnDewdrops();
         }
@@ -94,7 +94,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void SpawnDewdrops()
     {
-        if (dewdropPrefab == null || GetCollectableCount(ResourceType.Water, CollectionMethod.Click) >= maxDewdrops)
+        if (dewdropPrefab == null || GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= maxDewdrops)
             return;
             
         if (UnityEngine.Random.value < dewdropSpawnChance)
@@ -156,7 +156,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         );
     }
     
-    private int GetCollectableCount(ResourceType type, CollectionMethod method)
+    private int GetCollectableCount(EResourceType type, ECollectionMethod method)
     {
         int count = 0;
         foreach (var collectable in activeCollectables)
@@ -195,17 +195,17 @@ public class ForagingManager : MonoBehaviour, ITickable
         // Stop rain effects
     }
     
-    private void OnTimeOfDayChanged(TimeOfDay newTime)
+    private void OnTimeOfDayChanged(ETimeOfDay newTime)
     {
         // Adjust spawning based on time
-        if (!newTime.HasFlag(TimeOfDay.Morning))
+        if (!newTime.HasFlag(ETimeOfDay.Morning))
         {
             // Clear existing dewdrops when morning ends
-            ClearCollectables(ResourceType.Water, CollectionMethod.Click);
+            ClearCollectables(EResourceType.Dew, ECollectionMethod.Click);
         }
     }
     
-    private void ClearCollectables(ResourceType type, CollectionMethod method)
+    private void ClearCollectables(EResourceType type, ECollectionMethod method)
     {
         for (int i = activeCollectables.Count - 1; i >= 0; i--)
         {

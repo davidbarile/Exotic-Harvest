@@ -258,7 +258,7 @@ public class UiShopPanel : UIPanelBase
         Debug.Log($"Purchase failed: {reason}");
     }
     
-    private void OnResourceChanged(ResourceType type, int newAmount)
+    private void OnResourceChanged(EResourceType type, int newAmount)
     {
         // Update purchase button state when resources change
         RefreshPurchaseButton();

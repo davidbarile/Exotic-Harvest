@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AdjustScaleForScreenSize : MonoBehaviour
 {
-    public enum ScreenDimension
+    public enum EScreenDimension
     {
         Width,
         Height,
@@ -16,7 +16,7 @@ public class AdjustScaleForScreenSize : MonoBehaviour
     [SerializeField] private float              scaleOffset = 1;//this is a hack... should be able to calculate this internally
     [SerializeField] private Vector2            defaultScreenDims;
     [SerializeField] private Vector3            maxScale;
-    [SerializeField] private ScreenDimension    useDimension;
+    [SerializeField] private EScreenDimension    useDimension;
 
     [Header("Debug")]
     [SerializeField] private float              multiplier = 1;
@@ -32,9 +32,9 @@ public class AdjustScaleForScreenSize : MonoBehaviour
 
     private void AdjustSize()
     {
-        if (this.useDimension == ScreenDimension.Width)
+        if (this.useDimension == EScreenDimension.Width)
             this.multiplier = (float)Screen.width / (float)this.defaultScreenDims[0];
-        else if( this.useDimension == ScreenDimension.Height)
+        else if( this.useDimension == EScreenDimension.Height)
             this.multiplier = Screen.height / (float) this.defaultScreenDims[1];
         else
             this.multiplier = this.scaleOffset * (   ((float)this.defaultScreenDims[0]/(float)this.defaultScreenDims[1]) /  ((float)Screen.height / (float)Screen.width)   );

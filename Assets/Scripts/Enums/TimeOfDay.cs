@@ -1,7 +1,7 @@
 using System;
 
 [Flags]
-public enum TimeOfDay
+public enum ETimeOfDay
 {
     Morning = 1 << 0,   // 6-12: Dewdrops, early birds, nectar
     Afternoon = 1 << 1, // 12-18: Seeds, berries, bugs, full sunlight

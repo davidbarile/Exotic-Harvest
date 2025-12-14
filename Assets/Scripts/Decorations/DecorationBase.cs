@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class DecorationBase : MonoBehaviour
 {
     [Header("Decoration Properties")]
-    [SerializeField] protected DecorationType decorationType;
+    [SerializeField] protected EDecorationType decorationType;
     [SerializeField] protected string decorationName = "Decoration";
     [SerializeField] protected bool isDraggable = true;
     [SerializeField] protected bool canBeLocked = true;
@@ -20,7 +20,7 @@ public abstract class DecorationBase : MonoBehaviour
     protected bool isInitialized = false;
     
     // Properties
-    public DecorationType Type => this.decorationType;
+    public EDecorationType Type => this.decorationType;
     public string Name => this.decorationName;
     public bool IsDraggable => this.isDraggable;
     public ResourceCost PurchaseCost => this.purchaseCost;

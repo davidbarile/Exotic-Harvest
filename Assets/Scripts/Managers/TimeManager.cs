@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour, ITickable
     public static TimeManager IN;
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
-    [SerializeField] private TimeOfDay currentTimeOfDay = TimeOfDay.Morning;
+    [SerializeField] private ETimeOfDay currentTimeOfDay = ETimeOfDay.Morning;
     [SerializeField, Range(0f, 24f)] private float currentHour = 8f; // Start at 8 AM
 
     [Header("UI Elements")]
@@ -21,12 +21,12 @@ public class TimeManager : MonoBehaviour, ITickable
     public float TimeScale { get; private set; } = 1f; // Speed multiplier for time progression
     
     // Events
-    public static event Action<TimeOfDay> OnTimeOfDayChanged;
+    public static event Action<ETimeOfDay> OnTimeOfDayChanged;
     public static event Action<float> OnHourChanged;
     public static event Action OnNewDay;
     
     // Properties
-    public TimeOfDay CurrentTimeOfDay => currentTimeOfDay;
+    public ETimeOfDay CurrentTimeOfDay => currentTimeOfDay;
     public float CurrentHour => currentHour;
     public float DayProgress => currentHour / 24f; // 0-1 progress through day
     
@@ -62,7 +62,7 @@ public class TimeManager : MonoBehaviour, ITickable
         OnHourChanged?.Invoke(this.currentHour);
         
         // Check for time of day changes
-        TimeOfDay newTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
+        ETimeOfDay newTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
         if (newTimeOfDay != this.currentTimeOfDay)
         {
             this.currentTimeOfDay = newTimeOfDay;
@@ -73,35 +73,35 @@ public class TimeManager : MonoBehaviour, ITickable
                 this.timeDisplayText.text = $"Time: {this.currentHour:00.00} ({this.currentTimeOfDay})";
     }
     
-    private TimeOfDay GetTimeOfDayFromHour(float hour)
+    private ETimeOfDay GetTimeOfDayFromHour(float hour)
     {
         if (hour >= 6f && hour < 12f)
-            return TimeOfDay.Morning;
+            return ETimeOfDay.Morning;
         else if (hour >= 12f && hour < 18f)
-            return TimeOfDay.Afternoon;
+            return ETimeOfDay.Afternoon;
         else if (hour >= 18f && hour < 22f)
-            return TimeOfDay.Evening;
+            return ETimeOfDay.Evening;
         else
-            return TimeOfDay.Night;
+            return ETimeOfDay.Night;
     }
     
-    public bool IsTimeForResource(ResourceType resourceType)
+    public bool IsTimeForResource(EResourceType resourceType)
     {
         switch (resourceType)
         {
-            case ResourceType.Water:
+            case EResourceType.Rain:
                 return true; // Always available, but more during rain
-            case ResourceType.Moonbeams:
-            case ResourceType.Stardust:
-            case ResourceType.FallingStars:
-                return this.currentTimeOfDay.HasFlag(TimeOfDay.Night);
-            case ResourceType.Fireflies:
-                return this.currentTimeOfDay.HasFlag(TimeOfDay.Evening) || this.currentTimeOfDay.HasFlag(TimeOfDay.Night);
-            case ResourceType.Nectar:
-                return this.currentTimeOfDay.HasFlag(TimeOfDay.Morning);
-            case ResourceType.Seeds:
-            case ResourceType.Berries:
-                return this.currentTimeOfDay.HasFlag(TimeOfDay.Afternoon);
+            case EResourceType.Moonbeams:
+            case EResourceType.Stardust:
+            case EResourceType.FallingStars:
+                return this.currentTimeOfDay.HasFlag(ETimeOfDay.Night);
+            case EResourceType.Fireflies:
+                return this.currentTimeOfDay.HasFlag(ETimeOfDay.Evening) || this.currentTimeOfDay.HasFlag(ETimeOfDay.Night);
+            case EResourceType.Nectar:
+                return this.currentTimeOfDay.HasFlag(ETimeOfDay.Morning);
+            case EResourceType.Seeds:
+            case EResourceType.Berries:
+                return this.currentTimeOfDay.HasFlag(ETimeOfDay.Afternoon);
             default:
                 return true; // Most resources available anytime
         }

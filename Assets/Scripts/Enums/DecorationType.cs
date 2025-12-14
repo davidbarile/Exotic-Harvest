@@ -1,7 +1,7 @@
 /// <summary>
 /// Types of decorations that can be placed on the desktop
 /// </summary>
-public enum DecorationType
+public enum EDecorationType
 {
     // Passive Harvesters
     Bucket,        // Collects water during rain

@@ -21,7 +21,7 @@ public class DecorationManager : MonoBehaviour
     [SerializeField] private float gridSpacing = 80f; // UI spacing
     [SerializeField] private bool useGridPlacement = true;
     
-    private Dictionary<DecorationType, GameObject> decorationPrefabs;
+    private Dictionary<EDecorationType, GameObject> decorationPrefabs;
     private List<DecorationBase> placedDecorations = new();
     
     // Events
@@ -57,12 +57,12 @@ public class DecorationManager : MonoBehaviour
         this.decorationPrefabs = new();
         
         if (this.bucketPrefab != null)
-            this.decorationPrefabs[DecorationType.Bucket] = this.bucketPrefab;
+            this.decorationPrefabs[EDecorationType.Bucket] = this.bucketPrefab;
         if (this.plantPrefab != null)
-            this.decorationPrefabs[DecorationType.Plant] = this.plantPrefab;
+            this.decorationPrefabs[EDecorationType.Plant] = this.plantPrefab;
     }
     
-    public bool CanPlaceDecoration(DecorationType type)
+    public bool CanPlaceDecoration(EDecorationType type)
     {
         // Check if prefab exists
         if (!this.decorationPrefabs.ContainsKey(type))
@@ -73,7 +73,7 @@ public class DecorationManager : MonoBehaviour
         return true;
     }
     
-    public DecorationBase PlaceDecoration(DecorationType type, Vector2 uiPosition)
+    public DecorationBase PlaceDecoration(EDecorationType type, Vector2 uiPosition)
     {
         if (!CanPlaceDecoration(type))
             return null;
@@ -102,7 +102,7 @@ public class DecorationManager : MonoBehaviour
         return null;
     }
     
-    public DecorationBase PlaceDecoration(DecorationType type)
+    public DecorationBase PlaceDecoration(EDecorationType type)
     {
         Vector2 randomPosition = GetRandomUIPlacementPosition();
         return PlaceDecoration(type, randomPosition);
@@ -180,7 +180,7 @@ public class DecorationManager : MonoBehaviour
         return result;
     }
     
-    public int GetDecorationCount(DecorationType type)
+    public int GetDecorationCount(EDecorationType type)
     {
         int count = 0;
         foreach (var decoration in this.placedDecorations)
@@ -245,7 +245,7 @@ public class DecorationManager : MonoBehaviour
     public void SpawnInitialDecorations()
     {
         // Place a few starting decorations
-        PlaceDecoration(DecorationType.Bucket, new Vector3(-3f, -2f, 0f));
-        PlaceDecoration(DecorationType.Plant, new Vector3(3f, 2f, 0f));
+        PlaceDecoration(EDecorationType.Bucket, new Vector3(-3f, -2f, 0f));
+        PlaceDecoration(EDecorationType.Plant, new Vector3(3f, 2f, 0f));
     }
 }

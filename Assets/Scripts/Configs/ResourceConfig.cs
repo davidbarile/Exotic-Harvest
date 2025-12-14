@@ -13,15 +13,15 @@ public class ResourceConfig : ScriptableObject
     public Color UiColor = Color.white;
     
     [Header("ResourceData Properties")]
-    public ResourceType ResourceType;
-    public ResourceCategory Category;
+    public EResourceType ResourceType;
+    public EResourceCategory Category;
     public int BaseValue = 1; // Base worth for trading/selling
     public int MaxStackSize = 999;
     
     [Header("Availability")]
     public bool IsAvailableAtStart = true;
-    public TimeOfDay[] AvailableTimes; // Empty = always available
-    public WeatherType[] AvailableWeather; // Empty = all weather
+    public ETimeOfDay[] AvailableTimes; // Empty = always available
+    public EWeatherType[] AvailableWeather; // Empty = all weather
     
     [Header("Generation Settings")]
     public bool CanBeActivelyForaged = true;
@@ -36,7 +36,7 @@ public class ResourceConfig : ScriptableObject
     // Runtime properties
     public string ID => name; // Use ScriptableObject name as ID
     
-    public bool IsAvailableAtTime(TimeOfDay currentTime)
+    public bool IsAvailableAtTime(ETimeOfDay currentTime)
     {
         if (this.AvailableTimes == null || this.AvailableTimes.Length == 0)
             return true;
@@ -49,7 +49,7 @@ public class ResourceConfig : ScriptableObject
         return false;
     }
     
-    public bool IsAvailableInWeather(WeatherType currentWeather)
+    public bool IsAvailableInWeather(EWeatherType currentWeather)
     {
         if (this.AvailableWeather == null || this.AvailableWeather.Length == 0)
             return true;

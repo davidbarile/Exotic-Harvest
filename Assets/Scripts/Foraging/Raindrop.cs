@@ -18,9 +18,9 @@ public class Raindrop : Collectable
     
     protected override void Start()
     {
-        this.resourceType = ResourceType.Water;
+        this.resourceType = EResourceType.Rain;
         this.amount = 1;
-        this.collectionMethod = CollectionMethod.Hover;
+        this.collectionType = ECollectionMethod.Hover;
         this.lifetime = 10f; // Raindrops fall quickly
         this.autoDestroy = false; // Will destroy when hitting ground
         

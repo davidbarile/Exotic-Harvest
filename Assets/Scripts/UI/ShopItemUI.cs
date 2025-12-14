@@ -53,7 +53,7 @@ public class ShopItemUI : MonoBehaviour
         }
     }
     
-    private void OnResourceChanged(ResourceType type, int newAmount)
+    private void OnResourceChanged(EResourceType type, int newAmount)
     {
         // Update display when resources change (affects affordability)
         UpdateDisplay();

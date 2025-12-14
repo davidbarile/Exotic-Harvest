@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine;
 public abstract class PassiveHarvester : DecorationBase, ITickable
 {
     [Header("Harvester Properties")]
-    [SerializeField] protected ResourceType generatedResource;
+    [SerializeField] protected EResourceType generatedResource;
     [SerializeField] protected int maxCapacity = 10;
     [SerializeField] protected float generationInterval = 30f; // Seconds between generation
     [SerializeField] protected bool requiresSpecificConditions = true;
@@ -16,9 +17,11 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     [SerializeField] protected int currentAmount = 0;
     [SerializeField] protected float lastGenerationTime = 0f;
     [SerializeField] protected bool isActive = true;
+
+    [SerializeField] protected TextMeshProUGUI quantityText;
     
     // Properties
-    public ResourceType GeneratedResource => generatedResource;
+    public EResourceType GeneratedResource => generatedResource;
     public int CurrentAmount => currentAmount;
     public int MaxCapacity => maxCapacity;
     public bool IsFull => currentAmount >= maxCapacity;
@@ -68,22 +71,53 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     }
     
     protected abstract bool CheckGenerationConditions();
-    
+
     protected virtual void TryGenerate()
     {
         int amountToGenerate = GetGenerationAmount();
-        
+
         if (amountToGenerate > 0)
         {
             int actualAmount = Mathf.Min(amountToGenerate, this.maxCapacity - this.currentAmount);
             this.currentAmount += actualAmount;
             this.lastGenerationTime = Time.time;
-            
-            OnResourceGenerated?.Invoke(this, actualAmount);
-            OnGenerated(actualAmount);
-            
+
+            if (actualAmount > 0)
+            {
+                OnResourceGenerated?.Invoke(this, actualAmount);
+                OnGenerated(actualAmount);
+                RefreshQuantityText();
+            }
+
             if (IsFull)
                 OnCapacityFull?.Invoke(this);
+        }
+    }
+
+    public void AddAmount(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        int actualAmount = Mathf.Min(amount, this.maxCapacity - this.currentAmount);
+        this.currentAmount += actualAmount;
+
+        if (actualAmount > 0)
+        {
+            OnResourceGenerated?.Invoke(this, actualAmount);
+            OnGenerated(actualAmount);
+            RefreshQuantityText();
+        }
+
+        if (IsFull)
+            OnCapacityFull?.Invoke(this);
+    }
+    
+    protected virtual void RefreshQuantityText()
+    {
+        if (this.quantityText != null)
+        {
+            this.quantityText.text = $"{this.currentAmount}/{this.maxCapacity}";
         }
     }
     
@@ -108,6 +142,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
             this.currentAmount = 0;
             OnResourceCollected?.Invoke(this, collectedAmount);
             OnCollected(collectedAmount);
+            RefreshQuantityText();
             return true;
         }
         
@@ -148,5 +183,6 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
         this.currentAmount = data.CurrentAmount;
         this.lastGenerationTime = data.LastGenerationTime;
         this.isActive = data.IsActive;
+        RefreshQuantityText();
     }
 }

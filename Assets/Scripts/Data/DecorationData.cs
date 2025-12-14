@@ -7,7 +7,7 @@ using UnityEngine;
 [Serializable]
 public class DecorationData
 {
-    public DecorationType Type;
+    public EDecorationType Type;
     public Vector3 Position;
     public bool IsInInventory;
     
