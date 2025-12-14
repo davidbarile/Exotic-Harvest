@@ -200,7 +200,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         this.isDragging = false;
 
         bool flowControl = TryReparentToDropTarget();
-        
+
         if (!flowControl)
         {
             DoOnEndDrag();

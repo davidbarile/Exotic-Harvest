@@ -10,10 +10,13 @@ public class InventoryItemData
     public EInventoryCategory Category;
     public EItemType ItemType;
 
+    public DecorationData DecorationData;
+
     public bool IsUnlocked = true;
 
     public bool CanDragToWorld;
     public string IconSpriteName;
+    public string WorldPrefabName = "DefaultItemUI";
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
     {
@@ -26,7 +29,8 @@ public class InventoryItemData
             ItemType = cloneTarget.ItemType,
             IsUnlocked = cloneTarget.IsUnlocked,
             CanDragToWorld = cloneTarget.CanDragToWorld,
-            IconSpriteName = cloneTarget.IconSpriteName
+            IconSpriteName = cloneTarget.IconSpriteName,
+            WorldPrefabName = cloneTarget.WorldPrefabName
         };
     }
 }

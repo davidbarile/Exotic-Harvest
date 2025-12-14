@@ -52,6 +52,11 @@ public class UiInventoryItem : UiDraggable
 
                 UiManager.IN.InventoryPanel.Hide();
 
+                if(!string.IsNullOrEmpty(this.ItemData.WorldPrefabName))
+                {
+                    InventoryManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
+                }
+
                 Destroy(this.gameObject);
                 return false;
             }

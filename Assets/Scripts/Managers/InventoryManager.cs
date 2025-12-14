@@ -181,9 +181,24 @@ public class InventoryManager : MonoBehaviour
         }
         return saveData;
     }
-    
+
     public InventoryItemData[] GetAllInventoryItems()
     {
         return this.allInventoryItems;
+    }
+    
+    public void SpawnItemInWorld(InventoryItemData itemData, Vector3 position)
+    {
+        if (itemData == null || string.IsNullOrEmpty(itemData.WorldPrefabName))
+            return;
+
+        var prefab = Resources.Load<UiWorldItemBase>($"Prefabs/WorldItems/{itemData.WorldPrefabName}");
+        if (prefab != null)
+        {
+            var worldItem = Instantiate(prefab, position, Quaternion.identity, DragManager.IN.DefaultParent);
+            worldItem.transform.localScale = Vector3.one;
+            worldItem.name = $"WorldItem_{itemData.DisplayName}";
+            worldItem.Configure(itemData);
+        }
     }
 }

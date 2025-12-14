@@ -9,6 +9,7 @@ public class DecorationData
 {
     public DecorationType Type;
     public Vector3 Position;
+    public bool IsInInventory;
     
     // For passive harvesters
     public int CurrentAmount;
