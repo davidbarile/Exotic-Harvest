@@ -94,10 +94,10 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
         }
     }
 
-    public void AddAmount(int amount)
+    public bool AddAmount(int amount)
     {
         if (amount <= 0)
-            return;
+            return false;
 
         int actualAmount = Mathf.Min(amount, this.maxCapacity - this.currentAmount);
         this.currentAmount += actualAmount;
@@ -111,6 +111,8 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
 
         if (IsFull)
             OnCapacityFull?.Invoke(this);
+
+        return actualAmount > 0;
     }
     
     protected virtual void RefreshQuantityText()

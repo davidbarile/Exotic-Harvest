@@ -19,8 +19,10 @@ public class UiWorldItemBucket : UiWorldItemBase
                 if (!this.linkedBucket.CollectableResourceTypes.HasFlag(collectible.ResourceType))
                     return;
 
-                collectible.Collect();
-                this.linkedBucket.AddAmount(collectible.Amount);
+                var success = this.linkedBucket.AddAmount(collectible.Amount);
+
+                if (success)
+                    collectible.Collect();
             }
         }
     }
