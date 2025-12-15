@@ -34,8 +34,9 @@ public class UiInventoryPanel : UIPanelBase
 
     private bool isInitialized;
 
-    private void Start()
+    public override void Show()
     {
+        base.Show();
         SetDragOutOfInventoryZoneActive(false);
     }
     

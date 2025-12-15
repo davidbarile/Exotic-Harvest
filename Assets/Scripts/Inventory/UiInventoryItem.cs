@@ -64,15 +64,18 @@ public class UiInventoryItem : UiDraggable
                         if (worldItemRect != null)
                         {
                             UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
-                            
+
                             // Initialize the world item with drag state
                             worldItem.InitializeFromDrag(this.ItemData, DragManager.IN.DragOffset);
                             
                             // Swap the dragged object to the new world item
                             DragManager.IN.SwapDraggedObject(worldItemRect);
-                            
+
                             // Mark as not dragging so OnEndDrag doesn't process
                             this.isDragging = false;
+
+                            this.ItemData.DecorationData.IsInInventory = false;
+                            
                             
                             // Destroy the inventory item
                             Destroy(this.gameObject);

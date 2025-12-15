@@ -235,7 +235,7 @@ public class DecorationManager : MonoBehaviour
         // Recreate decorations from save data
         foreach (var data in saveData)
         {
-            DecorationBase decoration = PlaceDecoration(data.Type, data.Position);
+            DecorationBase decoration = PlaceDecoration(data.Type, data.WorldPosition);
             if (decoration != null)
                 decoration.LoadSaveData(data);
         }

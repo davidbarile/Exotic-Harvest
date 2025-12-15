@@ -243,12 +243,12 @@ public class NotificationManager : MonoBehaviour
     // Event handlers
     private void OnResourceGained(EResourceType resourceType, int amount)
     {
-        ShowNotification(ToastNotification.ResourceGained(resourceType, amount));
+        //ShowNotification(ToastNotification.ResourceGained(resourceType, amount));
     }
     
     private void OnInventoryFull()
     {
-        ShowNotification(ToastNotification.InventoryFull());
+        //ShowNotification(ToastNotification.InventoryFull());
     }
     
     private void OnWeatherChanged(EWeatherType weatherType)

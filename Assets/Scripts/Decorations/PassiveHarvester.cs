@@ -104,7 +104,7 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
 
         if (actualAmount > 0)
         {
-            OnResourceGenerated?.Invoke(this, actualAmount);
+            OnResourceCollected?.Invoke(this, actualAmount);
             OnGenerated(actualAmount);
             RefreshQuantityText();
         }

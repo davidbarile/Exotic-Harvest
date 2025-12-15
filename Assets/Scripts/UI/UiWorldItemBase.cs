@@ -26,15 +26,21 @@ public class UiWorldItemBase : UiDraggable
     public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 dragOffset)
     {
         Configure(inItemData);
-        
+
         // Mark as actively being dragged
         this.isDragging = true;
-        
+
         // Store drag state for proper cleanup on drag end
         this.originalLocalPointerPosition = dragOffset;
         this.originalLocalPosition = this.targetRectTransform.localPosition;
         this.originalWorldPosition = this.targetRectTransform.position;
         this.originalParent = DragManager.IN.DefaultParent;
         this.originalSiblingIndex = 0;
+    }
+
+    protected override void SaveItemPosition()
+    {
+        if (this.ItemData != null)
+            this.ItemData.DecorationData.WorldPosition = this.transform.position;
     }
 }

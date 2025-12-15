@@ -212,6 +212,11 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         DoSnapBack();
     }
 
+    protected virtual void SaveItemPosition()
+    {
+        //implement in subclasses
+    }
+
     protected virtual bool TryReparentToDropTarget()
     {
         if (this.shouldDetectDropTargets)
@@ -222,6 +227,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 {
                     dragTarget.SetAsParent(this.targetRectTransform);
                     dragTarget.SetHighlight(false);
+                    SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
             }
@@ -244,6 +250,8 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
                     if (this.shouldReturnToOriginalParent)
                         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+                    SaveItemPosition();
                 });
             }
         }

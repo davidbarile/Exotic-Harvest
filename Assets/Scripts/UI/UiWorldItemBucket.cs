@@ -21,8 +21,6 @@ public class UiWorldItemBucket : UiWorldItemBase
 
                 var success = this.linkedBucket.AddAmount(collectible.Amount);
 
-                print($"success: {success}");
-
                 if (success)
                     collectible.Collect();
             }

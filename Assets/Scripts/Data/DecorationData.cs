@@ -1,14 +1,11 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Serializable data for saving/loading decorations
-/// </summary>
 [Serializable]
 public class DecorationData
 {
     public EDecorationType Type;
-    public Vector3 Position;
+    public Vector3 WorldPosition;
     public bool IsInInventory;
     
     // For passive harvesters

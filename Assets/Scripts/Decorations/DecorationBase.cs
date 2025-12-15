@@ -117,12 +117,12 @@ public abstract class DecorationBase : MonoBehaviour
         return new DecorationData
         {
             Type = this.decorationType,
-            Position = transform.position,
+            WorldPosition = transform.position,
         };
     }
     
     public virtual void LoadSaveData(DecorationData data)
     {
-        transform.position = data.Position;
+        transform.position = data.WorldPosition;
     }
 }
