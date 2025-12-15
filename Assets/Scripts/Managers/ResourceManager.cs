@@ -102,7 +102,6 @@ public class ResourceManager : MonoBehaviour
             if (kvp.Value.Amount > 0)
                 saveData.ResourceDatas.Add(kvp.Value.Copy());
         }
-        saveData.MaxInventorySize = this.maxInventorySize;
         return saveData;
     }
     
@@ -115,8 +114,6 @@ public class ResourceManager : MonoBehaviour
             if (this.inventory.ContainsKey(resource.Type))
                 this.inventory[resource.Type] = resource.Copy();
         }
-        
-        this.maxInventorySize = saveSaveData.MaxInventorySize;
         
         // Notify UI of all changes
         foreach (var kvp in this.inventory)

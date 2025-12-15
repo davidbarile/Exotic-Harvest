@@ -125,14 +125,18 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void Collect()
     {
+        print($"A - Collect() called on {gameObject.name}");
         if (!CanBeCollected())
             return;
-            
+
         this.isCollected = true;
+        
+        print($"B - Collect() called on {gameObject.name}");
         
         // Try to add to inventory
         if (ResourceManager.IN.AddResource(this.ResourceType, this.Amount))
         {
+            print($"C - Collect() called on {gameObject.name}");
             OnCollected();
             OnCollectableCollected?.Invoke(this);
         }

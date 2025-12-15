@@ -8,5 +8,4 @@ using System.Collections.Generic;
 public class ResourceSaveData
 {
     public List<ResourceData> ResourceDatas = new();
-    public int MaxInventorySize = 100;
 }
