@@ -12,6 +12,8 @@ public class UiInventoryCell : MonoBehaviour
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text itemQuantityText;
 
+    public int CellIndex { get; set; }
+
     public UiInventoryItem Item { get; private set; }
 
     private void Start()
@@ -59,7 +61,7 @@ public class UiInventoryCell : MonoBehaviour
         if (this.Item != null)
         {
             if (destroyItem)
-                Destroy(this.Item.gameObject);
+                this.Item.Delete();
                
             this.Item = null;
         }
@@ -98,6 +100,9 @@ public class UiInventoryCell : MonoBehaviour
 
         AddItem(thisItem, otherItemData);
         otherCell.AddItem(otherItem, thisItemData);
+
+        SaveManager.Data.AllInventoryItems[this.CellIndex] = this.Item.ItemData;
+        SaveManager.Data.AllInventoryItems[otherCell.CellIndex] = otherItem.ItemData;
     }
     
     public void MergeItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
@@ -127,7 +132,10 @@ public class UiInventoryCell : MonoBehaviour
         AddItem(this.Item, otherItemData);
         otherCell.AddItem(otherItem, thisItemData);
 
-        if(quantityInOtherStack <= 0) 
-            otherCell.ClearItem();
+        if (quantityInOtherStack <= 0)
+            otherCell.ClearItem(true);
+
+        SaveManager.Data.AllInventoryItems[this.CellIndex] = this.Item.ItemData;
+        SaveManager.Data.AllInventoryItems[otherCell.CellIndex] = otherItem.ItemData;
     }
 }

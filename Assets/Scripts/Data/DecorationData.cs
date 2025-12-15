@@ -6,7 +6,7 @@ public class DecorationData
 {
     public EDecorationType Type;
     public Vector3 WorldPosition;
-    public bool IsInInventory;
+    public int ParentGuid; // For decorations that are children of others;
     
     // For passive harvesters
     public int CurrentAmount;

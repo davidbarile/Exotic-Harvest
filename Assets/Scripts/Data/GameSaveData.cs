@@ -20,6 +20,9 @@ public class GameSaveData
     [Header("Inventory")]
     public Dictionary<string, InventoryItemData[]> InventoryDataDict = new();
     public InventoryItemData[] AllInventoryItems = new InventoryItemData[InventoryManager.NumInventorySlots];
+
+    [Header("World Items")]
+    public List<InventoryItemData> WorldItems = new();
     
     [Header("Resources")]
     public ResourceSaveData ResourcesSaveDatas = new();

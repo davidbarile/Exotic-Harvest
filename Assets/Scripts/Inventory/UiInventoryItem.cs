@@ -30,6 +30,12 @@ public class UiInventoryItem : UiDraggable
         }
     }
 
+    public void Delete()
+    {
+        this.ItemData = null;
+        Destroy(this.gameObject);
+    }
+
     protected override bool DoOnBeginDrag()
     {
         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(true);
@@ -74,11 +80,13 @@ public class UiInventoryItem : UiDraggable
                             // Mark as not dragging so OnEndDrag doesn't process
                             this.isDragging = false;
 
-                            this.ItemData.DecorationData.IsInInventory = false;
-                            
+                            SaveManager.Data.WorldItems.Add(this.ItemData);
+
+                            var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+                            SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
                             
                             // Destroy the inventory item
-                            Destroy(this.gameObject);
+                            Delete();
                             return false;
                         }
                     }
@@ -86,7 +94,7 @@ public class UiInventoryItem : UiDraggable
 
                 // Fallback: just destroy if spawn failed
                 this.isDragging = false;
-                Destroy(this.gameObject);
+                Delete();
                 return false;
             }
         }
@@ -151,6 +159,9 @@ public class UiInventoryItem : UiDraggable
     protected override bool DoOnEndDrag()
     {
         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
+
+        var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+
         var cell = GetComponentInParent<UiInventoryCell>();
         if (cell != null)
         {
@@ -159,11 +170,13 @@ public class UiInventoryItem : UiDraggable
             {
                 // Cell is empty, add item to cell
                 cell.AddItem(this, this.ItemData);
+                origCell.ClearItem(true);
+
+                SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                SaveManager.Data.AllInventoryItems[cell.CellIndex] = this.ItemData;
             }
             else
             {
-                var originalCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
-                
                 if (item == this)
                 {
                     // Dropped back on original cell, do nothing
@@ -172,12 +185,12 @@ public class UiInventoryItem : UiDraggable
                 else if (item.ItemData.IconSpriteName != this.ItemData.IconSpriteName)
                 {
                     //swap items
-                    cell.SwapItems(originalCell, this);
+                    cell.SwapItems(origCell, this);
                 }
                 else
                 {
                     // //same item type, combine stacks if possible
-                    cell.MergeItems(originalCell, this);
+                    cell.MergeItems(origCell, this);
                 }
             }
             

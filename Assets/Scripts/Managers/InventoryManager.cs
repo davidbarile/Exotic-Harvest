@@ -25,7 +25,6 @@ public class InventoryManager : MonoBehaviour
     public InventoryItemData[] StartingInventoryItemDatas;//TODO: change to config
 
     private Dictionary<EInventoryCategory, InventoryItemData[]> itemsByCategory = new();
-    private InventoryItemData[] allInventoryItems = new InventoryItemData[NumInventorySlots];
 
     public void InitInventoryDict()
     {
@@ -57,7 +56,7 @@ public class InventoryManager : MonoBehaviour
             var itemData = this.StartingInventoryItemDatas[i];
             if (i < InventoryManager.NumInventorySlots)
             {
-                this.allInventoryItems[i] = itemData;
+                SaveManager.Data.AllInventoryItems[i] = itemData;
             }
         }
 
@@ -74,8 +73,8 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        this.allInventoryItems = new InventoryItemData[NumInventorySlots];
-        Array.Copy(savedAllInventoryItems, this.allInventoryItems, NumInventorySlots);
+        SaveManager.Data.AllInventoryItems = new InventoryItemData[NumInventorySlots];
+        Array.Copy(savedAllInventoryItems, SaveManager.Data.AllInventoryItems, NumInventorySlots);
 
         OnInventoryRefreshed?.Invoke();
     }
@@ -98,7 +97,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        this.allInventoryItems[itemIndex] = itemData;
+        SaveManager.Data.AllInventoryItems[itemIndex] = itemData;
 
         OnInventoryRefreshed?.Invoke();
     }
@@ -122,13 +121,13 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        var itemData2 = this.allInventoryItems[itemIndex];
+        var itemData2 = SaveManager.Data.AllInventoryItems[itemIndex];
         if (itemData2 != null)
         {
             itemData2.Quantity -= quantity;
             if (itemData2.Quantity <= 0)
             {
-                this.allInventoryItems[itemIndex] = null;
+                SaveManager.Data.AllInventoryItems[itemIndex] = null;
             }
         }
 
@@ -156,20 +155,12 @@ public class InventoryManager : MonoBehaviour
                 this.itemsByCategory[category] = kvp.Value;
             }
         }
-
-        print("Inventory loaded from save data.");
-
-        OnInventoryRefreshed?.Invoke();
     }
 
     public void LoadAllInventory(InventoryItemData[] saveData)
     {
-        this.allInventoryItems = new InventoryItemData[NumInventorySlots];
-        Array.Copy(saveData, this.allInventoryItems, NumInventorySlots);
-
-        print("Inventory loaded from save data.");
-
         OnInventoryRefreshed?.Invoke();
+        print("Inventory loaded from save data.");
     }
 
     public Dictionary<string, InventoryItemData[]> GetSaveData()
@@ -180,11 +171,6 @@ public class InventoryManager : MonoBehaviour
             saveData[kvp.Key.ToString()] = kvp.Value;
         }
         return saveData;
-    }
-
-    public InventoryItemData[] GetAllInventoryItems()
-    {
-        return this.allInventoryItems;
     }
     
     public void SpawnItemInWorld(InventoryItemData itemData, Vector3 position)

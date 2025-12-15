@@ -122,7 +122,7 @@ public class UiInventoryPanel : UIPanelBase
         foreach (var item in this.allInventoryCells)
         {
             if (item != null)
-                item.ClearItem();
+                item.ClearItem(true);
         }
 
         this.itemsGridParent.gameObject.SetActive(isItems);
@@ -134,7 +134,7 @@ public class UiInventoryPanel : UIPanelBase
 
             if(this.currentCategory == EInventoryCategory.Items)
             {
-                itemsArray = InventoryManager.IN.GetAllInventoryItems();
+                itemsArray = SaveManager.Data.AllInventoryItems;
             }
             else
             {
@@ -169,6 +169,7 @@ public class UiInventoryPanel : UIPanelBase
         {
             var cell = Instantiate(this.inventoryCellPrefab, this.itemsGridParent);
             cell.name = $"Cell_{i}";
+            cell.CellIndex = i;
             this.allInventoryCells.Add(cell);
         }
     }
