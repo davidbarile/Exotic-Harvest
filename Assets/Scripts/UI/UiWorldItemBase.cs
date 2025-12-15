@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UiWorldItemBase : UiDraggable
 {
@@ -23,6 +24,42 @@ public class UiWorldItemBase : UiDraggable
         }
     }
 
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        base.OnBeginDrag(eventData);
+        DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);
+    }
+
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
+    }
+
+    protected override bool DoOnDrag()
+    {
+        if (CheckIfOverInventoryZone())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool CheckIfOverInventoryZone()
+    {
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        {
+            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOverOpenInventoryZone)
+            {
+                UiManager.IN.InventoryPanel.Show();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 dragOffset)
     {
         Configure(inItemData);
@@ -36,6 +73,8 @@ public class UiWorldItemBase : UiDraggable
         this.originalWorldPosition = this.targetRectTransform.position;
         this.originalParent = DragManager.IN.DefaultParent;
         this.originalSiblingIndex = 0;
+
+        DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);
     }
 
     protected override void SaveItemPosition()

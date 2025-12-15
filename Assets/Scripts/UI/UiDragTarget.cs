@@ -10,6 +10,7 @@ public class UiDragTarget : MonoBehaviour
     public float UnsnapRange = -1;
 
     public bool IsDragOutOfInventoryZone;
+     public bool IsDragOverOpenInventoryZone;
 
     private void Awake()
     {

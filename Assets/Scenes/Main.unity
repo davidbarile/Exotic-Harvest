@@ -3965,6 +3965,7 @@ MonoBehaviour:
   BoundsCollider: {fileID: 628749975}
   UnsnapRange: 400
   IsDragOutOfInventoryZone: 0
+  IsDragOverOpenInventoryZone: 0
 --- !u!114 &628749973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6007,6 +6008,7 @@ RectTransform:
   - {fileID: 369173871}
   - {fileID: 107059069}
   - {fileID: 657592483}
+  - {fileID: 1197052521}
   - {fileID: 1947094321}
   - {fileID: 1977129386}
   - {fileID: 1624452810}
@@ -6913,6 +6915,100 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1197052517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197052521}
+  - component: {fileID: 1197052520}
+  - component: {fileID: 1197052519}
+  - component: {fileID: 1197052518}
+  m_Layer: 5
+  m_Name: Inventory Open Zone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1197052518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197052517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4afb27f75aaa3424b819e94be80dcd62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiDragTarget
+  highlightObject: {fileID: 0}
+  shouldSnapToCenter: 0
+  BoundsCollider: {fileID: 0}
+  UnsnapRange: -1
+  IsDragOutOfInventoryZone: 0
+  IsDragOverOpenInventoryZone: 1
+--- !u!114 &1197052519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197052517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.12156863}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1197052520
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197052517}
+  m_CullTransparentMesh: 1
+--- !u!224 &1197052521
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197052517}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1116631535}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -908.6451, y: 298.65817}
+  m_SizeDelta: {x: 102.7098, y: 108.5164}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1200436283
 GameObject:
   m_ObjectHideFlags: 0
@@ -9142,6 +9238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DragManager
   DragCanvas: {fileID: 849905596}
   DefaultParent: {fileID: 254910829}
+  inventoryOpenTrigger: {fileID: 1197052517}
 --- !u!114 &1713415302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9163,7 +9260,7 @@ MonoBehaviour:
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
-      IsInInventory: 1
+      ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
       IsActive: 1
@@ -9179,7 +9276,7 @@ MonoBehaviour:
     DecorationData:
       Type: 5
       WorldPosition: {x: 0, y: 0, z: 0}
-      IsInInventory: 1
+      ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
       IsActive: 1
@@ -9195,7 +9292,7 @@ MonoBehaviour:
     DecorationData:
       Type: 5
       WorldPosition: {x: 0, y: 0, z: 0}
-      IsInInventory: 1
+      ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
       IsActive: 1
@@ -9211,7 +9308,7 @@ MonoBehaviour:
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
-      IsInInventory: 1
+      ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
       IsActive: 1
@@ -9227,7 +9324,7 @@ MonoBehaviour:
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
-      IsInInventory: 1
+      ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
       IsActive: 1
@@ -9235,7 +9332,6 @@ MonoBehaviour:
     CanDragToWorld: 0
     IconSpriteName: Jar
     WorldPrefabName: DefaultItemUI
-  AllInventoryItems: []
 --- !u!114 &1713415303
 MonoBehaviour:
   m_ObjectHideFlags: 0

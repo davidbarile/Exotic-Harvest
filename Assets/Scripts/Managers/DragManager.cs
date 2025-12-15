@@ -5,6 +5,8 @@ public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
 
+    public static Action<bool> OnDragOverInventoryZoneActiveChanged;
+
     public static bool IsDragModeActivated = false;
 
     public static Action<bool> OnDragModeChanged;
@@ -12,6 +14,8 @@ public class DragManager : MonoBehaviour
     public RectTransform DragCanvas;
 
     public Transform DefaultParent;
+
+    [SerializeField] private GameObject inventoryOpenTrigger;
 
     // Drag Proxy State
     public RectTransform CurrentDraggedTransform { get; private set; }
@@ -24,6 +28,8 @@ public class DragManager : MonoBehaviour
      private void Start()
     {
         InputManager.OnDragPress += HandleDragModeChanged;
+        OnDragOverInventoryZoneActiveChanged += SetDragOverInventoryZoneActive;
+        SetDragOverInventoryZoneActive(false);
     }
 
     private void Update()
@@ -45,6 +51,15 @@ public class DragManager : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.OnDragPress -= HandleDragModeChanged;
+        OnDragOverInventoryZoneActiveChanged -= SetDragOverInventoryZoneActive;
+    }
+
+    private void SetDragOverInventoryZoneActive(bool isActive)
+    {
+        if (this.inventoryOpenTrigger != null)
+        {
+            this.inventoryOpenTrigger.SetActive(isActive);
+        }
     }
 
     private void HandleDragModeChanged()
@@ -73,6 +88,13 @@ public class DragManager : MonoBehaviour
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
+
+        if (!UiManager.IN.InventoryPanel.IsShowing && UiWorldItemBase.CheckIfOverInventoryZone())
+        {
+            //TODO: swap for InventoryItem prefab
+            // this.IsDraggingActive = false;
+            // return;
+        }
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.DragCanvas,
