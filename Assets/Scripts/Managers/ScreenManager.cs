@@ -63,7 +63,7 @@ public class ScreenManager : MonoBehaviour
         SetCanvasGroupInteractable(this.bgCanvasGroup, !this.isClickThrough);
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
 
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.isClickThrough}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}");
 
         // if (isBgShowing)
         // {
@@ -182,7 +182,7 @@ public class ScreenManager : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         this.appHasFocus = hasFocus;
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.isClickThrough}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}");
     }
 
     void OnApplicationPause(bool pauseStatus)
