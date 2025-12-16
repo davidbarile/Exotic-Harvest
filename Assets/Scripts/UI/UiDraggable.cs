@@ -232,7 +232,16 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 }
             }
         }
+        
+        // If not detecting drop targets, just reparent to original parent or default
+        var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+        this.targetRectTransform.SetParent(originalParent, true);
 
+        if (this.shouldReturnToOriginalParent)
+            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+        SaveItemPosition();
+            
         return true;
     }
 

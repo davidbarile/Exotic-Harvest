@@ -11,7 +11,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Header("UI Spawn Configuration")]
     [SerializeField] private RectTransform gameplayCanvas; // Main gameplay area
-    [SerializeField] private RectTransform rainSpawnParent; // UI container for rain collectables
+
+    public RectTransform RainParent => rainParent;
+    [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
     
@@ -120,7 +122,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         if (UnityEngine.Random.value < spawnChance)
         {
             Vector2 spawnPos = GetRaindropSpawnPosition();
-            GameObject raindrop = Instantiate(raindropPrefab, rainSpawnParent);
+            GameObject raindrop = Instantiate(raindropPrefab, rainParent);
             RectTransform raindropRect = raindrop.GetComponent<RectTransform>();
             if (raindropRect != null)
             {

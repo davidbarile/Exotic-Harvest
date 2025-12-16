@@ -32,9 +32,8 @@ public class Raindrop : Collectable
     {
         if (this.rectTransform != null && this.parentCanvas != null)
         {
-            // Get canvas bounds for ground detection
-            RectTransform canvasRect = this.parentCanvas.GetComponent<RectTransform>();
-            float groundY = -canvasRect.rect.height * 0.5f - 50f; // Below canvas
+            // Get canvas bounds for ground detection;
+            float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f - 50f; // Below canvas
             
             Vector2 startPos = this.rectTransform.anchoredPosition;
             

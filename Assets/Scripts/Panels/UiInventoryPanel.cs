@@ -132,7 +132,7 @@ public class UiInventoryPanel : UIPanelBase
         {
             var itemsArray = new InventoryItemData[NumInventorySlots];
 
-            if(this.currentCategory == EInventoryCategory.Items)
+            if(this.currentCategory != EInventoryCategory.Items)
             {
                 itemsArray = SaveManager.Data.AllInventoryItems;
             }

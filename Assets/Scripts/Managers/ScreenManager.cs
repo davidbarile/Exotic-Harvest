@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,14 +6,24 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager IN; 
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
+    [SerializeField] private CanvasGroup decorationsCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
 
     [SerializeField] private GameObject maximizeButton;
 
-    private bool doesBgBlockClicks;
+    private bool isClickThrough;
     private bool appHasFocus = true;
 
     private int monitorIndex = 1;
+
+    public static void SetCanvasGroupInteractable(CanvasGroup canvasGroup, bool isInteractable, float alpha = -1f)
+    {
+        canvasGroup.interactable = isInteractable;
+        canvasGroup.blocksRaycasts = isInteractable;
+
+        if (alpha >= 0f)
+            canvasGroup.alpha = alpha;
+    }
 
     private void Start()
     {
@@ -49,12 +58,13 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleBackgroundVisibility()
     {
-        this.doesBgBlockClicks = !this.doesBgBlockClicks;
-        this.bgCanvasGroup.interactable = this.doesBgBlockClicks;
-        this.bgCanvasGroup.blocksRaycasts = this.doesBgBlockClicks;
+        this.isClickThrough = !this.isClickThrough;
 
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.doesBgBlockClicks}");
-            
+        SetCanvasGroupInteractable(this.bgCanvasGroup, !this.isClickThrough);
+        SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
+
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.isClickThrough}");
+
         // if (isBgShowing)
         // {
         //     FadeOutBackground();
@@ -85,9 +95,7 @@ public class ScreenManager : MonoBehaviour
         
         this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
         {
-            this.rootCanvasGroup.alpha = 1f;
-            this.rootCanvasGroup.interactable = true;
-            this.rootCanvasGroup.blocksRaycasts = true;
+            SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
         });
     }
 
@@ -105,34 +113,28 @@ public class ScreenManager : MonoBehaviour
 
         this.rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {
-            this.rootCanvasGroup.alpha = 0f;
-            this.rootCanvasGroup.interactable = false;
-            this.rootCanvasGroup.blocksRaycasts = false;
+            SetCanvasGroupInteractable(this.rootCanvasGroup, false, 0f);
             this.rootCanvasGroup.gameObject.SetActive(false);
         });
     }
 
     private void FadeInBackground()
     {
-        this.doesBgBlockClicks = true;
+        this.isClickThrough = false;
         
         this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
-            this.bgCanvasGroup.alpha = 1f;
-            this.bgCanvasGroup.interactable = true;
-            this.bgCanvasGroup.blocksRaycasts = true;
+            SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
         });
     }
 
     private void FadeOutBackground()
     {
-        this.doesBgBlockClicks = false;
+        this.isClickThrough = true;
 
         this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
-            this.bgCanvasGroup.alpha = 0f;
-            this.bgCanvasGroup.interactable = false;
-            this.bgCanvasGroup.blocksRaycasts = false;
+            SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
         });
     }
     
@@ -180,7 +182,7 @@ public class ScreenManager : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         this.appHasFocus = hasFocus;
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.doesBgBlockClicks}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {!this.isClickThrough}");
     }
 
     void OnApplicationPause(bool pauseStatus)

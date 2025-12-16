@@ -1314,8 +1314,9 @@ GameObject:
   - component: {fileID: 254910829}
   - component: {fileID: 254910831}
   - component: {fileID: 254910830}
+  - component: {fileID: 254910832}
   m_Layer: 5
-  m_Name: Leaves Canvas
+  m_Name: Decorations Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1370,7 +1371,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!223 &254910831
 Canvas:
   m_ObjectHideFlags: 0
@@ -1394,6 +1395,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &254910832
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254910828}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &255474109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8597,7 +8610,7 @@ GameObject:
   - component: {fileID: 1696924143}
   - component: {fileID: 1696924142}
   m_Layer: 5
-  m_Name: Decoration Canvas
+  m_Name: Decoration Canvas AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8867,9 +8880,9 @@ GameObject:
   - component: {fileID: 1713415291}
   - component: {fileID: 1713415290}
   - component: {fileID: 1713415285}
+  - component: {fileID: 1713415287}
   - component: {fileID: 1713415289}
   - component: {fileID: 1713415288}
-  - component: {fileID: 1713415287}
   - component: {fileID: 1713415299}
   - component: {fileID: 1713415304}
   - component: {fileID: 1713415298}
@@ -8903,6 +8916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   rootCanvasGroup: {fileID: 1116631536}
+  decorationsCanvasGroup: {fileID: 254910832}
   bgCanvasGroup: {fileID: 2143926671}
   maximizeButton: {fileID: 562911833}
 --- !u!4 &1713415286
@@ -9049,7 +9063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595ba9b7ba93e49038a3e8ea8d8c9d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DecorationManager
-  bucketPrefab: {fileID: 4234567890123456, guid: 1844e9ae2b9234e46a9bddf144927a14, type: 3}
+  bucketPrefab: {fileID: 4419297042781582162, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
   plantPrefab: {fileID: 5234567890123456, guid: 97b26b7e8b671435ba799f038dd534c4, type: 3}
   allDecorationPrefabs: []
   decorationCanvas: {fileID: 1696924141}
@@ -9070,7 +9084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForagingManager
   gameplayCanvas: {fileID: 1894854373}
-  rainSpawnParent: {fileID: 1924561701}
+  rainParent: {fileID: 1924561701}
   dewDropSpawnParent: {fileID: 406109113}
   spawnAreaPadding: {x: 50, y: 50}
   dewdropPrefab: {fileID: 7234567890123456, guid: e043be06874664beca23e7441564615c, type: 3}
@@ -10214,7 +10228,7 @@ GameObject:
   - component: {fileID: 1924561701}
   - component: {fileID: 1924561702}
   m_Layer: 5
-  m_Name: RainSpawn Parent
+  m_Name: Rain Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10234,10 +10248,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1894854373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -80}
-  m_SizeDelta: {x: -40, y: 120}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -40, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1924561702
 CanvasRenderer:
