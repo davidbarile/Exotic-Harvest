@@ -80,13 +80,24 @@ public class UiInventoryItem : UiDraggable
                             // Mark as not dragging so OnEndDrag doesn't process
                             this.isDragging = false;
 
-                            SaveManager.Data.WorldItems.Add(this.ItemData);
+                            if (this.ItemData.Quantity > 1)
+                            {
+                                var newItemData = InventoryItemData.Copy(this.ItemData);
+                                newItemData.Quantity = 1;
+                                this.ItemData.Quantity -= 1;
+                                SaveManager.Data.WorldItems.Add(newItemData);
+                            }
+                            else
+                            {
+                                SaveManager.Data.WorldItems.Add(this.ItemData);
 
-                            var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
-                            SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                                var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+                                SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                            }
                             
                             // Destroy the inventory item
                             Delete();
+                            
                             return false;
                         }
                     }
