@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor.Overlays;
 
 public class UiWorldItemBase : UiDraggable
 {
@@ -38,20 +39,78 @@ public class UiWorldItemBase : UiDraggable
         base.OnEndDrag(eventData);
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
 
-        //MADNESS!!!!
-        // if (UiInventoryItem.CheckIfOverInventoryZone())
-        // {
-        //     // If we ended the drag over the inventory zone, we want to create a new inventory item there with the same data
-        //     var worldItem = WorldItemFactory.CreateWorldItem(this.ItemData);
-        //     if (worldItem != null)
-        //     {
-        //         worldItem.transform.position = this.transform.position;
-        //         worldItem.transform.rotation = Quaternion.identity;
-        //         worldItem.transform.localScale = Vector3.one;
+        var inventoryPanel = UiManager.IN.InventoryPanel;
 
-        //         UiManager.IN.InventoryPanel.Show();
-        //     }
-        // }
+        if(inventoryPanel.IsShowing)
+        {
+            var cell = IsOverInventoryCell();
+
+            var shouldAddToEmptyOrBounceBackToWorld = false;
+
+            if (cell != null)
+            {
+                if (cell.Item == null)
+                {
+                    //if cell empty, add item to that cell
+                    inventoryPanel.SpawnInventoryItemInCell(this.ItemData, cell.CellIndex);
+                    SaveManager.Data.AllInventoryItems[cell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                    InventoryManager.OnInventoryRefreshed?.Invoke();
+                }
+                else
+                {
+                    //if cell not empty
+                    var existingItemData = cell.Item.ItemData;
+                    var isSameItem = existingItemData.DisplayName == this.ItemData.DisplayName;//TODO: maybe add ItemID or something for better comparison
+
+                    if (isSameItem && existingItemData.Quantity < existingItemData.QuantityPerStack)
+                    {
+                        //same item, add quantity if not max
+                        existingItemData.Quantity += 1;
+                        SaveManager.Data.AllInventoryItems[cell.CellIndex] = InventoryItemData.Copy(existingItemData);
+                        InventoryManager.OnInventoryRefreshed?.Invoke();
+                    }
+                    else
+                    {
+                        //TODO: loop thru inventory and find first cell of same item with available quantity to stack into
+                        var cellWithSpace = inventoryPanel.GetFirstCellWithSpace(this.ItemData);
+                        if(cellWithSpace != null)
+                        {
+                            existingItemData = cellWithSpace.Item.ItemData;
+                            existingItemData.Quantity += 1;
+                            SaveManager.Data.AllInventoryItems[cellWithSpace.CellIndex] = InventoryItemData.Copy(existingItemData);
+                            InventoryManager.OnInventoryRefreshed?.Invoke();
+                        }
+                        else
+                        {
+                            shouldAddToEmptyOrBounceBackToWorld = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //not over cell
+                shouldAddToEmptyOrBounceBackToWorld = true;
+            }
+
+            if(shouldAddToEmptyOrBounceBackToWorld)
+            {
+                var firstEmptyCell = inventoryPanel.GetFirstEmptyCell();
+                if (firstEmptyCell != null)
+                {
+                    inventoryPanel.SpawnInventoryItemInCell(this.ItemData, firstEmptyCell.CellIndex);
+                    SaveManager.Data.AllInventoryItems[firstEmptyCell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                    InventoryManager.OnInventoryRefreshed?.Invoke();
+                }
+                else
+                {
+                    //bounce back to original position in world and close InventoryPanel
+                }
+            }
+            
+            SaveManager.Data.WorldItems.Remove(this.ItemData);
+            Destroy(this.gameObject);
+        }
     }
 
     protected override bool DoOnDrag()
@@ -76,6 +135,17 @@ public class UiWorldItemBase : UiDraggable
         }
 
         return false;
+    }
+
+    public static UiInventoryCell IsOverInventoryCell()
+    {
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        {
+            if (possibleTarget.TryGetComponent<UiInventoryCell>(out var dragTargetCell))
+                return dragTargetCell;
+        }
+
+        return null;
     }
 
     public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 dragOffset)

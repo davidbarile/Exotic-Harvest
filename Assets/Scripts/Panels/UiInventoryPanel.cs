@@ -102,7 +102,7 @@ public class UiInventoryPanel : UIPanelBase
         HideItemDetail();
     }
 
-      private void RefreshInventory()
+    private void RefreshInventory()
     {
         RefreshItemGrid(false);
         RefreshItemDetail();
@@ -128,11 +128,11 @@ public class UiInventoryPanel : UIPanelBase
         this.itemsGridParent.gameObject.SetActive(isItems);
         this.resourcesDisplayParent.gameObject.SetActive(!isItems);
 
-        if(isItems)
+        if (isItems)
         {
             var itemsArray = new InventoryItemData[NumInventorySlots];
 
-            if(this.currentCategory != EShopCategory.Resources)
+            if (this.currentCategory != EShopCategory.Resources)
             {
                 itemsArray = SaveManager.Data.AllInventoryItems;
             }
@@ -147,10 +147,7 @@ public class UiInventoryPanel : UIPanelBase
                 var itemData = itemsArray[i];
                 if (itemData != null)
                 {
-                    var cell = this.allInventoryCells[i];
-                    var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
-                    prefab.name = $"Item_{itemData.DisplayName}";
-                    this.allInventoryCells[i].AddItem(prefab, itemData);
+                    SpawnInventoryItemInCell(itemData, i);
                 }
             }
         }
@@ -158,6 +155,37 @@ public class UiInventoryPanel : UIPanelBase
         {
             //handled by ResourceDisplayManager component
         }
+    }
+
+    public void SpawnInventoryItemInCell(InventoryItemData itemData, int cellIndex)
+    {
+        if (cellIndex < 0 || cellIndex >= this.allInventoryCells.Count)
+            return;
+
+        var cell = this.allInventoryCells[cellIndex];
+        var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
+        prefab.name = $"Item_{itemData.DisplayName}";
+        cell.AddItem(prefab, itemData);
+    }
+
+    public UiInventoryCell GetFirstEmptyCell()
+    {
+        foreach (var cell in this.allInventoryCells)
+        {
+            if (cell.Item == null)
+                return cell;
+        }
+        return null;
+    }
+    
+    public UiInventoryCell GetFirstCellWithSpace(InventoryItemData itemData)
+    {
+        foreach (var cell in this.allInventoryCells)
+        {
+            if (cell.Item != null && cell.Item.ItemData != null && cell.Item.ItemData.DisplayName == itemData.DisplayName && cell.Item.ItemData.Quantity < cell.Item.ItemData.QuantityPerStack)
+                return cell;
+        }
+        return null;
     }
 
     private void CreateItemGrid()

@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
 
     public static int NumInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
-    public static event Action OnInventoryRefreshed;
+    public static Action OnInventoryRefreshed;
 
     [SerializeField] private InitInventoryItemData[] initInventoryItemDatas;
 
