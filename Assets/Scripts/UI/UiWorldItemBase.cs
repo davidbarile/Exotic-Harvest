@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor.Overlays;
+using DG.Tweening;
 
 public class UiWorldItemBase : UiDraggable
 {
@@ -41,7 +41,7 @@ public class UiWorldItemBase : UiDraggable
 
         var inventoryPanel = UiManager.IN.InventoryPanel;
 
-        if(inventoryPanel.IsShowing)
+        if (inventoryPanel.IsShowing)
         {
             var cell = IsOverInventoryCell();
 
@@ -71,19 +71,7 @@ public class UiWorldItemBase : UiDraggable
                     }
                     else
                     {
-                        //TODO: loop thru inventory and find first cell of same item with available quantity to stack into
-                        var cellWithSpace = inventoryPanel.GetFirstCellWithSpace(this.ItemData);
-                        if(cellWithSpace != null)
-                        {
-                            existingItemData = cellWithSpace.Item.ItemData;
-                            existingItemData.Quantity += 1;
-                            SaveManager.Data.AllInventoryItems[cellWithSpace.CellIndex] = InventoryItemData.Copy(existingItemData);
-                            InventoryManager.OnInventoryRefreshed?.Invoke();
-                        }
-                        else
-                        {
-                            shouldAddToEmptyOrBounceBackToWorld = true;
-                        }
+                        shouldAddToEmptyOrBounceBackToWorld = true;
                     }
                 }
             }
@@ -93,24 +81,60 @@ public class UiWorldItemBase : UiDraggable
                 shouldAddToEmptyOrBounceBackToWorld = true;
             }
 
-            if(shouldAddToEmptyOrBounceBackToWorld)
+            if (shouldAddToEmptyOrBounceBackToWorld)
             {
-                var firstEmptyCell = inventoryPanel.GetFirstEmptyCell();
-                if (firstEmptyCell != null)
+                //loop thru inventory and find first cell of same item with available quantity to stack into
+                var cellWithSpace = inventoryPanel.GetFirstCellWithSpace(this.ItemData);
+                if (cellWithSpace != null)
                 {
-                    inventoryPanel.SpawnInventoryItemInCell(this.ItemData, firstEmptyCell.CellIndex);
-                    SaveManager.Data.AllInventoryItems[firstEmptyCell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                    var existingItemData = cellWithSpace.Item.ItemData;
+                    existingItemData.Quantity += 1;
+                    SaveManager.Data.AllInventoryItems[cellWithSpace.CellIndex] = InventoryItemData.Copy(existingItemData);
                     InventoryManager.OnInventoryRefreshed?.Invoke();
                 }
                 else
                 {
-                    //bounce back to original position in world and close InventoryPanel
+                    var firstEmptyCell = inventoryPanel.GetFirstEmptyCell();
+                    if (firstEmptyCell != null)
+                    {
+                        //if available cell with space, add to that cell
+                        inventoryPanel.SpawnInventoryItemInCell(this.ItemData, firstEmptyCell.CellIndex);
+                        SaveManager.Data.AllInventoryItems[firstEmptyCell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                        InventoryManager.OnInventoryRefreshed?.Invoke();
+                    }
+                    else
+                    {
+                        //bounce back to original position in world and close InventoryPanel
+                        SnapBackToWorldFromInventoryFail();
+                        inventoryPanel.Hide();
+                        return;
+                    }
                 }
             }
-            
+
             SaveManager.Data.WorldItems.Remove(this.ItemData);
             Destroy(this.gameObject);
         }
+    }
+
+    private void SnapBackToWorldFromInventoryFail()
+    {
+        //snap back to original position
+        transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+        {
+            var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+            this.targetRectTransform.SetParent(originalParent, true);
+
+            if (this.shouldReturnToOriginalParent)
+                this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+            SaveItemPosition();
+        });
+    }
+    
+    protected virtual void TryAddResourcesToInventory()
+    {
+        //implement in inherited members such as Bucket
     }
 
     protected override bool DoOnDrag()

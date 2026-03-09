@@ -14,7 +14,7 @@ public class UiWorldItemBucket : UiWorldItemBase
     {
         if (collision != null)
         {
-            if(collision.TryGetComponent<Collectable>(out var collectible))
+            if (collision.TryGetComponent<Collectable>(out var collectible))
             {
                 if (!this.linkedBucket.CollectableResourceTypes.HasFlag(collectible.ResourceType))
                     return;
@@ -25,5 +25,10 @@ public class UiWorldItemBucket : UiWorldItemBase
                     collectible.Collect();
             }
         }
+    }
+
+    protected override void TryAddResourcesToInventory()
+    {
+        var inventoryPanel = UiManager.IN.InventoryPanel;
     }
 }
