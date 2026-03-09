@@ -33,8 +33,25 @@ public class UiWorldItemBase : UiDraggable
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        //detect if Inventory is open and we're over it, if so, add the item back to the inventory and destroy this world item
+        //maybe do it on base
         base.OnEndDrag(eventData);
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
+
+        //MADNESS!!!!
+        // if (UiInventoryItem.CheckIfOverInventoryZone())
+        // {
+        //     // If we ended the drag over the inventory zone, we want to create a new inventory item there with the same data
+        //     var worldItem = WorldItemFactory.CreateWorldItem(this.ItemData);
+        //     if (worldItem != null)
+        //     {
+        //         worldItem.transform.position = this.transform.position;
+        //         worldItem.transform.rotation = Quaternion.identity;
+        //         worldItem.transform.localScale = Vector3.one;
+
+        //         UiManager.IN.InventoryPanel.Show();
+        //     }
+        // }
     }
 
     protected override bool DoOnDrag()
