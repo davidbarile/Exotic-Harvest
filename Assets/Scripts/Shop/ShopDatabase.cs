@@ -13,7 +13,6 @@ public class ShopDatabase : ScriptableObject
     
     private Dictionary<string, ShopItemConfig> itemLookup;
     private Dictionary<EShopCategory, List<ShopItemConfig>> itemsByCategory;
-    private Dictionary<EItemType, List<ShopItemConfig>> itemsByType;
     
     public ShopItemConfig[] AllShopItems => this.allShopItems;
     
@@ -33,18 +32,11 @@ public class ShopDatabase : ScriptableObject
         
         this.itemLookup = new();
         this.itemsByCategory = new();
-        this.itemsByType = new();
         
         // Initialize category lists
         foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
             this.itemsByCategory[category] = new();
-        }
-        
-        // Initialize type lists  
-        foreach (EItemType type in System.Enum.GetValues(typeof(EItemType)))
-        {
-            this.itemsByType[type] = new();
         }
         
         foreach (var item in this.allShopItems)
@@ -53,7 +45,6 @@ public class ShopDatabase : ScriptableObject
             {
                 this.itemLookup[item.ID] = item;
                 this.itemsByCategory[item.Category].Add(item);
-                this.itemsByType[item.ItemType].Add(item);
             }
         }
     }
@@ -75,16 +66,6 @@ public class ShopDatabase : ScriptableObject
         return new ShopItemConfig[0];
     }
     
-    public ShopItemConfig[] GetItemsByType(EItemType type)
-    {
-        if (this.allShopItems == null) return new ShopItemConfig[0];
-        if (this.itemsByType == null) BuildLookupTables();
-        
-        if (this.itemsByType.TryGetValue(type, out List<ShopItemConfig> items))
-            return items.ToArray();
-        return new ShopItemConfig[0];
-    }
-    
     public ShopItemConfig[] GetAvailableItems(EShopCategory category, int playerLevel = 1, string[] purchasedItemIds = null)
     {
         var categoryItems = GetItemsByCategory(category);
@@ -93,12 +74,12 @@ public class ShopDatabase : ScriptableObject
     
     public ShopItemConfig[] GetDecorationItems()
     {
-        return GetItemsByType(EItemType.Decoration);
+        return GetItemsByCategory(EShopCategory.Decorations);
     }
     
     public ShopItemConfig[] GetResourceItems()
     {
-        return GetItemsByType(EItemType.Resource);
+        return GetItemsByCategory(EShopCategory.Resources);
     }
     
     public ShopItemConfig[] GetUnlockedItems(int playerLevel = 1, string[] purchasedItemIds = null)

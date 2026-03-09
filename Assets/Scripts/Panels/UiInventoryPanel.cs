@@ -25,7 +25,7 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Image itemIcon;
 
     [Header("Inventory Stats")]
-    private EInventoryCategory currentCategory = EInventoryCategory.Decorations;
+    private EShopCategory currentCategory = EShopCategory.Decorations;
     private InventoryItemData selectedItemData;
     private List<UiInventoryCell> allInventoryCells = new();
 
@@ -75,8 +75,8 @@ public class UiInventoryPanel : UIPanelBase
         //     tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EInventoryCategory)i).ToString();
         // }
 
-        this.categoryTab_Items.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EInventoryCategory.Items); });
-        this.categoryTab_Resources.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EInventoryCategory.Resources); });
+        this.categoryTab_Items.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EShopCategory.Decorations); });
+        this.categoryTab_Resources.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EShopCategory.Resources); });
 
         //var selectedTab = this.categoryTabs[(int)this.currentCategory];
         var selectedTab = this.categoryTab_Items;
@@ -85,7 +85,7 @@ public class UiInventoryPanel : UIPanelBase
         this.isInitialized = true;
     }
 
-    public void SwitchCategory(EInventoryCategory category)
+    public void SwitchCategory(EShopCategory category)
     {
         if (this.currentCategory == category)
             return;
@@ -113,7 +113,7 @@ public class UiInventoryPanel : UIPanelBase
         if (!this.isInitialized)
             return;
 
-        var isItems = this.currentCategory != EInventoryCategory.Resources;
+        var isItems = this.currentCategory != EShopCategory.Resources;
 
         if (shouldRecreateCells || this.allInventoryCells.Count == 0)
             CreateItemGrid();
@@ -131,8 +131,8 @@ public class UiInventoryPanel : UIPanelBase
         if(isItems)
         {
             var itemsArray = new InventoryItemData[NumInventorySlots];
-
-            if(this.currentCategory != EInventoryCategory.Items)
+            //zzzzzzzz
+            if(this.currentCategory != EShopCategory.Resources)
             {
                 itemsArray = SaveManager.Data.AllInventoryItems;
             }

@@ -170,9 +170,13 @@ public class UiInventoryItem : UiDraggable
             {
                 // Cell is empty, add item to cell
                 cell.AddItem(this, this.ItemData);
-                origCell.ClearItem(true);
 
-                SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                if(cell != origCell)
+                {
+                    origCell.ClearItem(true);
+                    SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                }
+                
                 SaveManager.Data.AllInventoryItems[cell.CellIndex] = this.ItemData;
             }
             else

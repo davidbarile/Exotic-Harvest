@@ -15,7 +15,6 @@ public class ShopItemData
     
     [Header("Item Properties")]
     public EShopCategory Category;
-    public EItemType ItemType;
     public ResourceCost Cost;
     
     [Header("Purchase Rules")]
@@ -38,12 +37,11 @@ public class ShopItemData
     public bool IsMaxedOut => IsLimitedQuantity && CurrentPurchases >= MaxPurchases;
     public int RemainingPurchases => IsLimitedQuantity ? MaxPurchases - CurrentPurchases : -1;
     
-    public ShopItemData(string id, string name, EShopCategory category, EItemType type)
+    public ShopItemData(string id, string name, EShopCategory category)
     {
         this.Id = id;
         this.DisplayName = name;
         this.Category = category;
-        this.ItemType = type;
         this.Cost = new ResourceCost();
     }
     

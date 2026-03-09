@@ -3,6 +3,7 @@
 /// </summary>
 public enum EDecorationType
 {
+    None,
     // Passive Harvesters
     Bucket,        // Collects water during rain
     FlowerPot,     // Grows seeds into plants

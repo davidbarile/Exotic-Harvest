@@ -9399,15 +9399,15 @@ GameObject:
   - component: {fileID: 1713415287}
   - component: {fileID: 1713415289}
   - component: {fileID: 1713415288}
+  - component: {fileID: 1713415294}
+  - component: {fileID: 1713415302}
   - component: {fileID: 1713415299}
   - component: {fileID: 1713415304}
   - component: {fileID: 1713415298}
   - component: {fileID: 1713415297}
   - component: {fileID: 1713415296}
   - component: {fileID: 1713415295}
-  - component: {fileID: 1713415294}
   - component: {fileID: 1713415293}
-  - component: {fileID: 1713415302}
   - component: {fileID: 1713415292}
   - component: {fileID: 1713415300}
   - component: {fileID: 1713415301}
@@ -9785,8 +9785,7 @@ MonoBehaviour:
   - DisplayName: Bucket
     Quantity: 1
     QuantityPerStack: 1
-    Category: 1
-    ItemType: 7
+    Category: 4
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -9801,8 +9800,7 @@ MonoBehaviour:
   - DisplayName: Plant
     Quantity: 3
     QuantityPerStack: 10
-    Category: 4
-    ItemType: 7
+    Category: 0
     DecorationData:
       Type: 5
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -9818,7 +9816,6 @@ MonoBehaviour:
     Quantity: 7
     QuantityPerStack: 10
     Category: 0
-    ItemType: 7
     DecorationData:
       Type: 5
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -9834,7 +9831,6 @@ MonoBehaviour:
     Quantity: 3
     QuantityPerStack: 5
     Category: 4
-    ItemType: 7
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -9850,7 +9846,6 @@ MonoBehaviour:
     Quantity: 4
     QuantityPerStack: 5
     Category: 4
-    ItemType: 7
     DecorationData:
       Type: 0
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -9862,6 +9857,87 @@ MonoBehaviour:
     CanDragToWorld: 0
     IconSpriteName: Jar
     WorldPrefabName: DefaultItemUI
+  initInventoryItemDatas:
+  - DisplayName: Bucket
+    Quantity: 1
+    QuantityPerStack: 1
+    Category: 2
+    DecorationData:
+      Type: 0
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      CurrentAmount: 0
+      LastGenerationTime: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 1
+    IconSpriteName: Bucket
+    WorldPrefabName: DefaultItemUI
+    ShopItemConfig: {fileID: 11400000, guid: cacfa321c709b4c42a80c2d8078d28b2, type: 2}
+  - DisplayName: Jar
+    Quantity: 3
+    QuantityPerStack: 5
+    Category: 2
+    DecorationData:
+      Type: 0
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      CurrentAmount: 0
+      LastGenerationTime: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 1
+    IconSpriteName: Jar
+    WorldPrefabName: DefaultItemUI
+    ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
+  - DisplayName: Jar
+    Quantity: 4
+    QuantityPerStack: 5
+    Category: 2
+    DecorationData:
+      Type: 0
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      CurrentAmount: 0
+      LastGenerationTime: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 1
+    IconSpriteName: Jar
+    WorldPrefabName: DefaultItemUI
+    ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
+  - DisplayName: Plant
+    Quantity: 7
+    QuantityPerStack: 10
+    Category: 0
+    DecorationData:
+      Type: 0
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      CurrentAmount: 0
+      LastGenerationTime: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 1
+    IconSpriteName: Herbs
+    WorldPrefabName: DefaultItemUI
+    ShopItemConfig: {fileID: 11400000, guid: d0181a73fd5f54a47b50b1f3e3ab2c8b, type: 2}
+  - DisplayName: Plant
+    Quantity: 9
+    QuantityPerStack: 10
+    Category: 0
+    DecorationData:
+      Type: 0
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      CurrentAmount: 0
+      LastGenerationTime: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 1
+    IconSpriteName: Herbs
+    WorldPrefabName: DefaultItemUI
+    ShopItemConfig: {fileID: 11400000, guid: d0181a73fd5f54a47b50b1f3e3ab2c8b, type: 2}
 --- !u!114 &1713415303
 MonoBehaviour:
   m_ObjectHideFlags: 0

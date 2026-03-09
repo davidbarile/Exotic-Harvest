@@ -10,26 +10,32 @@ public class InventoryManager : MonoBehaviour
 
     public static event Action OnInventoryRefreshed;
 
-    /// <summary>
-    /// Categories for organizing shop items
-    /// </summary>
-    public enum EInventoryCategory
-    {
-        Decorations,
-        Tools,
-        Resources,
-        Special,
-        Items
-    }
-
     public InventoryItemData[] StartingInventoryItemDatas;//TODO: change to config
 
-    private Dictionary<EInventoryCategory, InventoryItemData[]> itemsByCategory = new();
+    [SerializeField] private InitInventoryItemData[] initInventoryItemDatas;
+
+    private Dictionary<EShopCategory, InventoryItemData[]> itemsByCategory = new();
+
+    private void OnValidate()
+    {
+        foreach (var itemData in this.initInventoryItemDatas)
+        {
+            if (itemData != null && itemData.ShopItemConfig != null)
+            {
+                itemData.Category = itemData.ShopItemConfig.Category;
+                itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
+                itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
+                itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
+                itemData.WorldPrefabName = itemData.ShopItemConfig.WorldPrefabName;
+                itemData.DecorationData = itemData.ShopItemConfig.DecorationData;
+            }
+        }
+    }
 
     public void InitInventoryDict()
     {
         this.itemsByCategory.Clear();
-        foreach (EInventoryCategory category in Enum.GetValues(typeof(EInventoryCategory)))
+        foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
             this.itemsByCategory[category] = new InventoryItemData[InventoryManager.NumInventorySlots];
         }
@@ -37,7 +43,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddDefaultItemsToInventory()
     {
-        foreach (EInventoryCategory category in Enum.GetValues(typeof(EInventoryCategory)))
+        foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
             var slotCounter = 0;
             for (int i = 0; i < this.StartingInventoryItemDatas.Length; i++)
@@ -67,7 +73,7 @@ public class InventoryManager : MonoBehaviour
     {
         foreach (var kvp in savedInventoryData)
         {
-            if (Enum.TryParse<EInventoryCategory>(kvp.Key, out var category))
+            if (Enum.TryParse<EShopCategory>(kvp.Key, out var category))
             {
                 this.itemsByCategory[category] = kvp.Value;
             }
@@ -79,7 +85,7 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
-    public void AddItemToInventory(InventoryItemData itemData, EInventoryCategory category, int itemIndex, int quantity = 1)
+    public void AddItemToInventory(InventoryItemData itemData, EShopCategory category, int itemIndex, int quantity = 1)
     {
         // Implementation for adding item to inventory
         if (this.itemsByCategory.TryGetValue(category, out var itemsOfCategory))
@@ -102,7 +108,7 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
     
-    public void RemoveItemFromInventory(EInventoryCategory category, int itemIndex, int quantity = 1)
+    public void RemoveItemFromInventory(EShopCategory category, int itemIndex, int quantity = 1)
     {
         // Implementation for removing item from inventory
         if (this.itemsByCategory.TryGetValue(category, out var itemsOfCategory))
@@ -134,7 +140,7 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
-    public InventoryItemData[] GetItemsByCategory(EInventoryCategory category)
+    public InventoryItemData[] GetItemsByCategory(EShopCategory category)
     {
         // Implementation for retrieving items by category
         if (this.itemsByCategory.ContainsKey(category))
@@ -150,7 +156,7 @@ public class InventoryManager : MonoBehaviour
         InitInventoryDict();
         foreach (var kvp in saveData)
         {
-            if (Enum.TryParse<EInventoryCategory>(kvp.Key, out var category))
+            if (Enum.TryParse<EShopCategory>(kvp.Key, out var category))
             {
                 this.itemsByCategory[category] = kvp.Value;
             }

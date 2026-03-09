@@ -81,7 +81,7 @@ public class ShopManager : MonoBehaviour
     
     private ShopItemData CreateShopItemFromDefinition(ShopItemConfig definition)
     {
-        var shopItem = new ShopItemData(definition.ID, definition.DisplayName, definition.Category, definition.ItemType)
+        var shopItem = new ShopItemData(definition.ID, definition.DisplayName, definition.Category)
         {
             Description = definition.Description,
             Cost = definition.Cost,
@@ -99,7 +99,7 @@ public class ShopManager : MonoBehaviour
     
     public ShopItemData CreateDecorationItem(string id, string name, string description, EDecorationType decorationType, ResourceCost cost)
     {
-        var item = new ShopItemData(id, name, EShopCategory.Decorations, EItemType.Decoration)
+        var item = new ShopItemData(id, name, EShopCategory.Decorations)
         {
             Description = description,
             DecorationType = decorationType,
@@ -112,7 +112,7 @@ public class ShopManager : MonoBehaviour
     
     public ShopItemData CreateResourceItem(string id, string name, string description, EResourceType resourceType, int amount, ResourceCost cost)
     {
-        var item = new ShopItemData(id, name, EShopCategory.Resources, EItemType.Resource)
+        var item = new ShopItemData(id, name, EShopCategory.Resources)
         {
             Description = description,
             ResourceType = resourceType,
@@ -206,17 +206,16 @@ public class ShopManager : MonoBehaviour
     
     private bool ExecutePurchase(ShopItemData itemData)
     {
-        switch (itemData.ItemType)
+        switch (itemData.Category)
         {
-            case EItemType.Decoration:
+            case EShopCategory.Decorations:
                 return PurchaseDecoration(itemData);
-            case EItemType.Resource:
+            case EShopCategory.Resources:
                 return PurchaseResource(itemData);
-            case EItemType.ToolUpgrade:
-            case EItemType.Capacity:
-            case EItemType.Multiplier:
-            case EItemType.Unlock:
-            case EItemType.Consumable:
+            case EShopCategory.Tools:
+            case EShopCategory.Upgrades:
+            case EShopCategory.Premium:
+            case EShopCategory.Special:
                 // TODO: Implement in future phases
                 return true;
             default:

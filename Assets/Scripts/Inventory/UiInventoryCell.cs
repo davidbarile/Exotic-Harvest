@@ -63,7 +63,7 @@ public class UiInventoryCell : MonoBehaviour
             if (destroyItem)
                 this.Item.Delete();
                
-            this.Item = null;
+            this.Item = null;//not sure
         }
     }
 

@@ -10,18 +10,3 @@ public enum EShopCategory
     Premium,        // Hard currency items
     Special         // Limited time or rare items
 }
-
-/// <summary>
-/// Types of items that can be purchased
-/// </summary>
-public enum EItemType
-{
-    Decoration,     // Placeable decoration
-    Resource,       // Direct resource grant
-    ToolUpgrade,    // Improve harvesting efficiency
-    Capacity,       // Increase limits (inventory, etc.)
-    Multiplier,     // Boost generation rates
-    Unlock,         // Unlock new features
-    Consumable,      // One-time use items
-    Permanent
-}

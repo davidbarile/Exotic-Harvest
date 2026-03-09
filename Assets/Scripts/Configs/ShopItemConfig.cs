@@ -10,10 +10,17 @@ public class ShopItemConfig : ScriptableObject
     public string DisplayName;
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
+
+    [Header("Inventory Item Data")]
+    public bool CanDragToWorld;
+    public string WorldPrefabName = "DefaultItemUI";
+    public DecorationData DecorationData;
     
     [Header("Shop Properties")]
     public EShopCategory Category;
-    public EItemType ItemType;
+    public bool IsResource => this.Category == EShopCategory.Resources;
+    public bool IsDecoration => this.Category == EShopCategory.Decorations;
+    public bool IsItem => this.Category != EShopCategory.Resources;
     public ResourceCost Cost;
     
     [Header("Availability")]
