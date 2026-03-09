@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
 
 public class UiWorldItemBase : UiDraggable
@@ -20,7 +19,9 @@ public class UiWorldItemBase : UiDraggable
         {
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
-            this.shadow.sprite = sprite;
+
+            if(this.shadow != null)
+                this.shadow.sprite = sprite;
         }
     }
 

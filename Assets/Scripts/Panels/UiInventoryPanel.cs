@@ -131,15 +131,14 @@ public class UiInventoryPanel : UIPanelBase
         if(isItems)
         {
             var itemsArray = new InventoryItemData[NumInventorySlots];
-            //zzzzzzzz
+
             if(this.currentCategory != EShopCategory.Resources)
             {
                 itemsArray = SaveManager.Data.AllInventoryItems;
             }
             else
             {
-                // Get items for current category
-                itemsArray = InventoryManager.IN.GetItemsByCategory(this.currentCategory);
+                itemsArray = InventoryManager.IN.GetItemsByCategory(EShopCategory.Resources);
             }
 
             // // Create UI elements for each itemData

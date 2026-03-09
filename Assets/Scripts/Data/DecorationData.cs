@@ -12,4 +12,17 @@ public class DecorationData
     public int CurrentAmount;
     public float LastGenerationTime;
     public bool IsActive = true;
+
+    public static DecorationData Copy(DecorationData decorationData)
+    {
+        return new DecorationData
+        {
+            Type = decorationData.Type,
+            WorldPosition = decorationData.WorldPosition,
+            ParentGuid = decorationData.ParentGuid,
+            CurrentAmount = decorationData.CurrentAmount,
+            LastGenerationTime = decorationData.LastGenerationTime,
+            IsActive = decorationData.IsActive
+        };
+    }
 }

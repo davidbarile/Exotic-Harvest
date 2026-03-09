@@ -10,8 +10,6 @@ public class InventoryManager : MonoBehaviour
 
     public static event Action OnInventoryRefreshed;
 
-    public InventoryItemData[] StartingInventoryItemDatas;//TODO: change to config
-
     [SerializeField] private InitInventoryItemData[] initInventoryItemDatas;
 
     private Dictionary<EShopCategory, InventoryItemData[]> itemsByCategory = new();
@@ -46,23 +44,23 @@ public class InventoryManager : MonoBehaviour
         foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
             var slotCounter = 0;
-            for (int i = 0; i < this.StartingInventoryItemDatas.Length; i++)
+            for (int i = 0; i < this.initInventoryItemDatas.Length; i++)
             {
-                var itemData = this.StartingInventoryItemDatas[i];
+                var itemData = this.initInventoryItemDatas[i];
                 if (itemData != null && itemData.Category == category && slotCounter < InventoryManager.NumInventorySlots)
                 {
-                    this.itemsByCategory[category][slotCounter] = itemData;
+                    this.itemsByCategory[category][slotCounter] = itemData as InventoryItemData;
                     ++slotCounter;
                 }
             }
         }
 
-        for (int i = 0; i < this.StartingInventoryItemDatas.Length; i++)
+        for (int i = 0; i < this.initInventoryItemDatas.Length; i++)
         {
-            var itemData = this.StartingInventoryItemDatas[i];
+            var itemData = this.initInventoryItemDatas[i];
             if (i < InventoryManager.NumInventorySlots)
             {
-                SaveManager.Data.AllInventoryItems[i] = itemData;
+                SaveManager.Data.AllInventoryItems[i] = itemData as InventoryItemData;
             }
         }
 
@@ -150,6 +148,19 @@ public class InventoryManager : MonoBehaviour
         return new InventoryItemData[0];
     }
 
+    public InventoryItemData[] GetNonResourceItems()
+    {
+        var nonResourceItems = new List<InventoryItemData>();
+        foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
+        {
+            if (category != EShopCategory.Resources && this.itemsByCategory.ContainsKey(category))
+            {
+                nonResourceItems.AddRange(this.itemsByCategory[category]);
+            }
+        }
+        return nonResourceItems.ToArray();
+    }
+
     // For save system
     public void LoadSaveData(Dictionary<string, InventoryItemData[]> saveData)
     {
@@ -198,6 +209,8 @@ public class InventoryManager : MonoBehaviour
             worldItem.InitializeFromDrag(itemData, Vector2.zero);
             return worldItem;
         }
+
+        Debug.LogError($"Failed to load world prefab for item: {itemData.DisplayName} at path: Prefabs/WorldItems/{itemData.WorldPrefabName}");
 
         return null;
     }

@@ -30,7 +30,8 @@ public class InventoryItemData
             IsUnlocked = cloneTarget.IsUnlocked,
             CanDragToWorld = cloneTarget.CanDragToWorld,
             IconSpriteName = cloneTarget.IconSpriteName,
-            WorldPrefabName = cloneTarget.WorldPrefabName
+            WorldPrefabName = cloneTarget.WorldPrefabName,
+            DecorationData = DecorationData.Copy(cloneTarget.DecorationData)
         };
     }
 
@@ -46,7 +47,7 @@ public class InventoryItemData
             CanDragToWorld = shopConfig.IsDecoration,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
             WorldPrefabName = shopConfig.IsDecoration && shopConfig.DecorationPrefab != null ? shopConfig.DecorationPrefab.name : "DefaultItemUI",
-            DecorationData = shopConfig.IsDecoration ? new DecorationData { Type = shopConfig.DecorationType } : null
+            DecorationData = DecorationData.Copy(shopConfig.DecorationData)
         };
     }
 }

@@ -9781,14 +9781,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e30454e372249c2ac6e1c10d5726bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  StartingInventoryItemDatas:
+  initInventoryItemDatas:
   - DisplayName: Bucket
     Quantity: 1
     QuantityPerStack: 1
-    Category: 4
+    Category: 2
     DecorationData:
-      Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
+      Type: 1
+      WorldPosition: {x: 481, y: 371.281, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9797,82 +9797,6 @@ MonoBehaviour:
     CanDragToWorld: 1
     IconSpriteName: Bucket
     WorldPrefabName: BucketItemUI
-  - DisplayName: Plant
-    Quantity: 3
-    QuantityPerStack: 10
-    Category: 0
-    DecorationData:
-      Type: 5
-      WorldPosition: {x: 0, y: 0, z: 0}
-      ParentGuid: 0
-      CurrentAmount: 0
-      LastGenerationTime: 0
-      IsActive: 1
-    IsUnlocked: 1
-    CanDragToWorld: 1
-    IconSpriteName: Herbs
-    WorldPrefabName: DefaultItemUI
-  - DisplayName: Plant 2
-    Quantity: 7
-    QuantityPerStack: 10
-    Category: 0
-    DecorationData:
-      Type: 5
-      WorldPosition: {x: 0, y: 0, z: 0}
-      ParentGuid: 0
-      CurrentAmount: 0
-      LastGenerationTime: 0
-      IsActive: 1
-    IsUnlocked: 1
-    CanDragToWorld: 1
-    IconSpriteName: Herbs
-    WorldPrefabName: DefaultItemUI
-  - DisplayName: Jar
-    Quantity: 3
-    QuantityPerStack: 5
-    Category: 4
-    DecorationData:
-      Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
-      ParentGuid: 0
-      CurrentAmount: 0
-      LastGenerationTime: 0
-      IsActive: 1
-    IsUnlocked: 1
-    CanDragToWorld: 0
-    IconSpriteName: Jar
-    WorldPrefabName: DefaultItemUI
-  - DisplayName: Jar
-    Quantity: 4
-    QuantityPerStack: 5
-    Category: 4
-    DecorationData:
-      Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
-      ParentGuid: 0
-      CurrentAmount: 0
-      LastGenerationTime: 0
-      IsActive: 1
-    IsUnlocked: 1
-    CanDragToWorld: 0
-    IconSpriteName: Jar
-    WorldPrefabName: DefaultItemUI
-  initInventoryItemDatas:
-  - DisplayName: Bucket
-    Quantity: 1
-    QuantityPerStack: 1
-    Category: 2
-    DecorationData:
-      Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
-      ParentGuid: 0
-      CurrentAmount: 0
-      LastGenerationTime: 0
-      IsActive: 1
-    IsUnlocked: 1
-    CanDragToWorld: 1
-    IconSpriteName: Bucket
-    WorldPrefabName: DefaultItemUI
     ShopItemConfig: {fileID: 11400000, guid: cacfa321c709b4c42a80c2d8078d28b2, type: 2}
   - DisplayName: Jar
     Quantity: 3
@@ -9880,7 +9804,7 @@ MonoBehaviour:
     Category: 2
     DecorationData:
       Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
+      WorldPosition: {x: 560, y: 772.281, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9888,7 +9812,7 @@ MonoBehaviour:
     IsUnlocked: 1
     CanDragToWorld: 1
     IconSpriteName: Jar
-    WorldPrefabName: DefaultItemUI
+    WorldPrefabName: JarItemUI
     ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
   - DisplayName: Jar
     Quantity: 4
@@ -9896,7 +9820,7 @@ MonoBehaviour:
     Category: 2
     DecorationData:
       Type: 0
-      WorldPosition: {x: 0, y: 0, z: 0}
+      WorldPosition: {x: 560, y: 772.281, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9904,14 +9828,14 @@ MonoBehaviour:
     IsUnlocked: 1
     CanDragToWorld: 1
     IconSpriteName: Jar
-    WorldPrefabName: DefaultItemUI
+    WorldPrefabName: JarItemUI
     ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
   - DisplayName: Plant
     Quantity: 7
     QuantityPerStack: 10
     Category: 0
     DecorationData:
-      Type: 0
+      Type: 6
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
@@ -9927,7 +9851,7 @@ MonoBehaviour:
     QuantityPerStack: 10
     Category: 0
     DecorationData:
-      Type: 0
+      Type: 6
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
