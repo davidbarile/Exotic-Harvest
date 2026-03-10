@@ -5,14 +5,15 @@ public class InventoryItemData
 {
     public string DisplayName;
     public int Quantity;
-    public int QuantityPerStack;
+    public int MaxStack;
     public EShopCategory Category;
+    public DecorationData DecorationData;
 
     public bool IsResource => this.Category == EShopCategory.Resources;
     public bool IsDecoration => this.Category == EShopCategory.Decorations;
     public bool IsItem => this.Category != EShopCategory.Resources;
 
-    public DecorationData DecorationData;
+    
 
     public bool IsUnlocked = true;
     public bool CanDragToWorld;
@@ -25,7 +26,7 @@ public class InventoryItemData
         {
             DisplayName = cloneTarget.DisplayName,
             Quantity = cloneTarget.Quantity,
-            QuantityPerStack = cloneTarget.QuantityPerStack,
+            MaxStack = cloneTarget.MaxStack,
             Category = cloneTarget.Category,
             IsUnlocked = cloneTarget.IsUnlocked,
             CanDragToWorld = cloneTarget.CanDragToWorld,
@@ -41,7 +42,7 @@ public class InventoryItemData
         {
             DisplayName = shopConfig.DisplayName,
             Quantity = shopConfig.ResourceAmount > 0 ? shopConfig.ResourceAmount : 1,
-            QuantityPerStack = shopConfig.IsResource ? shopConfig.ResourceAmount : 1,
+            MaxStack = shopConfig.IsResource ? shopConfig.ResourceAmount : 1,
             Category = shopConfig.Category,
             IsUnlocked = shopConfig.IsUnlockedByDefault,
             CanDragToWorld = shopConfig.IsDecoration,

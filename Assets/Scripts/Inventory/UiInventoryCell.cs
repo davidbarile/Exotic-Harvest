@@ -113,10 +113,10 @@ public class UiInventoryCell : MonoBehaviour
         }
 
         var totalQuantity = this.Item.ItemData.Quantity + otherItem.ItemData.Quantity;
-        int quantityInThisStack = Mathf.Min(totalQuantity, this.Item.ItemData.QuantityPerStack);
+        int quantityInThisStack = Mathf.Min(totalQuantity, this.Item.ItemData.MaxStack);
         int quantityInOtherStack = totalQuantity - quantityInThisStack;
 
-        if(this.Item.ItemData.Quantity == this.Item.ItemData.QuantityPerStack)
+        if(this.Item.ItemData.Quantity == this.Item.ItemData.MaxStack)
         {
             //this stack is full, just swap items
             SwapItems(otherCell, otherItem);

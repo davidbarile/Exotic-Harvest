@@ -182,7 +182,7 @@ public class UiInventoryPanel : UIPanelBase
     {
         foreach (var cell in this.allInventoryCells)
         {
-            if (cell.Item != null && cell.Item.ItemData != null && cell.Item.ItemData.DisplayName == itemData.DisplayName && cell.Item.ItemData.Quantity < cell.Item.ItemData.QuantityPerStack)
+            if (cell.Item != null && cell.Item.ItemData != null && cell.Item.ItemData.DisplayName == itemData.DisplayName && cell.Item.ItemData.Quantity < cell.Item.ItemData.MaxStack)
                 return cell;
         }
         return null;

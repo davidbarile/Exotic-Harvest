@@ -78,12 +78,6 @@ public class NotificationManager : MonoBehaviour
             ShopManager.OnPurchaseFailed += OnPurchaseFailed;
         }
         
-        // Decoration events
-        if (DecorationManager.IN != null)
-        {
-            DecorationManager.OnDecorationAdded += OnDecorationPlaced;
-        }
-        
         // Save events
         if (SaveManager.IN != null)
         {
@@ -118,12 +112,6 @@ public class NotificationManager : MonoBehaviour
         {
             ShopManager.OnItemPurchased -= OnItemPurchased;
             ShopManager.OnPurchaseFailed -= OnPurchaseFailed;
-        }
-        
-        // Decoration events
-        if (DecorationManager.IN != null)
-        {
-            DecorationManager.OnDecorationAdded -= OnDecorationPlaced;
         }
         
         // Save events
@@ -272,16 +260,6 @@ public class NotificationManager : MonoBehaviour
             "Purchase Failed",
             reason,
             ENotificationType.Error
-        );
-        ShowNotification(notification);
-    }
-    
-    private void OnDecorationPlaced(DecorationBase decoration)
-    {
-        var notification = new ToastNotification(
-            "Decoration Placed!",
-            $"{decoration.Name} has been placed",
-            ENotificationType.Success
         );
         ShowNotification(notification);
     }

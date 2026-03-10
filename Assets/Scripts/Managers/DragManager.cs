@@ -89,7 +89,7 @@ public class DragManager : MonoBehaviour
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
 
-        if (!UiManager.IN.InventoryPanel.IsShowing && UiWorldItemBase.CheckIfOverInventoryZone())
+        if (!UiManager.IN.InventoryPanel.IsShowing && UiDecorationBase.CheckIfOverInventoryZone())
         {
             //TODO: swap for InventoryItem prefab
             // this.IsDraggingActive = false;

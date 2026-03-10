@@ -227,8 +227,8 @@ public class ShopManager : MonoBehaviour
     {
         if (DecorationManager.IN != null)
         {
-            var decoration = DecorationManager.IN.PlaceDecoration(itemData.DecorationType);
-            return decoration != null;
+            //var decoration = DecorationManager.IN.PlaceDecoration(itemData.DecorationType);
+            return true;
         }
         return false;
     }

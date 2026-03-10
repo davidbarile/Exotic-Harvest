@@ -2491,7 +2491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7977102462541684268, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8060976176224209735, guid: 6d5eb3b3a2d1741b7a2e8adff770bc76, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9579,11 +9579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595ba9b7ba93e49038a3e8ea8d8c9d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DecorationManager
-  bucketPrefab: {fileID: 4419297042781582162, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
-  plantPrefab: {fileID: 5234567890123456, guid: 97b26b7e8b671435ba799f038dd534c4, type: 3}
-  allDecorationPrefabs: []
   decorationCanvas: {fileID: 1696924141}
-  decorationParent: {fileID: 1696924141}
   placementPadding: {x: 100, y: 100}
   gridSpacing: 80
   useGridPlacement: 1
@@ -9784,11 +9780,11 @@ MonoBehaviour:
   initInventoryItemDatas:
   - DisplayName: Bucket
     Quantity: 1
-    QuantityPerStack: 1
+    MaxStack: 1
     Category: 2
     DecorationData:
       Type: 1
-      WorldPosition: {x: 360, y: 512.281, z: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9800,11 +9796,11 @@ MonoBehaviour:
     ShopItemConfig: {fileID: 11400000, guid: cacfa321c709b4c42a80c2d8078d28b2, type: 2}
   - DisplayName: Jar
     Quantity: 3
-    QuantityPerStack: 5
+    MaxStack: 5
     Category: 2
     DecorationData:
       Type: 0
-      WorldPosition: {x: 560, y: 772.281, z: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9816,11 +9812,11 @@ MonoBehaviour:
     ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
   - DisplayName: Jar
     Quantity: 4
-    QuantityPerStack: 5
+    MaxStack: 5
     Category: 2
     DecorationData:
       Type: 0
-      WorldPosition: {x: 560, y: 772.281, z: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       CurrentAmount: 0
       LastGenerationTime: 0
@@ -9832,7 +9828,7 @@ MonoBehaviour:
     ShopItemConfig: {fileID: 11400000, guid: 9176f83a80e254916bd411dd557f6ce2, type: 2}
   - DisplayName: Plant
     Quantity: 7
-    QuantityPerStack: 10
+    MaxStack: 10
     Category: 0
     DecorationData:
       Type: 6
@@ -9848,7 +9844,7 @@ MonoBehaviour:
     ShopItemConfig: {fileID: 11400000, guid: d0181a73fd5f54a47b50b1f3e3ab2c8b, type: 2}
   - DisplayName: Plant
     Quantity: 9
-    QuantityPerStack: 10
+    MaxStack: 10
     Category: 0
     DecorationData:
       Type: 6

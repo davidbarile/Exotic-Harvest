@@ -61,7 +61,7 @@ public class UiInventoryItem : UiDraggable
                 if(!string.IsNullOrEmpty(this.ItemData.WorldPrefabName))
                 {
                     // Spawn world item at current position
-                    var worldItem = InventoryManager.IN.SpawnItemInWorldWithReturn(this.ItemData, this.transform.position);
+                    var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
                     
                     if (worldItem != null)
                     {

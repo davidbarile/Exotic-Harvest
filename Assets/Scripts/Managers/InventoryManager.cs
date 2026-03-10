@@ -189,29 +189,4 @@ public class InventoryManager : MonoBehaviour
         }
         return saveData;
     }
-    
-    public void SpawnItemInWorld(InventoryItemData itemData, Vector3 position)
-    {
-        SpawnItemInWorldWithReturn(itemData, position);
-    }
-
-    public UiWorldItemBase SpawnItemInWorldWithReturn(InventoryItemData itemData, Vector3 position)
-    {
-        if (itemData == null || string.IsNullOrEmpty(itemData.WorldPrefabName))
-            return null;
-
-        var prefab = Resources.Load<UiWorldItemBase>($"Prefabs/WorldItems/{itemData.WorldPrefabName}");
-        if (prefab != null)
-        {
-            var worldItem = Instantiate(prefab, position, Quaternion.identity, DragManager.IN.DefaultParent);
-            worldItem.transform.localScale = Vector3.one;
-            worldItem.name = $"WorldItem_{itemData.DisplayName}";
-            worldItem.InitializeFromDrag(itemData, Vector2.zero);
-            return worldItem;
-        }
-
-        Debug.LogError($"Failed to load world prefab for item: {itemData.DisplayName} at path: Prefabs/WorldItems/{itemData.WorldPrefabName}");
-
-        return null;
-    }
 }

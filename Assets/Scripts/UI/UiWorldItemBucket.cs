@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Bucket))]
-public class UiWorldItemBucket : UiWorldItemBase
+public class UiWorldItemBucket : UiDecorationBase
 {
     [SerializeField] private Bucket linkedBucket;
 

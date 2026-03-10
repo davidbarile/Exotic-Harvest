@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Decorations that passively generate resources over time
 /// </summary>
-public abstract class PassiveHarvester : DecorationBase, ITickable
+public abstract class PassiveHarvester : MonoBehaviour, ITickable
 {
     [Header("Harvester Properties")]
     [SerializeField] protected EResourceType generatedResource;
@@ -32,6 +32,11 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
     public static event Action<PassiveHarvester, int> OnResourceGenerated;
     public static event Action<PassiveHarvester, int> OnResourceCollected;
     public static event Action<PassiveHarvester> OnCapacityFull;
+
+    protected virtual void Start()
+    {
+       
+    }
     
     protected virtual void OnEnable()
     {
@@ -170,21 +175,21 @@ public abstract class PassiveHarvester : DecorationBase, ITickable
         }
     }
     
-    public override DecorationData GetSaveData()
-    {
-        var baseData = base.GetSaveData();
-        baseData.CurrentAmount = this.currentAmount;
-        baseData.LastGenerationTime = this.lastGenerationTime;
-        baseData.IsActive = this.isActive;
-        return baseData;
-    }
+    // public override DecorationData GetSaveData()
+    // {
+    //     var baseData = base.GetSaveData();
+    //     baseData.CurrentAmount = this.currentAmount;
+    //     baseData.LastGenerationTime = this.lastGenerationTime;
+    //     baseData.IsActive = this.isActive;
+    //     return baseData;
+    // }
     
-    public override void LoadSaveData(DecorationData data)
-    {
-        base.LoadSaveData(data);
-        this.currentAmount = data.CurrentAmount;
-        this.lastGenerationTime = data.LastGenerationTime;
-        this.isActive = data.IsActive;
-        RefreshQuantityText();
-    }
+    // public override void LoadSaveData(DecorationData data)
+    // {
+    //     base.LoadSaveData(data);
+    //     this.currentAmount = data.CurrentAmount;
+    //     this.lastGenerationTime = data.LastGenerationTime;
+    //     this.isActive = data.IsActive;
+    //     RefreshQuantityText();
+    // }
 }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class UiWorldItemBase : UiDraggable
+public class UiDecorationBase : UiDraggable
 {
     [Header("Inventory Item UI Elements")]
 
@@ -62,7 +62,7 @@ public class UiWorldItemBase : UiDraggable
                     var existingItemData = cell.Item.ItemData;
                     var isSameItem = existingItemData.DisplayName == this.ItemData.DisplayName;//TODO: maybe add ItemID or something for better comparison
 
-                    if (isSameItem && existingItemData.Quantity < existingItemData.QuantityPerStack)
+                    if (isSameItem && existingItemData.Quantity < existingItemData.MaxStack)
                     {
                         //same item, add quantity if not max
                         existingItemData.Quantity += 1;
@@ -193,5 +193,19 @@ public class UiWorldItemBase : UiDraggable
     {
         if (this.ItemData != null)
             this.ItemData.DecorationData.WorldPosition = this.transform.position;
+    }
+
+    public virtual DecorationData GetSaveData()
+    {
+        return new DecorationData
+        {
+            Type = EDecorationType.None,//TODO: fix
+            WorldPosition = transform.position,
+        };
+    }
+    
+    public virtual void LoadSaveData(DecorationData data)
+    {
+        transform.position = data.WorldPosition;
     }
 }

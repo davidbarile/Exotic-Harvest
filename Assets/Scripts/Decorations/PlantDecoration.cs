@@ -6,7 +6,7 @@ using DG.Tweening;
 /// Plant decoration - purely visual, no resource generation (Phase 1)
 /// UI-based for desktop overlay gameplay
 /// </summary>
-public class PlantDecoration : DecorationBase
+public class PlantDecoration : UiDecorationBase
 {
     [Header("Plant UI Animation")]
     [SerializeField] private float swayAmount = 5f; // UI rotation degrees
@@ -18,8 +18,7 @@ public class PlantDecoration : DecorationBase
     
     protected override void Start()
     {
-        this.decorationType = EDecorationType.Plant;
-        this.decorationName = "Jungle Plant";
+        this.ItemData.DecorationData.Type = EDecorationType.Plant;
         
         if (this.plantImage == null)
             this.plantImage = GetComponent<Image>();
@@ -59,13 +58,9 @@ public class PlantDecoration : DecorationBase
         }
     }
     
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         this.swaySequence?.Kill();
-    }
-    
-    protected override void OnPlaced()
-    {
-        // TODO: Add placement effects
+        base.OnDestroy();
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Jar))]
-public class UiWorldItemJar : UiWorldItemBase
+public class UiWorldItemJar : UiDecorationBase
 {
     [SerializeField] private Jar linkedJar;
 
