@@ -9,16 +9,13 @@ public class InventoryItemData
     public EShopCategory Category;
     public DecorationData DecorationData;
 
-    public bool IsResource => this.Category == EShopCategory.Resources;
-    public bool IsDecoration => this.Category == EShopCategory.Decorations;
     public bool IsItem => this.Category != EShopCategory.Resources;
-
-    
+    public bool IsDecoration => this.Category == EShopCategory.Decorations;
+    public bool IsResource => this.Category == EShopCategory.Resources;
 
     public bool IsUnlocked = true;
     public bool CanDragToWorld;
     public string IconSpriteName;
-    public string WorldPrefabName = "DefaultItemUI";
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
     {
@@ -31,7 +28,6 @@ public class InventoryItemData
             IsUnlocked = cloneTarget.IsUnlocked,
             CanDragToWorld = cloneTarget.CanDragToWorld,
             IconSpriteName = cloneTarget.IconSpriteName,
-            WorldPrefabName = cloneTarget.WorldPrefabName,
             DecorationData = DecorationData.Copy(cloneTarget.DecorationData)
         };
     }
@@ -47,7 +43,6 @@ public class InventoryItemData
             IsUnlocked = shopConfig.IsUnlockedByDefault,
             CanDragToWorld = shopConfig.IsDecoration,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
-            WorldPrefabName = shopConfig.IsDecoration && shopConfig.DecorationPrefab != null ? shopConfig.DecorationPrefab.name : "DefaultItemUI",
             DecorationData = DecorationData.Copy(shopConfig.DecorationData)
         };
     }

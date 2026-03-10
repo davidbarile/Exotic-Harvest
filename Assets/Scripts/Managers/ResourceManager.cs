@@ -105,7 +105,7 @@ public class ResourceManager : MonoBehaviour
         return saveData;
     }
     
-    public void LoadSaveData(ResourceSaveData saveSaveData)
+    public void LoadFromSaveData(ResourceSaveData saveSaveData)
     {
         InitializeInventory(); // Reset to 0
         

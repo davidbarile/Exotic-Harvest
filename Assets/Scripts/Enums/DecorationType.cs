@@ -3,24 +3,26 @@
 /// </summary>
 public enum EDecorationType
 {
-    None,
+    None = 0,
+
     // Passive Harvesters
-    Bucket,        // Collects water during rain
-    FlowerPot,     // Grows seeds into plants
-    LightningRod,  // Collects lightning energy
-    MoonCrystal,   // Charges with moonbeams at night
-    SpiderWeb,     // Traps insects
-    
+    Bucket = 1,        // Collects water during rain
+    Jar = 2,           // Collects dew in the morning
+    FlowerPot = 3,     // Grows seeds into plants
+    LightningRod = 4,  // Collects lightning energy
+    MoonCrystal = 5,   // Charges with moonbeams at night
+    SpiderWeb = 6,     // Traps insects
+
     // Visual Decorations
-    Plant,         // Corner leaf clusters
-    WindChimes,    // Bamboo wind chimes
-    TikiTorch,     // Ambient lighting
-    Fountain,      // Water feature
-    Mask,          // Tribal decoration
-    
+    Plant = 20,         // Corner leaf clusters
+    WindChimes = 21,    // Bamboo wind chimes
+    TikiTorch = 22,     // Ambient lighting
+    Fountain = 23,      // Water feature
+    Mask = 24,          // Tribal decoration
+
     // Interactive Elements
-    BirdPerch,     // Attracts birds
-    Terrarium,     // Houses small creatures
-    Mailbox,       // Receives gifts/quests
-    Hut           // Shelter decoration
+    BirdPerch = 40,     // Attracts birds
+    Terrarium = 41,     // Houses small creatures
+    Mailbox = 42,       // Receives gifts/quests
+    Hut = 43           // Shelter decoration
 }

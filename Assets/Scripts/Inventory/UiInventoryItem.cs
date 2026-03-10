@@ -58,7 +58,7 @@ public class UiInventoryItem : UiDraggable
             {
                 UiManager.IN.InventoryPanel.Hide();
 
-                if(!string.IsNullOrEmpty(this.ItemData.WorldPrefabName))
+                if(!string.IsNullOrEmpty(this.ItemData.DecorationData.PrefabName))
                 {
                     // Spawn world item at current position
                     var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
@@ -112,8 +112,10 @@ public class UiInventoryItem : UiDraggable
         return true;
     }
 
-    protected override bool TryReparentToDropTarget()
+    protected override bool TryToParentToDropTarget()
     {
+        print($"UiInventoryItem.TryToParentToDropTarget()  {gameObject.name}");
+         
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
@@ -124,6 +126,7 @@ public class UiInventoryItem : UiDraggable
                     if (cell != null)
                     {
                         dragTarget.SetAsParent(this.targetRectTransform);
+                        this.targetRectTransform.SetAsLastSibling();
                         dragTarget.SetHighlight(false);
                         return false;//found drag target, reparent and exit
                     }

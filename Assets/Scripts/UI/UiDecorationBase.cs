@@ -117,6 +117,36 @@ public class UiDecorationBase : UiDraggable
         }
     }
 
+    protected override bool TryToParentToDropTarget()
+    {
+        print($"UiDecorationBase.TryToParentToDropTarget()  {gameObject.name}");
+         
+        if (this.shouldDetectDropTargets)
+        {
+            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+            {
+                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                {
+                    dragTarget.SetAsParent(this.targetRectTransform);
+                    this.targetRectTransform.SetAsLastSibling();
+                    dragTarget.SetHighlight(false);
+                    SaveItemPosition();
+                    return false;//found drag target, reparent and exit
+                }
+            }
+        }
+        
+        // If not detecting drop targets, just reparent to original parent or default
+        var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
+        this.targetRectTransform.SetParent(originalParent, true);
+
+        this.targetRectTransform.SetAsLastSibling();
+
+        SaveItemPosition();
+
+        return true;
+    }
+
     private void SnapBackToWorldFromInventoryFail()
     {
         //snap back to original position
@@ -191,21 +221,9 @@ public class UiDecorationBase : UiDraggable
 
     protected override void SaveItemPosition()
     {
-        if (this.ItemData != null)
-            this.ItemData.DecorationData.WorldPosition = this.transform.position;
-    }
-
-    public virtual DecorationData GetSaveData()
-    {
-        return new DecorationData
-        {
-            Type = EDecorationType.None,//TODO: fix
-            WorldPosition = transform.position,
-        };
-    }
-    
-    public virtual void LoadSaveData(DecorationData data)
-    {
-        transform.position = data.WorldPosition;
+        this.ItemData.DecorationData.WorldPosition = this.transform.position;
+        this.ItemData.DecorationData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
+        this.ItemData.DecorationData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        Debug.Log($"Saved position {this.ItemData.DecorationData.WorldPosition} and parent {this.ItemData.DecorationData.ParentGuid} for item {this.ItemData.DisplayName}", gameObject);
     }
 }

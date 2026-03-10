@@ -24,8 +24,7 @@ public class InventoryManager : MonoBehaviour
                 itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
                 itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
                 itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
-                itemData.WorldPrefabName = itemData.ShopItemConfig.WorldPrefabName;
-                itemData.DecorationData = itemData.ShopItemConfig.DecorationData;
+                itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
             }
         }
     }
@@ -49,7 +48,7 @@ public class InventoryManager : MonoBehaviour
                 var itemData = this.initInventoryItemDatas[i];
                 if (itemData != null && itemData.Category == category && slotCounter < InventoryManager.NumInventorySlots)
                 {
-                    this.itemsByCategory[category][slotCounter] = itemData as InventoryItemData;
+                    this.itemsByCategory[category][slotCounter] = InventoryItemData.Copy(itemData as InventoryItemData);
                     ++slotCounter;
                 }
             }
@@ -162,7 +161,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // For save system
-    public void LoadSaveData(Dictionary<string, InventoryItemData[]> saveData)
+    public void CreateDictFromSaveData(Dictionary<string, InventoryItemData[]> saveData)
     {
         InitInventoryDict();
         foreach (var kvp in saveData)

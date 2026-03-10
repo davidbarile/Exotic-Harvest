@@ -13,7 +13,6 @@ public class ShopItemConfig : ScriptableObject
 
     [Header("Inventory Item Data")]
     public bool CanDragToWorld;
-    public string WorldPrefabName = "DefaultItemUI";
     public DecorationData DecorationData;
     
     [Header("Shop Properties")]

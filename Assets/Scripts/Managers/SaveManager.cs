@@ -194,7 +194,7 @@ public class SaveManager : MonoBehaviour, ITickable
 
         Data.InventoryDataDict = InventoryManager.IN.GetSaveData();
         Data.ResourcesSaveDatas = ResourceManager.IN.GetSaveData();
-        Data.DecorationDatas = DecorationManager.IN.GetSaveData();
+        //Data.WorldItems = DecorationManager.IN.GetSaveData();
 
         Data.CurrentGameHour = TimeManager.IN.CurrentHour;
 
@@ -213,10 +213,11 @@ public class SaveManager : MonoBehaviour, ITickable
         if (Data == null)
             return;
 
-        InventoryManager.IN.LoadSaveData(Data.InventoryDataDict);
+        InventoryManager.IN.CreateDictFromSaveData(Data.InventoryDataDict);
         InventoryManager.IN.LoadAllInventory(Data.AllInventoryItems);
-        ResourceManager.IN.LoadSaveData(Data.ResourcesSaveDatas);
-        DecorationManager.IN.LoadSaveData(Data.DecorationDatas);
+        ResourceManager.IN.LoadFromSaveData(Data.ResourcesSaveDatas);
+        DecorationManager.IN.LoadFromSaveData(Data.WorldItems);
+
         TimeManager.IN.SetTime(Data.CurrentGameHour);
         WeatherManager.IN.ForceWeather(Data.CurrentWeather);
         

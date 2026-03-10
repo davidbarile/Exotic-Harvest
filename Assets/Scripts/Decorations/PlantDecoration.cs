@@ -2,10 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-/// <summary>
-/// Plant decoration - purely visual, no resource generation (Phase 1)
-/// UI-based for desktop overlay gameplay
-/// </summary>
+//AI generated - probably delete
 public class PlantDecoration : UiDecorationBase
 {
     [Header("Plant UI Animation")]

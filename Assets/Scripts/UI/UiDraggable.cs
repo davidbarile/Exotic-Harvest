@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+[RequireComponent(typeof(RectTransform))]
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] protected bool isDraggingPermanent;
@@ -29,9 +30,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     private void Awake()
     {
         if (this.targetRectTransform == null)
-        {
             this.targetRectTransform = GetComponent<RectTransform>();
-        }
     }
 
     protected virtual void Start()
@@ -201,7 +200,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         // Notify drag proxy that drag ended
         DragManager.IN.EndDrag();
 
-        bool flowControl = TryReparentToDropTarget();
+        bool flowControl = TryToParentToDropTarget();
 
         if (!flowControl)
         {
@@ -217,8 +216,9 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         //implement in subclasses
     }
 
-    protected virtual bool TryReparentToDropTarget()
+    protected virtual bool TryToParentToDropTarget()
     {
+        print($"UiDraggable.TryToParentToDropTarget()  {gameObject.name}");
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
@@ -226,6 +226,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
                     dragTarget.SetAsParent(this.targetRectTransform);
+                    this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
@@ -239,6 +240,8 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         if (this.shouldReturnToOriginalParent)
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+        else
+            this.targetRectTransform.SetAsLastSibling();
 
         SaveItemPosition();
             

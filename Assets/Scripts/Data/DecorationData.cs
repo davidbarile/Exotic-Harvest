@@ -5,11 +5,13 @@ using UnityEngine;
 public class DecorationData
 {
     public EDecorationType Type;
+    public string PrefabName = "DefaultItemUI";
     public Vector3 WorldPosition;
     public int ParentGuid; // For decorations that are children of others;
+    public int SiblingIndex;
     
     // For passive harvesters
-    public int CurrentAmount;
+    [Space] public int CurrentAmount;
     public float LastGenerationTime;
     public bool IsActive = true;
 
@@ -18,8 +20,10 @@ public class DecorationData
         return new DecorationData
         {
             Type = decorationData.Type,
+            PrefabName = decorationData.PrefabName,
             WorldPosition = decorationData.WorldPosition,
             ParentGuid = decorationData.ParentGuid,
+            SiblingIndex = decorationData.SiblingIndex,
             CurrentAmount = decorationData.CurrentAmount,
             LastGenerationTime = decorationData.LastGenerationTime,
             IsActive = decorationData.IsActive

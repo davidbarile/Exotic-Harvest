@@ -27,9 +27,6 @@ public class GameSaveData
     [Header("Resources")]
     public ResourceSaveData ResourcesSaveDatas = new();
     
-    [Header("Decorations")]
-    public List<DecorationData> DecorationDatas = new();
-    
     [Header("Settings")]
     public GameSettingsData SettingsData = new();
     
