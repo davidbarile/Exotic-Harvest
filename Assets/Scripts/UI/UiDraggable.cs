@@ -6,6 +6,8 @@ using DG.Tweening;
 [RequireComponent(typeof(RectTransform))]
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public static HashSet<UiDragTarget> CurrentHighlightedTargets = new();
+
     [SerializeField] protected bool isDraggingPermanent;
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
@@ -25,7 +27,38 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
-    protected HashSet<UiDragTarget> currentHighlightedTargets = new();
+    public static void UpdateHighlightedObjects()
+    {
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        {
+            if (possibleTarget == null)
+                continue;
+
+            var dragTarget = possibleTarget.GetComponent<UiDragTarget>();
+
+            if (dragTarget != null)
+            {
+                CurrentHighlightedTargets.Add(dragTarget);
+                dragTarget.SetHighlight(true);
+            }
+        }
+
+        // Clear highlights from targets no longer under the mouse
+        List<UiDragTarget> targetsToClear = new();
+        foreach (var highlightedTarget in CurrentHighlightedTargets)
+        {
+            if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
+            {
+                highlightedTarget.SetHighlight(false);
+                targetsToClear.Add(highlightedTarget);
+            }
+        }
+
+        foreach (var targetToClear in targetsToClear)
+        {
+            CurrentHighlightedTargets.Remove(targetToClear);
+        }
+    }
 
     private void Awake()
     {
@@ -109,10 +142,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (!this.shouldDetectDropTargets)
             return;
 
-        if(!DoOnDrag())
+        if (!DoOnDrag())
             return;
 
-        if(this.limitToParentTargetBounds && this.originalParent != null)
+        if (this.limitToParentTargetBounds && this.originalParent != null)
         {
             if (this.originalParent.TryGetComponent(out UiDragTarget parentDragTarget))
             {
@@ -156,41 +189,16 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                         return;
                     }
                 }
-                
+
                 this.targetRectTransform.position = clampedPosition;
-            }   
+            }
         }
+
+        if (InputManager.ObjectsUnderMouse.Count > 0)
+            print($"Objects under mouse: {string.Join(", ", InputManager.ObjectsUnderMouse)}");
 
         // Highlight potential drop targets
-        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
-        {
-            if (possibleTarget == null)
-                continue;
-                
-            var dragTarget = possibleTarget.GetComponent<UiDragTarget>();
-
-            if (dragTarget != null)
-            {
-                this.currentHighlightedTargets.Add(dragTarget);
-                dragTarget.SetHighlight(true);
-            }
-        }
-        
-        // Clear highlights from targets no longer under the mouse
-        List<UiDragTarget> targetsToClear = new();
-        foreach (var highlightedTarget in this.currentHighlightedTargets)
-        {
-            if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
-            {
-                highlightedTarget.SetHighlight(false);
-                targetsToClear.Add(highlightedTarget);
-            }
-        }
-
-        foreach (var targetToClear in targetsToClear)
-        {
-            this.currentHighlightedTargets.Remove(targetToClear);
-        }
+        UpdateHighlightedObjects();
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)

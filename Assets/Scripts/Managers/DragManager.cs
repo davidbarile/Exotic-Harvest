@@ -96,6 +96,8 @@ public class DragManager : MonoBehaviour
             // return;
         }
 
+        UiDraggable.UpdateHighlightedObjects();
+
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.DragCanvas,
             screenPosition,
