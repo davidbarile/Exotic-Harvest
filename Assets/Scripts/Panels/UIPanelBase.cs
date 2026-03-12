@@ -56,6 +56,10 @@ public class UIPanelBase : MonoBehaviour
     {
         SetVisible(false); 
     }
+    
+    protected virtual void RegisterEvents() {}
+
+    protected virtual void UnregisterEvents() {}
 
     private void SetCurrentPanel()
     {
@@ -95,27 +99,32 @@ public class UIPanelBase : MonoBehaviour
             this.Canvas.enabled = inIsVisible;
         else
             this.gameObject.SetActive(inIsVisible);
+
+        if (inIsVisible)
+            RegisterEvents();
+        else
+            UnregisterEvents();
     }
 
     public void FadeIn()
     {
         CanvasShowHide(true);
 
-        RootCanvasGroup.DOFade(1f, tweenDuration).OnComplete(() =>
+        this.RootCanvasGroup.DOFade(1f, this.tweenDuration).OnComplete(() =>
         {
-            RootCanvasGroup.alpha = 1f;
-            RootCanvasGroup.interactable = true;
-            RootCanvasGroup.blocksRaycasts = true;
+            this.RootCanvasGroup.alpha = 1f;
+            this.RootCanvasGroup.interactable = true;
+            this.RootCanvasGroup.blocksRaycasts = true;
         });
     }
 
     public void FadeOut()
     {
-        RootCanvasGroup.DOFade(0f, tweenDuration).OnComplete(() =>
+        this.RootCanvasGroup.DOFade(0f, this.tweenDuration).OnComplete(() =>
         {
-            RootCanvasGroup.alpha = 0f;
-            RootCanvasGroup.interactable = false;
-            RootCanvasGroup.blocksRaycasts = false;
+            this.RootCanvasGroup.alpha = 0f;
+            this.RootCanvasGroup.interactable = false;
+            this.RootCanvasGroup.blocksRaycasts = false;
             CanvasShowHide(false);
         });
     }

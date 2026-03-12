@@ -8,7 +8,26 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        singletonManager.Init();
+        this.singletonManager.Init();
         DontDestroyOnLoad(gameObject);
+        Application.runInBackground = true;
+        Application.targetFrameRate = 60;
+    }
+
+    private void Start()
+    {
+        var isNewGame = !SaveManager.IN.HasSaveFile;
+        SaveManager.IN.Init();
+
+        InventoryManager.IN.InitInventoryDict();
+
+        if (isNewGame)
+            InventoryManager.IN.AddDefaultItemsToInventory();
+        else
+        {
+            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.Data.InventoryDataDict, SaveManager.Data.AllInventoryItems);
+        }
+    
+        ResourceDisplayManager.IN.Init();
     }
 }

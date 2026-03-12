@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
 
     public static bool IsInputBlocked;
 
+    public static List<GameObject> ObjectsUnderMouse = new();
+
     public static Action OnEscapePress;
     public static Action OnTabPress;
     public static Action OnSpacePress;
@@ -16,15 +18,10 @@ public class InputManager : MonoBehaviour
     public static Action OnMPress;
     public static Action OnSettingsPress;
     public static Action OnShopPress;
+     public static Action OnInventoryPress;
     public static Action OnF1Press;
     public static Action OnF2Press;
     public static Action OnF3Press;
-
-
-    [Header("Wait X seconds before fire new rail round")]
-    [Range(0, 1)] public float RapidFireRate;
-    [Header("Press Mouse X seconds before autofire")]
-    [Range(0, 1)][SerializeField] private float delayBeforeRapidFire;
 
     public bool IsShiftPressed => this.isShiftPressed;
     private bool isShiftPressed;
@@ -47,6 +44,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M)) OnMPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha1)) OnSettingsPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha2)) OnShopPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) OnInventoryPress?.Invoke();
     }
     
     public void SecondTick()
@@ -64,11 +62,19 @@ public class InputManager : MonoBehaviour
         {
             position = new Vector2(Input.mousePosition.x, Input.mousePosition.y)
         };
+
         var results = new List<RaycastResult>();
 
         if (EventSystem.current)
         {
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            ObjectsUnderMouse.Clear();
+
+            foreach (var result in results)
+            {
+                ObjectsUnderMouse.Add(result.gameObject);
+            }
 
             foreach (var result in results)
             {
