@@ -18,9 +18,11 @@ public class DecorationManager : MonoBehaviour
     [SerializeField] private RectTransform decorationCanvas; // Canvas for decorations
     
     private Dictionary<int,Transform> decorationParents = new(); // List of parent transforms for different decoration types
-    
+
     // private Dictionary<EDecorationType, GameObject> decorationPrefabs;
     public List<UiDecorationBase> PlacedDecorations = new();
+    
+    private UiDecorationBase[] initDecorations = new UiDecorationBase[0];
 
     // Events
     // public static Action<DecorationBase> OnDecorationPlaced;
@@ -31,6 +33,33 @@ public class DecorationManager : MonoBehaviour
     private void Awake()
     {
         InitDecorationParents();
+    }
+
+    /// <summary>
+    /// New Game Initialization - can be used to set up any necessary state or spawn default decorations in the world
+    /// </summary>
+    public void InitDecorationsInWorld(bool isNewGame)
+    {
+        this.initDecorations = this.decorationCanvas.GetComponentsInChildren<UiDecorationBase>();
+        foreach (var decoration in this.initDecorations)
+        {
+            if (decoration != null)
+            {
+                if (isNewGame)
+                {
+                    decoration.InitWorldPositionAndParent();
+                    this.PlacedDecorations.Add(decoration);
+                    SaveManager.Data.WorldItems.Add(decoration.ItemData);
+                }
+                else
+                {
+                    Destroy(decoration.gameObject);
+                }
+            }
+        }
+        
+        if(!isNewGame)
+            this.initDecorations = new UiDecorationBase[0];
     }
 
     // private void OnEnable()

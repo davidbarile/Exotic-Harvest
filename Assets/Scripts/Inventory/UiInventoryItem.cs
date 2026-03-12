@@ -113,9 +113,7 @@ public class UiInventoryItem : UiDraggable
     }
 
     protected override bool TryToParentToDropTarget()
-    {
-        print($"UiInventoryItem.TryToParentToDropTarget()  {gameObject.name}");
-         
+    {         
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)

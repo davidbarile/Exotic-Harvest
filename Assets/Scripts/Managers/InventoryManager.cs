@@ -20,8 +20,8 @@ public class InventoryManager : MonoBehaviour
         {
             if (itemData != null && itemData.ShopItemConfig != null)
             {
-                itemData.Category = itemData.ShopItemConfig.Category;
                 itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
+                itemData.Category = itemData.ShopItemConfig.Category;
                 itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
                 itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
                 itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
@@ -176,7 +176,6 @@ public class InventoryManager : MonoBehaviour
     public void LoadAllInventory(InventoryItemData[] saveData)
     {
         OnInventoryRefreshed?.Invoke();
-        print("Inventory loaded from save data.");
     }
 
     public Dictionary<string, InventoryItemData[]> GetSaveData()

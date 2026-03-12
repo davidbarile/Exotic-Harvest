@@ -47,11 +47,18 @@ public class SaveManager : MonoBehaviour, ITickable
 
     public void Init()
     {
-        // Auto-load on start
-        if (this.HasSaveFile)
-            LoadGame();
-        else
+        var isNewGame = !this.HasSaveFile;
+
+        if (isNewGame)
+        {
             CreateNewSave();
+            DecorationManager.IN.InitDecorationsInWorld(isNewGame);
+        }
+        else
+        {
+            DecorationManager.IN.InitDecorationsInWorld(isNewGame);
+            LoadGame();
+        }
     }
     
     public void Tick()
@@ -134,11 +141,10 @@ public class SaveManager : MonoBehaviour, ITickable
     {
         try
         {
-            if (!HasSaveFile)
+            if (!this.HasSaveFile)
             {
-                Debug.LogWarning("No save file found, creating new save");
+                Debug.Log("No save file found, creating new save");
                 CreateNewSave();
-                return true;
             }
 
             DeserializeSettings deserializeSettings = new DeserializeSettings()
@@ -150,9 +156,7 @@ public class SaveManager : MonoBehaviour, ITickable
             Data = savedMapProgressDataJSON.Deserialize<GameSaveData>(deserializeSettings);
 
             if (Data == null)
-            {
                 throw new Exception("Failed to deserialize save data");
-            }
 
             // Apply to game
             ApplySaveDataToGame();
@@ -210,9 +214,6 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySaveDataToGame()
     {
-        if (Data == null)
-            return;
-
         InventoryManager.IN.CreateDictFromSaveData(Data.InventoryDataDict);
         InventoryManager.IN.LoadAllInventory(Data.AllInventoryItems);
         ResourceManager.IN.LoadFromSaveData(Data.ResourcesSaveDatas);
@@ -236,8 +237,7 @@ public class SaveManager : MonoBehaviour, ITickable
         
         // Audio settings (placeholder - implement when audio system is added)
         // Time scale
-        if (TimeManager.IN != null)
-            Data.SettingsData.TimeScale = 1f; // Will be implemented
+        Data.SettingsData.TimeScale = 1f; // Will be implemented
     }
     
     private void ApplySettingsData()

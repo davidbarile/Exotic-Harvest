@@ -194,9 +194,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
         }
 
-        if (InputManager.ObjectsUnderMouse.Count > 0)
-            print($"Objects under mouse: {string.Join(", ", InputManager.ObjectsUnderMouse)}");
-
         // Highlight potential drop targets
         UpdateHighlightedObjects();
     }
@@ -226,7 +223,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected virtual bool TryToParentToDropTarget()
     {
-        print($"UiDraggable.TryToParentToDropTarget()  {gameObject.name}");
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)

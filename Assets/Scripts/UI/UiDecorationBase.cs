@@ -12,6 +12,9 @@ public class UiDecorationBase : UiDraggable
 
     public InventoryItemData ItemData { get; private set; }
 
+    [Header("Initialization Config - for setting up default decorations in the world")]
+    [SerializeField] private InitInventoryItemData initItemData;
+
     public virtual void Configure(InventoryItemData inItemData)
     {
         this.ItemData = inItemData;
@@ -21,9 +24,39 @@ public class UiDecorationBase : UiDraggable
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
 
-            if(this.shadow != null)
+            if (this.shadow != null)
                 this.shadow.sprite = sprite;
         }
+    }
+
+    private void OnValidate()
+    {
+        if (this.initItemData == null || this.initItemData.ShopItemConfig == null)
+            return;
+
+        this.initItemData.DisplayName = this.initItemData.ShopItemConfig.DisplayName;
+        this.initItemData.Category = this.initItemData.ShopItemConfig.Category;
+        this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
+        this.initItemData.CanDragToWorld = this.initItemData.ShopItemConfig.CanDragToWorld;
+        this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
+
+        if (this.initItemData.Quantity <= 0)
+            this.initItemData.Quantity = 1;
+
+        if (this.initItemData.MaxStack <= 0)
+            this.initItemData.MaxStack = 1;
+
+        Configure(this.initItemData);
+    }
+    
+    public virtual void InitWorldPositionAndParent()
+    {
+        if (this.initItemData == null)
+            return;
+
+        this.ItemData.DecorationData.WorldPosition = this.transform.position;
+        this.ItemData.DecorationData.ParentGuid = this.transform.parent.GetInstanceID();
+        this.ItemData.DecorationData.SiblingIndex = this.transform.GetSiblingIndex();
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -118,9 +151,7 @@ public class UiDecorationBase : UiDraggable
     }
 
     protected override bool TryToParentToDropTarget()
-    {
-        print($"UiDecorationBase.TryToParentToDropTarget()  {gameObject.name}");
-         
+    {         
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
@@ -225,6 +256,5 @@ public class UiDecorationBase : UiDraggable
         this.ItemData.DecorationData.WorldPosition = this.transform.position;
         this.ItemData.DecorationData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
         this.ItemData.DecorationData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
-        Debug.Log($"Saved position {this.ItemData.DecorationData.WorldPosition} and parent {this.ItemData.DecorationData.ParentGuid} for item {this.ItemData.DisplayName}", gameObject);
     }
 }
