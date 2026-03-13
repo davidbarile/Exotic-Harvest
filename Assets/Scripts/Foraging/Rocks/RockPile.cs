@@ -24,6 +24,8 @@ public class RockPile : MonoBehaviour
         {
             Rock newRock = Instantiate(this.rockPrefab, this.rockSpawnArea);
             newRock.name = $"Rock_{i}";
+            newRock.gameObject.SetActive(true);
+            
             if (xPos > this.rockSpawnArea.rect.width)
             {
                 xPos = 0;
@@ -41,8 +43,8 @@ public class RockPile : MonoBehaviour
             {
                 xPos += this.gridSize;
             }
-            //newRock.transform.localPosition = GetRandomPositionWithinSpawnArea();
 
+            //set rocks to grid with random offset, rotation, scale and color variation
             newRock.transform.localPosition = new Vector3(xPos, yPos, 0f);
             newRock.transform.localPosition += new Vector3(
                 Random.Range(-this.offsetRange, this.offsetRange),
@@ -53,15 +55,5 @@ public class RockPile : MonoBehaviour
             newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
         }
-    }
-
-    private Vector3 GetRandomPositionWithinSpawnArea()
-    {
-        Vector3 spawnPosition = new Vector3(
-            Random.Range(0f, this.rockSpawnArea.rect.width),
-            Random.Range(0f, this.rockSpawnArea.rect.height),
-            0f
-        );
-        return spawnPosition;
     }
 }

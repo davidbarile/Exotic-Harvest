@@ -9,6 +9,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     [Header("Inventory Item UI Elements")]
 
     [SerializeField] private Image rockImage;
+    [SerializeField] private Image shadow;
     [SerializeField] private Image fillImage;
 
     [SerializeField] protected RectTransform targetRectTransform;
@@ -44,11 +45,21 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     {
         if (this.targetRectTransform == null)
             this.targetRectTransform = GetComponent<RectTransform>();
+
+        SetShadowActive(false);
+    }
+
+    public void SetShadowActive(bool isActive)
+    {
+        if (this.shadow != null)
+            this.shadow.gameObject.SetActive(isActive);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         this.isDragging = true;
+
+        SetShadowActive(true);
 
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
@@ -88,5 +99,6 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetParent(this.originalParent, true);
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        SetShadowActive(false);
     }
 }
