@@ -98,6 +98,61 @@ public class DragManager : MonoBehaviour
 
         UiDraggable.UpdateHighlightedObjects();
 
+        //this code is quite broken.  Need to factor in screen space, etc.
+        if (this.currentDragSource.LimitToParentTargetBounds && this.currentDragSource.OriginalParent != null)
+        {
+            if (this.currentDragSource.OriginalParent.TryGetComponent(out UiDragTarget parentDragTarget))
+            {
+                Vector3 clampedPosition = this.CurrentDraggedTransform.position;
+                if (parentDragTarget.BoundsCollider != null)
+                {
+                    // Clamp position using BoundsCollider by raycasting from the center of the dragged object
+                    Vector3 dragCenter = this.CurrentDraggedTransform.position;
+
+                    // Check if the point is inside the 2D collider
+                    if (!parentDragTarget.BoundsCollider.OverlapPoint(dragCenter))
+                    {
+                        // Find the closest point on the collider's bounds
+                        Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(dragCenter);
+                        clampedPosition = new Vector3(closestPoint.x, closestPoint.y, this.CurrentDraggedTransform.position.z);
+                    }
+                }
+                else
+                {
+                    RectTransform parentRect = this.currentDragSource.OriginalParent.GetComponent<RectTransform>();
+                    if (parentRect != null)
+                    {
+                        Vector3[] worldCorners = new Vector3[4];
+                        parentRect.GetWorldCorners(worldCorners);
+                        Vector3 min = worldCorners[0];
+                        Vector3 max = worldCorners[2];
+
+                        clampedPosition = this.CurrentDraggedTransform.position;
+                        clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
+                        clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
+
+                        //print($"B. clampedPosition: {clampedPosition}");
+                    }
+                }
+
+                if (parentDragTarget.UnsnapRange > -1)
+                {
+                    // Distance from drag start point (should be 0 at drag start)
+                    float distance = Vector2.Distance(screenPosition, RectTransformUtility.WorldToScreenPoint(camera, clampedPosition));
+                    if (distance > parentDragTarget.UnsnapRange)
+                    {
+                        // Outside unsnap range, do not clamp
+                        //print($"Return");
+                        return;
+                    }
+                }
+
+                this.CurrentDraggedTransform.position = clampedPosition;
+
+                //print($"C. clampedPosition: {clampedPosition}");
+            }
+        }
+
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.DragCanvas,
             screenPosition,
@@ -106,6 +161,8 @@ public class DragManager : MonoBehaviour
         {
             Vector3 offsetToOriginal = localPointerPosition - this.DragOffset;
             this.CurrentDraggedTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
+
+            //print($"D. this.CurrentDraggedTransform.localPosition: {this.CurrentDraggedTransform.localPosition}");
         }
     }
 

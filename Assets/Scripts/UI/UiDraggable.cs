@@ -19,6 +19,15 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [Tooltip("Optional outline to show when drag mode is enabled")]
     [SerializeField] protected GameObject dragEnabledDisplay;
 
+    public bool IsDraggingPermanent => this.isDraggingPermanent;
+    public bool LimitToParentTargetBounds => this.limitToParentTargetBounds;
+    public bool OnlyDragToTargets => this.onlyDragToTargets;
+    public bool ShouldDetectDropTargets => this.shouldDetectDropTargets;
+    public bool ShouldReturnToOriginalParent => this.shouldReturnToOriginalParent;
+    public Transform OriginalParent => this.originalParent;
+    public int OriginalSiblingIndex => this.originalSiblingIndex;
+    public RectTransform TargetRectTransform => this.targetRectTransform;
+
     protected Vector2 originalLocalPointerPosition;
     protected Vector3 originalLocalPosition;
     protected Vector3 originalWorldPosition;
@@ -132,7 +141,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     }
 
     public virtual void OnDrag(PointerEventData eventData)
-    {
+    {         
         if (!this.isDragging)
             return;
 
