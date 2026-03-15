@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 
 public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [Header("Inventory Item UI Elements")]
-
     [SerializeField] private Image rockImage;
     [SerializeField] private Image shadow;
     [SerializeField] private Image fillImage;
+
+    [SerializeField] private TMP_Text label;
 
     [SerializeField] protected RectTransform targetRectTransform;
 
@@ -23,11 +23,6 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     protected Transform originalParent;
     protected int originalSiblingIndex;
     protected bool isDragging = false;
-
-    public void SetColor(Color color)
-    {
-        this.rockImage.color = color;
-    }
 
     // public void Configure(InventoryItemData inItemData)
     // {
@@ -47,6 +42,28 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             this.targetRectTransform = GetComponent<RectTransform>();
 
         SetShadowActive(false);
+    }
+
+    public void SetSprite(Sprite sprite)
+    {
+        if (this.rockImage)
+        {
+            this.rockImage.sprite = sprite;
+            
+            if (this.fillImage)
+                this.fillImage.sprite = sprite;
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        this.rockImage.color = color;
+    }
+
+    public void SetText(string text)
+    {
+        if (this.label)
+            this.label.text = text;
     }
 
     public void SetShadowActive(bool isActive)

@@ -212,7 +212,7 @@ public class UiDecorationBase : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOverOpenInventoryZone)
+            if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget != null && dragTarget.IsDragOverOpenInventoryZone)
             {
                 UiManager.IN.InventoryPanel.Show();
                 UiManager.IN.InventoryPanel.SwitchCategory(EShopCategory.Tools);
@@ -227,7 +227,7 @@ public class UiDecorationBase : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget.TryGetComponent<UiInventoryCell>(out var dragTargetCell))
+            if (possibleTarget != null && possibleTarget.TryGetComponent<UiInventoryCell>(out var dragTargetCell) && dragTargetCell != null)
                 return dragTargetCell;
         }
 

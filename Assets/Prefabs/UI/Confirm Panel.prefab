@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 15
   m_lineSpacingMax: 0
@@ -436,6 +437,10 @@ PrefabInstance:
     - target: {fileID: 1267548777237610918, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130910214799975657, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 2442703844784753364, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_Pivot.y

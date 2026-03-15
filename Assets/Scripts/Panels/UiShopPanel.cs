@@ -9,7 +9,6 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
     [SerializeField] private Toggle[] categoryTabs;
-    [SerializeField] private ShopItemUI shopItemPrefab;
     
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -19,7 +18,6 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private Button purchaseButton;
     [SerializeField] private TextMeshProUGUI purchaseButtonText;
     [SerializeField] private Transform costDisplayParent;
-    [SerializeField] private GameObject costItemPrefab;
     
     private EShopCategory currentCategory = EShopCategory.Decorations;
     private ShopItemData selectedItemData;
@@ -130,7 +128,7 @@ public class UiShopPanel : UIPanelBase
     
     private void CreateItemDisplay(ShopItemData itemData)
     {            
-        var shopItemUI = Instantiate(shopItemPrefab, itemsGridParent);
+        var shopItemUI = PrefabManager.IN.SpawnPrefab<ShopItemUI>("ShopItemUI", this.itemsGridParent);
         this.currentItemDisplays.Add(shopItemUI.gameObject);
         
         // Setup itemData display (this would be expanded with actual UI components)
@@ -214,24 +212,15 @@ public class UiShopPanel : UIPanelBase
         }
         this.currentCostDisplays.Clear();
         
-        if (this.selectedItemData?.Cost == null || costDisplayParent == null || costItemPrefab == null)
+        if (this.selectedItemData?.Cost == null)
             return;
             
         // Create cost displays
         foreach (var resource in this.selectedItemData.Cost.RequiredResources)
         {
-            GameObject costObj = Instantiate(costItemPrefab, costDisplayParent);
-            currentCostDisplays.Add(costObj);
-            
-            // Setup cost display (would need actual prefab components)
-            var costText = costObj.GetComponentInChildren<TextMeshProUGUI>();
-            if (costText != null)
-            {
-                bool hasEnough = ResourceManager.IN.HasResource(resource.Type, resource.Amount);
-                string color = hasEnough ? "white" : "red";
-                costText.text = $"<color={color}>{resource.Amount}\n{resource.Type}</color>";
-                //TODO: add icon and make class for this
-            }
+            var costObj = PrefabManager.IN.SpawnPrefab<CostItemUI>("CostItemUI", costDisplayParent);
+            costObj.Configure(resource.Type, resource.Amount);
+            currentCostDisplays.Add(costObj.gameObject);
         }
     }
     

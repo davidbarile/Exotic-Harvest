@@ -10546,6 +10546,7 @@ GameObject:
   - component: {fileID: 1713415300}
   - component: {fileID: 1713415301}
   - component: {fileID: 1713415303}
+  - component: {fileID: 1713415305}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -10663,7 +10664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481ebfb291e674610ba558307bcc745e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NotificationManager
-  toastNotificationPrefab: {fileID: 1234567890123456, guid: d576abd75e7b948889b3c63eb6ebe5a4, type: 3}
   notificationParent: {fileID: 768201826}
   maxNotifications: 5
   notificationSpacing: 10
@@ -10731,8 +10731,6 @@ MonoBehaviour:
   rainParent: {fileID: 1924561701}
   dewDropSpawnParent: {fileID: 406109113}
   spawnAreaPadding: {x: 50, y: 50}
-  dewdropPrefab: {fileID: 7234567890123456, guid: e043be06874664beca23e7441564615c, type: 3}
-  raindropPrefab: {fileID: 7234567890123456, guid: 16ff4e8b28c7949298acf72c11584000, type: 3}
   allCollectablePrefabs: []
   maxDewdrops: 5
   dewdropSpawnChance: 0.1
@@ -11024,6 +11022,19 @@ MonoBehaviour:
   resourceDisplayParent: {fileID: 475252655}
   categoriesToShow: -1
   showOnlyOwnedResources: 1
+--- !u!114 &1713415305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713415284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8820ae4f251444c4d865ad452a768a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabManager
+  prefabLookup: {fileID: 11400000, guid: ecbf835ab55cd406698a0dbca8e5db6c, type: 2}
 --- !u!1 &1717538038
 GameObject:
   m_ObjectHideFlags: 0
@@ -13244,6 +13255,10 @@ PrefabInstance:
     - target: {fileID: 2070750926879128448, guid: d600248dd30b54e6fac78cc372eecebd, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594185420949719465, guid: d600248dd30b54e6fac78cc372eecebd, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 3445617288611546604, guid: d600248dd30b54e6fac78cc372eecebd, type: 3}
       propertyPath: m_AnchorMax.y

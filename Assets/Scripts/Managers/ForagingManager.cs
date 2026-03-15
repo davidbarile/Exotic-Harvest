@@ -18,8 +18,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
     
     [Header("Collectable Prefabs")]
-    [SerializeField] private GameObject dewdropPrefab; // Assign Dewdrop prefab here
-    [SerializeField] private GameObject raindropPrefab; // Assign Raindrop prefab here
     [SerializeField] private GameObject[] allCollectablePrefabs; // Array for all collectable types
     
     [Header("Dewdrop Settings")]
@@ -96,38 +94,28 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void SpawnDewdrops()
     {
-        if (dewdropPrefab == null || GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= maxDewdrops)
+        if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= maxDewdrops)
             return;
             
         if (UnityEngine.Random.value < dewdropSpawnChance)
         {
             Vector2 spawnPos = GetRandomUIPosition();
-            GameObject dewdrop = Instantiate(dewdropPrefab, dewDropSpawnParent);
-            RectTransform dewdropRect = dewdrop.GetComponent<RectTransform>();
-            if (dewdropRect != null)
-            {
-                dewdropRect.anchoredPosition = spawnPos;
-            }
+            var dewdropRect = PrefabManager.IN.SpawnPrefab<RectTransform>("Dewdrop", this.dewDropSpawnParent);
+            dewdropRect.anchoredPosition = spawnPos;
         }
     }
     
     private void SpawnRaindrops()
-    {
-        if (raindropPrefab == null)
-            return;
-            
+    {            
         // Spawn based on rain intensity
         float spawnChance = raindropSpawnRate * (WeatherManager.IN?.WeatherIntensity ?? 0.5f);
         
         if (UnityEngine.Random.value < spawnChance)
         {
             Vector2 spawnPos = GetRaindropSpawnPosition();
-            GameObject raindrop = Instantiate(raindropPrefab, rainParent);
-            RectTransform raindropRect = raindrop.GetComponent<RectTransform>();
+            var raindropRect = PrefabManager.IN.SpawnPrefab<RectTransform>("Raindrop", this.rainParent);
             if (raindropRect != null)
-            {
-                raindropRect.anchoredPosition = spawnPos;
-            }
+            raindropRect.anchoredPosition = spawnPos;
         }
     }
     

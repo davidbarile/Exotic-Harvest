@@ -16,7 +16,6 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Toggle[] categoryTabs;
     [SerializeField] private Toggle categoryTab_Items, categoryTab_Resources;
     [SerializeField] private UiInventoryCell inventoryCellPrefab;
-    [SerializeField] private UiInventoryItem inventoryItemPrefab;
 
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -163,7 +162,7 @@ public class UiInventoryPanel : UIPanelBase
             return;
 
         var cell = this.allInventoryCells[cellIndex];
-        var prefab = Instantiate(this.inventoryItemPrefab, cell.Container);
+        var prefab = PrefabManager.IN.SpawnPrefab<UiInventoryItem>($"InventoryItemUI", cell.Container);
         prefab.name = $"Item_{itemData.DisplayName}";
         cell.AddItem(prefab, itemData);
     }

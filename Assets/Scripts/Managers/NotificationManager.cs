@@ -12,7 +12,6 @@ public class NotificationManager : MonoBehaviour
     public static NotificationManager IN;
     
     [Header("Notification Settings")]
-    [SerializeField] private GameObject toastNotificationPrefab; // Assign ToastNotification prefab here
     [SerializeField] private Transform notificationParent;
     [SerializeField] private int maxNotifications = 5;
     [SerializeField] private float notificationSpacing = 10f;
@@ -124,7 +123,7 @@ public class NotificationManager : MonoBehaviour
     
     public void ShowNotification(ToastNotification notification)
     {
-        if (!this.notificationsEnabled || this.toastNotificationPrefab == null)
+        if (!this.notificationsEnabled)
             return;
             
         // Remove oldest notification if at max capacity
@@ -136,28 +135,19 @@ public class NotificationManager : MonoBehaviour
         }
         
         // Create notification UI
-        GameObject notificationObj = Instantiate(this.toastNotificationPrefab, this.notificationParent);
-        ToastNotificationUI notificationUI = notificationObj.GetComponent<ToastNotificationUI>();
+        var notificationUI = PrefabManager.IN.SpawnPrefab<ToastNotificationUI>("ToastNotification", this.notificationParent);
         
-        if (notificationUI != null)
-        {
-            notificationUI.Initialize(notification, OnNotificationDismissedCallback);
-            this.activeNotifications.Enqueue(notificationUI);
+        notificationUI.Initialize(notification, OnNotificationDismissedCallback);
+        this.activeNotifications.Enqueue(notificationUI);
+        
+        // Position notification
+        PositionNotification(notificationUI);
+        
+        // Play sound
+        if (notification.PlaySound)
+            PlayNotificationSound(notification.Type);
             
-            // Position notification
-            PositionNotification(notificationUI);
-            
-            // Play sound
-            if (notification.PlaySound)
-                PlayNotificationSound(notification.Type);
-                
-            OnNotificationShown?.Invoke(notification);
-        }
-        else
-        {
-            Debug.LogError("Toast notification prefab missing ToastNotificationUI component");
-            Destroy(notificationObj);
-        }
+        OnNotificationShown?.Invoke(notification);
     }
     
     private void PositionNotification(ToastNotificationUI notification)

@@ -17,6 +17,7 @@ using UnityEngine;
 [RequireComponent(typeof(InventoryManager))]
 [RequireComponent(typeof(NotificationManager))]
 [RequireComponent(typeof(SpriteManager))]
+[RequireComponent(typeof(PrefabManager))]
 public class SingletonManager : MonoBehaviour
 {
     [SerializeField] private UIConfirmPanel confirmPanel;
@@ -39,6 +40,7 @@ public class SingletonManager : MonoBehaviour
         InventoryManager.IN = this.GetComponent<InventoryManager>();
         NotificationManager.IN = this.GetComponent<NotificationManager>();
         SpriteManager.IN = this.GetComponent<SpriteManager>();
+        PrefabManager.IN = this.GetComponent<PrefabManager>();
 
         UIConfirmPanel.IN = this.confirmPanel;
     }

@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System;
 using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// UI component for displaying shop items
@@ -12,8 +12,8 @@ public class ShopItemUI : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] private Button itemButton;
     [SerializeField] private Image itemIcon;
-    [SerializeField] private TextMeshProUGUI itemNameText;
-    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text priceText;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject cannotAffordOverlay;
