@@ -24,6 +24,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
+    protected Loot spawnedLoot;
+
     // public void Configure(InventoryItemData inItemData)
     // {
     //     this.ItemData = inItemData;
@@ -49,7 +51,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (this.rockImage)
         {
             this.rockImage.sprite = sprite;
-            
+
             if (this.fillImage)
                 this.fillImage.sprite = sprite;
         }
@@ -80,6 +82,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+
+        SpawnLoot();
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
 
@@ -117,5 +121,16 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         SetShadowActive(false);
+    }
+
+    public void SpawnLoot()
+    {
+        this.spawnedLoot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
+        this.spawnedLoot.transform.position = this.targetRectTransform.position;
+        this.spawnedLoot.transform.SetSiblingIndex(this.originalSiblingIndex);
+
+        this.spawnedLoot.SetSprite(this.rockImage.sprite);
+        this.spawnedLoot.SetColor(this.rockImage.color);
+        this.spawnedLoot.SetText(this.label.text);
     }
 }

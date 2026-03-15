@@ -8,11 +8,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ResourceDatabase", menuName = "Exotic Harvest/ResourceData Database")]
 public class ResourceDatabase : ScriptableObject
 {
-    [Header("All resourcesSave")]
+    [Header("All Resources")]
     [SerializeField] private ResourceConfig[] allResources;
     
-    private Dictionary<EResourceType, ResourceConfig> resourceLookup;
-    private Dictionary<string, ResourceConfig> resourceByIdLookup;
+    private Dictionary<EResourceType, ResourceConfig> resourceLookup = new();
+    private Dictionary<string, ResourceConfig> resourceByIdLookup = new();
     
     public ResourceConfig[] AllResources => allResources;
     

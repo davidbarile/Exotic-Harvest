@@ -40,7 +40,7 @@ public class ResourceData
     public void Add(int value)
     {
         var config = GetConfig();
-        int maxAmount = config?.MaxStackSize ?? 999;
+        int maxAmount = config?.MaxStack ?? 999;
         this.Amount = Mathf.Min(this.Amount + value, maxAmount);
     }
     

@@ -13,7 +13,7 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private ResourceDatabase resourceDatabase;
     
     [Header("Inventory Settings")]
-    [SerializeField] private int maxInventorySize = 100; // Total item limit across all resources
+    [SerializeField] private int maxInventorySize = 1000000; // Total item limit across all resources
     
     private Dictionary<EResourceType, ResourceData> inventory = new();
     

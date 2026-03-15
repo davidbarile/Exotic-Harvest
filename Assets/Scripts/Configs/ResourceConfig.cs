@@ -16,7 +16,7 @@ public class ResourceConfig : ScriptableObject
     public EResourceType ResourceType;
     public EResourceCategory Category;
     public int BaseValue = 1; // Base worth for trading/selling
-    public int MaxStackSize = 999;
+    public int MaxStack = 1000000;
     
     [Header("Availability")]
     public bool IsAvailableAtStart = true;

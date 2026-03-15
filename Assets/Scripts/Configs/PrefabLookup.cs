@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PrefabLookup", menuName = "Exotic Harvest/PrefabLookup")]
@@ -38,7 +37,7 @@ public class PrefabLookup : ScriptableObject
             }
         }
 
-        EditorUtility.SetDirty(this);
+        UnityEditor.EditorUtility.SetDirty(this);
     }
     
 #endif

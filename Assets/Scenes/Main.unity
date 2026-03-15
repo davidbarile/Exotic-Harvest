@@ -7835,7 +7835,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
 --- !u!223 &1195347947
 Canvas:
   m_ObjectHideFlags: 0
@@ -10656,6 +10656,7 @@ GameObject:
   - component: {fileID: 1713415299}
   - component: {fileID: 1713415304}
   - component: {fileID: 1713415295}
+  - component: {fileID: 1713415307}
   - component: {fileID: 1713415293}
   - component: {fileID: 1713415298}
   - component: {fileID: 1713415297}
@@ -10901,7 +10902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceManager
   resourceDatabase: {fileID: 11400000, guid: f954427b55054435ca92d954f57a9489, type: 2}
-  maxInventorySize: 10000
+  maxInventorySize: 1000000
 --- !u!82 &1713415300
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11166,6 +11167,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipManager
   tooltip: {fileID: 1579995521}
+--- !u!114 &1713415307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713415284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab94e3a57ddf45d197cccd6ce1f5cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootManager
+  lootConfigs:
+  - {fileID: 11400000, guid: eec7cdd9b751f4a429f7e96926496da6, type: 2}
 --- !u!1 &1717538038
 GameObject:
   m_ObjectHideFlags: 0

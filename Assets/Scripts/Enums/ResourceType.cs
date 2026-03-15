@@ -6,7 +6,6 @@ public enum EResourceType
     None = 0,
     Dew = 1 << 0,
     Rain = 1 << 1,
-
     // Bugs
     Caterpillars = 1 << 2,
     Butterflies = 1 << 3,
@@ -16,8 +15,7 @@ public enum EResourceType
     Fireflies = 1 << 7,
     Ladybugs = 1 << 8,
     // Nature
-    Seeds = 1 << 9
-    ,
+    Seeds = 1 << 9,
     Clovers = 1 << 10,
     FourLeafClovers = 1 << 11,
     Nuts = 1 << 12,
