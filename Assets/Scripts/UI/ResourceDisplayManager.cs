@@ -10,7 +10,6 @@ public class ResourceDisplayManager : MonoBehaviour
     public static ResourceDisplayManager IN;
 
     [Header("UI Settings")]
-    [SerializeField] private ResourceDisplayUI resourceDisplayPrefab; // Assign ResourceDisplayUI prefab here
     [SerializeField] private Transform resourceDisplayParent;
     [SerializeField] private EResourceCategory categoriesToShow; // Which categories to display
     [SerializeField] private bool showOnlyOwnedResources = true;
@@ -51,7 +50,7 @@ public class ResourceDisplayManager : MonoBehaviour
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        ResourceDisplayUI displayUI = Instantiate(this.resourceDisplayPrefab, this.resourceDisplayParent);
+        ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.resourceDisplayParent);
         
         displayUI.Initialize(resourceConfig.ResourceType, resourceConfig);
         this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;

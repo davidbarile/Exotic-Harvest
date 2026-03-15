@@ -79,19 +79,12 @@ public class DecorationManager : MonoBehaviour
         if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
             return null;
 
-        var prefab = Resources.Load<UiDecorationBase>($"Prefabs/Decorations/{itemData.DecorationData.PrefabName}");
-        if (prefab != null)
-        {
-            var worldItem = Instantiate(prefab, spawnPosition, Quaternion.identity, parent ?? DragManager.IN.DefaultParent);
-            worldItem.transform.localScale = Vector3.one;
-            worldItem.name = $"Decoration_{itemData.DisplayName}";
-            worldItem.InitializeFromDrag(itemData, Vector2.zero);
-            return worldItem;
-        }
-
-        Debug.LogError($"Failed to load world prefab for item: {itemData.DisplayName} at path: Prefabs/Decorations/{itemData.DecorationData.PrefabName}");
-
-        return null;
+        var worldItem = PrefabManager.IN.SpawnPrefab<UiDecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.DefaultParent);
+        worldItem.transform.position = spawnPosition;
+        worldItem.transform.localScale = Vector3.one;
+        worldItem.name = $"Decoration_{itemData.DisplayName}";
+        worldItem.InitializeFromDrag(itemData, Vector2.zero);
+        return worldItem;
     }
     
     private void InitDecorationParents()

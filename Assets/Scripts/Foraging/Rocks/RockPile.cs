@@ -22,7 +22,7 @@ public class RockPile : MonoBehaviour
 
         for (int i = 0; i < this.rockCount; i++)
         {
-            Rock newRock = Instantiate(this.rockPrefab, this.rockSpawnArea);
+            var newRock = PrefabManager.IN.SpawnPrefab<Rock>($"Rock", this.rockSpawnArea);
             newRock.name = $"Rock_{i}";
             newRock.gameObject.SetActive(true);
             
