@@ -11,6 +11,8 @@ public class ResourceDisplayUI : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private Image backgroundImage;
+
+    [Space, SerializeField] private TooltipTrigger tooltipTrigger;
     
     private EResourceType resourceType;
     private ResourceConfig resourceConfig;
@@ -19,6 +21,11 @@ public class ResourceDisplayUI : MonoBehaviour
     {
         this.resourceType = type;
         this.resourceConfig = config;
+
+        if(this.tooltipTrigger != null)
+        {
+            this.tooltipTrigger.TooltipText = config.DisplayName;//$"{config.DisplayName}\n{config.Description}";
+        }
         
         UpdateDisplay();
         

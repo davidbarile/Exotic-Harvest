@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(InputManager))]
 [RequireComponent(typeof(ResourceManager))]
 [RequireComponent(typeof(ResourceDisplayManager))]
+[RequireComponent(typeof(TooltipManager))]
 [RequireComponent(typeof(TimeManager))]
 [RequireComponent(typeof(WeatherManager))]
 [RequireComponent(typeof(ForagingManager))]
@@ -41,6 +42,7 @@ public class SingletonManager : MonoBehaviour
         NotificationManager.IN = this.GetComponent<NotificationManager>();
         SpriteManager.IN = this.GetComponent<SpriteManager>();
         PrefabManager.IN = this.GetComponent<PrefabManager>();
+        TooltipManager.IN = this.GetComponent<TooltipManager>();
 
         UIConfirmPanel.IN = this.confirmPanel;
     }

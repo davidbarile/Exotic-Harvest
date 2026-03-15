@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4518121589791246073}
   - component: {fileID: 7909804203037494150}
   - component: {fileID: 1455210214939626983}
+  - component: {fileID: 463727920880288472}
   m_Layer: 5
   m_Name: ResourceDisplayUI
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   iconImage: {fileID: 9151379015479823966}
   amountText: {fileID: 1446449662638651843}
   backgroundImage: {fileID: 7909804203037494150}
+  tooltipTrigger: {fileID: 463727920880288472}
 --- !u!222 &4518121589791246073
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -109,6 +111,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniformModifier
   radius: 12
+--- !u!114 &463727920880288472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234567890123456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: -70, y: 90, z: 0}
+  TooltipText: 
 --- !u!1 &4188734161195034594
 GameObject:
   m_ObjectHideFlags: 0
