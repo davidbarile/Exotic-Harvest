@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class RockPile : MonoBehaviour
 {
-    [SerializeField] private Rock rockPrefab;
     [SerializeField] private int rockCount;
     [SerializeField] private RectTransform rockSpawnArea;
     [Range(0f, 100f), SerializeField] private float gridSize;
     [Range(0f, 30f), SerializeField] private float offsetRange;
     [SerializeField] private Vector2 rockMinMaxScale = new Vector2(0.35f, 0.75f);
     [SerializeField] private Gradient rockColorGradient;
+
+    [SerializeField] private LootConfig lootConfig;
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class RockPile : MonoBehaviour
             newRock.transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
             newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
+            newRock.Configure(this.lootConfig);
         }
     }
 }

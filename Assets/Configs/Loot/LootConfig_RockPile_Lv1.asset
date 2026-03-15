@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: LootConfig_RockPile_Lv1
   m_EditorClassIdentifier: Assembly-CSharp::LootConfig
   DisplayName: RockPile_Lv1
+  LootType: 1
   LootDatas:
   - DisplayName: Shell
+    OverrideSpriteName: Icon_Color_0031
     ResourceType: 32768
-    Quantity: 1
     ChanceToDrop:
       MinQuantity: 0
       MaxQuantity: 5
@@ -26,8 +27,8 @@ MonoBehaviour:
       MaxQuantity: 2
       MinMaxWeightFactor: 0.1
   - DisplayName: Ring
+    OverrideSpriteName: Icon_Color_0075
     ResourceType: 67108864
-    Quantity: 1
     ChanceToDrop:
       MinQuantity: 0
       MaxQuantity: 1
@@ -36,9 +37,9 @@ MonoBehaviour:
       MinQuantity: 1
       MaxQuantity: 1
       MinMaxWeightFactor: 0.5
-  - DisplayName: 
-    ResourceType: 0
-    Quantity: 1
+  - DisplayName: Gold Coin
+    OverrideSpriteName: Icon_Color_0034
+    ResourceType: 33554432
     ChanceToDrop:
       MinQuantity: 0
       MaxQuantity: 2

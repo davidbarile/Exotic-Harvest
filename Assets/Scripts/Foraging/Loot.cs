@@ -13,7 +13,7 @@ public class Loot : Collectable
 
     [SerializeField] private RectTransform targetRectTransform;
 
-    //public InventoryItemData ItemData { get; private set; }
+    public LootData LootData { get; private set; }
 
     protected Transform originalParent;
     protected int originalSiblingIndex;
@@ -25,8 +25,26 @@ public class Loot : Collectable
 
         SetShadowActive(false);
     }
+
+    public void Configure(LootData inLootData)
+    {
+        this.LootData = inLootData;
+        this.resourceType = inLootData.ResourceType;
+
+        if (string.IsNullOrWhiteSpace(inLootData.OverrideSpriteName))
+        {
+            var resource = ResourceManager.IN.Database.GetResource(inLootData.ResourceType);
+            SetSprite(resource.Icon);
+            return;
+        }
+        else
+        {
+            var sprite = SpriteManager.GetSprite(inLootData.OverrideSpriteName);
+            SetSprite(sprite);
+        }
+    }
     
-     public void SetSprite(Sprite sprite)
+    public void SetSprite(Sprite sprite)
     {
         if (this.lootImage)
         {

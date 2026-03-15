@@ -18,8 +18,8 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public ECollectionMethod CollectionMethod => collectionType;
     [SerializeField] protected ECollectionMethod collectionType = ECollectionMethod.Click;
 
-    [SerializeField] protected float lifetime = 30f; // Seconds before disappearing
-    [SerializeField] protected bool autoDestroy = true;
+    [Tooltip("-1 for infinite, otherwise seconds to destroy")]
+    [SerializeField] protected float lifetime = -1; // Seconds before disappearing
     
     [Header("UI Components")]
     [SerializeField] protected Image collectableImage;
@@ -46,7 +46,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         this.spawnTime = Time.time;
         OnCollectableSpawned?.Invoke(this);
         
-        if (this.autoDestroy)
+        if (this.lifetime > 0)
         {
             Destroy(gameObject, this.lifetime);
         }

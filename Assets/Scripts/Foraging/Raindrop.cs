@@ -21,9 +21,6 @@ public class Raindrop : Collectable
         this.resourceType = EResourceType.Rain;
         this.amount = 1;
         this.collectionType = ECollectionMethod.Hover;
-        this.lifetime = 10f; // Raindrops fall quickly
-        this.autoDestroy = false; // Will destroy when hitting ground
-        
         base.Start();
         StartFallingAnimation();
     }

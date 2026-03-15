@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -14,7 +15,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     [SerializeField] protected RectTransform targetRectTransform;
 
-    public InventoryItemData ItemData { get; private set; }
+    public LootConfig LootConfig { get; private set; }
 
     protected Vector2 originalLocalPointerPosition;
     protected Vector3 originalLocalPosition;
@@ -24,19 +25,19 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
-    protected Loot spawnedLoot;
+    protected List<Loot> spawnedLoots = new ();
 
-    // public void Configure(InventoryItemData inItemData)
-    // {
-    //     this.ItemData = inItemData;
+    public void Configure(LootConfig inLootConfig)
+    {
+        this.LootConfig = inLootConfig;
 
-    //     if (this.rockImage != null)
-    //     {
-    //         var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
-    //         this.rockImage.sprite = sprite;
-    //         this.fillImage.sprite = sprite;
-    //     }
-    // }
+        // if (this.rockImage != null)
+        // {
+        //     var sprite = SpriteManager.GetSprite(derp);
+        //     this.rockImage.sprite = sprite;
+        //     this.fillImage.sprite = sprite;
+        // }
+    }
 
     private void Awake()
     {
@@ -83,7 +84,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
 
-        SpawnLoot();
+        TrySpawnLoot();
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
 
@@ -123,14 +124,29 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         SetShadowActive(false);
     }
 
-    public void SpawnLoot()
+    public void TrySpawnLoot()
     {
-        this.spawnedLoot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
-        this.spawnedLoot.transform.position = this.targetRectTransform.position;
-        this.spawnedLoot.transform.SetSiblingIndex(this.originalSiblingIndex);
+        var lootDatas = this.LootConfig.GetRandomLoot(false, 1, 2);
 
-        this.spawnedLoot.SetSprite(this.rockImage.sprite);
-        this.spawnedLoot.SetColor(this.rockImage.color);
-        this.spawnedLoot.SetText(this.label.text);
+        if (lootDatas.Count == 0)
+        {
+            // Debug.Log($"Rock.TrySpawnLoot()  No loot was returned from LootConfig.GetRandomLoot() for {this.LootConfig.DisplayName}");
+            return;
+        }
+
+        this.spawnedLoots.Clear();
+        
+        foreach(var lootData in lootDatas)
+        {
+            var loot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
+            loot.transform.position = this.targetRectTransform.position;
+            loot.transform.SetSiblingIndex(this.originalSiblingIndex);
+            loot.transform.localScale = Vector3.one * .5f;
+
+            Debug.Log($"Rock.TrySpawnLoot() Spawned loot {lootData.DisplayName}  for {this.LootConfig.DisplayName}");
+
+            loot.Configure(lootData);
+            this.spawnedLoots.Add(loot);
+        }
     }
 }

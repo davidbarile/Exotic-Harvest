@@ -53,4 +53,6 @@ public class LootManager : MonoBehaviour
         }
         return lootDataList;
     }
+
+    // public string GetLootSpriteName(string inDisplayName)
 }

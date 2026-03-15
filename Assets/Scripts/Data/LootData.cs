@@ -5,6 +5,7 @@ using UnityEngine;
 public class LootData
 {
     public string DisplayName;
+    public string OverrideSpriteName;
     public EResourceType ResourceType;
     public int Quantity { get; set; }
 
