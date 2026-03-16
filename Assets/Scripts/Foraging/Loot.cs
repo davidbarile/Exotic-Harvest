@@ -75,7 +75,7 @@ public class Loot : Collectable
         // Collection effect
         var sequence = DOTween.Sequence()
             .Append(this.rectTransform.DOScale(1.2f * initScale, 0.1f))
-            .Join(this.canvasGroup.DOFade(0f, 0.92f))
+            .Join(this.canvasGroup.DOFade(0f, 0.3f))
             .Append(this.rectTransform.DOScale(0f, 0.1f))
             .OnComplete(() => base.OnCollected());
     }

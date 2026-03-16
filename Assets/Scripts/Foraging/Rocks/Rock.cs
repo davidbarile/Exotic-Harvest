@@ -148,7 +148,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             var loot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
             loot.transform.position = this.targetRectTransform.position;
             loot.transform.SetSiblingIndex(this.originalSiblingIndex);
-            loot.transform.localScale = Vector3.one * .5f;
+            loot.transform.localScale = this.transform.localScale * .7f;
 
             Debug.Log($"Rock.TrySpawnLoot() Spawned loot {lootData.DisplayName}  for {this.LootConfig.DisplayName}");
 
