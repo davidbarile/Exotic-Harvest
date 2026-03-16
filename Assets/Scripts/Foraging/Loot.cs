@@ -39,6 +39,11 @@ public class Loot : Collectable
             var sprite = SpriteManager.GetSprite(inLootData.OverrideSpriteName);
             SetSprite(sprite);
         }
+
+        this.amount = inLootData.Quantity;
+
+        if (inLootData.Quantity > 1)
+            SetText(inLootData.Quantity.ToString());
     }
     
     public void SetSprite(Sprite sprite)
@@ -60,7 +65,10 @@ public class Loot : Collectable
     public void SetText(string text)
     {
         if (this.label)
+        {
             this.label.text = text;
+            this.label.gameObject.SetActive(!string.IsNullOrWhiteSpace(text));
+        }
     }
 
     public void SetShadowActive(bool isActive)

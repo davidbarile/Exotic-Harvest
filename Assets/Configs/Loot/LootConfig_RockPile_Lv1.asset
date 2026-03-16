@@ -24,6 +24,17 @@ MonoBehaviour:
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1
+      MaxQuantity: 3
+      MinMaxWeightFactor: 0.25
+  - DisplayName: Gold Coin
+    OverrideSpriteName: Icon_Color_0034
+    ResourceType: 33554432
+    ChanceToDrop:
+      MinQuantity: 0
+      MaxQuantity: 2
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
       MaxQuantity: 2
       MinMaxWeightFactor: 0.1
   - DisplayName: Ring
@@ -32,17 +43,6 @@ MonoBehaviour:
     ChanceToDrop:
       MinQuantity: 0
       MaxQuantity: 1
-      MinMaxWeightFactor: 0.5
-    QuantityToDrop:
-      MinQuantity: 1
-      MaxQuantity: 1
-      MinMaxWeightFactor: 0.5
-  - DisplayName: Gold Coin
-    OverrideSpriteName: Icon_Color_0034
-    ResourceType: 33554432
-    ChanceToDrop:
-      MinQuantity: 0
-      MaxQuantity: 2
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1

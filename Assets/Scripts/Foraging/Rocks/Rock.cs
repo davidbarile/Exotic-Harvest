@@ -133,24 +133,34 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.hasBeenHarvested = true;
 
-        var lootDatas = this.LootConfig.GetRandomLoot(false, 1, 2);
+        var lootDatas = this.LootConfig.GetRandomLoot(true, 10, 3);
 
         if (lootDatas.Count == 0)
         {
-            // Debug.Log($"Rock.TrySpawnLoot()  No loot was returned from LootConfig.GetRandomLoot() for {this.LootConfig.DisplayName}");
+            //Debug.Log($"<color=red>Rock.TrySpawnLoot()  No loot was returned from LootConfig.GetRandomLoot() for {this.LootConfig.DisplayName}</color>");
             return;
         }
 
         this.spawnedLoots.Clear();
-        
-        foreach(var lootData in lootDatas)
+
+        for(int i = 0; i < lootDatas.Count; i++)
         {
+            var lootData = lootDatas[i];
             var loot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
             loot.transform.position = this.targetRectTransform.position;
-            loot.transform.SetSiblingIndex(this.originalSiblingIndex);
+            loot.transform.SetSiblingIndex(this.originalSiblingIndex + i);
             loot.transform.localScale = this.transform.localScale * .7f;
 
-            Debug.Log($"Rock.TrySpawnLoot() Spawned loot {lootData.DisplayName}  for {this.LootConfig.DisplayName}");
+            if(i > 0)
+            {
+                // offset each loot spawn so they don't overlap exactly on top of each other
+                var distanceFromCenter = 25f * loot.transform.localScale.x;
+                var sign = (i % 2 == 0) ? 1 : -1; // alternate left and right
+                var sign2 = (i % 4 < 2) ? 1 : -1; // alternate up and down every two loots
+                loot.transform.position += new Vector3(sign * Random.Range(.5f * distanceFromCenter, distanceFromCenter), sign2 * Random.Range(.5f * distanceFromCenter, distanceFromCenter), 0f);
+            }
+
+            //Debug.Log($"<color=#00FF00>Rock.TrySpawnLoot() Spawned loot {lootData.DisplayName}  for {this.LootConfig.DisplayName}</color>");
 
             loot.Configure(lootData);
             this.spawnedLoots.Add(loot);

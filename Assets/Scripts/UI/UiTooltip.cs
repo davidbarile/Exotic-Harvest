@@ -26,7 +26,7 @@ public class UiTooltip : MonoBehaviour
 
     public void Hide()
     {
-        if (!this.gameObject) return;
+        if (this == null || this.gameObject == null) return;
         
         this.gameObject.SetActive(false);
     }

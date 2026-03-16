@@ -24,39 +24,45 @@ public class LootConfig : ScriptableObject
         }
 
         var selectedLoots = new List<LootData>();
+        var randomLootDatas = new List<LootData>(this.LootDatas);
+        randomLootDatas.RandomizeList();
 
         if (isGuaranteedDrop)
         {
             //add at least one loot based on the ChanceToDrop weights
             float totalChancesToDrop = 0f;
-            foreach (var loot in this.LootDatas)
+            foreach (var loot in randomLootDatas)
             {
                 totalChancesToDrop += loot.ChanceToDrop.MaxQuantity;
             }
 
             float randomValue = Random.Range(0f, totalChancesToDrop);
 
-            foreach (var loot in this.LootDatas)
+            foreach (var loot in randomLootDatas)
             {
                 if (randomValue <= loot.ChanceToDrop.MaxQuantity)
                 {
-                    selectedLoots.Add(loot);
-                    if (maxLootTypes == 1)
+                    selectedLoots.Add(loot);//add the first loot we land on based on the random value and break out of the loop
                         break;
                 }
-                randomValue -= loot.ChanceToDrop.MaxQuantity;
+                totalChancesToDrop -= loot.ChanceToDrop.MaxQuantity;
+                randomValue = Random.Range(0f, totalChancesToDrop);
             }
         }
-        else
+       
+        if(!isGuaranteedDrop || selectedLoots.Count > 0)
         {
-            foreach (var loot in this.LootDatas)
+            //then roll for additional possible loot based on the ChanceToDrop weights until we hit the maxLootTypes limit
+            foreach (var loot in randomLootDatas)
             {
                 var w = loot.ChanceToDrop;
                 var chance = WeightedRandom.GetWeightedRandomFloat(w.MinQuantity, w.MaxQuantity, w.MinMaxWeightFactor);
                 float randomValue = Random.Range(0f, 100f);
                 if (randomValue <= chance)
                 {
-                    selectedLoots.Add(loot);
+                    if (!selectedLoots.Contains(loot))
+                        selectedLoots.Add(loot);
+                        
                     if (selectedLoots.Count >= maxLootTypes)
                         break;
                 }
