@@ -57,6 +57,7 @@ MonoBehaviour:
   iconImage: {fileID: 9151379015479823966}
   amountText: {fileID: 1446449662638651843}
   backgroundImage: {fileID: 7909804203037494150}
+  isShopDisplay: 0
   tooltipTrigger: {fileID: 463727920880288472}
 --- !u!222 &4518121589791246073
 CanvasRenderer:
@@ -123,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
-  tooltipOffset: {x: -70, y: 90, z: 0}
+  tooltipOffset: {x: -70, y: 55, z: 0}
   TooltipText: 
 --- !u!1 &4188734161195034594
 GameObject:
@@ -218,7 +219,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 30
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

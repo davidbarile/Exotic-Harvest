@@ -26,11 +26,6 @@ public class ResourceDisplayUI : MonoBehaviour
         this.resourceType = type;
         this.resourceConfig = config;
 
-        if (this.tooltipTrigger != null)
-        {
-            this.tooltipTrigger.TooltipText = config.DisplayName;//$"{config.DisplayName}\n{config.Description}";
-        }
-
         UpdateDisplay();
 
         // Subscribe to resource changes
@@ -64,21 +59,37 @@ public class ResourceDisplayUI : MonoBehaviour
         if (ResourceManager.IN == null) return;
 
         int currentAmount = ResourceManager.IN.GetResourceAmount(this.resourceType);
+        
+        var displayAmount = this.isShopDisplay ? this.costAmount : currentAmount;
 
         // Update amount text
         if (this.amountText != null)
         {
-            var displayAmount = isShopDisplay ? this.costAmount : currentAmount;
             this.amountText.text = displayAmount.ToString();
             this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
+        }
 
-            if(isShopDisplay)
+        bool hasEnough = true;
+
+        if (this.isShopDisplay)
+        {
+            hasEnough = ResourceManager.IN?.HasResource(this.resourceType, this.costAmount) ?? false;
+
+            if (!hasEnough)
+                this.amountText.color = Color.red;
+        }
+        
+        if (this.tooltipTrigger != null)
+        {
+            if (this.isShopDisplay)
             {
-                bool hasEnough = ResourceManager.IN?.HasResource(this.resourceType, this.costAmount) ?? false;
-
-                if(!hasEnough)
-                    this.amountText.color = Color.red;
+                if(hasEnough)
+                    this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}";
+                else
+                    this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}\n<color=red>{currentAmount}/{this.costAmount}</color>";
             }
+            else
+                this.tooltipTrigger.TooltipText = this.resourceConfig.DisplayName;//$"{config.DisplayName}\n{config.Description}";
         }
 
         // Update icon
