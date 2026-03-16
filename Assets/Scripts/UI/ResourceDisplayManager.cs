@@ -52,7 +52,7 @@ public class ResourceDisplayManager : MonoBehaviour
     {
         ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.resourceDisplayParent);
         
-        displayUI.Initialize(resourceConfig.ResourceType, resourceConfig);
+        displayUI.Configure(resourceConfig.ResourceType, resourceConfig);
         this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
         
         OnResourceChanged(resourceConfig.ResourceType, ResourceManager.IN.GetResourceAmount(resourceConfig.ResourceType));

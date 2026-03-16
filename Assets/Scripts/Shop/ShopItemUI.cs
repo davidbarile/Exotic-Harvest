@@ -17,6 +17,7 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject cannotAffordOverlay;
+    [SerializeField] private ResourceDisplayUI[] resourceCostDisplays;
     
     private ShopItemData shopItemData;
     // private ShopItemDefinition itemDefinition;
@@ -92,23 +93,34 @@ public class ShopItemUI : MonoBehaviour
     
     private void UpdatePriceDisplay()
     {
-        if (this.priceText == null || this.shopItemData?.Cost == null) return;
+        if (this.shopItemData?.Cost == null) return;
 
         var sb = new StringBuilder();
-        bool canAfford = true;
 
         foreach (var resource in this.shopItemData.Cost.RequiredResources)
         {
             if (sb.Length > 0) sb.Append(" ");
 
             bool hasEnough = ResourceManager.IN?.HasResource(resource.Type, resource.Amount) ?? false;
-            if (!hasEnough) canAfford = false;
 
             string color = hasEnough ? "white" : "red";
             sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.Amount, resource.DisplayName);
         }
 
-        this.priceText.text = sb.ToString();
+        this.priceText.text = string.Empty;//sb.ToString();
+
+        for(int i = 0; i < resourceCostDisplays.Length; i++)
+        {
+            var costDisplay = resourceCostDisplays[i];
+            var shouldShow = i < this.shopItemData.Cost.RequiredResources.Count;
+            costDisplay.gameObject.SetActive(shouldShow);
+            if (shouldShow)
+            {
+                var costResourceData = this.shopItemData.Cost.RequiredResources[i];
+                costDisplay.Configure(costResourceData.Type, costResourceData);
+                costDisplay.gameObject.SetActive(true);
+            }
+        }
     }
     
     private void UpdateAvailabilityOverlays()

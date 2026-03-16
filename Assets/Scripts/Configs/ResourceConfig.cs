@@ -61,15 +61,15 @@ public class ResourceConfig : ScriptableObject
         }
         return false;
     }
-    
+
     public bool IsCurrentlyAvailable()
     {
         if (TimeManager.IN != null && !IsAvailableAtTime(TimeManager.IN.CurrentTimeOfDay))
             return false;
-            
+
         if (WeatherManager.IN != null && !IsAvailableInWeather(WeatherManager.IN.CurrentWeather))
             return false;
-            
+
         return true;
     }
 }

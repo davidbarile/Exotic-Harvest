@@ -21,12 +21,15 @@ MonoBehaviour:
     PrefabName: JarItemUI
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
+    SiblingIndex: 0
     CurrentAmount: 0
     LastGenerationTime: 0
     IsActive: 1
   Category: 2
   Cost:
-    requiredResources: []
+    requiredResources:
+    - Type: 2
+      Amount: 50
   IsUnlockedByDefault: 1
   PlayerLevelRequired: 1
   PrerequisiteItems: []

@@ -330,6 +330,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 15
   m_lineSpacingMax: 0
@@ -659,6 +660,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -25
   m_lineSpacingMax: 0
@@ -843,6 +845,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 15
   m_lineSpacingMax: 0
@@ -981,6 +984,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1167,8 +1171,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -293, y: -80}
-  m_SizeDelta: {x: -626, y: -100}
+  m_AnchoredPosition: {x: -289, y: -80}
+  m_SizeDelta: {x: -618, y: -100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5390475527454291323
 CanvasRenderer:
@@ -1508,6 +1512,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -14.747192
       objectReference: {fileID: 0}
+    - target: {fileID: 2130910214799975657, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 63
+      objectReference: {fileID: 0}
     - target: {fileID: 2442703844784753364, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_Pivot.y
       value: 1
@@ -1530,6 +1538,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6272646993327843046, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279911262812058476, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6874478434538244708, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
@@ -1710,7 +1722,6 @@ MonoBehaviour:
   - {fileID: 1859015969239853906}
   - {fileID: 6468172473136850425}
   - {fileID: 7594441685193247577}
-  shopItemPrefab: {fileID: 6877415107789952351, guid: 278c256d6b4644ec184bebad8b1268f0, type: 3}
   itemDetailPanel: {fileID: 5255122566140493200}
   itemNameText: {fileID: 6315203664020957783}
   itemDescriptionText: {fileID: 8219254280641613070}
@@ -1718,7 +1729,6 @@ MonoBehaviour:
   purchaseButton: {fileID: 1299357194377780473}
   purchaseButtonText: {fileID: 4438759178582467189}
   costDisplayParent: {fileID: 7485050535699871454}
-  costItemPrefab: {fileID: 2234567890123456, guid: 7a8b8da067b37449aae710819167ef62, type: 3}
 --- !u!224 &6426208664879488232 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6970618749069963688, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}

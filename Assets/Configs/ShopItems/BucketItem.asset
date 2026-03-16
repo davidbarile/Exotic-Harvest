@@ -16,18 +16,22 @@ MonoBehaviour:
   Description: 
   Icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
   CanDragToWorld: 1
-  WorldPrefabName: BucketItemUI
   DecorationData:
     Type: 1
     PrefabName: BucketItemUI
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
+    SiblingIndex: 0
     CurrentAmount: 0
     LastGenerationTime: 0
     IsActive: 1
   Category: 2
   Cost:
-    requiredResources: []
+    requiredResources:
+    - Type: 67108864
+      Amount: 1
+    - Type: 33554432
+      Amount: 2
   IsUnlockedByDefault: 1
   PlayerLevelRequired: 1
   PrerequisiteItems: []

@@ -12,38 +12,45 @@ public class ResourceDisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private Image backgroundImage;
 
+    [SerializeField] private bool isShopDisplay; // Set to false for static displays (e.g. shop costs)
+
     [Space, SerializeField] private TooltipTrigger tooltipTrigger;
     
     private EResourceType resourceType;
     private ResourceConfig resourceConfig;
-    
-    public void Initialize(EResourceType type, ResourceConfig config)
+
+    private int costAmount; // For shop displays, the amount required (not current amount)
+
+    public void Configure(EResourceType type, ResourceConfig config)
     {
         this.resourceType = type;
         this.resourceConfig = config;
 
-        if(this.tooltipTrigger != null)
+        if (this.tooltipTrigger != null)
         {
             this.tooltipTrigger.TooltipText = config.DisplayName;//$"{config.DisplayName}\n{config.Description}";
         }
-        
+
         UpdateDisplay();
-        
+
         // Subscribe to resource changes
         if (ResourceManager.IN != null)
-        {
             ResourceManager.OnResourceChanged += OnResourceChanged;
-        }
+    }
+    
+    public void Configure(EResourceType type, ResourceData data)
+    {
+        this.resourceConfig = data.GetConfig();
+        this.costAmount = data.Amount;
+        Configure(type, this.resourceConfig);
     }
     
     private void OnDestroy()
     {
         if (ResourceManager.IN != null)
-        {
             ResourceManager.OnResourceChanged -= OnResourceChanged;
-        }
     }
-    
+
     private void OnResourceChanged(EResourceType type, int newAmount)
     {
         if (type == this.resourceType)
@@ -51,27 +58,36 @@ public class ResourceDisplayUI : MonoBehaviour
             UpdateDisplay();
         }
     }
-    
+
     private void UpdateDisplay()
     {
         if (ResourceManager.IN == null) return;
-        
+
         int currentAmount = ResourceManager.IN.GetResourceAmount(this.resourceType);
-        
+
         // Update amount text
         if (this.amountText != null)
         {
-            this.amountText.text = currentAmount.ToString();
+            var displayAmount = isShopDisplay ? this.costAmount : currentAmount;
+            this.amountText.text = displayAmount.ToString();
             this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
+
+            if(isShopDisplay)
+            {
+                bool hasEnough = ResourceManager.IN?.HasResource(this.resourceType, this.costAmount) ?? false;
+
+                if(!hasEnough)
+                    this.amountText.color = Color.red;
+            }
         }
-        
+
         // Update icon
         if (this.iconImage != null && this.resourceConfig != null)
         {
             this.iconImage.sprite = this.resourceConfig.Icon;
             this.iconImage.color = this.resourceConfig.UiColor;
         }
-        
+
         // Update background color based on resource category
         if (this.backgroundImage != null && this.resourceConfig != null)
         {
@@ -81,6 +97,7 @@ public class ResourceDisplayUI : MonoBehaviour
         }
     }
     
+    //TODO: Move this to a color manager
     private Color GetCategoryColor(EResourceCategory category)
     {
         return category switch

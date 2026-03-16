@@ -25,7 +25,7 @@ public class ShopItemConfig : ScriptableObject
     [Header("Availability")]
     public bool IsUnlockedByDefault = true;
     public int PlayerLevelRequired = 1;
-    public string[] PrerequisiteItems; // IDs of items that must be purchased first
+    public string[] PrerequisiteItems = new string[0]; // IDs of items that must be purchased first
     
     [Header("Purchase Limits")]
     public bool HasLimitedQuantity = false;
@@ -53,25 +53,22 @@ public class ShopItemConfig : ScriptableObject
             return false;
             
         // Check prerequisites
-        if (this.PrerequisiteItems != null && this.PrerequisiteItems.Length > 0)
+        foreach (var prereq in this.PrerequisiteItems)
         {
-            foreach (var prereq in this.PrerequisiteItems)
+            bool found = false;
+            if (purchasedItemIds != null)
             {
-                bool found = false;
-                if (purchasedItemIds != null)
+                foreach (var purchased in purchasedItemIds)
                 {
-                    foreach (var purchased in purchasedItemIds)
+                    if (purchased == prereq)
                     {
-                        if (purchased == prereq)
-                        {
-                            found = true;
-                            break;
-                        }
+                        found = true;
+                        break;
                     }
                 }
-                if (!found)
-                    return false;
             }
+            if (!found)
+                return false;
         }
         
         return true;
