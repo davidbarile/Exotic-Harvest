@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class Loot : Collectable
 {
-    [SerializeField] private Image lootImage;
     [SerializeField] private Image shadow;
     [SerializeField] private Image fillImage;
 
@@ -18,11 +17,9 @@ public class Loot : Collectable
     protected Transform originalParent;
     protected int originalSiblingIndex;
 
-    private void Awake()
-    {
-        if (this.targetRectTransform == null)
-            this.targetRectTransform = GetComponent<RectTransform>();
-
+    protected override void Awake()
+    {        
+        base.Awake();
         SetShadowActive(false);
     }
 
@@ -46,9 +43,9 @@ public class Loot : Collectable
     
     public void SetSprite(Sprite sprite)
     {
-        if (this.lootImage)
+        if (this.collectableImage)
         {
-            this.lootImage.sprite = sprite;
+            this.collectableImage.sprite = sprite;
             
             if (this.fillImage)
                 this.fillImage.sprite = sprite;
@@ -57,7 +54,7 @@ public class Loot : Collectable
 
     public void SetColor(Color color)
     {
-        this.lootImage.color = color;
+        this.collectableImage.color = color;
     }
 
     public void SetText(string text)
@@ -70,5 +67,16 @@ public class Loot : Collectable
     {
         if (this.shadow != null)
             this.shadow.gameObject.SetActive(isActive);
+    }
+
+    protected override void OnCollected()
+    {
+        var initScale = this.transform.localScale.x;
+        // Collection effect
+        var sequence = DOTween.Sequence()
+            .Append(this.rectTransform.DOScale(1.2f * initScale, 0.1f))
+            .Join(this.canvasGroup.DOFade(0f, 0.92f))
+            .Append(this.rectTransform.DOScale(0f, 0.1f))
+            .OnComplete(() => base.OnCollected());
     }
 }

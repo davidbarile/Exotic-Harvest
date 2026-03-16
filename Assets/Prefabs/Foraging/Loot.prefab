@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 50948409129103114}
   - component: {fileID: 6249681932399305204}
   - component: {fileID: 1043829674556631540}
+  - component: {fileID: 335956679244297788}
   m_Layer: 5
   m_Name: Loot
   m_TagString: Untagged
@@ -65,12 +66,11 @@ MonoBehaviour:
   amount: 1
   collectionType: 1
   lifetime: -1
-  collectableImage: {fileID: 0}
-  lootImage: {fileID: 8888169063758961084}
+  collectableImage: {fileID: 8888169063758961084}
   shadow: {fileID: 6963151012213560505}
   fillImage: {fileID: 0}
   label: {fileID: 8517679491980982711}
-  targetRectTransform: {fileID: 0}
+  targetRectTransform: {fileID: 3493880337616461932}
 --- !u!58 &1043829674556631540
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -107,6 +107,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 50
+--- !u!225 &335956679244297788
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368731795693294975}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2468512788951832317
 GameObject:
   m_ObjectHideFlags: 0

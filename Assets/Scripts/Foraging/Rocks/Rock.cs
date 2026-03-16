@@ -25,7 +25,9 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
-    protected List<Loot> spawnedLoots = new ();
+    protected List<Loot> spawnedLoots = new();
+
+    private bool hasBeenHarvested = false;
 
     public void Configure(LootConfig inLootConfig)
     {
@@ -126,6 +128,11 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     public void TrySpawnLoot()
     {
+        if (this.hasBeenHarvested)
+            return;
+
+        this.hasBeenHarvested = true;
+
         var lootDatas = this.LootConfig.GetRandomLoot(false, 1, 2);
 
         if (lootDatas.Count == 0)

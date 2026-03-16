@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 /// Base class for collectable objects that can be harvested by the player
 /// UI-based for desktop overlay gameplay
 /// </summary>
+[RequireComponent(typeof(CanvasGroup))]
 public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
     public EResourceType ResourceType => resourceType;
@@ -20,9 +21,10 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
 
     [Tooltip("-1 for infinite, otherwise seconds to destroy")]
     [SerializeField] protected float lifetime = -1; // Seconds before disappearing
-    
+
     [Header("UI Components")]
     [SerializeField] protected Image collectableImage;
+    protected CanvasGroup canvasGroup;
     
     protected RectTransform rectTransform;
     protected Canvas parentCanvas;
@@ -34,15 +36,19 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public static event Action<Collectable> OnCollectableSpawned;
     public static event Action<Collectable> OnCollectableCollected;
     public static event Action<Collectable> OnCollectableExpired;
-    
-    protected virtual void Start()
+
+    protected virtual void Awake()
     {
-        this.rectTransform = GetComponent<RectTransform>();
-        this.parentCanvas = GetComponentInParent<Canvas>();
-        
         if (this.collectableImage == null)
             this.collectableImage = GetComponent<Image>();
-            
+
+        this.rectTransform = GetComponent<RectTransform>();
+        this.parentCanvas = GetComponentInParent<Canvas>();
+        this.canvasGroup = GetComponent<CanvasGroup>();
+    }
+    
+    protected virtual void Start()
+    {            
         this.spawnTime = Time.time;
         OnCollectableSpawned?.Invoke(this);
         
@@ -147,7 +153,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     protected virtual void OnCollected()
     {
         // Override for collection effects (particles, sound, animation)
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
     
     // Additional collection methods for future use

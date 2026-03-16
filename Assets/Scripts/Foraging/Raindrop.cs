@@ -82,16 +82,11 @@ public class Raindrop : Collectable
         this.waveTween?.Kill();
         
         // Collection effect
-        if (this.rectTransform != null && this.collectableImage != null)
-        {
-            var collectSequence = DOTween.Sequence()
-                .Append(this.rectTransform.DOScale(0.8f, 0.1f))
-                .Join(this.collectableImage.DOFade(0.3f, 0.15f))
-                .Append(this.rectTransform.DOScale(0f, 0.05f))
-                .OnComplete(() => Destroy(gameObject));
-        }
-        
-        base.OnCollected();
+        var sequence = DOTween.Sequence()
+            .Append(this.rectTransform.DOScale(1.2f, 0.1f))
+            .Join(this.canvasGroup.DOFade(0f, 0.2f))
+            .Append(this.rectTransform.DOScale(0f, 0.1f))
+            .OnComplete(() => base.OnCollected());
     }
     
     protected override void OnDestroy()

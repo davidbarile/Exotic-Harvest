@@ -22,15 +22,14 @@ public class Dewdrop : Collectable
         this.amount = 1;
         this.collectionType = ECollectionMethod.Click;
         this.lifetime = 60f; // Dewdrops last longer
+
+        this.canvasGroup.alpha = 1f;
         
         base.Start();
         
-        if (this.rectTransform != null)
-        {
-            this.startAnchoredPosition = this.rectTransform.anchoredPosition;
-            StartBobAnimation();
-            StartShimmerAnimation();
-        }
+        this.startAnchoredPosition = this.rectTransform.anchoredPosition;
+        StartBobAnimation();
+        StartShimmerAnimation();
     }
     
     private void StartBobAnimation()
@@ -43,13 +42,10 @@ public class Dewdrop : Collectable
     
     private void StartShimmerAnimation()
     {
-        if (this.collectableImage != null)
-        {
-            this.shimmerSequence = DOTween.Sequence()
-                .Append(this.collectableImage.DOFade(0.7f, this.shimmerInterval * 0.5f))
-                .Append(this.collectableImage.DOFade(1f, this.shimmerInterval * 0.5f))
-                .SetLoops(-1);
-        }
+        this.shimmerSequence = DOTween.Sequence()
+            .Append(this.collectableImage.DOFade(0.7f, this.shimmerInterval * 0.5f))
+            .Append(this.collectableImage.DOFade(1f, this.shimmerInterval * 0.5f))
+            .SetLoops(-1);
     }
     
     protected override void OnCollected()
@@ -59,15 +55,11 @@ public class Dewdrop : Collectable
         this.shimmerSequence?.Kill();
         
         // Collection animation
-        if (this.rectTransform != null && this.collectableImage != null)
-        {
-            var sequence = DOTween.Sequence()
-                .Append(this.rectTransform.DOScale(1.2f, 0.1f))
-                .Join(this.collectableImage.DOFade(0f, 0.2f))
-                .Append(this.rectTransform.DOScale(0f, 0.1f));
-        }
-        
-        base.OnCollected();
+        var sequence = DOTween.Sequence()
+            .Append(this.rectTransform.DOScale(1.2f, 0.1f))
+            .Join(this.canvasGroup.DOFade(0f, 0.2f))
+            .Append(this.rectTransform.DOScale(0f, 0.1f))
+            .OnComplete(() => base.OnCollected());
     }
     
     protected override void OnDestroy()
