@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(TickManager))]
 [RequireComponent(typeof(InputManager))]
 [RequireComponent(typeof(ResourceManager))]
-[RequireComponent(typeof(ResourceDisplayManager))]
 [RequireComponent(typeof(TooltipManager))]
 [RequireComponent(typeof(TimeManager))]
 [RequireComponent(typeof(WeatherManager))]
@@ -32,7 +31,6 @@ public class SingletonManager : MonoBehaviour
         TickManager.IN = this.GetComponent<TickManager>();
         InputManager.IN = this.GetComponent<InputManager>();
         ResourceManager.IN = this.GetComponent<ResourceManager>();
-        ResourceDisplayManager.IN = this.GetComponent<ResourceDisplayManager>();
         TimeManager.IN = this.GetComponent<TimeManager>();
         WeatherManager.IN = this.GetComponent<WeatherManager>();
         ForagingManager.IN = this.GetComponent<ForagingManager>();

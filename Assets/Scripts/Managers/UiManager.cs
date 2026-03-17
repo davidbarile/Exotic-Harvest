@@ -9,10 +9,12 @@ public class UiManager : MonoBehaviour
     public UiSettingsPanel SettingsPanel => this.settingsPanel;
     public UiShopPanel ShopPanel => this.shopPanel;
     public UiInventoryPanel InventoryPanel => this.inventoryPanel;
+    public UiResourcesPanel ResourcesPanel => this.resourcesPanel;
     
     [SerializeField] private UiSettingsPanel settingsPanel;
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
+    [SerializeField] private UiResourcesPanel resourcesPanel;
 
     private void Awake()
     {
@@ -25,9 +27,12 @@ public class UiManager : MonoBehaviour
         InputManager.OnSettingsPress += ToggleSettingsPanelVisibility;
         InputManager.OnShopPress += ToggleShopPanelVisibility;
         InputManager.OnInventoryPress += ToggleInventoryPanelVisibility;
+        InputManager.OnResourcesPress += ToggleResourcesPanelVisibility;
+        
         this.shopPanel.SetVisible(false, true);
-        this.settingsPanel.SetVisible(true);
-        this.inventoryPanel.SetVisible(false);
+        this.settingsPanel.SetVisible(false, true);
+        this.inventoryPanel.SetVisible(false, true);
+        this.resourcesPanel.SetVisible(false, true);
     }
 
     private void OnDestroy()
@@ -36,6 +41,7 @@ public class UiManager : MonoBehaviour
         InputManager.OnSettingsPress -= ToggleSettingsPanelVisibility;
         InputManager.OnShopPress -= ToggleShopPanelVisibility;
         InputManager.OnInventoryPress -= ToggleInventoryPanelVisibility;
+        InputManager.OnResourcesPress -= ToggleResourcesPanelVisibility;
     }
 
     private void HandleSpacePress()
@@ -45,9 +51,6 @@ public class UiManager : MonoBehaviour
     
     public void ToggleSettingsPanelVisibility()
     {
-        if (!this.settingsPanel)
-            return;
-
         if (this.settingsPanel.IsShowing)
             this.settingsPanel.Hide();
         else
@@ -59,9 +62,6 @@ public class UiManager : MonoBehaviour
 
     public void ToggleShopPanelVisibility()
     {
-        if (!this.shopPanel)
-            return;
-
         if (this.shopPanel.IsShowing)
             this.shopPanel.Hide();
         else
@@ -73,13 +73,18 @@ public class UiManager : MonoBehaviour
 
     public void ToggleInventoryPanelVisibility()
     {
-        if (!this.inventoryPanel)
-            return;
-
         if (this.inventoryPanel.IsShowing)
             this.inventoryPanel.Hide();
         else
             this.inventoryPanel.Show();
+    }
+
+    public void ToggleResourcesPanelVisibility()
+    {
+        if (this.resourcesPanel.IsShowing)
+            this.resourcesPanel.Hide();
+        else
+            this.resourcesPanel.Show();
     }
 
     public void SetDebugText(string text)

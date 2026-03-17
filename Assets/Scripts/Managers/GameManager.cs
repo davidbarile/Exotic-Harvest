@@ -28,6 +28,6 @@ public class GameManager : MonoBehaviour
             InventoryManager.IN.AddSavedItemsToInventory(SaveManager.Data.InventoryDataDict, SaveManager.Data.AllInventoryItems);
         }
     
-        ResourceDisplayManager.IN.Init();
+        UiManager.IN.ResourcesPanel.Init();
     }
 }

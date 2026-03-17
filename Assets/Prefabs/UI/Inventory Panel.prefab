@@ -238,6 +238,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 15
   m_lineSpacingMax: 0
@@ -541,8 +542,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 200, y: 60}
-  m_Spacing: {x: 60, y: 10}
+  m_CellSize: {x: 140, y: 50}
+  m_Spacing: {x: 50, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!1 &5908009961510432452
@@ -653,6 +654,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -25
   m_lineSpacingMax: 0
@@ -934,6 +936,7 @@ MonoBehaviour:
   BoundsCollider: {fileID: 0}
   UnsnapRange: -1
   IsDragOutOfInventoryZone: 1
+  IsDragOverOpenInventoryZone: 0
 --- !u!1001 &545788369684338912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1596,8 +1599,6 @@ MonoBehaviour:
   - {fileID: 7594441685193247577}
   categoryTab_Items: {fileID: 1859015969239853906}
   categoryTab_Resources: {fileID: 6468172473136850425}
-  inventoryCellPrefab: {fileID: 7970994909893476982, guid: b008281ad426b4348b090cb457a9e832, type: 3}
-  inventoryItemPrefab: {fileID: 2792477337715926531, guid: fb09622b70c624ac487795e6ebe5b06c, type: 3}
   itemDetailPanel: {fileID: 1913089981110589122}
   itemNameText: {fileID: 1257147888974174448}
   itemDescriptionText: {fileID: 4825331779827062228}

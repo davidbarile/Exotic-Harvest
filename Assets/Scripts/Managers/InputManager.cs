@@ -18,7 +18,8 @@ public class InputManager : MonoBehaviour
     public static Action OnMPress;
     public static Action OnSettingsPress;
     public static Action OnShopPress;
-     public static Action OnInventoryPress;
+    public static Action OnInventoryPress;
+    public static Action OnResourcesPress;
     public static Action OnF1Press;
     public static Action OnF2Press;
     public static Action OnF3Press;
@@ -45,6 +46,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) OnSettingsPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha2)) OnShopPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha3)) OnInventoryPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Alpha4)) OnResourcesPress?.Invoke();
     }
     
     public void SecondTick()

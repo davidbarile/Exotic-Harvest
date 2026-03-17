@@ -1,18 +1,17 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// Manages the display of resource UI elements
-/// </summary>
-public class ResourceDisplayManager : MonoBehaviour
+
+public class UiResourcesPanel : UIPanelBase
 {
-    public static ResourceDisplayManager IN;
-
     [Header("UI Settings")]
-    [SerializeField] private Transform resourceDisplayParent;
+    [SerializeField] private GridLayoutGroup grid;
     [SerializeField] private EResourceCategory categoriesToShow; // Which categories to display
     [SerializeField] private bool showOnlyOwnedResources = true;
+
+    [SerializeField] private int maxItemsPerRow = 15;
     
     private Dictionary<EResourceType, ResourceDisplayUI> activeDisplaysDict = new();
     
@@ -34,6 +33,16 @@ public class ResourceDisplayManager : MonoBehaviour
     {
         // Get resources to display
         var resourcesToShow = GetResourcesToDisplay();
+
+        if (resourcesToShow.Length < this.maxItemsPerRow)
+        {
+            this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+            this.grid.constraintCount = this.maxItemsPerRow;
+        }
+        else
+        {
+            this.grid.constraint = GridLayoutGroup.Constraint.Flexible;
+        }
         
         foreach (var resourceConfig in resourcesToShow)
         {
@@ -50,7 +59,7 @@ public class ResourceDisplayManager : MonoBehaviour
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.resourceDisplayParent);
+        ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.grid.transform);
         
         displayUI.Configure(resourceConfig.ResourceType, resourceConfig);
         this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
