@@ -61,7 +61,7 @@ public class UiResourcesPanel : UIPanelBase
     {
         ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.grid.transform);
         
-        displayUI.Configure(resourceConfig.ResourceType, resourceConfig);
+        displayUI.Configure(resourceConfig.ResourceType, resourceConfig, true);
         this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
         
         OnResourceChanged(resourceConfig.ResourceType, ResourceManager.IN.GetResourceAmount(resourceConfig.ResourceType));

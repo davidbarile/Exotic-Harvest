@@ -17,12 +17,15 @@ public class ResourceDisplayUI : MonoBehaviour
     private EResourceType resourceType;
     private ResourceConfig resourceConfig;
 
+    private bool isResourcesDisplay;
+
     private int costAmount; // For shop displays, the amount required (not current amount)
 
-    public void Configure(EResourceType type, ResourceConfig config)
+    public void Configure(EResourceType inType, ResourceConfig inConfig, bool inIsResourcesDisplay = false)
     {
-        this.resourceType = type;
-        this.resourceConfig = config;
+        this.resourceType = inType;
+        this.resourceConfig = inConfig;
+        this.isResourcesDisplay = inIsResourcesDisplay;
 
         UpdateDisplay();
 
@@ -61,11 +64,8 @@ public class ResourceDisplayUI : MonoBehaviour
         var displayAmount = this.isShopDisplay ? this.costAmount : currentAmount;
 
         // Update amount text
-        if (this.amountText != null)
-        {
-            this.amountText.text = displayAmount.ToString();
-            this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
-        }
+        this.amountText.text = displayAmount.ToString();
+        this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
 
         bool hasEnough = true;
 
@@ -77,6 +77,27 @@ public class ResourceDisplayUI : MonoBehaviour
                 this.amountText.color = Color.red;
         }
         
+        // Update icon
+        this.iconImage.sprite = this.resourceConfig.Icon;
+        this.iconImage.color = this.resourceConfig.UiColor;
+
+        // Update background color based on resource category
+        var bgColor = GetCategoryColor(this.resourceConfig.Category);
+
+        // If this is a resources display, gray out display if amount is 0
+        if (this.isResourcesDisplay && currentAmount == 0)
+        {
+            this.amountText.color = Color.Lerp(Color.grey, Color.white, 0.6f);
+            bgColor = Color.Lerp(Color.grey, Color.white, 0.25f);
+
+            var iconColor = Color.grey;
+            iconColor.a = 0.7f;
+            this.iconImage.color = iconColor;
+        }
+        
+        bgColor.a = 0.3f;
+        this.backgroundImage.color = bgColor;
+
         if (this.tooltipTrigger != null)
         {
             if (this.isShopDisplay)
@@ -88,21 +109,6 @@ public class ResourceDisplayUI : MonoBehaviour
             }
             else
                 this.tooltipTrigger.TooltipText = this.resourceConfig.DisplayName;//$"{config.DisplayName}\n{config.Description}";
-        }
-
-        // Update icon
-        if (this.iconImage != null && this.resourceConfig != null)
-        {
-            this.iconImage.sprite = this.resourceConfig.Icon;
-            this.iconImage.color = this.resourceConfig.UiColor;
-        }
-
-        // Update background color based on resource category
-        if (this.backgroundImage != null && this.resourceConfig != null)
-        {
-            Color bgColor = GetCategoryColor(this.resourceConfig.Category);
-            bgColor.a = 0.3f;
-            this.backgroundImage.color = bgColor;
         }
     }
     
