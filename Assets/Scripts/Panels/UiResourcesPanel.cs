@@ -3,12 +3,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+//TODO: add toggle to show all resources vs only owned resources
 public class UiResourcesPanel : UIPanelBase
 {
     [Header("UI Settings")]
     [SerializeField] private GridLayoutGroup grid;
-    [SerializeField] private EResourceCategory categoriesToShow; // Which categories to display
+    [SerializeField] private ContentSizeFitter contentSizeFitter;
+    [SerializeField] private EResourceCategory categoriesToShow;
     [SerializeField] private bool showOnlyOwnedResources = true;
 
     [SerializeField] private int maxItemsPerRow = 15;
@@ -36,12 +37,14 @@ public class UiResourcesPanel : UIPanelBase
 
         if (resourcesToShow.Length < this.maxItemsPerRow)
         {
-            this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
-            this.grid.constraintCount = this.maxItemsPerRow;
+            this.grid.constraint = GridLayoutGroup.Constraint.Flexible;
+            this.contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
         }
         else
         {
-            this.grid.constraint = GridLayoutGroup.Constraint.Flexible;
+            this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+            this.grid.constraintCount = this.maxItemsPerRow;
+            this.contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
         
         foreach (var resourceConfig in resourcesToShow)
