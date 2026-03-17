@@ -8,5 +8,6 @@ public enum EShopCategory
     Tools,          // Harvesting tools and upgrades
     Upgrades,       // System improvements
     Premium,        // Hard currency items
-    Special         // Limited time or rare items
+    Special,         // Limited time or rare items
+    All
 }

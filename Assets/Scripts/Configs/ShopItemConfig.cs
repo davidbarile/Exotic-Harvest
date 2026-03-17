@@ -14,12 +14,12 @@ public class ShopItemConfig : ScriptableObject
     [Header("Inventory Item Data")]
     public bool CanDragToWorld;
     public DecorationData DecorationData;
-    
+
     [Header("Shop Properties")]
     public EShopCategory Category;
+    public bool IsTool => this.Category == EShopCategory.Tools;
     public bool IsResource => this.Category == EShopCategory.Resources;
     public bool IsDecoration => this.Category == EShopCategory.Decorations;
-    public bool IsItem => this.Category != EShopCategory.Resources;
     public ResourceCost Cost;
     
     [Header("Availability")]

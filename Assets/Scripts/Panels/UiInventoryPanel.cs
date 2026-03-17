@@ -12,9 +12,7 @@ public class UiInventoryPanel : UIPanelBase
     [Header("Shop UI Elements")]
     [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
-    [SerializeField] private Transform resourcesDisplayParent;
     [SerializeField] private Toggle[] categoryTabs;
-    [SerializeField] private Toggle categoryTab_Items, categoryTab_Resources;
 
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -23,7 +21,8 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Image itemIcon;
 
     [Header("Inventory Stats")]
-    private EShopCategory currentCategory = EShopCategory.Decorations;
+    [SerializeField] private EShopCategory[] categoriesToShow; // Which categories to display in inventory
+    private EShopCategory currentCategory = EShopCategory.All;
     private InventoryItemData selectedItemData;
     private List<UiInventoryCell> allInventoryCells = new();
 
@@ -66,18 +65,21 @@ public class UiInventoryPanel : UIPanelBase
     private void SetupCategoryTabs()
     {
         // Setup category tab buttons if they exist
-        // for (int i = 0; i < this.categoryTabs.Length; i++)
-        // {
-        //     var tab = this.categoryTabs[i];
-        //     tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EInventoryCategory)i); });
-        //     tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EInventoryCategory)i).ToString();
-        // }
+        for (int i = 0; i < this.categoryTabs.Length; i++)
+        {
+            var tab = this.categoryTabs[i];
+            var shouldShow = i < this.categoriesToShow.Length;
+            tab.gameObject.SetActive(shouldShow);
 
-        this.categoryTab_Items.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EShopCategory.Decorations); });
-        this.categoryTab_Resources.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(EShopCategory.Resources); });
+            if(shouldShow)
+            {
+                var category = this.categoriesToShow[i];
+                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(category); });
+                tab.GetComponentInChildren<TextMeshProUGUI>().text = category.ToString();
+            }
+        }
 
-        //var selectedTab = this.categoryTabs[(int)this.currentCategory];
-        var selectedTab = this.categoryTab_Items;
+        var selectedTab = this.categoryTabs[0];//this.categoryTab_Items;
         selectedTab.isOn = true;
 
         this.isInitialized = true;
@@ -111,8 +113,6 @@ public class UiInventoryPanel : UIPanelBase
         if (!this.isInitialized)
             return;
 
-        var isItems = this.currentCategory != EShopCategory.Resources;
-
         if (shouldRecreateCells || this.allInventoryCells.Count == 0)
             CreateItemGrid();
 
@@ -123,35 +123,25 @@ public class UiInventoryPanel : UIPanelBase
                 item.ClearItem(true);
         }
 
-        this.itemsGridParent.gameObject.SetActive(isItems);
-        this.resourcesDisplayParent.gameObject.SetActive(!isItems);
+        var itemsArray = new InventoryItemData[NumInventorySlots];
 
-        if (isItems)
+        if (this.currentCategory == EShopCategory.All)
         {
-            var itemsArray = new InventoryItemData[NumInventorySlots];
-
-            if (this.currentCategory != EShopCategory.Resources)
-            {
-                itemsArray = SaveManager.Data.AllInventoryItems;
-            }
-            else
-            {
-                itemsArray = InventoryManager.IN.GetItemsByCategory(EShopCategory.Resources);
-            }
-
-            // // Create UI elements for each itemData
-            for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
-            {
-                var itemData = itemsArray[i];
-                if (itemData != null)
-                {
-                    SpawnInventoryItemInCell(itemData, i);
-                }
-            }
+            itemsArray = SaveManager.Data.AllInventoryItems;
         }
         else
         {
-            //handled by ResourceDisplayManager component
+            itemsArray = InventoryManager.IN.GetItemsByCategory(this.currentCategory);
+        }
+
+        // // Create UI elements for each itemData
+        for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
+        {
+            var itemData = itemsArray[i];
+            if (itemData != null)
+            {
+                SpawnInventoryItemInCell(itemData, i);
+            }
         }
     }
 
