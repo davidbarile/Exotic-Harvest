@@ -17,12 +17,11 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private Image itemIcon;
     [SerializeField] private Button purchaseButton;
     [SerializeField] private TextMeshProUGUI purchaseButtonText;
-    [SerializeField] private Transform costDisplayParent;
+    [SerializeField] private ResourceDisplayUI[] buyButtonCostDisplays;
     
     private EShopCategory currentCategory = EShopCategory.Decorations;
     private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
-    private List<GameObject> currentCostDisplays = new();
     
     private void Start()
     {
@@ -204,23 +203,24 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshCostDisplay()
     {
-        // Clear existing cost displays
-        foreach (var costDisplay in this.currentCostDisplays)
+        foreach (var costDisplay in this.buyButtonCostDisplays)
         {
-            if (costDisplay != null)
-                Destroy(costDisplay);
+            costDisplay.gameObject.SetActive(false);
         }
-        this.currentCostDisplays.Clear();
         
         if (this.selectedItemData?.Cost == null)
             return;
             
-        // Create cost displays
-        foreach (var resource in this.selectedItemData.Cost.RequiredResources)
+        for(int i = 0; i < this.buyButtonCostDisplays.Length; i++)
         {
-            var costObj = PrefabManager.IN.SpawnPrefab<CostItemUI>("CostItemUI", costDisplayParent);
-            costObj.Configure(resource.Type, resource.Amount);
-            currentCostDisplays.Add(costObj.gameObject);
+            var costDisplay = this.buyButtonCostDisplays[i];
+            var shouldShow = i < this.selectedItemData.Cost.RequiredResources.Count;
+            costDisplay.gameObject.SetActive(shouldShow);
+            if (shouldShow)
+            {
+                var resourceCost = this.selectedItemData.Cost.RequiredResources[i];
+                costDisplay.Configure(resourceCost.Type, resourceCost);
+            }
         }
     }
     

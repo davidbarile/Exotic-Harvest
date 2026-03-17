@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,6 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] private Button itemButton;
     [SerializeField] private Image itemIcon;
     [SerializeField] private TMP_Text itemNameText;
-    [SerializeField] private TMP_Text priceText;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject cannotAffordOverlay;
@@ -95,20 +93,6 @@ public class ShopItemUI : MonoBehaviour
     {
         if (this.shopItemData?.Cost == null) return;
 
-        var sb = new StringBuilder();
-
-        foreach (var resource in this.shopItemData.Cost.RequiredResources)
-        {
-            if (sb.Length > 0) sb.Append(" ");
-
-            bool hasEnough = ResourceManager.IN?.HasResource(resource.Type, resource.Amount) ?? false;
-
-            string color = hasEnough ? "white" : "red";
-            sb.AppendFormat("<color={0}>{1} {2}</color>", color, resource.Amount, resource.DisplayName);
-        }
-
-        this.priceText.text = string.Empty;//sb.ToString();
-
         for(int i = 0; i < resourceCostDisplays.Length; i++)
         {
             var costDisplay = resourceCostDisplays[i];
@@ -141,10 +125,7 @@ public class ShopItemUI : MonoBehaviour
         }
         
         // // Update button interactability
-        // if (itemButton != null)
-        // {
-        //     itemButton.interactable = canPurchase && canAfford;
-        // }
+        itemButton.interactable = canPurchase && canAfford;
     }
     
     private void SelectItem()

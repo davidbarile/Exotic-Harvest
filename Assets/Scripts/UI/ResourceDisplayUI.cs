@@ -11,9 +11,7 @@ public class ResourceDisplayUI : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private Image backgroundImage;
-
     [SerializeField] private bool isShopDisplay; // Set to false for static displays (e.g. shop costs)
-
     [Space, SerializeField] private TooltipTrigger tooltipTrigger;
     
     private EResourceType resourceType;
