@@ -21,9 +21,9 @@ public class ShopManager : MonoBehaviour
     public ShopDatabase Database => this.shopDatabase;
     
     // Events
-    public static event Action<ShopItemData> OnItemPurchased;
-    public static event Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
-    public static event Action OnShopRefreshed;
+    public static Action<ShopItemData> OnItemPurchased;
+    public static Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
+    public static Action OnShopRefreshed;
     
     private void Awake()
     {

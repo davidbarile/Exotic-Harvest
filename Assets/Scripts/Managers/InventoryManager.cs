@@ -29,6 +29,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        ShopManager.OnItemPurchased += OnShopItemPurchased;
+    }
+
+    private void OnDestroy()
+    {
+        ShopManager.OnItemPurchased -= OnShopItemPurchased;
+    }
+
     public void InitInventoryDict()
     {
         this.itemsByCategory.Clear();
@@ -186,5 +196,45 @@ public class InventoryManager : MonoBehaviour
             saveData[kvp.Key.ToString()] = kvp.Value;
         }
         return saveData;
+    }
+
+    private void OnShopItemPurchased(ShopItemData itemData)
+    {
+        // Handle adding purchased item to inventory
+        if (itemData != null)
+        {
+            new DecorationData
+            {
+                // Type = decorationData.Type,
+                // PrefabName = decorationData.PrefabName,
+                // WorldPosition = decorationData.WorldPosition,
+                // ParentGuid = decorationData.ParentGuid,
+                // SiblingIndex = decorationData.SiblingIndex,
+                // CurrentAmount = decorationData.CurrentAmount,
+                // LastGenerationTime = decorationData.LastGenerationTime,
+                // IsActive = decorationData.IsActive
+            };
+        
+            var inventoryItemData = new InventoryItemData
+            {
+                //Id = itemData.Id,
+                DisplayName = itemData.DisplayName,
+                Category = itemData.Category,
+                IconSpriteName = itemData.Icon != null ? itemData.Icon.name : string.Empty,
+                CanDragToWorld = itemData.CanPurchase, // Example property, adjust as needed
+                //DecorationData = DecorationData.Copy(itemData.DecorationType, itemData.ResourceType, itemData.ResourceAmount)
+            };
+
+            // Find first empty slot in the appropriate category
+            var itemsOfCategory = this.itemsByCategory[itemData.Category];
+            for (int i = 0; i < itemsOfCategory.Length; i++)
+            {
+                if (itemsOfCategory[i] == null)
+                {
+                    AddItemToInventory(inventoryItemData, itemData.Category, i);
+                    break;
+                }
+            }
+        }
     }
 }
