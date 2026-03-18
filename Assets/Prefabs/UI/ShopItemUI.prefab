@@ -97,11 +97,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.84099996, g: 0.84099996, b: 0.84099996, a: 1}
-    m_PressedColor: {r: 0.8392157, g: 0.8392157, b: 0.8392157, a: 1}
-    m_SelectedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.504, g: 0.504, b: 0.504, a: 1}
+    m_NormalColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+    m_HighlightedColor: {r: 0.62, g: 0.62, b: 0.62, a: 1}
+    m_PressedColor: {r: 0.62, g: 0.62, b: 0.62, a: 1}
+    m_SelectedColor: {r: 0.59599996, g: 0.59599996, b: 0.59599996, a: 1}
+    m_DisabledColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -119,7 +119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5720958180764395643}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6877415107789952351}
+        m_TargetAssemblyTypeName: ShopItemUI, Assembly-CSharp
+        m_MethodName: SelectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5720958180764395643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.UI.ProceduralImage.ProceduralImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78039217}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -317,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.UI.ProceduralImage.ProceduralImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6509804}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -655,7 +667,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1078,6 +1090,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6877415107789952351}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopItemUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8097342144563421131, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_SizeDelta.x
       value: -38
@@ -1275,6 +1299,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6877415107789952351}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopItemUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8097342144563421131, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_SizeDelta.x
       value: -38
@@ -1471,6 +1507,18 @@ PrefabInstance:
     - target: {fileID: 2762702294002364701, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6877415107789952351}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopItemUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8097342144563421131, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1672,6 +1720,18 @@ PrefabInstance:
     - target: {fileID: 2762702294002364701, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6877415107789952351}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236042993726227405, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
+      propertyPath: OnLeftClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopItemUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8097342144563421131, guid: d6aa6f312c41e4549ac9cd134d18676c, type: 3}
       propertyPath: m_SizeDelta.x

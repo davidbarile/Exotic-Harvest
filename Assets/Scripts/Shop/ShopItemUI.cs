@@ -22,14 +22,6 @@ public class ShopItemUI : MonoBehaviour
     
     public event Action<ShopItemData> OnItemSelected;
     
-    private void Awake()
-    {
-        if (this.itemButton != null)
-        {
-            this.itemButton.onClick.AddListener(SelectItem);
-        }
-    }
-    
     public void Initialize(ShopItemData itemData)
     {
         this.shopItemData = itemData;
@@ -104,23 +96,23 @@ public class ShopItemUI : MonoBehaviour
             }
         }
     }
-    
+
     private void UpdateAvailabilityOverlays()
     {
         bool canPurchase = this.shopItemData != null && this.shopItemData.CanPurchase;
         bool canAfford = this.shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
-        
+
         // Show sold out overlay
         this.soldOutOverlay.SetActive(!canPurchase);
-        
+
         // Show cannot afford overlay
         this.cannotAffordOverlay.SetActive(canPurchase && !canAfford);
-        
-        // don't do this because prevents the Item Details Panel from being shown
-        //itemButton.interactable = canPurchase && canAfford;
+
+        //this.itemButton.interactable = canPurchase && canAfford;
     }
     
-    private void SelectItem()
+    //called by Button and other children with ClickableObject script on prefab
+    public void SelectItem()
     {
         OnItemSelected?.Invoke(this.shopItemData);
     }

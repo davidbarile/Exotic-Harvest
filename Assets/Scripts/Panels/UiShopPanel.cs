@@ -49,9 +49,6 @@ public class UiShopPanel : UIPanelBase
         {
             ResourceManager.OnResourceChanged += OnResourceChanged;
         }
-        
-        if (this.purchaseButton != null)
-            this.purchaseButton.onClick.AddListener(PurchaseSelectedItem);
 
         RefreshShop();
         
@@ -72,9 +69,6 @@ public class UiShopPanel : UIPanelBase
         {
             ResourceManager.OnResourceChanged -= OnResourceChanged;
         }
-        
-        if (this.purchaseButton != null)
-            this.purchaseButton.onClick.RemoveAllListeners();
     }
     
     private void SetupCategoryTabs()
@@ -231,10 +225,13 @@ public class UiShopPanel : UIPanelBase
         }
     }
     
-    private void PurchaseSelectedItem()
+    public void PurchaseSelectedItem()
     {
         if (this.selectedItemData == null)
             return;
+
+        if (!this.purchaseButton.interactable)
+            return;//blocks sub elements from triggering purchase if button is disabled
 
         ShopManager.IN.TryPurchaseItem(this.selectedItemData);
     }

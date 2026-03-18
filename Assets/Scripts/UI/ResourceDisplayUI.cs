@@ -65,7 +65,7 @@ public class ResourceDisplayUI : MonoBehaviour
 
         // Update amount text
         this.amountText.text = displayAmount.ToString();
-        this.amountText.color = this.resourceConfig?.UiColor ?? Color.white;
+        this.amountText.color = Color.white;
 
         bool hasEnough = true;
 
