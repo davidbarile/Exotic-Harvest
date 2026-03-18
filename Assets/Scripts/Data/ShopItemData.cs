@@ -28,6 +28,9 @@ public class ShopItemData
     public EResourceType ResourceType;     // For resource items
     public int ResourceAmount = 1;        // Amount when purchasing resources
 
+    [Header("Decoration Data")]
+    public DecorationData DecorationData;
+
     [Header("Visual")]
     public Color BackgroundColor = Color.white;
     public bool ShowInShop = true;

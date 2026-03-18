@@ -9,7 +9,6 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"Pointer entered {this.gameObject.name}");
         if (string.IsNullOrEmpty(this.TooltipText))
             return;
             

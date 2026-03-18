@@ -25,37 +25,18 @@ public class ShopManager : MonoBehaviour
     public static Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
     public static Action OnShopRefreshed;
     
-    private void Awake()
-    {
-        if (IN == null)
-        {
-            IN = this;
-        }
-        else if (IN != this)
-        {
-            Debug.LogWarning("Multiple ShopManager instances found. Destroying duplicate.");
-            Destroy(gameObject);
-            return;
-        }
-        
-        InitializeShop();
-    }
-    
-    private void Start()
-    {
-        SetupDefaultItems();
-    }
-    
-    private void InitializeShop()
+    public void Init()
     {
         this.shopItemsById = new();
         this.itemsByCategory = new();
-        
+
         // Initialize category lists
         foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
             this.itemsByCategory[category] = new();
         }
+        
+        SetupDefaultItems();
     }
     
     private void SetupDefaultItems()
@@ -63,38 +44,14 @@ public class ShopManager : MonoBehaviour
         // Create ShopItems from ScriptableObject definitions
         if (this.shopDatabase != null && this.shopDatabase.AllShopItems != null)
         {
-            foreach (var definition in this.shopDatabase.AllShopItems)
+            foreach (var config in this.shopDatabase.AllShopItems)
             {
-                if (definition != null)
-                {
-                    var shopItem = CreateShopItemFromDefinition(definition);
-                    if (shopItem != null)
-                    {
-                        AddItem(shopItem);
-                    }
-                }
+                var shopItem = ShopItemConfig.CreateShopItemDataFromConfig(config);
+                AddItem(shopItem);
             }
         }
         
         RefreshShop();
-    }
-    
-    private ShopItemData CreateShopItemFromDefinition(ShopItemConfig definition)
-    {
-        var shopItem = new ShopItemData(definition.ID, definition.DisplayName, definition.Category)
-        {
-            Description = definition.Description,
-            Cost = definition.Cost,
-            IsUnlocked = definition.IsUnlockedByDefault,
-            IsLimitedQuantity = definition.HasLimitedQuantity,
-            MaxPurchases = definition.MaxPurchases,
-            DecorationType = definition.DecorationType,
-            ResourceType = definition.ResourceType,
-            ResourceAmount = definition.ResourceAmount,
-            Icon = definition.Icon
-        };
-        
-        return shopItem;
     }
     
     public ShopItemData CreateDecorationItem(string id, string name, string description, EDecorationType decorationType, ResourceCost cost)

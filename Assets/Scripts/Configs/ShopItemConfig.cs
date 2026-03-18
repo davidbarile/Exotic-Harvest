@@ -43,15 +43,15 @@ public class ShopItemConfig : ScriptableObject
     
     // Runtime properties
     public string ID => name; // Use ScriptableObject name as ID
-    
+
     public bool IsUnlocked(int playerLevel, string[] purchasedItemIds)
     {
         if (!this.IsUnlockedByDefault)
             return false;
-            
+
         if (playerLevel < this.PlayerLevelRequired)
             return false;
-            
+
         // Check prerequisites
         foreach (var prereq in this.PrerequisiteItems)
         {
@@ -70,7 +70,26 @@ public class ShopItemConfig : ScriptableObject
             if (!found)
                 return false;
         }
-        
+
         return true;
+    }
+    
+    public static ShopItemData CreateShopItemDataFromConfig(ShopItemConfig inConfig)
+    {
+        var shopItem = new ShopItemData(inConfig.ID, inConfig.DisplayName, inConfig.Category)
+        {
+            Description = inConfig.Description,
+            Cost = inConfig.Cost,
+            IsUnlocked = inConfig.IsUnlockedByDefault,
+            IsLimitedQuantity = inConfig.HasLimitedQuantity,
+            MaxPurchases = inConfig.MaxPurchases,
+            DecorationType = inConfig.DecorationType,
+            ResourceType = inConfig.ResourceType,
+            ResourceAmount = inConfig.ResourceAmount,
+            Icon = inConfig.Icon,
+            DecorationData = DecorationData.Copy(inConfig.DecorationData)
+        };
+        
+        return shopItem;
     }
 }

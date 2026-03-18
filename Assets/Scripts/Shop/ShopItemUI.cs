@@ -113,19 +113,13 @@ public class ShopItemUI : MonoBehaviour
         bool canAfford = this.shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
         
         // Show sold out overlay
-        if (this.soldOutOverlay != null)
-        {
-            this.soldOutOverlay.SetActive(!canPurchase);
-        }
+        this.soldOutOverlay.SetActive(!canPurchase);
         
         // Show cannot afford overlay
-        if (this.cannotAffordOverlay != null)
-        {
-            this.cannotAffordOverlay.SetActive(canPurchase && !canAfford);
-        }
+        this.cannotAffordOverlay.SetActive(canPurchase && !canAfford);
         
-        // // Update button interactability
-        itemButton.interactable = canPurchase && canAfford;
+        // don't do this because prevents the Item Details Panel from being shown
+        //itemButton.interactable = canPurchase && canAfford;
     }
     
     private void SelectItem()

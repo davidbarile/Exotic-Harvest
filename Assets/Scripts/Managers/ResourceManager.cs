@@ -23,6 +23,8 @@ public class ResourceManager : MonoBehaviour
     public static event Action<EResourceType, int> OnResourceChanged;
     public static event Action<EResourceType, int> OnResourceGained;
     public static event Action OnInventoryFull;
+
+    public int DebugAddAmount = 10; // Amount to add when testing resource gain
     
     private void Awake()
     {

@@ -30,6 +30,7 @@ namespace Kirurobo
         private float touchDuration = 0f;
         private float touchDurationThreshold = 0.5f;   // Long tap time threshold. [s]
 #endif
+        [SerializeField] private bool shouldShowMenuOnRightClick = true;
         public Toggle transparentToggle;
         public Slider alphaSlider;
         public Toggle topmostToggle;
@@ -169,7 +170,7 @@ namespace Kirurobo
             }
             if (InputProxy.GetMouseButtonUp(1))
             {
-                if (mouseMoveSS < mouseMoveSSThreshold)
+                if (mouseMoveSS < mouseMoveSSThreshold && shouldShowMenuOnRightClick)
                 {
                     ShowMenu(lastMousePosition);
                 }

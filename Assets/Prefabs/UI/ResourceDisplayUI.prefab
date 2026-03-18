@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7909804203037494150}
   - component: {fileID: 1455210214939626983}
   - component: {fileID: 463727920880288472}
+  - component: {fileID: 7236042993726227405}
   m_Layer: 5
   m_Name: ResourceDisplayUI
   m_TagString: Untagged
@@ -126,6 +127,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipOffset: {x: -50, y: 40, z: 0}
   TooltipText: 
+--- !u!114 &7236042993726227405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3234567890123456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb46045365fc748e1a33649bf242ff61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickableObject
+  OnLeftClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 574298216413674008}
+        m_TargetAssemblyTypeName: ResourceDisplayUI, Assembly-CSharp
+        m_MethodName: HandleLeftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnMiddleClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 574298216413674008}
+        m_TargetAssemblyTypeName: ResourceDisplayUI, Assembly-CSharp
+        m_MethodName: HandleMiddleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRightClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 574298216413674008}
+        m_TargetAssemblyTypeName: ResourceDisplayUI, Assembly-CSharp
+        m_MethodName: HandleRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4188734161195034594
 GameObject:
   m_ObjectHideFlags: 0

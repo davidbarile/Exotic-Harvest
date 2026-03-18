@@ -60,7 +60,7 @@ public class ResourceDisplayUI : MonoBehaviour
         if (ResourceManager.IN == null) return;
 
         int currentAmount = ResourceManager.IN.GetResourceAmount(this.resourceType);
-        
+
         var displayAmount = this.isShopDisplay ? this.costAmount : currentAmount;
 
         // Update amount text
@@ -76,7 +76,7 @@ public class ResourceDisplayUI : MonoBehaviour
             if (!hasEnough)
                 this.amountText.color = Color.red;
         }
-        
+
         // Update icon
         this.iconImage.sprite = this.resourceConfig.Icon;
         this.iconImage.color = this.resourceConfig.UiColor;
@@ -94,7 +94,7 @@ public class ResourceDisplayUI : MonoBehaviour
             iconColor.a = 0.7f;
             this.iconImage.color = iconColor;
         }
-        
+
         bgColor.a = 0.3f;
         this.backgroundImage.color = bgColor;
 
@@ -102,7 +102,7 @@ public class ResourceDisplayUI : MonoBehaviour
         {
             if (this.isShopDisplay)
             {
-                if(hasEnough)
+                if (hasEnough)
                     this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}";
                 else
                     this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}\n<color=red>{currentAmount}/{this.costAmount}</color>";
@@ -110,6 +110,27 @@ public class ResourceDisplayUI : MonoBehaviour
             else
                 this.tooltipTrigger.TooltipText = this.resourceConfig.DisplayName;//$"{config.DisplayName}\n{config.Description}";
         }
+    }
+
+    //called from ClickableObject script on prefab
+    public void HandleRightClick()
+    {
+        //TODO: disable in final build
+        var amount = ResourceManager.IN.DebugAddAmount;
+        ResourceManager.IN.AddResource(this.resourceType, amount);
+    }
+
+    public void HandleMiddleClick()
+    {
+        //TODO: disable in final build
+        var amount = ResourceManager.IN.DebugAddAmount;
+        var cost = new ResourceCost(this.resourceType, amount);
+        ResourceManager.IN.SpendResources(cost);
+    }
+
+    public void HandleLeftClick()
+    {
+        Debug.Log($"You have  {ResourceManager.IN.GetResourceAmount(this.resourceType)} {this.resourceType}");
     }
     
     //TODO: Move this to a color manager

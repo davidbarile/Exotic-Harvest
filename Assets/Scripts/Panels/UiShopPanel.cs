@@ -23,7 +23,7 @@ public class UiShopPanel : UIPanelBase
     private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
     
-    private void Start()
+    public void Init()
     {
         SetupCategoryTabs();
         RefreshShop();

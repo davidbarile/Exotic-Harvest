@@ -9,10 +9,10 @@ using UnityEngine;
 public class ShopDatabase : ScriptableObject
 {
     [Header("All Shop Items")]
-    [SerializeField] private ShopItemConfig[] allShopItems;
+    [SerializeField] private ShopItemConfig[] allShopItems = new ShopItemConfig[0];
     
-    private Dictionary<string, ShopItemConfig> itemLookup;
-    private Dictionary<EShopCategory, List<ShopItemConfig>> itemsByCategory;
+    private Dictionary<string, ShopItemConfig> itemLookup = new();
+    private Dictionary<EShopCategory, List<ShopItemConfig>> itemsByCategory = new();
     
     public ShopItemConfig[] AllShopItems => this.allShopItems;
     
