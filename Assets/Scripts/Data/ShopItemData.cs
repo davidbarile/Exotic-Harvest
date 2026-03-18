@@ -27,6 +27,8 @@ public class ShopItemData
     public EDecorationType DecorationType; // For decoration items
     public EResourceType ResourceType;     // For resource items
     public int ResourceAmount = 1;        // Amount when purchasing resources
+    public int Quanity = 1;
+    public int MaxStack = 1;
 
     [Header("Decoration Data")]
     public DecorationData DecorationData;
@@ -39,6 +41,9 @@ public class ShopItemData
     public bool CanPurchase => IsUnlocked && (!IsLimitedQuantity || CurrentPurchases < MaxPurchases);
     public bool IsMaxedOut => IsLimitedQuantity && CurrentPurchases >= MaxPurchases;
     public int RemainingPurchases => IsLimitedQuantity ? MaxPurchases - CurrentPurchases : -1;
+    public bool IsTool => this.Category == EShopCategory.Tools;
+    public bool IsResource => this.Category == EShopCategory.Resources;
+    public bool IsDecoration => this.Category == EShopCategory.Decorations;
     
     public ShopItemData(string id, string name, EShopCategory category)
     {
@@ -73,6 +78,8 @@ public class ShopItemData
         {
             DisplayName = shopItemData.DisplayName,
             Category = shopItemData.Category,
+            Quantity = shopItemData.IsResource ? shopItemData.ResourceAmount : shopItemData.Quanity,
+            MaxStack = shopItemData.IsResource ? 100 : shopItemData.MaxStack,
             IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
             CanDragToWorld = shopItemData.DecorationType != EDecorationType.None, // Example logic
             DecorationData = DecorationData.Copy(shopItemData.DecorationData)

@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager IN;
 
-    public static int NumInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
+    public static int NumInventorySlots = 10;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
     public static Action OnInventoryRefreshed;
 
@@ -122,15 +122,10 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            //all slots full, check for stackable item
-            if (itemData.MaxStack.Equals(1))
-            {
-                //not stackable and no empty slots, can't add
-                return false;
-            }
-
             //look for existing stack to add to
             itemsOfCategory = this.itemsByCategory[itemData.Category];
+
+            print($"itemData.Category = {itemData.Category}.  length: {itemsOfCategory.Length}");
 
             //create backup in case we can't distribute all elements and need to revert
             var backupItemsOfCategory = new InventoryItemData[itemsOfCategory.Length];
@@ -141,12 +136,16 @@ public class InventoryManager : MonoBehaviour
                 var searchItem = itemsOfCategory[i];
                 if (searchItem.DisplayName == itemData.DisplayName)
                 {
+                    print($"----searchItem.SpaceAvailableInStack = {searchItem.SpaceAvailableInStack} searchItem {searchItem.Quantity} Max:  {searchItem.MaxStack}");
+
                     if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
                     {
                         //found stack with enough space, add and exit
-                        searchItem.Quantity += itemData.Quantity;
-                        SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
-                        itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
+                        itemsOfCategory[i].Quantity += itemData.Quantity;
+                        SaveManager.Data.AllInventoryItems[i].Quantity += itemData.Quantity;
+                        print($"Added {itemData.Quantity} to existing stack, new quantity: {itemsOfCategory[i].Quantity}");
+                        //SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
+                        //itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
                         OnInventoryRefreshed?.Invoke();
                         return true;
                     }
@@ -154,11 +153,14 @@ public class InventoryManager : MonoBehaviour
                     {
                         //found stack but not enough space, fill stack and keep looking for more stacks or empty slot
                         var quantityToAdd = searchItem.SpaceAvailableInStack;
-                        searchItem.Quantity += quantityToAdd;
+                        itemsOfCategory[i].Quantity += quantityToAdd;
+                        SaveManager.Data.AllInventoryItems[i].Quantity += quantityToAdd;
                         itemData.Quantity -= quantityToAdd;
 
-                        SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
-                        itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
+                         print($"2. Added {quantityToAdd} to existing stack, new quantity: {itemsOfCategory[i].Quantity}");
+
+                        //SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
+                        //itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
                     }
                 }
             }

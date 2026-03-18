@@ -61,8 +61,6 @@ public class ShopItemUI : MonoBehaviour
     private void UpdateDisplay()
     {
         if (this.shopItemData == null) return;
-
-        Debug.Log("Updating display for shop itemData: " + this.shopItemData.DisplayName);
         
         // Update itemData name
         if (this.itemNameText != null)

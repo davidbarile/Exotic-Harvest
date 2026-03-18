@@ -77,7 +77,6 @@ public class ResourceDisplayUI : MonoBehaviour
         }
 
         // Update icon
-        Debug.Log($"{this.resourceType}: this.resourceConfig = {this.resourceConfig}, this.resourceConfig.Icon = {this.resourceConfig?.Icon}", gameObject);
         this.iconImage.sprite = this.resourceConfig.Icon;
         this.iconImage.color = this.resourceConfig.UiColor;
 

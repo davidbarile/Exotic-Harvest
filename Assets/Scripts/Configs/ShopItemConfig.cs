@@ -12,9 +12,13 @@ public class ShopItemConfig : ScriptableObject
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
 
-    [Header("Inventory Item Data")]
+    [Header("Decoration Data")]
     public bool CanDragToWorld;
     public DecorationData DecorationData;
+
+    [Header("Inventory Item Data")]
+    public int Quanity = 1;
+    public int MaxStack = 1;
 
     [Header("Shop Properties")]
     public EShopCategory Category;
