@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ResourceConfig", menuName = "Exotic Harvest/ResourceConfig")]
 public class ResourceConfig : ScriptableObject
 {
+    public string ID; // Unique identifier, can be auto-generated from name or set manually
     [Header("Basic Info")]
     public string DisplayName;
     [TextArea(2, 4)] public string Description;
@@ -33,8 +34,18 @@ public class ResourceConfig : ScriptableObject
     public AudioClip CollectionSound;
     public AudioClip SpawnSound;
     
-    // Runtime properties
-    public string ID => name; // Use ScriptableObject name as ID
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // if (!string.IsNullOrEmpty(this.ID))
+        //     return;
+
+        this.ID = this.name;
+        //this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
+        //this.ID = $"Resource_{this.ID}";
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+#endif
     
     public bool IsAvailableAtTime(ETimeOfDay currentTime)
     {

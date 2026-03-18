@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68d8b037a5f474a51aea388e35ee8190, type: 3}
-  m_Name: Seeds
+  m_Name: Resource_Seeds
   m_EditorClassIdentifier: 
+  ID: Seeds
   DisplayName: Seeds
   Description: 
   Icon: {fileID: 21300000, guid: 4308fff8ea6634c0faf83eb5878a27f9, type: 3}
@@ -19,7 +20,7 @@ MonoBehaviour:
   ResourceType: 512
   Category: 4
   BaseValue: 1
-  MaxStackSize: 999
+  MaxStack: 1000000
   IsAvailableAtStart: 1
   AvailableTimes: 07000000
   AvailableWeather: 01000000

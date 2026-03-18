@@ -11,8 +11,8 @@ public class ShopDatabase : ScriptableObject
     [Header("All Shop Items")]
     [SerializeField] private ShopItemConfig[] allShopItems = new ShopItemConfig[0];
     
-    private Dictionary<string, ShopItemConfig> itemLookup = new();
-    private Dictionary<EShopCategory, List<ShopItemConfig>> itemsByCategory = new();
+    private Dictionary<string, ShopItemConfig> itemLookupDict = new();
+    private Dictionary<EShopCategory, List<ShopItemConfig>> itemsByCategoryDict = new();
     
     public ShopItemConfig[] AllShopItems => this.allShopItems;
     
@@ -27,41 +27,36 @@ public class ShopDatabase : ScriptableObject
     }
     
     private void BuildLookupTables()
-    {
-        if (this.allShopItems == null) return;
-        
-        this.itemLookup = new();
-        this.itemsByCategory = new();
+    {        
+        this.itemLookupDict = new();
+        this.itemsByCategoryDict = new();
         
         // Initialize category lists
         foreach (EShopCategory category in System.Enum.GetValues(typeof(EShopCategory)))
         {
-            this.itemsByCategory[category] = new();
+            this.itemsByCategoryDict[category] = new();
         }
         
         foreach (var item in this.allShopItems)
         {
-            if (item != null)
-            {
-                this.itemLookup[item.ID] = item;
-                this.itemsByCategory[item.Category].Add(item);
-            }
+             this.itemLookupDict[item.ID] = item;
+            this.itemsByCategoryDict[item.Category].Add(item);
         }
     }
     
     public ShopItemConfig GetShopItem(string id)
     {
-        if (this.itemLookup == null) BuildLookupTables();
-        this.itemLookup.TryGetValue(id, out ShopItemConfig item);
+        if (this.itemLookupDict == null) BuildLookupTables();
+
+        this.itemLookupDict.TryGetValue(id, out ShopItemConfig item);
         return item;
     }
     
     public ShopItemConfig[] GetItemsByCategory(EShopCategory category)
     {
-        if (this.allShopItems == null) return new ShopItemConfig[0];
-        if (this.itemsByCategory == null) BuildLookupTables();
+        if (this.itemsByCategoryDict == null) BuildLookupTables();
         
-        if (this.itemsByCategory.TryGetValue(category, out List<ShopItemConfig> items))
+        if (this.itemsByCategoryDict.TryGetValue(category, out List<ShopItemConfig> items))
             return items.ToArray();
         return new ShopItemConfig[0];
     }
@@ -84,7 +79,6 @@ public class ShopDatabase : ScriptableObject
     
     public ShopItemConfig[] GetUnlockedItems(int playerLevel = 1, string[] purchasedItemIds = null)
     {
-        if (this.allShopItems == null) return new ShopItemConfig[0];
         return this.allShopItems.Where(item => item != null && item.IsUnlocked(playerLevel, purchasedItemIds ?? new string[0])).ToArray();
     }
 

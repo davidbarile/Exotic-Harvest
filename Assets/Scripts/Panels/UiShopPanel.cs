@@ -182,7 +182,7 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshPurchaseButton()
     {
-        if (this.purchaseButton == null || this.selectedItemData == null)
+        if (this.selectedItemData == null)
             return;
             
         bool canPurchase = this.selectedItemData.CanPurchase && 
@@ -226,10 +226,10 @@ public class UiShopPanel : UIPanelBase
     
     private void PurchaseSelectedItem()
     {
-        if (this.selectedItemData != null)
-        {
-            ShopManager.IN.TryPurchaseItem(this.selectedItemData);
-        }
+        if (this.selectedItemData == null)
+            return;
+
+        ShopManager.IN.TryPurchaseItem(this.selectedItemData);
     }
     
     private void OnItemPurchased(ShopItemData itemData)

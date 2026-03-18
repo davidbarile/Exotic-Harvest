@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Shop Item", menuName = "Exotic Harvest/Shop Item Definition")]
 public class ShopItemConfig : ScriptableObject
 {
+    public string ID; // Unique identifier, can be auto-generated from name or set manually
     [Header("Basic Info")]
     public string DisplayName;
     [TextArea(2, 4)] public string Description;
@@ -41,8 +42,17 @@ public class ShopItemConfig : ScriptableObject
     public Color BackgroundColor = Color.white;
     public bool ShowInShop = true;
     
-    // Runtime properties
-    public string ID => name; // Use ScriptableObject name as ID
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (!string.IsNullOrEmpty(this.ID))
+            return;
+
+        this.ID = this.name;
+        //this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
+        UnityEditor.EditorUtility.SetDirty(this);
+    }
+#endif
 
     public bool IsUnlocked(int playerLevel, string[] purchasedItemIds)
     {
