@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static ColorPalette;
 
 /// <summary>
 /// UI component for displaying a single resource amount
@@ -81,20 +82,20 @@ public class ResourceDisplayUI : MonoBehaviour
         this.iconImage.color = this.resourceConfig.UiColor;
 
         // Update background color based on resource category
-        var bgColor = GetCategoryColor(this.resourceConfig.Category);
+        var bgColor = ColorManager.IN.GetResourceCategoryColor(this.resourceConfig.Category, EColorType.Dark);
 
         // If this is a resources display, gray out display if amount is 0
         if (this.isResourcesDisplay && currentAmount == 0)
         {
             this.amountText.color = Color.Lerp(Color.grey, Color.white, 0.6f);
-            bgColor = Color.Lerp(Color.grey, Color.white, 0.25f);
+            bgColor = ColorManager.IN.GetResourceCategoryColor(this.resourceConfig.Category, EColorType.Disabled);
 
             var iconColor = Color.grey;
-            iconColor.a = 0.7f;
+            iconColor.a = 0.6f;
             this.iconImage.color = iconColor;
         }
 
-        bgColor.a = 0.3f;
+        //bgColor.a = 0.3f;
         this.backgroundImage.color = bgColor;
 
         if (this.tooltipTrigger != null)
@@ -130,22 +131,5 @@ public class ResourceDisplayUI : MonoBehaviour
     public void HandleLeftClick()
     {
         Debug.Log($"You have  {ResourceManager.IN.GetResourceAmount(this.resourceType)} {this.resourceType}");
-    }
-    
-    //TODO: Move this to a color manager
-    private Color GetCategoryColor(EResourceCategory category)
-    {
-        return category switch
-        {
-            EResourceCategory.Primary => new Color(0.2f, 0.6f, 1f), // Blue
-            EResourceCategory.Bugs => new Color(0.8f, 0.4f, 0.2f), // Orange
-            EResourceCategory.Nature => new Color(0.2f, 0.8f, 0.2f), // Green
-            EResourceCategory.NightSky => new Color(0.4f, 0.2f, 0.8f), // Purple
-            EResourceCategory.Valuables => new Color(1f, 0.8f, 0.2f), // Gold
-            EResourceCategory.Abstract => new Color(0.6f, 0.6f, 0.6f), // Gray
-            EResourceCategory.Special => new Color(1f, 0.2f, 0.8f), // Pink
-            EResourceCategory.Premium => new Color(0.8f, 0.2f, 0.2f), // Red
-            _ => Color.white
-        };
     }
 }

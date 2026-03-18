@@ -17,6 +17,7 @@ using UnityEngine;
 [RequireComponent(typeof(InventoryManager))]
 [RequireComponent(typeof(NotificationManager))]
 [RequireComponent(typeof(SpriteManager))]
+[RequireComponent(typeof(ColorManager))]
 [RequireComponent(typeof(PrefabManager))]
 [RequireComponent(typeof(LootManager))]
 public class SingletonManager : MonoBehaviour
@@ -40,6 +41,7 @@ public class SingletonManager : MonoBehaviour
         InventoryManager.IN = this.GetComponent<InventoryManager>();
         NotificationManager.IN = this.GetComponent<NotificationManager>();
         SpriteManager.IN = this.GetComponent<SpriteManager>();
+        ColorManager.IN = this.GetComponent<ColorManager>();
         PrefabManager.IN = this.GetComponent<PrefabManager>();
         TooltipManager.IN = this.GetComponent<TooltipManager>();
         LootManager.IN = this.GetComponent<LootManager>();

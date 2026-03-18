@@ -6269,6 +6269,7 @@ GameObject:
   - component: {fileID: 1713415301}
   - component: {fileID: 1713415306}
   - component: {fileID: 1713415303}
+  - component: {fileID: 1713415308}
   - component: {fileID: 1713415305}
   - component: {fileID: 1713415300}
   m_Layer: 0
@@ -6772,6 +6773,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LootManager
   lootConfigs:
   - {fileID: 11400000, guid: eec7cdd9b751f4a429f7e96926496da6, type: 2}
+--- !u!114 &1713415308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713415284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1fe8ce7f370490088b324d6c96fe9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorManager
+  resourceColors:
+  - Category: 1
+    Palette: {fileID: 11400000, guid: 251003a7142ba4cbdba8b8049dd28252, type: 2}
+  - Category: 2
+    Palette: {fileID: 11400000, guid: 53b78b4784c9f40c3bdd628a51a68201, type: 2}
+  - Category: 4
+    Palette: {fileID: 11400000, guid: 43297843f50a544dd9ceae2838e8c126, type: 2}
+  - Category: 8
+    Palette: {fileID: 11400000, guid: b76387f4e580c421da2bbc5fd104e1ec, type: 2}
+  - Category: 16
+    Palette: {fileID: 11400000, guid: 3416fe345b1a948c983d476604777eed, type: 2}
+  - Category: 32
+    Palette: {fileID: 11400000, guid: eaee5f0e97e564c7dbbf9c694f80067b, type: 2}
+  - Category: 64
+    Palette: {fileID: 11400000, guid: f8ea90431148f49179e134f1652eb3b5, type: 2}
+  - Category: 128
+    Palette: {fileID: 11400000, guid: 710ac1df8e79549c287e0d0b82182ed9, type: 2}
+  - Category: 256
+    Palette: {fileID: 11400000, guid: b516098650113421aa9b39848c834fb5, type: 2}
 --- !u!1 &1717538038
 GameObject:
   m_ObjectHideFlags: 0

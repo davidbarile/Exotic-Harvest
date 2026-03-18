@@ -11,5 +11,6 @@ public enum EResourceCategory
     Abstract = 1 << 5,    // Secrets, memories, intangible resources
     Special = 1 << 6,     // Rare event resources
     Premium = 1 << 7,      // Hard currency
+    Beach = 1 << 8,      // Beach resources
     All = ~0
 }
