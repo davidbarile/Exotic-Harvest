@@ -18,8 +18,7 @@ public class GameSaveData
     public float Experience = 0f;
 
     [Header("Inventory")]
-    public Dictionary<string, InventoryItemData[]> InventoryDataDict = new();
-    public InventoryItemData[] AllInventoryItems = new InventoryItemData[InventoryManager.NumInventorySlots];
+    public InventoryItemData[] InventoryItems = new InventoryItemData[InventoryManager.NumInventorySlots];
 
     [Header("World Items")]
     public List<InventoryItemData> WorldItems = new();

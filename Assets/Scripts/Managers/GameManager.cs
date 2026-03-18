@@ -19,12 +19,11 @@ public class GameManager : MonoBehaviour
         var isNewGame = !SaveManager.IN.HasSaveFile;
         SaveManager.IN.Init();
         ShopManager.IN.Init();
-        InventoryManager.IN.InitInventoryDict();
 
         if (isNewGame)
             InventoryManager.IN.AddDefaultItemsToInventory();
         else
-            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.Data.InventoryDataDict, SaveManager.Data.AllInventoryItems);
+            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.Data.InventoryItems);
     
         UiManager.IN.ResourcesPanel.Init();
     }

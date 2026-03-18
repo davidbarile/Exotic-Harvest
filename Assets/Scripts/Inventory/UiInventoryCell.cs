@@ -101,8 +101,8 @@ public class UiInventoryCell : MonoBehaviour
         AddItem(thisItem, otherItemData);
         otherCell.AddItem(otherItem, thisItemData);
 
-        SaveManager.Data.AllInventoryItems[this.CellIndex] = this.Item.ItemData;
-        SaveManager.Data.AllInventoryItems[otherCell.CellIndex] = otherItem.ItemData;
+        SaveManager.Data.InventoryItems[this.CellIndex] = this.Item.ItemData;
+        SaveManager.Data.InventoryItems[otherCell.CellIndex] = otherItem.ItemData;
     }
     
     public void MergeItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
@@ -135,7 +135,7 @@ public class UiInventoryCell : MonoBehaviour
         if (quantityInOtherStack <= 0)
             otherCell.ClearItem(true);
 
-        SaveManager.Data.AllInventoryItems[this.CellIndex] = this.Item.ItemData;
-        SaveManager.Data.AllInventoryItems[otherCell.CellIndex] = otherItem.ItemData;
+        SaveManager.Data.InventoryItems[this.CellIndex] = this.Item.ItemData;
+        SaveManager.Data.InventoryItems[otherCell.CellIndex] = otherItem.ItemData;
     }
 }

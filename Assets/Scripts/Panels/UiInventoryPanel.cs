@@ -128,7 +128,7 @@ public class UiInventoryPanel : UIPanelBase
 
         if (this.currentCategory == EShopCategory.All)
         {
-            itemsArray = SaveManager.Data.AllInventoryItems;
+            itemsArray = SaveManager.Data.InventoryItems;
         }
         else
         {

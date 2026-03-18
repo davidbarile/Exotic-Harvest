@@ -196,7 +196,6 @@ public class SaveManager : MonoBehaviour, ITickable
         Data.TotalPlayTime += Time.time - this.sessionStartTime;
         this.sessionStartTime = Time.time;
 
-        Data.InventoryDataDict = InventoryManager.IN.GetSaveData();
         Data.ResourcesSaveDatas = ResourceManager.IN.GetSaveData();
         //Data.WorldItems = DecorationManager.IN.GetSaveData();
 
@@ -214,8 +213,7 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySaveDataToGame()
     {
-        InventoryManager.IN.CreateDictFromSaveData(Data.InventoryDataDict);
-        InventoryManager.IN.LoadAllInventory(Data.AllInventoryItems);
+        InventoryManager.IN.LoadAllInventory(Data.InventoryItems);
         ResourceManager.IN.LoadFromSaveData(Data.ResourcesSaveDatas);
         DecorationManager.IN.LoadFromSaveData(Data.WorldItems);
 

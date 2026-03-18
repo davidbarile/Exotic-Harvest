@@ -86,7 +86,7 @@ public class UiDecorationBase : UiDraggable
                 {
                     //if cell empty, add item to that cell
                     inventoryPanel.SpawnInventoryItemInCell(this.ItemData, cell.CellIndex);
-                    SaveManager.Data.AllInventoryItems[cell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                    SaveManager.Data.InventoryItems[cell.CellIndex] = InventoryItemData.Copy(this.ItemData);
                     InventoryManager.OnInventoryRefreshed?.Invoke();
                 }
                 else
@@ -99,7 +99,7 @@ public class UiDecorationBase : UiDraggable
                     {
                         //same item, add quantity if not max
                         existingItemData.Quantity += 1;
-                        SaveManager.Data.AllInventoryItems[cell.CellIndex] = InventoryItemData.Copy(existingItemData);
+                        SaveManager.Data.InventoryItems[cell.CellIndex] = InventoryItemData.Copy(existingItemData);
                         InventoryManager.OnInventoryRefreshed?.Invoke();
                     }
                     else
@@ -122,7 +122,7 @@ public class UiDecorationBase : UiDraggable
                 {
                     var existingItemData = cellWithSpace.Item.ItemData;
                     existingItemData.Quantity += 1;
-                    SaveManager.Data.AllInventoryItems[cellWithSpace.CellIndex] = InventoryItemData.Copy(existingItemData);
+                    SaveManager.Data.InventoryItems[cellWithSpace.CellIndex] = InventoryItemData.Copy(existingItemData);
                     InventoryManager.OnInventoryRefreshed?.Invoke();
                 }
                 else
@@ -132,7 +132,7 @@ public class UiDecorationBase : UiDraggable
                     {
                         //if available cell with space, add to that cell
                         inventoryPanel.SpawnInventoryItemInCell(this.ItemData, firstEmptyCell.CellIndex);
-                        SaveManager.Data.AllInventoryItems[firstEmptyCell.CellIndex] = InventoryItemData.Copy(this.ItemData);
+                        SaveManager.Data.InventoryItems[firstEmptyCell.CellIndex] = InventoryItemData.Copy(this.ItemData);
                         InventoryManager.OnInventoryRefreshed?.Invoke();
                     }
                     else

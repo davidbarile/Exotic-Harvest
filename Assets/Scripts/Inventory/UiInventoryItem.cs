@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 public class UiInventoryItem : UiDraggable
 {
@@ -106,7 +106,7 @@ public class UiInventoryItem : UiDraggable
                                 SaveManager.Data.WorldItems.Add(this.ItemData);
 
                                 var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
-                                SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                                SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
                             }
                             
                             // Destroy the inventory item
@@ -209,10 +209,10 @@ public class UiInventoryItem : UiDraggable
                 if(cell != origCell)
                 {
                     origCell.ClearItem(true);
-                    SaveManager.Data.AllInventoryItems[origCell.CellIndex] = null;
+                    SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
                 }
                 
-                SaveManager.Data.AllInventoryItems[cell.CellIndex] = this.ItemData;
+                SaveManager.Data.InventoryItems[cell.CellIndex] = this.ItemData;
             }
             else
             {
