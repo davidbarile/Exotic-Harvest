@@ -22,11 +22,18 @@ public class UiShopPanel : UIPanelBase
     private EShopCategory currentCategory = EShopCategory.Decorations;
     private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
+
+    private bool isInitialized;
     
-    public void Init()
+    public override void Show()
     {
-        SetupCategoryTabs();
-        RefreshShop();
+        base.Show();
+        if (!this.isInitialized)
+        {
+            SetupCategoryTabs();
+            this.isInitialized = true;
+            RefreshShop();
+        }
     }
     
     protected override void RegisterEvents()
@@ -163,7 +170,10 @@ public class UiShopPanel : UIPanelBase
     private void RefreshItemDetail()
     {
         if (selectedItemData == null)
+        {
+            HideItemDetail();
             return;
+        }
             
         // Update itemData info
         if (this.itemNameText != null)

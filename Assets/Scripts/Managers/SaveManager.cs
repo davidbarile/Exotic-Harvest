@@ -334,10 +334,10 @@ public class SaveManager : MonoBehaviour, ITickable
 
         Data.StatsData.RareEventsWitnessed++;
 
-        if (eventType.HasFlag(EResourceType.UnicornBlessing))
-            Data.StatsData.UnicornEncounters++;
-        else if (eventType.HasFlag(EResourceType.MermaidSong))
-            Data.StatsData.MermaidEncounters++;
+        // if (eventType.HasFlag(EResourceType.UnicornBlessing))
+        //     Data.StatsData.UnicornEncounters++;
+        // else if (eventType.HasFlag(EResourceType.MermaidSong))
+        //     Data.StatsData.MermaidEncounters++;
     }
     
     public void HandeDeleteDataButtonPress()

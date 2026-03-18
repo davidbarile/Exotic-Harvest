@@ -16,7 +16,7 @@ public class UiInventoryCell : MonoBehaviour
 
     public UiInventoryItem Item { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         SetSelected(false);
     }

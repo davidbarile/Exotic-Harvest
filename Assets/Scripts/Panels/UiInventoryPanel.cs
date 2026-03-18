@@ -22,6 +22,7 @@ public class UiInventoryPanel : UIPanelBase
 
     [Header("Inventory Stats")]
     [SerializeField] private EShopCategory[] categoriesToShow; // Which categories to display in inventory
+    public EShopCategory CurrentCategory => this.currentCategory;
     private EShopCategory currentCategory = EShopCategory.All;
     private InventoryItemData selectedItemData;
     private List<UiInventoryCell> allInventoryCells = new();

@@ -43,8 +43,7 @@ public class ResourceDisplayUI : MonoBehaviour
     
     private void OnDestroy()
     {
-        if (ResourceManager.IN != null)
-            ResourceManager.OnResourceChanged -= OnResourceChanged;
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
     }
 
     private void OnResourceChanged(EResourceType type, int newAmount)
@@ -78,6 +77,7 @@ public class ResourceDisplayUI : MonoBehaviour
         }
 
         // Update icon
+        Debug.Log($"{this.resourceType}: this.resourceConfig = {this.resourceConfig}, this.resourceConfig.Icon = {this.resourceConfig?.Icon}", gameObject);
         this.iconImage.sprite = this.resourceConfig.Icon;
         this.iconImage.color = this.resourceConfig.UiColor;
 

@@ -6,6 +6,7 @@ public class InventoryItemData
     public string DisplayName;
     public int Quantity;
     public int MaxStack;
+    public int SpaceAvailableInStack => MaxStack - Quantity;
     public EShopCategory Category;
     public DecorationData DecorationData;
 

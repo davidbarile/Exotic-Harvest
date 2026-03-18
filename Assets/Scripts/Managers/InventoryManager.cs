@@ -14,6 +14,8 @@ public class InventoryManager : MonoBehaviour
 
     private Dictionary<EShopCategory, InventoryItemData[]> itemsByCategory = new();
 
+    private int numShopCategories = Enum.GetValues(typeof(EShopCategory)).Length;
+
     private void OnValidate()
     {
         foreach (var itemData in this.initInventoryItemDatas)
@@ -44,7 +46,7 @@ public class InventoryManager : MonoBehaviour
         this.itemsByCategory.Clear();
         foreach (EShopCategory category in Enum.GetValues(typeof(EShopCategory)))
         {
-            this.itemsByCategory[category] = new InventoryItemData[InventoryManager.NumInventorySlots];
+            this.itemsByCategory[category] = new InventoryItemData[NumInventorySlots];
         }
     }
 
@@ -56,7 +58,7 @@ public class InventoryManager : MonoBehaviour
             for (int i = 0; i < this.initInventoryItemDatas.Length; i++)
             {
                 var itemData = this.initInventoryItemDatas[i];
-                if (itemData != null && itemData.Category == category && slotCounter < InventoryManager.NumInventorySlots)
+                if (itemData != null && itemData.Category == category && slotCounter < NumInventorySlots)
                 {
                     this.itemsByCategory[category][slotCounter] = InventoryItemData.Copy(itemData as InventoryItemData);
                     ++slotCounter;
@@ -67,7 +69,7 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < this.initInventoryItemDatas.Length; i++)
         {
             var itemData = this.initInventoryItemDatas[i];
-            if (i < InventoryManager.NumInventorySlots)
+            if (i < NumInventorySlots)
             {
                 SaveManager.Data.AllInventoryItems[i] = itemData as InventoryItemData;
             }
@@ -92,27 +94,95 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
-    public void AddItemToInventory(InventoryItemData itemData, EShopCategory category, int itemIndex, int quantity = 1)
+    public bool AddItemToInventory(InventoryItemData itemData)
     {
         // Implementation for adding item to inventory
-        if (this.itemsByCategory.TryGetValue(category, out var itemsOfCategory))
+        var itemIndex = 0;
+        var foundEmptySlotIndex = -1;
+        var initialItemQuantity = itemData.Quantity;
+
+        var itemsOfCategory = new InventoryItemData[0];
+
+        for(int i = 0; i < SaveManager.Data.AllInventoryItems.Length; i++)
         {
-            if (itemsOfCategory != null && itemIndex >= 0 && itemIndex < itemsOfCategory.Length)
+            var searchItem = SaveManager.Data.AllInventoryItems[i];
+            if (searchItem == null)
             {
-                if (itemsOfCategory[itemIndex] != null)
+                //found an empty slot
+                foundEmptySlotIndex = i;
+                break;
+            }
+        }
+
+        if (foundEmptySlotIndex > -1)
+        {
+            //found an empty slot so skip to bottom
+            itemIndex = foundEmptySlotIndex;
+            itemsOfCategory = this.itemsByCategory[itemData.Category];
+        }
+        else
+        {
+            //all slots full, check for stackable item
+            if (itemData.MaxStack.Equals(1))
+            {
+                //not stackable and no empty slots, can't add
+                return false;
+            }
+
+            //look for existing stack to add to
+            itemsOfCategory = this.itemsByCategory[itemData.Category];
+
+            //create backup in case we can't distribute all elements and need to revert
+            var backupItemsOfCategory = new InventoryItemData[itemsOfCategory.Length];
+            Array.Copy(itemsOfCategory, backupItemsOfCategory, itemsOfCategory.Length);
+
+            for (int i = 0; i < itemsOfCategory.Length; i++)
+            {
+                var searchItem = itemsOfCategory[i];
+                if (searchItem.DisplayName == itemData.DisplayName)
                 {
-                    itemsOfCategory[itemIndex].Quantity += quantity;
+                    if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
+                    {
+                        //found stack with enough space, add and exit
+                        searchItem.Quantity += itemData.Quantity;
+                        SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
+                        itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
+                        OnInventoryRefreshed?.Invoke();
+                        return true;
+                    }
+                    else
+                    {
+                        //found stack but not enough space, fill stack and keep looking for more stacks or empty slot
+                        var quantityToAdd = searchItem.SpaceAvailableInStack;
+                        searchItem.Quantity += quantityToAdd;
+                        itemData.Quantity -= quantityToAdd;
+
+                        SaveManager.Data.AllInventoryItems[i] = InventoryItemData.Copy(searchItem);
+                        itemsOfCategory[i] = InventoryItemData.Copy(searchItem);
+                    }
                 }
-                else
-                {
-                    itemsOfCategory[itemIndex] = itemData;
-                }
+            }
+
+            //after trying to distribute across stacks, still have quantity left
+            if (itemData.Quantity < initialItemQuantity)
+            {
+                //partial success
+                OnInventoryRefreshed?.Invoke();
+                return true;
+            }
+            else
+            {
+                //total failure
+                this.itemsByCategory[itemData.Category] = backupItemsOfCategory;
+                return false;
             }
         }
 
         SaveManager.Data.AllInventoryItems[itemIndex] = itemData;
+        itemsOfCategory[itemIndex] = itemData;
 
         OnInventoryRefreshed?.Invoke();
+        return true;
     }
     
     public void RemoveItemFromInventory(EShopCategory category, int itemIndex, int quantity = 1)
@@ -201,25 +271,8 @@ public class InventoryManager : MonoBehaviour
     private void OnShopItemPurchased(ShopItemData itemData)
     {
         // Handle adding purchased item to inventory    
-        var inventoryItemData = new InventoryItemData
-        {
-            //Id = itemData.Id,
-            DisplayName = itemData.DisplayName,
-            Category = itemData.Category,
-            IconSpriteName = itemData.Icon != null ? itemData.Icon.name : string.Empty,
-            CanDragToWorld = itemData.CanPurchase, // Example property, adjust as needed
-            DecorationData = DecorationData.Copy(itemData.DecorationData)
-        };
+        var inventoryItemData = ShopItemData.ToInventoryItemData(itemData);
 
-        // Find first empty slot in the appropriate category
-        var itemsOfCategory = this.itemsByCategory[itemData.Category];
-        for (int i = 0; i < itemsOfCategory.Length; i++)
-        {
-            if (itemsOfCategory[i] == null)
-            {
-                AddItemToInventory(inventoryItemData, itemData.Category, i);
-                break;
-            }
-        }
+        AddItemToInventory(inventoryItemData);
     }
 }

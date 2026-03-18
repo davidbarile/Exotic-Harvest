@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class UiInventoryItem : UiDraggable
 {
@@ -36,8 +37,21 @@ public class UiInventoryItem : UiDraggable
         Destroy(this.gameObject);
     }
 
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        var inventoryPanel = UiManager.IN.InventoryPanel;
+        if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
+            return;
+
+        base.OnBeginDrag(eventData);
+    }
+
     protected override bool DoOnBeginDrag()
     {
+        var inventoryPanel = UiManager.IN.InventoryPanel;
+        if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
+            return false;
+
         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(true);
 
         var cell = GetComponentInParent<UiInventoryCell>();
@@ -141,7 +155,7 @@ public class UiInventoryItem : UiDraggable
 
         return true;
     }
-    
+
     protected override void DoSnapBack()
     {
         if (this.originalParent != null)
@@ -166,6 +180,15 @@ public class UiInventoryItem : UiDraggable
                 });
             }
         }
+    }
+    
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        var inventoryPanel = UiManager.IN.InventoryPanel;
+        if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
+            return;
+
+        base.OnEndDrag(eventData);
     }
     
     protected override bool DoOnEndDrag()

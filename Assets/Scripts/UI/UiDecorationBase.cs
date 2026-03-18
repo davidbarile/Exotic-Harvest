@@ -215,7 +215,7 @@ public class UiDecorationBase : UiDraggable
             if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget != null && dragTarget.IsDragOverOpenInventoryZone)
             {
                 UiManager.IN.InventoryPanel.Show();
-                UiManager.IN.InventoryPanel.SwitchCategory(EShopCategory.Tools);
+                UiManager.IN.InventoryPanel.SwitchCategory(EShopCategory.All);
                 return true;
             }
         }

@@ -58,9 +58,26 @@ public class ShopItemData
             
         return true;
     }
-    
+
     public void ResetPurchases()
     {
         this.CurrentPurchases = 0;
+    }
+
+    public static InventoryItemData ToInventoryItemData(ShopItemData shopItemData)
+    {
+        if (shopItemData == null)
+            return null;
+
+        var inventoryItemData = new InventoryItemData
+        {
+            DisplayName = shopItemData.DisplayName,
+            Category = shopItemData.Category,
+            IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
+            CanDragToWorld = shopItemData.DecorationType != EDecorationType.None, // Example logic
+            DecorationData = DecorationData.Copy(shopItemData.DecorationData)
+        };
+
+        return inventoryItemData;
     }
 }

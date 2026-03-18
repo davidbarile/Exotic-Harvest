@@ -41,12 +41,11 @@ public enum EResourceType
     Secrets = 1 << 28,
     Shadows = 1 << 29,
     Memories = 1 << 30,
-    Lullabies = 1 << 31,
+    //Lullabies = 1 << 31,
+    // // Special Events
+    // UnicornBlessing = 1 << 32,
+    // MermaidSong = 1 << 33,
 
-    // Special Events
-    UnicornBlessing = 1 << 32,
-    MermaidSong = 1 << 33,
-
-    // Hard Currency (Premium)
-    PremiumCurrency = 1 << 34
+    // // Hard Currency (Premium)
+    // PremiumCurrency = 1 << 34
 }
