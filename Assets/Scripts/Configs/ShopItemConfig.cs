@@ -39,7 +39,7 @@ public class ShopItemConfig : ScriptableObject
     [Header("Item Effects")]
     public EDecorationType DecorationType; // For decoration items
     public EResourceType ResourceType;     // For resource items
-    public int ResourceAmount = 1;        // Amount when purchasing resources
+    public int ResourceAmount = 0;        // Amount when purchasing resources
     public GameObject DecorationPrefab;   // Prefab to spawn for decorations
     
     [Header("Visual")]
@@ -96,6 +96,8 @@ public class ShopItemConfig : ScriptableObject
             Cost = inConfig.Cost,
             IsUnlocked = inConfig.IsUnlockedByDefault,
             IsLimitedQuantity = inConfig.HasLimitedQuantity,
+            Quanity = inConfig.Quanity,
+            MaxStack = inConfig.MaxStack,
             MaxPurchases = inConfig.MaxPurchases,
             DecorationType = inConfig.DecorationType,
             ResourceType = inConfig.ResourceType,

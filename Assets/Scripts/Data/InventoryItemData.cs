@@ -38,7 +38,7 @@ public class InventoryItemData
         return new InventoryItemData
         {
             DisplayName = shopConfig.DisplayName,
-            Quantity = shopConfig.ResourceAmount > 0 ? shopConfig.ResourceAmount : 1,
+            Quantity = shopConfig.IsResource ? shopConfig.ResourceAmount : 1,
             MaxStack = shopConfig.IsResource ? 100 : shopConfig.MaxStack,
             Category = shopConfig.Category,
             IsUnlocked = shopConfig.IsUnlockedByDefault,

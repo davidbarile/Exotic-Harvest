@@ -134,10 +134,23 @@ public class InventoryManager : MonoBehaviour
             for (int i = 0; i < itemsOfCategory.Length; i++)
             {
                 var searchItem = itemsOfCategory[i];
+
+                if (searchItem == null)
+                {
+                    print($"continue null searchItem at index {i}");
+                    continue;//stack is full, look for another stack or empty slot
+                }
+ 
                 if (searchItem.DisplayName == itemData.DisplayName)
                 {
-                    print($"----searchItem.SpaceAvailableInStack = {searchItem.SpaceAvailableInStack} searchItem {searchItem.Quantity} Max:  {searchItem.MaxStack}");
+                    print($"{i}----searchItem.SpaceAvailableInStack = {searchItem.SpaceAvailableInStack} searchItem {searchItem.Quantity} Max:  {searchItem.MaxStack}");
 
+                    if (searchItem.SpaceAvailableInStack <= 0)
+                    {
+                        print($"{i} continue because no space in stack");
+                        continue;//stack is full, look for another stack or empty slot
+                    }
+                        
                     if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
                     {
                         //found stack with enough space, add and exit
@@ -168,12 +181,14 @@ public class InventoryManager : MonoBehaviour
             //after trying to distribute across stacks, still have quantity left
             if (itemData.Quantity < initialItemQuantity)
             {
+                print($"Partial success:  initialItemQuantity = {initialItemQuantity}.  itemData.Quantity = {itemData.Quantity} {initialItemQuantity - itemData.Quantity}");
                 //partial success
                 OnInventoryRefreshed?.Invoke();
                 return true;
             }
             else
             {
+                print($"Failure:  initialItemQuantity = {initialItemQuantity}.  itemData.Quantity = {itemData.Quantity}"); 
                 //total failure
                 this.itemsByCategory[itemData.Category] = backupItemsOfCategory;
                 return false;

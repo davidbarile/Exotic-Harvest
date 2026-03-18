@@ -108,7 +108,6 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshItemGrid()
     {
-        print($"Refresh Items Grid");
         if (ShopManager.IN == null) return;
         
         // Clear existing items
@@ -121,8 +120,6 @@ public class UiShopPanel : UIPanelBase
             
         // Get items for current category
         var items = ShopManager.IN.GetItemsByCategory(this.currentCategory);
-        
-        print($"Refresh Items {items.Count}");
         
         // Create UI elements for each itemData
         foreach (var item in items)
