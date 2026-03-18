@@ -8,6 +8,8 @@ using TMPro;
 public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
+
+    [SerializeField] private bool useRealTime = false; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private ETimeOfDay currentTimeOfDay = ETimeOfDay.Morning;
@@ -26,9 +28,9 @@ public class TimeManager : MonoBehaviour, ITickable
     public static event Action OnNewDay;
     
     // Properties
-    public ETimeOfDay CurrentTimeOfDay => currentTimeOfDay;
-    public float CurrentHour => currentHour;
-    public float DayProgress => currentHour / 24f; // 0-1 progress through day
+    public ETimeOfDay CurrentTimeOfDay => this.currentTimeOfDay;
+    public float CurrentHour => this.currentHour;
+    public float DayProgress => this.currentHour / 24f; // 0-1 progress through day
     
     private void OnEnable()
     {
@@ -45,18 +47,26 @@ public class TimeManager : MonoBehaviour, ITickable
         // Optional: Fast tick updates if needed
     }
     
-    //TODO: make this work with real time, using SecondTick for debug only
     public void SecondTick()
     {
-        // Advance time
-        float hoursPerSecond = 24f / (this.dayLengthInMinutes * 60f);
-        this.currentHour += hoursPerSecond * this.TimeScale;
-        
-        // Handle day rollover
-        if (this.currentHour >= 24f)
+        if (this.useRealTime)
         {
-            this.currentHour -= 24f;
-            OnNewDay?.Invoke();
+            var realTime = DateTime.Now;
+            this.currentHour = realTime.Hour + (realTime.Minute / 60f) + (realTime.Second / 3600f);
+            //OnNewDay?.Invoke();
+        }
+        else
+        {
+            // Advance time
+            float hoursPerSecond = 24f / (this.dayLengthInMinutes * 60f);
+            this.currentHour += hoursPerSecond * this.TimeScale;
+
+            // Handle day rollover
+            if (this.currentHour >= 24f)
+            {
+                this.currentHour -= 24f;
+                OnNewDay?.Invoke();
+            }
         }
         
         OnHourChanged?.Invoke(this.currentHour);
@@ -70,7 +80,7 @@ public class TimeManager : MonoBehaviour, ITickable
         }
 
          if(this.timeDisplayText != null)
-                this.timeDisplayText.text = $"Time: {this.currentHour:00.00} ({this.currentTimeOfDay})";
+                this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
     }
     
     private ETimeOfDay GetTimeOfDayFromHour(float hour)
@@ -114,7 +124,7 @@ public class TimeManager : MonoBehaviour, ITickable
         if (this.timeScaleSliderText != null)
             this.timeScaleSliderText.text = $"Time Scale: {this.TimeScale:0.0}x";
     }
-    
+
     public void SetTime(Single hour)
     {
         this.currentHour = Mathf.Clamp(hour, 0f, 24f);
@@ -123,6 +133,22 @@ public class TimeManager : MonoBehaviour, ITickable
         OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
 
         if (this.timeSliderText != null)
-            this.timeSliderText.text = $"Time: {this.currentHour:00.00} ({this.currentTimeOfDay})";
+            this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+    }
+
+    public void ToggleRealTime(bool useReal)
+    {
+        this.useRealTime = useReal;
+    }
+    
+    private string FormatFloatAsTime(float hour)
+    {
+        var amPmHour = hour % 24f;
+        int h = Mathf.FloorToInt(amPmHour);
+        int m = Mathf.FloorToInt((amPmHour - h) * 60f);
+        var amPm = h >= 12 ? "PM" : "AM";
+        h %= 12;
+        if (h == 0) h = 12; // Convert 0 to 12 for 12-hour format
+        return $"{h:00}:{m:00} {amPm}";
     }
 }
