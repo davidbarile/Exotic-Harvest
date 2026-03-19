@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager IN;
 
-    public static int NumInventorySlots = 10;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
+    public static int NumInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
     public static Action OnInventoryRefreshed;
 
@@ -76,95 +76,70 @@ public class InventoryManager : MonoBehaviour
         //create backup in case we can't distribute all elements and need to revert
         var backupAllItems = new InventoryItemData[SaveManager.Data.InventoryItems.Length];
         Array.Copy(SaveManager.Data.InventoryItems, backupAllItems, SaveManager.Data.InventoryItems.Length);
-            
-        // Implementation for adding item to inventory
-        var itemIndex = 0;
-        var foundEmptySlotIndex = -1;
+
         var initialItemQuantity = itemData.Quantity;
 
-        for(int i = 0; i < SaveManager.Data.InventoryItems.Length; i++)
+        for (int i = 0; i < SaveManager.Data.InventoryItems.Length; i++)
+        {
+            var searchItem = SaveManager.Data.InventoryItems[i];
+
+            if (searchItem == null ||searchItem.DisplayName != itemData.DisplayName)
+                continue;//not the same item, skip it
+            
+            if (searchItem.SpaceAvailableInStack <= 0)
+                    continue;//stack is full, look for another stack or empty slot
+
+            if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
+            {
+                if (isCheckOnly)
+                {
+                    SaveManager.Data.InventoryItems = backupAllItems;
+                    return true;
+                }
+
+                //found stack with enough space, add and exit
+                SaveManager.Data.InventoryItems[i].Quantity += itemData.Quantity;
+                OnInventoryRefreshed?.Invoke();
+                return true;
+            }
+            else
+            {
+                //found stack but not enough space, fill stack and keep looking for more stacks or empty slot
+                var quantityToAdd = searchItem.SpaceAvailableInStack;
+                SaveManager.Data.InventoryItems[i].Quantity += quantityToAdd;
+
+                itemData.Quantity -= quantityToAdd;
+            }
+        }
+
+        //look for empty slot to add remaining quantity
+        for (int i = 0; i < SaveManager.Data.InventoryItems.Length; i++)
         {
             var searchItem = SaveManager.Data.InventoryItems[i];
             if (searchItem == null)
             {
                 //found an empty slot
-                foundEmptySlotIndex = i;
-                break;
-            }
-        }
-
-        if (foundEmptySlotIndex > -1)
-        {
-            //found an empty slot so skip to bottom
-            itemIndex = foundEmptySlotIndex;
-        }
-        else
-        {
-            //look for existing stack to add to
-            for (int i = 0; i < SaveManager.Data.InventoryItems.Length; i++)
-            {
-                var searchItem = SaveManager.Data.InventoryItems[i];
-
-                if (searchItem.DisplayName == itemData.DisplayName)
-                {
-                    if (searchItem.SpaceAvailableInStack <= 0)
-                        continue;//stack is full, look for another stack or empty slot
-
-                    if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
-                    {
-                        if (isCheckOnly)
-                        {
-                            SaveManager.Data.InventoryItems = backupAllItems;
-                            return true;
-                        }
-        
-                        //found stack with enough space, add and exit
-                        SaveManager.Data.InventoryItems[i].Quantity += itemData.Quantity;
-                        OnInventoryRefreshed?.Invoke();
-                        return true;
-                    }
-                    else
-                    {
-                        //found stack but not enough space, fill stack and keep looking for more stacks or empty slot
-                        var quantityToAdd = searchItem.SpaceAvailableInStack;
-                        SaveManager.Data.InventoryItems[i].Quantity += quantityToAdd;
-
-                        itemData.Quantity -= quantityToAdd;
-                    }
-                }
-            }
-
-            //after trying to distribute across stacks, still have quantity left
-            if (itemData.Quantity < initialItemQuantity)
-            {
                 if (isCheckOnly)
                 {
                     SaveManager.Data.InventoryItems = backupAllItems;
-                    return false;
+                    return true;
                 }
-        
-                //partial success
+
+                SaveManager.Data.InventoryItems[i] = itemData;
+
                 OnInventoryRefreshed?.Invoke();
-                return false;
-            }
-            else
-            {
-                //total failure
-                SaveManager.Data.InventoryItems = backupAllItems;
-                return false;
+                return true;
             }
         }
-        
-        if(isCheckOnly)
+
+        if (isCheckOnly)
         {
             SaveManager.Data.InventoryItems = backupAllItems;
-            return true;
+            return false;
         }
 
-        SaveManager.Data.InventoryItems[itemIndex] = itemData;
-
         OnInventoryRefreshed?.Invoke();
-        return true;
+        return false;
     }
     
     public void RemoveItemFromInventory(int itemIndex, int quantity = 1)
