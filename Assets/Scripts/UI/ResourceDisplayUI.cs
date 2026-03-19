@@ -108,7 +108,7 @@ public class ResourceDisplayUI : MonoBehaviour
                     this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}\n<color=red>{currentAmount}/{this.costAmount}</color>";
             }
             else
-                this.tooltipTrigger.TooltipText = this.resourceConfig.DisplayName;//$"{config.DisplayName}\n{config.Description}";
+                this.tooltipTrigger.TooltipText = $"{this.resourceConfig.DisplayName}\n<size=28>{this.resourceConfig.Description}</size>";
         }
     }
 

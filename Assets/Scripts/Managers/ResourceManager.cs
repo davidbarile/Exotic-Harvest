@@ -69,7 +69,7 @@ public class ResourceManager : MonoBehaviour
     
     public bool SpendResources(ResourceCost cost)
     {
-        if (!cost.CanAfford(this))
+        if (!cost.CanAfford())
             return false;
             
         foreach (var resource in cost.RequiredResources)

@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager IN;
 
-    public static int NumInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
+    public static int NumInventorySlots = 10;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
     public static Action OnInventoryRefreshed;
 
@@ -71,8 +71,12 @@ public class InventoryManager : MonoBehaviour
         OnInventoryRefreshed?.Invoke();
     }
 
-    public bool AddItemToInventory(InventoryItemData itemData)
+    public static bool TryAddItemToInventory(InventoryItemData itemData, bool isCheckOnly = false)
     {
+        //create backup in case we can't distribute all elements and need to revert
+        var backupAllItems = new InventoryItemData[SaveManager.Data.InventoryItems.Length];
+        Array.Copy(SaveManager.Data.InventoryItems, backupAllItems, SaveManager.Data.InventoryItems.Length);
+            
         // Implementation for adding item to inventory
         var itemIndex = 0;
         var foundEmptySlotIndex = -1;
@@ -95,11 +99,7 @@ public class InventoryManager : MonoBehaviour
             itemIndex = foundEmptySlotIndex;
         }
         else
-        {        
-            //create backup in case we can't distribute all elements and need to revert
-            var backupAllItems = new InventoryItemData[SaveManager.Data.InventoryItems.Length];
-            Array.Copy(SaveManager.Data.InventoryItems, backupAllItems, SaveManager.Data.InventoryItems.Length);
-
+        {
             //look for existing stack to add to
             for (int i = 0; i < SaveManager.Data.InventoryItems.Length; i++)
             {
@@ -112,6 +112,12 @@ public class InventoryManager : MonoBehaviour
 
                     if (itemData.Quantity <= searchItem.SpaceAvailableInStack)
                     {
+                        if (isCheckOnly)
+                        {
+                            SaveManager.Data.InventoryItems = backupAllItems;
+                            return true;
+                        }
+        
                         //found stack with enough space, add and exit
                         SaveManager.Data.InventoryItems[i].Quantity += itemData.Quantity;
                         OnInventoryRefreshed?.Invoke();
@@ -131,9 +137,15 @@ public class InventoryManager : MonoBehaviour
             //after trying to distribute across stacks, still have quantity left
             if (itemData.Quantity < initialItemQuantity)
             {
+                if (isCheckOnly)
+                {
+                    SaveManager.Data.InventoryItems = backupAllItems;
+                    return false;
+                }
+        
                 //partial success
                 OnInventoryRefreshed?.Invoke();
-                return true;
+                return false;
             }
             else
             {
@@ -141,6 +153,12 @@ public class InventoryManager : MonoBehaviour
                 SaveManager.Data.InventoryItems = backupAllItems;
                 return false;
             }
+        }
+        
+        if(isCheckOnly)
+        {
+            SaveManager.Data.InventoryItems = backupAllItems;
+            return true;
         }
 
         SaveManager.Data.InventoryItems[itemIndex] = itemData;
@@ -197,6 +215,6 @@ public class InventoryManager : MonoBehaviour
         // Handle adding purchased item to inventory    
         var inventoryItemData = ShopItemData.ToInventoryItemData(itemData);
 
-        AddItemToInventory(inventoryItemData);
+        TryAddItemToInventory(inventoryItemData);
     }
 }

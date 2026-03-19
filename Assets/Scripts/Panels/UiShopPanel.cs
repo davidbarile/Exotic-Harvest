@@ -185,16 +185,19 @@ public class UiShopPanel : UIPanelBase
     {
         if (this.selectedItemData == null)
             return;
-            
-        bool canPurchase = this.selectedItemData.CanPurchase && 
-                          (this.selectedItemData.Cost?.CanAfford(ResourceManager.IN) ?? false);
+
+        bool hasInventorySpace = InventoryManager.TryAddItemToInventory(ShopItemData.ToInventoryItemData(this.selectedItemData), true);
         
+        bool canPurchase = hasInventorySpace && this.selectedItemData.CanPurchase && (this.selectedItemData.Cost?.CanAfford() ?? false);
+       
         this.purchaseButton.interactable = canPurchase;
         
         if (this.purchaseButtonText != null)
         {
             if (!this.selectedItemData.CanPurchase)
                 this.purchaseButtonText.text = this.selectedItemData.IsMaxedOut ? "Max Purchased" : "Locked";
+            else if (!hasInventorySpace)
+                this.purchaseButtonText.text = "No Inventory Space";
             else if (!canPurchase)
                 this.purchaseButtonText.text = "Can't Afford";
             else

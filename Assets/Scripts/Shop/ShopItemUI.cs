@@ -100,7 +100,7 @@ public class ShopItemUI : MonoBehaviour
     private void UpdateAvailabilityOverlays()
     {
         bool canPurchase = this.shopItemData != null && this.shopItemData.CanPurchase;
-        bool canAfford = this.shopItemData?.Cost?.CanAfford(ResourceManager.IN) ?? false;
+        bool canAfford = this.shopItemData?.Cost?.CanAfford() ?? false;
 
         // Show sold out overlay
         this.soldOutOverlay.SetActive(!canPurchase);

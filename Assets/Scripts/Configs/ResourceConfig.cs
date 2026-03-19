@@ -9,7 +9,7 @@ public class ResourceConfig : ScriptableObject
     public string ID; // Unique identifier, can be auto-generated from name or set manually
     [Header("Basic Info")]
     public string DisplayName;
-    [TextArea(2, 4)] public string Description;
+    [TextArea(2, 10)] public string Description;
     public Sprite Icon;
     public Color UiColor = Color.white;
     

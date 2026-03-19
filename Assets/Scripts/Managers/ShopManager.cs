@@ -125,7 +125,7 @@ public class ShopManager : MonoBehaviour
         }
         
         // Check if player can afford it
-        if (!itemData.Cost.CanAfford(ResourceManager.IN))
+        if (!itemData.Cost.CanAfford())
         {
             OnPurchaseFailed?.Invoke(itemData, "Cannot afford this itemData");
             return false;

@@ -42,11 +42,11 @@ public class ResourceCost
         this.requiredResources.Add(new ResourceData(config, amount));
     }
     
-    public bool CanAfford(ResourceManager resourceManager)
+    public bool CanAfford()
     {
         foreach (var resource in this.requiredResources)
         {
-            if (!resourceManager.HasResource(resource.Type, resource.Amount))
+            if (!ResourceManager.IN.HasResource(resource.Type, resource.Amount))
                 return false;
         }
         return true;
