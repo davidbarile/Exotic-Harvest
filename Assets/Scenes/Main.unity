@@ -1092,6 +1092,7 @@ GameObject:
   - component: {fileID: 272291508}
   - component: {fileID: 272291510}
   - component: {fileID: 272291509}
+  - component: {fileID: 272291511}
   m_Layer: 5
   m_Name: Stars
   m_TagString: Untagged
@@ -1156,6 +1157,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272291507}
   m_CullTransparentMesh: 1
+--- !u!225 &272291511
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272291507}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &277883423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5588,7 +5601,7 @@ GameObject:
   - component: {fileID: 1488441596}
   - component: {fileID: 1488441598}
   m_Layer: 5
-  m_Name: Root
+  m_Name: Root-Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8546,7 +8559,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143926667}
   m_Enabled: 1
-  m_Alpha: 0.5
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
