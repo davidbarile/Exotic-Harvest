@@ -1114,10 +1114,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2143926668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 11340, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &272291509
 MonoBehaviour:
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2
+  m_PixelsPerUnitMultiplier: 1.772
 --- !u!222 &272291510
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5552,11 +5552,11 @@ RectTransform:
   - {fileID: 2139499901}
   m_Father: {fileID: 375957690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 7680, y: 1080}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1488441596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5625,6 +5625,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightCycleController
   dayNightCycleAnim: {fileID: 1488441598}
+  timeOfDayRectTrans: {fileID: 1488441595}
+  rectTransOffset: 960
 --- !u!1 &1491229072
 GameObject:
   m_ObjectHideFlags: 0
@@ -7830,7 +7832,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 3840, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1932417754
 MonoBehaviour:
@@ -8100,7 +8102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2093845107
 RectTransform:
   m_ObjectHideFlags: 0
