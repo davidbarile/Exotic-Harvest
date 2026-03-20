@@ -1,12 +1,16 @@
 using UnityEngine;
 using DG.Tweening;
 using System;
+using System.Collections;
+using UnityEngine.UI;
 
 public class DayNightCycleController : MonoBehaviour
 {
     [SerializeField] private Animation dayNightCycleAnim;
     [SerializeField] private RectTransform timeOfDayRectTrans;
     [SerializeField] private float rectTransOffset;
+
+    private DateTime lastTimeSliderMoved;
     
     private void OnEnable()
     {
@@ -41,32 +45,50 @@ public class DayNightCycleController : MonoBehaviour
             this.dayNightCycleAnim.CrossFade(clipName, 1f); // Smoothly transition to the new time of day
         }
 
-        SetTimeOfDayTextPosition(normalizedTime);
+        SetTimeOfDayRectPosition(normalizedTime);
 
         //Debug.Log($"currentHour: {currentHour} ({TimeManager.FormatFloatAsTime(currentHour)})   normalizedTime: {normalizedTime}   frame = {frameNum} / {clipLength}   anim speed = {this.dayNightCycleAnim[clipName].speed}");
     }
-    
-    public void SetTimeOfDayTextPosition(float normalizedTime)
+
+    // This method can be called by a UI slider to allow the user to pan world rect trans
+    public void UserPanWorld(float value)
     {
         var rectWidth = this.timeOfDayRectTrans.rect.width;
-        var newPosition = new Vector3(normalizedTime * rectWidth + rectTransOffset, 0, 0);
+        this.timeOfDayRectTrans.localPosition = new Vector3(value * rectWidth + this.rectTransOffset, 0, 0);
 
-        if (TimeManager.IN.UseRealTime)
+        this.lastTimeSliderMoved = DateTime.Now;
+    }
+
+    private void SetTimeOfDayRectPosition(float normalizedTime)
+    {
+        if (DateTime.Now - this.lastTimeSliderMoved < TimeSpan.FromSeconds(2))
+            return; // Don't update the position if the user has recently moved the slider
+
+        var rectWidth = this.timeOfDayRectTrans.rect.width;
+        var newPosition = new Vector3(normalizedTime * rectWidth + this.rectTransOffset, 0, 0);
+
+        if (TimeManager.IN.UseRealTime || Time.frameCount < 100)
         {
-            this.timeOfDayRectTrans.anchoredPosition = newPosition;
+            this.timeOfDayRectTrans.localPosition = newPosition;
+            return;
         }
-        else
-        {
-            var delta = Math.Abs(this.timeOfDayRectTrans.anchoredPosition.x - newPosition.x);
-            Debug.Log($"delta: {delta}   newPos: {newPosition}   currentPos: {this.timeOfDayRectTrans.anchoredPosition}");
         
-            if (delta > 1000f && normalizedTime < .1f) // If the delta is large, jump to the new position without tweening
-            {
-                var fakePosition = new Vector3( (normalizedTime + 1) * rectWidth + rectTransOffset, 0, 0);
-                this.timeOfDayRectTrans.anchoredPosition = fakePosition + delta * Vector3.right; // Move to the opposite side before tweening
-            }
-                
-            this.timeOfDayRectTrans.DOAnchorPos(newPosition, 1f).SetEase(Ease.Linear);
+        var delta = Math.Abs(this.timeOfDayRectTrans.localPosition.x - newPosition.x);
+        if (delta > 1000f && this.timeOfDayRectTrans.localPosition.x > rectWidth * 0.5f) // If the delta is large, jump to the new position without tweening
+        {
+            var fakePosition = new Vector3((normalizedTime + 1) * rectWidth + this.rectTransOffset, 0, 0);
+            var fakeDelta = Math.Abs(this.timeOfDayRectTrans.localPosition.x - fakePosition.x);
+            this.timeOfDayRectTrans.localPosition = new Vector3(newPosition.x - fakeDelta, this.timeOfDayRectTrans.localPosition.y, this.timeOfDayRectTrans.localPosition.z); // Move to the opposite side before tweening
+            StartCoroutine(DelayedSetTimeOfDayRectPosition(newPosition));
+            return;
         }
+
+        this.timeOfDayRectTrans.DOLocalMoveX(newPosition.x, 1f).SetEase(Ease.Linear);
+    }
+    
+    private IEnumerator DelayedSetTimeOfDayRectPosition(Vector3 newPosition)
+    {
+        yield return new WaitForSeconds(0.05f); // Wait a short time before tweening to the new position    
+        this.timeOfDayRectTrans.DOLocalMoveX(newPosition.x, .95f).SetEase(Ease.Linear);
     }
 }
