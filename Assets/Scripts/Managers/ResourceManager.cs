@@ -20,9 +20,9 @@ public class ResourceManager : MonoBehaviour
     public ResourceDatabase Database => this.resourceDatabase;
     
     // Events for UI updates
-    public static event Action<EResourceType, int> OnResourceChanged;
-    public static event Action<EResourceType, int> OnResourceGained;
-    public static event Action OnInventoryFull;
+    public static Action<EResourceType, int> OnResourceChanged;
+    public static Action<EResourceType, int> OnResourceGained;
+    public static Action OnInventoryFull;
 
     public int DebugAddAmount = 10; // Amount to add when testing resource gain
     

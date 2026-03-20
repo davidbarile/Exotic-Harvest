@@ -29,9 +29,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public float CapacityPercent => (float)currentAmount / maxCapacity;
     
     // Events
-    public static event Action<PassiveHarvester, int> OnResourceGenerated;
-    public static event Action<PassiveHarvester, int> OnResourceCollected;
-    public static event Action<PassiveHarvester> OnCapacityFull;
+    public static Action<PassiveHarvester, int> OnResourceGenerated;
+    public static Action<PassiveHarvester, int> OnResourceCollected;
+    public static Action<PassiveHarvester> OnCapacityFull;
 
     protected virtual void Start()
     {

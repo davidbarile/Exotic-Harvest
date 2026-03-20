@@ -33,9 +33,9 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     protected bool isDragging = false;
     
     // Events
-    public static event Action<Collectable> OnCollectableSpawned;
-    public static event Action<Collectable> OnCollectableCollected;
-    public static event Action<Collectable> OnCollectableExpired;
+    public static Action<Collectable> OnCollectableSpawned;
+    public static Action<Collectable> OnCollectableCollected;
+    public static Action<Collectable> OnCollectableExpired;
 
     protected virtual void Awake()
     {

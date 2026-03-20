@@ -19,10 +19,10 @@ public class WeatherManager : MonoBehaviour, ITickable
     private float nextWeatherChange;
     
     // Events
-    public static event Action<EWeatherType> OnWeatherChanged;
-    public static event Action<EWeatherType, float> OnWeatherIntensityChanged;
-    public static event Action OnRainStarted;
-    public static event Action OnRainStopped;
+    public static Action<EWeatherType> OnWeatherChanged;
+    public static Action<EWeatherType, float> OnWeatherIntensityChanged;
+    public static Action OnRainStarted;
+    public static Action OnRainStopped;
     
     // Properties
     public EWeatherType CurrentWeather => currentWeather;

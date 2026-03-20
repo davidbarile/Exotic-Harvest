@@ -25,10 +25,10 @@ public class SaveManager : MonoBehaviour, ITickable
     private float sessionStartTime;
     
     // Events
-    public static event Action OnGameSaved;
-    public static event Action OnGameLoaded;
-    public static event Action<string> OnSaveError;
-    public static event Action<string> OnLoadError;
+    public static Action OnGameSaved;
+    public static Action OnGameLoaded;
+    public static Action<string> OnSaveError;
+    public static Action<string> OnLoadError;
     
     // Properties
     public bool HasSaveFile => File.Exists(savePath);

@@ -31,7 +31,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     private float secondTimer = 0f;
     
     // Events
-    public static event Action<int> OnCollectableCountChanged;
+    public static Action<int> OnCollectableCountChanged;
     
     private void Awake()
     {            

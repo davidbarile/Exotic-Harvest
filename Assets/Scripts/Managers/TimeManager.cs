@@ -9,6 +9,7 @@ public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
 
+    public bool UseRealTime => this.useRealTime;
     [SerializeField] private bool useRealTime = false; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
@@ -23,9 +24,9 @@ public class TimeManager : MonoBehaviour, ITickable
     public float TimeScale { get; private set; } = 1f; // Speed multiplier for time progression
     
     // Events
-    public static event Action<ETimeOfDay> OnTimeOfDayChanged;
-    public static event Action<float> OnHourChanged;
-    public static event Action OnNewDay;
+    public static Action<ETimeOfDay> OnTimeOfDayChanged;
+    public static Action<float> OnHourChanged;
+    public static Action OnNewDay;
     
     // Properties
     public ETimeOfDay CurrentTimeOfDay => this.currentTimeOfDay;
@@ -141,7 +142,7 @@ public class TimeManager : MonoBehaviour, ITickable
         this.useRealTime = useReal;
     }
     
-    private string FormatFloatAsTime(float hour)
+    public static string FormatFloatAsTime(float hour)
     {
         var amPmHour = hour % 24f;
         int h = Mathf.FloorToInt(amPmHour);

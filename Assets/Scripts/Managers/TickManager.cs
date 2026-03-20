@@ -13,8 +13,8 @@ public class TickManager : MonoBehaviour
 
     private float tickTimer;
     private float secondTimer;
-    public static event Action OnTick;
-    public static event Action OnSecondTick;
+    public static Action OnTick;
+    public static Action OnSecondTick;
 
     private void Update()
     {

@@ -26,8 +26,8 @@ public class NotificationManager : MonoBehaviour
     private bool notificationsEnabled = true;
     
     // Events
-    public static event Action<ToastNotification> OnNotificationShown;
-    //public static event Action<ToastNotification> OnNotificationDismissed;
+    public static Action<ToastNotification> OnNotificationShown;
+    //public static Action<ToastNotification> OnNotificationDismissed;
     
     private void Awake()
     {
