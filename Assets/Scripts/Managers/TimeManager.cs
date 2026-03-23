@@ -10,6 +10,7 @@ public class TimeManager : MonoBehaviour, ITickable
     public static TimeManager IN;
 
     public bool UseRealTime => this.useRealTime;
+    public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
     [SerializeField] private bool useRealTime = false; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day

@@ -41,7 +41,7 @@ public class DayNightCycleController : MonoBehaviour
         else
         {
             var secondsPerDay = 24f * 60f * 60f;
-            this.dayNightCycleAnim[clipName].speed = 60f * (clipLength / secondsPerDay) * TimeManager.IN.TimeScale;
+            this.dayNightCycleAnim[clipName].speed = 60f * (clipLength / secondsPerDay) * TimeManager.IN.TimeScale * TimeManager.IN.HoursToSecondsRatio;
             this.dayNightCycleAnim.CrossFade(clipName, 1f); // Smoothly transition to the new time of day
         }
 
@@ -51,10 +51,12 @@ public class DayNightCycleController : MonoBehaviour
     }
 
     // This method can be called by a UI slider to allow the user to pan world rect trans
-    public void UserPanWorld(float value)
+    public void UserPanWorld(float normalizedValue)
     {
         var rectWidth = this.timeOfDayRectTrans.rect.width;
-        this.timeOfDayRectTrans.localPosition = new Vector3(value * rectWidth + this.rectTransOffset, 0, 0);
+        var scrollValue = normalizedValue * rectWidth + this.rectTransOffset;
+        UiManager.IN.Compass.SetDirection(normalizedValue);
+        this.timeOfDayRectTrans.localPosition = new Vector3(scrollValue, 0, 0);
 
         this.lastTimeSliderMoved = DateTime.Now;
     }
@@ -63,6 +65,8 @@ public class DayNightCycleController : MonoBehaviour
     {
         if (DateTime.Now - this.lastTimeSliderMoved < TimeSpan.FromSeconds(2))
             return; // Don't update the position if the user has recently moved the slider
+
+        UiManager.IN.Compass.SetDirection(normalizedTime);
 
         var rectWidth = this.timeOfDayRectTrans.rect.width;
         var newPosition = new Vector3(normalizedTime * rectWidth + this.rectTransOffset, 0, 0);
@@ -89,6 +93,6 @@ public class DayNightCycleController : MonoBehaviour
     private IEnumerator DelayedSetTimeOfDayRectPosition(Vector3 newPosition)
     {
         yield return new WaitForSeconds(0.05f); // Wait a short time before tweening to the new position    
-        this.timeOfDayRectTrans.DOLocalMoveX(newPosition.x, .95f).SetEase(Ease.Linear);
+        this.timeOfDayRectTrans.DOLocalMoveX(newPosition.x, 0.95f).SetEase(Ease.Linear);
     }
 }

@@ -10,11 +10,13 @@ public class UiManager : MonoBehaviour
     public UiShopPanel ShopPanel => this.shopPanel;
     public UiInventoryPanel InventoryPanel => this.inventoryPanel;
     public UiResourcesPanel ResourcesPanel => this.resourcesPanel;
+    public UiCompass Compass => this.compass;
     
     [SerializeField] private UiSettingsPanel settingsPanel;
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
     [SerializeField] private UiResourcesPanel resourcesPanel;
+    [SerializeField] private UiCompass compass;
 
     private void Awake()
     {
