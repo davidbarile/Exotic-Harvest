@@ -2,7 +2,6 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using System.Collections;
-using UnityEngine.UI;
 
 public class DayNightCycleController : MonoBehaviour
 {
@@ -54,7 +53,7 @@ public class DayNightCycleController : MonoBehaviour
     public void UserPanWorld(float normalizedValue)
     {
         var rectWidth = this.timeOfDayRectTrans.rect.width;
-        var scrollValue = normalizedValue * rectWidth + this.rectTransOffset;
+        var scrollValue = ((normalizedValue * rectWidth) + this.rectTransOffset) * TimeManager.IN.HoursToSecondsRatio;
         UiManager.IN.Compass.SetDirection(normalizedValue);
         this.timeOfDayRectTrans.localPosition = new Vector3(scrollValue, 0, 0);
 
