@@ -1249,7 +1249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &144805235
 Light:
   m_ObjectHideFlags: 0
@@ -1324,11 +1324,11 @@ Transform:
   m_GameObject: {fileID: 144805234}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.10938166, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2084589449}
+  m_Father: {fileID: 1713415286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &149133202 stripped
 RectTransform:
@@ -1839,11 +1839,11 @@ Transform:
   m_GameObject: {fileID: 254831460}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2084589449}
+  m_Father: {fileID: 1713415286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &254831464
 MonoBehaviour:
@@ -4935,7 +4935,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1488441599}
         m_TargetAssemblyTypeName: DayNightCycleController, Assembly-CSharp
-        m_MethodName: UserPanWorld
+        m_MethodName: UserPanCamera
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6686,7 +6686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &868109197
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11091,9 +11091,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ee26b87bb84477f8da6d564232e46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightCycleController
+  cameraTransform: {fileID: 2084589449}
   dayNightCycleAnim: {fileID: 1488441598}
   timeOfDayRectTrans: {fileID: 1488441595}
-  rectTransOffset: 0
+  cameraOffset: -1920
 --- !u!1 &1491229072
 GameObject:
   m_ObjectHideFlags: 0
@@ -13730,6 +13731,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2084589449}
+  - {fileID: 144805236}
+  - {fileID: 254831463}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1713415287
@@ -16437,9 +16440,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -1080, z: -1000}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 144805236}
-  - {fileID: 254831463}
+  m_Children: []
   m_Father: {fileID: 1713415286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2093845106
