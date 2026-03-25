@@ -155,22 +155,15 @@ public class UiDecorationBase : UiDraggable
     {         
         if (this.shouldDetectDropTargets)
         {
-            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+            foreach (var possibleTarget in InputManager.MouseRaycastResults)
             {
-                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
-                    //var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.Custom, dragTarget.transform as RectTransform);
                     var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.World);
-                    Debug.Log($"TryToParentToDropTarget() dragPos = {dragPos}   rectTrans = {dragTarget.transform.name}   mouse = {Input.mousePosition}    localPos = {this.targetRectTransform.localPosition}  worldPos = {this.targetRectTransform.position}");
-                    //dragTarget.SetAsParent(this.targetRectTransform);
-                    this.targetRectTransform.SetParent(DragManager.IN.WorldRectTrans);
+                    dragTarget.SetAsParent(this.targetRectTransform);
+                    //this.targetRectTransform.SetParent(DragManager.IN.WorldRectTrans);
                     this.targetRectTransform.SetAsLastSibling();
-
-                    this.targetRectTransform.localPosition = dragPos;
-
-                    Debug.Log($"2 TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
-                
-                    //this.targetRectTransform.position = dragPos;
+                    this.targetRectTransform.position = dragPos; //possibleTarget.worldPosition;// - this.OffsetFromCursor;
 
                     Debug.Log($"3 TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
                 
@@ -187,6 +180,8 @@ public class UiDecorationBase : UiDraggable
         this.targetRectTransform.SetParent(originalParent, true);
 
         this.targetRectTransform.SetAsLastSibling();
+
+        this.targetRectTransform.position -= this.OffsetFromCursor;
 
         SaveItemPosition();
 
@@ -249,7 +244,7 @@ public class UiDecorationBase : UiDraggable
         return null;
     }
 
-    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 dragOffset)
+    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 inOffsetFromCursor)
     {
         Configure(inItemData);
 
@@ -257,8 +252,7 @@ public class UiDecorationBase : UiDraggable
         this.isDragging = true;
 
         // Store drag state for proper cleanup on drag end
-        this.originalLocalPointerPosition = dragOffset;
-        this.originalLocalPosition = this.targetRectTransform.localPosition;
+        this.OffsetFromCursor = inOffsetFromCursor;
         this.originalWorldPosition = this.targetRectTransform.position;
         // this.originalParent = DragManager.IN.DefaultParent;//shouldn't it just
         // this.originalSiblingIndex = 0;

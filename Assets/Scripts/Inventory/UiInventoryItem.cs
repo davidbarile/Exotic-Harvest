@@ -86,7 +86,7 @@ public class UiInventoryItem : UiDraggable
                             UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
 
                             // Initialize the world item with drag state
-                            worldItem.InitializeFromDrag(this.ItemData, DragManager.IN.DragOffset);
+                            worldItem.InitializeFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
                             
                             // Swap the dragged object to the new world item
                             DragManager.IN.SwapDraggedObject(worldItemRect);
@@ -127,18 +127,19 @@ public class UiInventoryItem : UiDraggable
     }
 
     protected override bool TryToParentToDropTarget()
-    {         
+    {
         if (this.shouldDetectDropTargets)
         {
-            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+            foreach (var possibleTarget in InputManager.MouseRaycastResults)
             {
-                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
-                    var cell = possibleTarget.GetComponentInParent<UiInventoryCell>();
+                    var cell = possibleTarget.gameObject.GetComponentInParent<UiInventoryCell>();
                     if (cell != null)
                     {
                         dragTarget.SetAsParent(this.targetRectTransform);
                         this.targetRectTransform.SetAsLastSibling();
+                        this.targetRectTransform.position = possibleTarget.worldPosition;// - this.OffsetFromCursor;
                         dragTarget.SetHighlight(false);
                         return false;//found drag target, reparent and exit
                     }

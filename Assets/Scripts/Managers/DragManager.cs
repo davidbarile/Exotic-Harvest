@@ -28,11 +28,11 @@ public class DragManager : MonoBehaviour
 
     // Drag Proxy State
     public RectTransform CurrentDraggedTransform { get; private set; }
-    public Vector2 DragOffset { get; private set; }
+    public Vector2 OffsetFromCursor { get; private set; }
     public bool IsDraggingActive { get; private set; }
     private UiDraggable currentDragSource;
 
-    private Vector3 originalLocalPosition;
+   // private Vector3 originalLocalPosition;
 
      private void Start()
     {
@@ -48,7 +48,7 @@ public class DragManager : MonoBehaviour
         // This allows dragging to continue after object swap
         if (this.IsDraggingActive && this.CurrentDraggedTransform != null)
         {
-            UpdateDrag(Input.mousePosition, this.originalLocalPosition);
+            UpdateDrag(Input.mousePosition);
             
             // Detect mouse release to end drag on swapped objects
             if (Input.GetMouseButtonUp(0))
@@ -84,16 +84,15 @@ public class DragManager : MonoBehaviour
         OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
-    public void StartDrag(UiDraggable source, RectTransform draggedTransform, Vector2 dragOffset, Vector3 originalLocalPos)
+    public void StartDrag(UiDraggable source, RectTransform draggedTransform, Vector2 offsetFromCursor)
     {
         this.currentDragSource = source;
         this.CurrentDraggedTransform = draggedTransform;
-        this.DragOffset = dragOffset;
-        this.originalLocalPosition = originalLocalPos;
+        this.OffsetFromCursor = offsetFromCursor;
         this.IsDraggingActive = true;
     }
 
-    public void UpdateDrag(Vector2 screenPosition, Vector3 originalLocalPosition)
+    public void UpdateDrag(Vector2 screenPosition)
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
@@ -164,6 +163,7 @@ public class DragManager : MonoBehaviour
 
         var dragPos = DragManager.IN.GetPositionInSpace(screenPosition, EDragSpace.DragCanvas);
         this.CurrentDraggedTransform.position = dragPos;
+        this.CurrentDraggedTransform.position -= (Vector3)this.OffsetFromCursor;
     }
 
     public void EndDrag()
@@ -215,8 +215,7 @@ public class DragManager : MonoBehaviour
         {
             // Set DragOffset to current pointer position
             // This makes originalLocalPosition = current position, maintaining visual offset
-            this.DragOffset = currentLocalPointerPosition;
-            this.originalLocalPosition = newDraggedTransform.localPosition;
+            //this.OffsetFromCursor = currentLocalPointerPosition;
         }
 
         // Update the reference to the new transform
@@ -241,7 +240,7 @@ public class DragManager : MonoBehaviour
             DragCamera,
             out Vector2 localPoint))
         {
-            Debug.Log($"GetPositionInSpace: ({dragSpace}) rectTrans = {customRectTrans?.name}   worldPosition = {worldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
+            //Debug.Log($"GetPositionInSpace: ({dragSpace}) rectTrans = {customRectTrans?.name}   worldPosition = {worldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
             return rectTrans.TransformPoint(localPoint);
         }
 

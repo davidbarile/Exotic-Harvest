@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     public static bool IsInputBlocked;
 
     public static List<GameObject> ObjectsUnderMouse = new();
+    public static List<RaycastResult> MouseRaycastResults = new();
 
     public static Action OnEscapePress;
     public static Action OnTabPress;
@@ -72,10 +73,12 @@ public class InputManager : MonoBehaviour
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 
             ObjectsUnderMouse.Clear();
+            MouseRaycastResults.Clear();
 
             foreach (var result in results)
             {
                 ObjectsUnderMouse.Add(result.gameObject);
+                MouseRaycastResults.Add(result);
             }
 
             foreach (var result in results)
