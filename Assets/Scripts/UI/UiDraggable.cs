@@ -8,6 +8,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 {
     public static HashSet<UiDragTarget> CurrentHighlightedTargets = new();
 
+    [Header("Can drag when Drag Mode is Off")]
     [SerializeField] protected bool isDraggingPermanent;
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
@@ -137,7 +138,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         this.originalWorldPosition = this.targetRectTransform.position;
 
         // Register with drag proxy
-        DragManager.IN.StartDrag(this, this.targetRectTransform, this.originalLocalPointerPosition, eventData.pressEventCamera, this.originalLocalPosition);
+        DragManager.IN.StartDrag(this, this.targetRectTransform, this.originalLocalPointerPosition, this.originalLocalPosition);
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -146,7 +147,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             return;
 
         // Use drag proxy for position updates
-        DragManager.IN.UpdateDrag(eventData.position, eventData.pressEventCamera, this.originalLocalPosition);
+        DragManager.IN.UpdateDrag(eventData.position, this.originalLocalPosition);
 
         if (!this.shouldDetectDropTargets)
             return;

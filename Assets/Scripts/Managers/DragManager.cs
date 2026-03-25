@@ -4,6 +4,7 @@ using UnityEngine;
 public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
+    public static Camera DragCamera { get;  private set; }
 
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
 
@@ -11,7 +12,15 @@ public class DragManager : MonoBehaviour
 
     public static Action<bool> OnDragModeChanged;
 
+    public enum EDragSpace
+    {
+        Custom,
+        DragCanvas,
+        World
+    }
+
     public RectTransform DragCanvas;
+    public RectTransform WorldRectTrans;
 
     public Transform DefaultParent;
 
@@ -22,11 +31,12 @@ public class DragManager : MonoBehaviour
     public Vector2 DragOffset { get; private set; }
     public bool IsDraggingActive { get; private set; }
     private UiDraggable currentDragSource;
-    private Camera dragCamera;
+
     private Vector3 originalLocalPosition;
 
      private void Start()
     {
+        DragCamera = Camera.main;
         InputManager.OnDragPress += HandleDragModeChanged;
         OnDragOverInventoryZoneActiveChanged += SetDragOverInventoryZoneActive;
         SetDragOverInventoryZoneActive(false);
@@ -38,7 +48,7 @@ public class DragManager : MonoBehaviour
         // This allows dragging to continue after object swap
         if (this.IsDraggingActive && this.CurrentDraggedTransform != null)
         {
-            UpdateDrag(Input.mousePosition, this.dragCamera, this.originalLocalPosition);
+            UpdateDrag(Input.mousePosition, this.originalLocalPosition);
             
             // Detect mouse release to end drag on swapped objects
             if (Input.GetMouseButtonUp(0))
@@ -74,17 +84,16 @@ public class DragManager : MonoBehaviour
         OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
-    public void StartDrag(UiDraggable source, RectTransform draggedTransform, Vector2 dragOffset, Camera camera, Vector3 originalLocalPos)
+    public void StartDrag(UiDraggable source, RectTransform draggedTransform, Vector2 dragOffset, Vector3 originalLocalPos)
     {
         this.currentDragSource = source;
         this.CurrentDraggedTransform = draggedTransform;
         this.DragOffset = dragOffset;
-        this.dragCamera = camera;
         this.originalLocalPosition = originalLocalPos;
         this.IsDraggingActive = true;
     }
 
-    public void UpdateDrag(Vector2 screenPosition, Camera camera, Vector3 originalLocalPosition)
+    public void UpdateDrag(Vector2 screenPosition, Vector3 originalLocalPosition)
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
@@ -138,7 +147,7 @@ public class DragManager : MonoBehaviour
                 if (parentDragTarget.UnsnapRange > -1)
                 {
                     // Distance from drag start point (should be 0 at drag start)
-                    float distance = Vector2.Distance(screenPosition, RectTransformUtility.WorldToScreenPoint(camera, clampedPosition));
+                    float distance = Vector2.Distance(screenPosition, RectTransformUtility.WorldToScreenPoint(DragCamera, clampedPosition));
                     if (distance > parentDragTarget.UnsnapRange)
                     {
                         // Outside unsnap range, do not clamp
@@ -153,17 +162,8 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            this.DragCanvas,
-            screenPosition,
-            camera,
-            out Vector2 localPointerPosition))
-        {
-            Vector3 offsetToOriginal = localPointerPosition - this.DragOffset;
-            this.CurrentDraggedTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
-
-            //print($"D. this.CurrentDraggedTransform.localPosition: {this.CurrentDraggedTransform.localPosition}");
-        }
+        var dragPos = DragManager.IN.GetPositionInSpace(screenPosition, EDragSpace.DragCanvas);
+        this.CurrentDraggedTransform.position = dragPos;
     }
 
     public void EndDrag()
@@ -210,7 +210,7 @@ public class DragManager : MonoBehaviour
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.DragCanvas,
             Input.mousePosition,
-            this.dragCamera,
+            DragCamera,
             out Vector2 currentLocalPointerPosition))
         {
             // Set DragOffset to current pointer position
@@ -227,5 +227,24 @@ public class DragManager : MonoBehaviour
         {
             this.currentDragSource = newDragSource;
         }
+    }
+
+    public Vector3 GetPositionInSpace(Vector3 worldPosition, EDragSpace dragSpace = EDragSpace.Custom, RectTransform customRectTrans = null)
+    {
+        Vector3 screenPoint = DragCamera.WorldToScreenPoint(worldPosition);
+
+        var rectTrans = dragSpace == EDragSpace.DragCanvas ? this.DragCanvas : (dragSpace == EDragSpace.World ? this.WorldRectTrans : customRectTrans);
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            rectTrans,
+            screenPoint,
+            DragCamera,
+            out Vector2 localPoint))
+        {
+            Debug.Log($"GetPositionInSpace: ({dragSpace}) rectTrans = {customRectTrans?.name}   worldPosition = {worldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
+            return rectTrans.TransformPoint(localPoint);
+        }
+
+        return worldPosition;
     }
 }

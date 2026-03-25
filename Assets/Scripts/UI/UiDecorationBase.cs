@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using static DragManager;
 
 public class UiDecorationBase : UiDraggable
 {
@@ -54,7 +55,7 @@ public class UiDecorationBase : UiDraggable
         if (this.initItemData == null)
             return;
 
-        this.ItemData.DecorationData.WorldPosition = this.transform.position;
+        this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.ParentGuid = this.transform.parent.GetInstanceID();
         this.ItemData.DecorationData.SiblingIndex = this.transform.GetSiblingIndex();
     }
@@ -158,8 +159,22 @@ public class UiDecorationBase : UiDraggable
             {
                 if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
-                    dragTarget.SetAsParent(this.targetRectTransform);
+                    //var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.Custom, dragTarget.transform as RectTransform);
+                    var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.World);
+                    Debug.Log($"TryToParentToDropTarget() dragPos = {dragPos}   rectTrans = {dragTarget.transform.name}   mouse = {Input.mousePosition}    localPos = {this.targetRectTransform.localPosition}  worldPos = {this.targetRectTransform.position}");
+                    //dragTarget.SetAsParent(this.targetRectTransform);
+                    this.targetRectTransform.SetParent(DragManager.IN.WorldRectTrans);
                     this.targetRectTransform.SetAsLastSibling();
+
+                    this.targetRectTransform.localPosition = dragPos;
+
+                    Debug.Log($"2 TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
+                
+                    //this.targetRectTransform.position = dragPos;
+
+                    Debug.Log($"3 TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
+                
+                    //this.targetRectTransform.localPosition = newPos;
                     dragTarget.SetHighlight(false);
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
@@ -245,15 +260,17 @@ public class UiDecorationBase : UiDraggable
         this.originalLocalPointerPosition = dragOffset;
         this.originalLocalPosition = this.targetRectTransform.localPosition;
         this.originalWorldPosition = this.targetRectTransform.position;
-        this.originalParent = DragManager.IN.DefaultParent;
-        this.originalSiblingIndex = 0;
+        // this.originalParent = DragManager.IN.DefaultParent;//shouldn't it just
+        // this.originalSiblingIndex = 0;
+           this.originalParent = this.targetRectTransform.parent;
+        this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
 
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);
     }
 
     protected override void SaveItemPosition()
     {
-        this.ItemData.DecorationData.WorldPosition = this.transform.position;
+        this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
         this.ItemData.DecorationData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
     }

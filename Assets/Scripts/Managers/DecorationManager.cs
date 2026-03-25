@@ -80,7 +80,7 @@ public class DecorationManager : MonoBehaviour
             return null;
 
         var worldItem = PrefabManager.IN.SpawnPrefab<UiDecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.DefaultParent);
-        worldItem.transform.position = spawnPosition;
+        worldItem.transform.localPosition = spawnPosition;
         worldItem.transform.localScale = Vector3.one;
         worldItem.name = $"Decoration_{itemData.DisplayName}";
         worldItem.InitializeFromDrag(itemData, Vector2.zero);

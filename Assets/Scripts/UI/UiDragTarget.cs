@@ -32,7 +32,7 @@ public class UiDragTarget : MonoBehaviour
     {
         childObject.SetParent(transform, true);
 
-        if(shouldSnapToCenter)
+        if(this.shouldSnapToCenter)
         {
             childObject.localPosition = Vector3.zero;
         }
