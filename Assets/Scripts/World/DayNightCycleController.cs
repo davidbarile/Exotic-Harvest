@@ -79,12 +79,13 @@ public class DayNightCycleController : MonoBehaviour
             this.cameraTransform.localPosition = newPosition;
             return;
         }
-        
+
         var delta = Math.Abs(this.cameraTransform.localPosition.x - newPosition.x);
-        if (delta > 1000f && this.cameraTransform.localPosition.x > rectWidth * 0.5f) // If the delta is large, jump to the new position without tweening
+        if (delta > 1000f && this.cameraTransform.localPosition.x < rectWidth * 0.5f) // If the delta is large, jump to the new position without tweening
         {
-            var fakePosition = new Vector3((normalizedTime * rectWidth) + this.cameraOffset, this.initCameraPos.y, this.initCameraPos.z);
+            var fakePosition = new Vector3(-1 * (((normalizedTime + 1) * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
             var fakeDelta = Math.Abs(this.cameraTransform.localPosition.x - fakePosition.x);
+
             this.cameraTransform.localPosition = new Vector3(newPosition.x - fakeDelta, this.cameraTransform.localPosition.y, this.cameraTransform.localPosition.z); // Move to the opposite side before tweening
             StartCoroutine(DelayedSetTimeOfDayRectPosition(newPosition));
             return;
