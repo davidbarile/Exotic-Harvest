@@ -8,8 +8,10 @@ public class UiSettingsPanel : UIPanelBase
 
     [SerializeField] private Toggle useRealTimeToggle;
 
-    private void OnEnable()
+    public override void Show()
     {
+        base.Show();
+
         this.useRealTimeToggle.isOn = TimeManager.IN.UseRealTime;
         SetTimeSlidersActive(TimeManager.IN.UseRealTime);
     }

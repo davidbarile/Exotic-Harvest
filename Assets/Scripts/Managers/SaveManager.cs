@@ -18,6 +18,7 @@ public class SaveManager : MonoBehaviour, ITickable
     [SerializeField] private bool autoSaveEnabled = true;
     [SerializeField] private float autoSaveInterval = 300f; // 5 minutes
     [SerializeField] private bool saveOnApplicationPause = true;
+    [SerializeField] private bool nukeDataOnStart;
     
     private string savePath;
     
@@ -47,7 +48,7 @@ public class SaveManager : MonoBehaviour, ITickable
 
     public void Init()
     {
-        var isNewGame = !this.HasSaveFile;
+        var isNewGame = !this.HasSaveFile || this.nukeDataOnStart;
 
         if (isNewGame)
         {

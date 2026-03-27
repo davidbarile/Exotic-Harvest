@@ -155,17 +155,22 @@ public class UiDecorationBase : UiDraggable
     {         
         if (this.shouldDetectDropTargets)
         {
+            Debug.Log($"UiDecorationBase.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
             foreach (var possibleTarget in InputManager.MouseRaycastResults)
             {
                 if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
                 {
-                    var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.World);
+                    var dragSpace = EDragSpace.World;
+                    var parentCanvas = possibleTarget.gameObject.GetComponentInParent<Canvas>();
+                    if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+                        dragSpace = EDragSpace.Screen;
+                    
+                    var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
                     dragTarget.SetAsParent(this.targetRectTransform);
-                    //this.targetRectTransform.SetParent(DragManager.IN.WorldRectTrans);
                     this.targetRectTransform.SetAsLastSibling();
                     this.targetRectTransform.position = dragPos; //possibleTarget.worldPosition;// - this.OffsetFromCursor;
 
-                    Debug.Log($"3 TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
+                    Debug.Log($"DROP: UiDecorationBase.TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
                 
                     //this.targetRectTransform.localPosition = newPos;
                     dragTarget.SetHighlight(false);
@@ -180,8 +185,6 @@ public class UiDecorationBase : UiDraggable
         this.targetRectTransform.SetParent(originalParent, true);
 
         this.targetRectTransform.SetAsLastSibling();
-
-        this.targetRectTransform.position -= this.OffsetFromCursor;
 
         SaveItemPosition();
 

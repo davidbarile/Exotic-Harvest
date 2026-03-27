@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using static DragManager;
 
 [RequireComponent(typeof(RectTransform))]
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -128,14 +129,25 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            DragManager.IN.DragCanvas,
-            eventData.position,
-            eventData.pressEventCamera,
-            out var originalLocalPointerPosition);
+        var dragSpace = EDragSpace.World;
+        var parentCanvas = this.GetComponentInParent<Canvas>();
+        if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            dragSpace = EDragSpace.Screen;
+        
+        var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
+        this.targetRectTransform.position = dragPos;
 
-        this.originalWorldPosition = this.targetRectTransform.position;
-        this.OffsetFromCursor = (Vector3)eventData.position - this.targetRectTransform.position;
+        this.originalWorldPosition = dragPos;
+        this.OffsetFromCursor = dragPos - this.targetRectTransform.position;
+
+        // RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        //     DragManager.IN.DragCanvas,
+        //     eventData.position,
+        //     eventData.pressEventCamera,
+        //     out var originalLocalPointerPosition);
+
+        // this.originalWorldPosition = this.targetRectTransform.position;
+        // this.OffsetFromCursor = (Vector3)eventData.position - this.targetRectTransform.position;
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
@@ -180,6 +192,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (this.shouldDetectDropTargets)
         {
+            Debug.Log($"UiDraggable.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
@@ -202,8 +215,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
         else
             this.targetRectTransform.SetAsLastSibling();
-
-        this.targetRectTransform.position -= this.OffsetFromCursor;
 
         SaveItemPosition();
             

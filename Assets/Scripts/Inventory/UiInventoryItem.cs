@@ -130,6 +130,7 @@ public class UiInventoryItem : UiDraggable
     {
         if (this.shouldDetectDropTargets)
         {
+            Debug.Log($"UiInventoryItem.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
             foreach (var possibleTarget in InputManager.MouseRaycastResults)
             {
                 if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
@@ -140,6 +141,7 @@ public class UiInventoryItem : UiDraggable
                         dragTarget.SetAsParent(this.targetRectTransform);
                         this.targetRectTransform.SetAsLastSibling();
                         this.targetRectTransform.position = possibleTarget.worldPosition;// - this.OffsetFromCursor;
+                        this.targetRectTransform.localScale = Vector3.one;
                         dragTarget.SetHighlight(false);
                         return false;//found drag target, reparent and exit
                     }

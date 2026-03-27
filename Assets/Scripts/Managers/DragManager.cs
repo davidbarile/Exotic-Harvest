@@ -14,7 +14,7 @@ public class DragManager : MonoBehaviour
     public enum EDragSpace
     {
         Custom,
-        DragCanvas,
+        Screen,
         World
     }
 
@@ -165,9 +165,9 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        var dragPos = DragManager.IN.GetPositionInSpace(mousePosition, EDragSpace.DragCanvas);
+        var dragPos = DragManager.IN.GetPositionInSpace(mousePosition, EDragSpace.Screen);
         this.CurrentDraggedTransform.position = dragPos;
-        this.CurrentDraggedTransform.position -= (Vector3)this.OffsetFromCursor;
+        //this.CurrentDraggedTransform.position -= (Vector3)this.OffsetFromCursor;
     }
 
     public void EndDrag()
@@ -232,12 +232,14 @@ public class DragManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetPositionInSpace(Vector3 worldPosition, EDragSpace dragSpace = EDragSpace.Custom, RectTransform customRectTrans = null)
+    public Vector3 GetPositionInSpace(Vector3 inWorldPosition, EDragSpace inDragSpace = EDragSpace.Custom, RectTransform inCustomRectTrans = null)
     {
-        Vector3 screenPoint = this.dragCamera.WorldToScreenPoint(worldPosition);
+        Vector3 screenPoint = this.dragCamera.WorldToScreenPoint(inWorldPosition);
 
-        var rectTrans = dragSpace == EDragSpace.DragCanvas ? this.DragCanvas : (dragSpace == EDragSpace.World ? this.WorldRectTrans : customRectTrans);
-        var camera = dragSpace == EDragSpace.DragCanvas ? this.dragCamera : (dragSpace == EDragSpace.World ? this.worldCamera : this.dragCamera);
+        //TODO: cache drag space
+
+        var rectTrans = inDragSpace == EDragSpace.Screen ? this.DragCanvas : (inDragSpace == EDragSpace.World ? this.WorldRectTrans : inCustomRectTrans);
+        var camera = inDragSpace == EDragSpace.Screen ? this.dragCamera : (inDragSpace == EDragSpace.World ? this.worldCamera : this.dragCamera);
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rectTrans,
@@ -245,10 +247,10 @@ public class DragManager : MonoBehaviour
             camera,
             out Vector2 localPoint))
         {
-            //Debug.Log($"GetPositionInSpace: ({dragSpace}) rectTrans = {customRectTrans?.name}   worldPosition = {worldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
+            //Debug.Log($"GetPositionInSpace: ({inDragSpace}) rectTrans = {inCustomRectTrans?.name}   worldPosition = {inWorldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
             return rectTrans.TransformPoint(localPoint);
         }
 
-        return worldPosition;
+        return inWorldPosition;
     }
 }
