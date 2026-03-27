@@ -168,11 +168,8 @@ public class UiInventoryItem : UiDraggable
                 //snap back to original position
                 transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
                 {
-                    var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-                    this.targetRectTransform.SetParent(originalParent, true);
-
-                    if (this.shouldReturnToOriginalParent)
-                        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+                    this.targetRectTransform.SetParent(this.originalParent, true);
+                    this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
                     var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
                     if (origCell != null)

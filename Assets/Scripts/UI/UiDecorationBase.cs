@@ -181,9 +181,7 @@ public class UiDecorationBase : UiDraggable
         }
         
         // If not detecting drop targets, just reparent to original parent or default
-        var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-        this.targetRectTransform.SetParent(originalParent, true);
-
+        this.targetRectTransform.SetParent(this.originalParent, true);
         this.targetRectTransform.SetAsLastSibling();
 
         SaveItemPosition();
@@ -196,11 +194,8 @@ public class UiDecorationBase : UiDraggable
         //snap back to original position
         transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
         {
-            var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-            this.targetRectTransform.SetParent(originalParent, true);
-
-            if (this.shouldReturnToOriginalParent)
-                this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+            this.targetRectTransform.SetParent(this.originalParent, true);
+            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
             SaveItemPosition();
         });

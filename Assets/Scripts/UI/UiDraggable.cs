@@ -13,19 +13,21 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [SerializeField] protected bool isDraggingPermanent;
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
-    [Tooltip("Set False for Menus, etc.")]
+
+    [Header("Set False for Menus, etc.")]
     [SerializeField] protected bool shouldDetectDropTargets = true;
-    [Tooltip("Set True for Menus, etc.")]
-    [SerializeField] protected bool shouldReturnToOriginalParent;
+
+    [Header("(Defaults to Object Root)")]
     [SerializeField] protected RectTransform targetRectTransform;
-    [Tooltip("Optional outline to show when drag mode is enabled")]
+
+    [Header("Optional outline to show when drag mode is enabled")]
     [SerializeField] protected GameObject dragEnabledDisplay;
 
     public bool IsDraggingPermanent => this.isDraggingPermanent;
     public bool LimitToParentTargetBounds => this.limitToParentTargetBounds;
     public bool OnlyDragToTargets => this.onlyDragToTargets;
     public bool ShouldDetectDropTargets => this.shouldDetectDropTargets;
-    public bool ShouldReturnToOriginalParent => this.shouldReturnToOriginalParent;
+
     public Transform OriginalParent => this.originalParent;
     public int OriginalSiblingIndex => this.originalSiblingIndex;
     public RectTransform TargetRectTransform => this.targetRectTransform;
@@ -126,6 +128,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.originalWorldPosition = this.targetRectTransform.position;
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
 
@@ -133,21 +136,15 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         var parentCanvas = this.GetComponentInParent<Canvas>();
         if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
             dragSpace = EDragSpace.Screen;
-        
+
         var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
-        this.targetRectTransform.position = dragPos;
 
-        this.originalWorldPosition = dragPos;
-        this.OffsetFromCursor = dragPos - this.targetRectTransform.position;
+        this.OffsetFromCursor = Vector3.zero;
+        //this.OffsetFromCursor = (Vector3)eventData.position - originalScreenSpacePos;
 
-        // RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        //     DragManager.IN.DragCanvas,
-        //     eventData.position,
-        //     eventData.pressEventCamera,
-        //     out var originalLocalPointerPosition);
+        this.targetRectTransform.position = this.originalWorldPosition - this.OffsetFromCursor;
 
-        // this.originalWorldPosition = this.targetRectTransform.position;
-        // this.OffsetFromCursor = (Vector3)eventData.position - this.targetRectTransform.position;
+        Debug.Log($"OnBeginDrag: dragPos = {dragPos}.   originalWorldPosition = {this.originalWorldPosition}  eventData = {eventData.position}    OffsetFromCursor = {this.OffsetFromCursor}");
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
@@ -155,14 +152,14 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (!this.isDragging)
-            return;
+        // if (!this.isDragging)
+        //     return;
             
-        if(!DoOnDrag())
-            return;
+        // if(!DoOnDrag())
+        //     return;
 
         // Use drag proxy for position updates
-        DragManager.IN.UpdateDrag(eventData.position);
+        //DragManager.IN.UpdateDrag(eventData.position);
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)
@@ -190,6 +187,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected virtual bool TryToParentToDropTarget()
     {
+        var destinationSpace = EDragSpace.Screen;
+
+        var dropPosition = Vector3.zero;
+
         if (this.shouldDetectDropTargets)
         {
             Debug.Log($"UiDraggable.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
@@ -200,45 +201,46 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     dragTarget.SetAsParent(this.targetRectTransform);
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
-                    this.targetRectTransform.position -= this.OffsetFromCursor;
+
+                    if (dragTarget.GetComponentInParent<Canvas>()?.renderMode == RenderMode.WorldSpace)
+                        destinationSpace = EDragSpace.World;
+
+                    dropPosition = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, destinationSpace);
+                    this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
             }
         }
-        
+
         // If not detecting drop targets, just reparent to original parent or default
-        var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-        this.targetRectTransform.SetParent(originalParent, true);
+        this.targetRectTransform.SetParent(this.originalParent, true);
+      
+        if (this.originalParent.GetComponentInParent<Canvas>()?.renderMode == RenderMode.WorldSpace)
+            destinationSpace = EDragSpace.World;
 
-        if (this.shouldReturnToOriginalParent)
-            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
-        else
-            this.targetRectTransform.SetAsLastSibling();
+        dropPosition = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, destinationSpace);
 
-        SaveItemPosition();
+        this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
+        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+        SaveItemPosition();//delete?
             
         return true;
     }
 
     protected virtual void DoSnapBack()
     {
-        if (this.originalParent != null)
+        if (this.originalParent == null || !this.onlyDragToTargets)
+            return;
+        
+        //snap back to original position
+        transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
         {
-            if (this.onlyDragToTargets)
-            {
-                //snap back to original position
-                transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
-                {
-                    var originalParent = this.shouldReturnToOriginalParent ? this.originalParent : DragManager.IN.DefaultParent;
-                    this.targetRectTransform.SetParent(originalParent, true);
+            this.targetRectTransform.SetParent(this.originalParent, true);
+            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
-                    if (this.shouldReturnToOriginalParent)
-                        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
-
-                    SaveItemPosition();
-                });
-            }
-        }
+            SaveItemPosition();//delete?
+        });
     }
 }

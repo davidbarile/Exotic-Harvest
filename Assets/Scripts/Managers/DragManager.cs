@@ -11,6 +11,10 @@ public class DragManager : MonoBehaviour
 
     public static Action<bool> OnDragModeChanged;
 
+    public static EDragSpace CurrentDragSpace { get; private set; }
+    public static Camera CurrentDragCamera { get; private set; }
+    public static RectTransform CurrentDragCanvas { get; private set; }
+
     public enum EDragSpace
     {
         Custom,
@@ -88,11 +92,11 @@ public class DragManager : MonoBehaviour
         OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
-    public void StartDrag(UiDraggable source, RectTransform draggedTransform, Vector2 offsetFromCursor)
+    public void StartDrag(UiDraggable inSource, RectTransform inDraggedTransform, Vector2 inOffsetFromCursor)
     {
-        this.currentDragSource = source;
-        this.CurrentDraggedTransform = draggedTransform;
-        this.OffsetFromCursor = offsetFromCursor;
+        this.currentDragSource = inSource;
+        this.CurrentDraggedTransform = inDraggedTransform;
+        this.OffsetFromCursor = inOffsetFromCursor;
         this.IsDraggingActive = true;
     }
 
@@ -165,9 +169,8 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        var dragPos = DragManager.IN.GetPositionInSpace(mousePosition, EDragSpace.Screen);
-        this.CurrentDraggedTransform.position = dragPos;
-        //this.CurrentDraggedTransform.position -= (Vector3)this.OffsetFromCursor;
+        var dragPos = GetPositionInSpace(mousePosition, CurrentDragSpace);
+        this.CurrentDraggedTransform.position = dragPos - (Vector3)this.OffsetFromCursor;
     }
 
     public void EndDrag()
@@ -234,21 +237,20 @@ public class DragManager : MonoBehaviour
 
     public Vector3 GetPositionInSpace(Vector3 inWorldPosition, EDragSpace inDragSpace = EDragSpace.Custom, RectTransform inCustomRectTrans = null)
     {
-        Vector3 screenPoint = this.dragCamera.WorldToScreenPoint(inWorldPosition);
+        var screenPoint = this.dragCamera.WorldToScreenPoint(inWorldPosition);
 
-        //TODO: cache drag space
+        CurrentDragSpace = inDragSpace;
+        var isScreenSpace = inDragSpace == EDragSpace.Screen;
+        var isWorldSpace = inDragSpace == EDragSpace.World;
+        CurrentDragCanvas = isScreenSpace ? this.DragCanvas : (isWorldSpace ? this.WorldRectTrans : inCustomRectTrans);
+        CurrentDragCamera = isScreenSpace ? this.dragCamera : (isWorldSpace ? this.worldCamera : this.dragCamera);
 
-        var rectTrans = inDragSpace == EDragSpace.Screen ? this.DragCanvas : (inDragSpace == EDragSpace.World ? this.WorldRectTrans : inCustomRectTrans);
-        var camera = inDragSpace == EDragSpace.Screen ? this.dragCamera : (inDragSpace == EDragSpace.World ? this.worldCamera : this.dragCamera);
+        //Vector3 screenPoint = CurrentDragCamera.WorldToScreenPoint(inWorldPosition);
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rectTrans,
-            screenPoint,
-            camera,
-            out Vector2 localPoint))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(CurrentDragCanvas, screenPoint, CurrentDragCamera, out Vector2 localPoint))
         {
             //Debug.Log($"GetPositionInSpace: ({inDragSpace}) rectTrans = {inCustomRectTrans?.name}   worldPosition = {inWorldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
-            return rectTrans.TransformPoint(localPoint);
+            return CurrentDragCanvas.TransformPoint(localPoint);
         }
 
         return inWorldPosition;
