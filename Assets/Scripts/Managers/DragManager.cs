@@ -4,7 +4,6 @@ using UnityEngine;
 public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
-    public static Camera DragCamera { get;  private set; }
 
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
 
@@ -24,6 +23,12 @@ public class DragManager : MonoBehaviour
 
     public Transform DefaultParent;
 
+    public Camera DragCamera => this.dragCamera;
+    [SerializeField] private Camera dragCamera;
+
+    public Camera WorldCamera => this.worldCamera;
+    [SerializeField] private Camera worldCamera;
+
     [SerializeField] private GameObject inventoryOpenTrigger;
 
     // Drag Proxy State
@@ -36,7 +41,6 @@ public class DragManager : MonoBehaviour
 
      private void Start()
     {
-        DragCamera = Camera.main;
         InputManager.OnDragPress += HandleDragModeChanged;
         OnDragOverInventoryZoneActiveChanged += SetDragOverInventoryZoneActive;
         SetDragOverInventoryZoneActive(false);
@@ -92,7 +96,7 @@ public class DragManager : MonoBehaviour
         this.IsDraggingActive = true;
     }
 
-    public void UpdateDrag(Vector2 screenPosition)
+    public void UpdateDrag(Vector2 mousePosition)
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
@@ -146,7 +150,7 @@ public class DragManager : MonoBehaviour
                 if (parentDragTarget.UnsnapRange > -1)
                 {
                     // Distance from drag start point (should be 0 at drag start)
-                    float distance = Vector2.Distance(screenPosition, RectTransformUtility.WorldToScreenPoint(DragCamera, clampedPosition));
+                    float distance = Vector2.Distance(mousePosition, RectTransformUtility.WorldToScreenPoint(DragCamera, clampedPosition));
                     if (distance > parentDragTarget.UnsnapRange)
                     {
                         // Outside unsnap range, do not clamp
@@ -161,7 +165,7 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        var dragPos = DragManager.IN.GetPositionInSpace(screenPosition, EDragSpace.DragCanvas);
+        var dragPos = DragManager.IN.GetPositionInSpace(mousePosition, EDragSpace.DragCanvas);
         this.CurrentDraggedTransform.position = dragPos;
         this.CurrentDraggedTransform.position -= (Vector3)this.OffsetFromCursor;
     }
@@ -210,7 +214,7 @@ public class DragManager : MonoBehaviour
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.DragCanvas,
             Input.mousePosition,
-            DragCamera,
+            this.dragCamera,
             out Vector2 currentLocalPointerPosition))
         {
             // Set DragOffset to current pointer position
@@ -230,14 +234,15 @@ public class DragManager : MonoBehaviour
 
     public Vector3 GetPositionInSpace(Vector3 worldPosition, EDragSpace dragSpace = EDragSpace.Custom, RectTransform customRectTrans = null)
     {
-        Vector3 screenPoint = DragCamera.WorldToScreenPoint(worldPosition);
+        Vector3 screenPoint = this.dragCamera.WorldToScreenPoint(worldPosition);
 
         var rectTrans = dragSpace == EDragSpace.DragCanvas ? this.DragCanvas : (dragSpace == EDragSpace.World ? this.WorldRectTrans : customRectTrans);
+        var camera = dragSpace == EDragSpace.DragCanvas ? this.dragCamera : (dragSpace == EDragSpace.World ? this.worldCamera : this.dragCamera);
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rectTrans,
             screenPoint,
-            DragCamera,
+            camera,
             out Vector2 localPoint))
         {
             //Debug.Log($"GetPositionInSpace: ({dragSpace}) rectTrans = {customRectTrans?.name}   worldPosition = {worldPosition}    screenPoint = {screenPoint}    localPoint = {localPoint}");
