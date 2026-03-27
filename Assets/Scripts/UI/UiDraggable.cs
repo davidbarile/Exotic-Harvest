@@ -132,35 +132,27 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
 
+        //figure out which canvas this object is a child of to determine drag space
         var dragSpace = EDragSpace.World;
         var parentCanvas = this.GetComponentInParent<Canvas>();
         if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
             dragSpace = EDragSpace.Screen;
 
         var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
+        var screenStartPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.Screen);
 
-        this.OffsetFromCursor = Vector3.zero;
-        //this.OffsetFromCursor = (Vector3)eventData.position - originalScreenSpacePos;
+        //temp until I can figure out how to set OffsetFromCursor correctly in world space
+        this.OffsetFromCursor = Vector3.zero;//(Vector3)eventData.position - screenStartPos;
 
         this.targetRectTransform.position = this.originalWorldPosition - this.OffsetFromCursor;
 
-        Debug.Log($"OnBeginDrag: dragPos = {dragPos}.   originalWorldPosition = {this.originalWorldPosition}  eventData = {eventData.position}    OffsetFromCursor = {this.OffsetFromCursor}");
+        Debug.Log($"OnBeginDrag: dragSpace = {dragSpace}    dragPos = {dragPos}. screenStartPos = {screenStartPos}  originalWorldPosition = {this.originalWorldPosition}  eventData = {eventData.position}    OffsetFromCursor = {this.OffsetFromCursor}");
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
     }
 
-    public virtual void OnDrag(PointerEventData eventData)
-    {
-        // if (!this.isDragging)
-        //     return;
-            
-        // if(!DoOnDrag())
-        //     return;
-
-        // Use drag proxy for position updates
-        //DragManager.IN.UpdateDrag(eventData.position);
-    }
+    public virtual void OnDrag(PointerEventData eventData){}
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
@@ -188,7 +180,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     protected virtual bool TryToParentToDropTarget()
     {
         var destinationSpace = EDragSpace.Screen;
-
         var dropPosition = Vector3.zero;
 
         if (this.shouldDetectDropTargets)
@@ -213,7 +204,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
         }
 
-        // If not detecting drop targets, just reparent to original parent or default
+        // If not detecting drop targets, just reparent to original parent
         this.targetRectTransform.SetParent(this.originalParent, true);
       
         if (this.originalParent.GetComponentInParent<Canvas>()?.renderMode == RenderMode.WorldSpace)

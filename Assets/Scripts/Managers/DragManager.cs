@@ -112,7 +112,8 @@ public class DragManager : MonoBehaviour
             // return;
         }
 
-        UiDraggable.UpdateHighlightedObjects();
+        if(this.currentDragSource.ShouldDetectDropTargets)
+           UiDraggable.UpdateHighlightedObjects();
 
         //this code is quite broken.  Need to factor in screen space, etc.
         if (this.currentDragSource.LimitToParentTargetBounds && this.currentDragSource.OriginalParent != null)
@@ -154,7 +155,7 @@ public class DragManager : MonoBehaviour
                 if (parentDragTarget.UnsnapRange > -1)
                 {
                     // Distance from drag start point (should be 0 at drag start)
-                    float distance = Vector2.Distance(mousePosition, RectTransformUtility.WorldToScreenPoint(DragCamera, clampedPosition));
+                    float distance = Vector2.Distance(mousePosition, RectTransformUtility.WorldToScreenPoint(this.dragCamera, clampedPosition));
                     if (distance > parentDragTarget.UnsnapRange)
                     {
                         // Outside unsnap range, do not clamp

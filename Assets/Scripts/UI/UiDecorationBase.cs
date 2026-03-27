@@ -151,44 +151,6 @@ public class UiDecorationBase : UiDraggable
         }
     }
 
-    protected override bool TryToParentToDropTarget()
-    {         
-        if (this.shouldDetectDropTargets)
-        {
-            Debug.Log($"UiDecorationBase.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
-            foreach (var possibleTarget in InputManager.MouseRaycastResults)
-            {
-                if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
-                {
-                    var dragSpace = EDragSpace.World;
-                    var parentCanvas = possibleTarget.gameObject.GetComponentInParent<Canvas>();
-                    if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
-                        dragSpace = EDragSpace.Screen;
-                    
-                    var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
-                    dragTarget.SetAsParent(this.targetRectTransform);
-                    this.targetRectTransform.SetAsLastSibling();
-                    this.targetRectTransform.position = dragPos; //possibleTarget.worldPosition;// - this.OffsetFromCursor;
-
-                    Debug.Log($"DROP: UiDecorationBase.TryToParentToDropTarget()  worldPosition = {this.targetRectTransform.position}.  localPosition = {this.targetRectTransform.localPosition}");
-                
-                    //this.targetRectTransform.localPosition = newPos;
-                    dragTarget.SetHighlight(false);
-                    SaveItemPosition();
-                    return false;//found drag target, reparent and exit
-                }
-            }
-        }
-        
-        // If not detecting drop targets, just reparent to original parent or default
-        this.targetRectTransform.SetParent(this.originalParent, true);
-        this.targetRectTransform.SetAsLastSibling();
-
-        SaveItemPosition();
-
-        return true;
-    }
-
     private void SnapBackToWorldFromInventoryFail()
     {
         //snap back to original position
