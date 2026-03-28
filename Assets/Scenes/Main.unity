@@ -5537,7 +5537,7 @@ MonoBehaviour:
   highlightObject: {fileID: 1717538038}
   shouldSnapToCenter: 0
   BoundsCollider: {fileID: 628749975}
-  UnsnapRange: 400
+  UnsnapRange: 200
   IsDragOutOfInventoryZone: 0
   IsDragOverOpenInventoryZone: 0
 --- !u!114 &628749973
@@ -7576,7 +7576,7 @@ MonoBehaviour:
   highlightObject: {fileID: 261552517}
   shouldSnapToCenter: 0
   BoundsCollider: {fileID: 955227565}
-  UnsnapRange: 400
+  UnsnapRange: 200
   IsDragOutOfInventoryZone: 0
   IsDragOverOpenInventoryZone: 0
 --- !u!222 &955227568
@@ -7593,7 +7593,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1696924141}
+    m_TransformParent: {fileID: 1375494674}
     m_Modifications:
     - target: {fileID: 4234567890123456, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_Name
@@ -7649,23 +7649,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -166.12
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -155.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11251,6 +11251,7 @@ RectTransform:
   m_Children:
   - {fileID: 811145123}
   - {fileID: 1502916305}
+  - {fileID: 1138280789}
   m_Father: {fileID: 1696924141}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -11354,7 +11355,7 @@ MonoBehaviour:
   highlightObject: {fileID: 811145122}
   shouldSnapToCenter: 0
   BoundsCollider: {fileID: 1375494675}
-  UnsnapRange: 400
+  UnsnapRange: 200
   IsDragOutOfInventoryZone: 0
   IsDragOverOpenInventoryZone: 0
 --- !u!222 &1375494678
@@ -12931,11 +12932,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 134.14
+      value: 59
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 42.29
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14214,7 +14215,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1138280789}
   - {fileID: 628749971}
   - {fileID: 1375494674}
   - {fileID: 1659267878}
