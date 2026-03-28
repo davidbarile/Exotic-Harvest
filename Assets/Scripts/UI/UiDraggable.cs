@@ -141,12 +141,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
         var screenStartPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.Screen);
 
-        Vector3 cameraDelta = Vector3.zero;
-        if (dragSpace == EDragSpace.World)
-        {
-            //var screenPoint = DragManager.IN.DragCamera.WorldToScreenPoint(this.originalWorldPosition);
-            cameraDelta = DragManager.IN.DragCamera.transform.position - DragManager.IN.WorldCamera.transform.position;
-        }
+        Vector3 cameraDelta = dragSpace == EDragSpace.World ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
 
         //temp until I can figure out how to set OffsetFromCursor correctly in world space
         this.OffsetFromCursor = (Vector3)eventData.position - screenStartPos + cameraDelta;

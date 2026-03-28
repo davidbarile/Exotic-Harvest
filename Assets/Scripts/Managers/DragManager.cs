@@ -5,6 +5,8 @@ public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
 
+    public static Vector3 ScreenToWorldCameraDelta { get; private set; }
+
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
 
     public static bool IsDragModeActivated = false;
@@ -38,57 +40,11 @@ public class DragManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private Transform worldDragObj;
 
-    [SerializeField] private Transform worldRef;
-    [SerializeField] private Transform screenRef;
-
-    [SerializeField] private Vector3 screenToWorldDelta;
-    [SerializeField] private Vector3 screenToWorldCameraDelta;
-    [Space, SerializeField] private Vector3 screenToWorldLocalDelta;
-    [SerializeField] private Vector3 screenToWorldLocalCameraDelta;
-
-    [Space, SerializeField] private Vector3 convertWorldToScreenPoint;
-    [SerializeField] private Vector3 convertWorldToScreenPos;
-
-    [Space, SerializeField] private Vector3 convertUiToScreenPos;
-    [SerializeField] private Vector3 convertUiToScreenPoint;
-
-    [SerializeField] private bool refresh;
-
     // Drag Proxy State
     public RectTransform CurrentDraggedTransform { get; private set; }
     public Vector2 OffsetFromCursor { get; private set; }
     public bool IsDraggingActive { get; private set; }
     private UiDraggable currentDragSource;
-
-    // private Vector3 originalLocalPosition;
-
-    private void OnValidate()
-    {
-        this.screenToWorldDelta = worldRef.position - screenRef.position;
-        this.screenToWorldCameraDelta = worldCamera.transform.position - dragCamera.transform.position;
-
-        this.screenToWorldLocalDelta = worldRef.localPosition - screenRef.localPosition;
-        this.screenToWorldLocalCameraDelta = worldCamera.transform.localPosition - dragCamera.transform.localPosition;
-
-        convertWorldToScreenPoint = this.dragCamera.WorldToScreenPoint(worldRef.position);
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(DragCanvas, convertWorldToScreenPoint, dragCamera, out Vector2 localPoint))
-        {
-            convertWorldToScreenPos = DragCanvas.TransformPoint(localPoint);
-        }
-
-        convertUiToScreenPoint = this.dragCamera.WorldToScreenPoint(screenRef.position);
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(DragCanvas, convertUiToScreenPoint, dragCamera, out Vector2 localPoint2))
-        {
-            convertUiToScreenPos = DragCanvas.TransformPoint(localPoint2);
-        }
-
-        this.worldDragObj.position = this.screenRef.position + GetScreenToWorldCameraDelta();
-    }
-
-    public Vector3 GetScreenToWorldDelta() => this.screenToWorldDelta;
-    public Vector3 GetScreenToWorldCameraDelta() => this.screenToWorldCameraDelta;
-    public Vector3 GetScreenToWorldLocalDelta() => this.screenToWorldLocalDelta;
-    public Vector3 GetScreenToWorldLocalCameraDelta() => this.screenToWorldLocalCameraDelta;
 
     private void Start()
     {
@@ -99,13 +55,13 @@ public class DragManager : MonoBehaviour
 
     private void Update()
     {
+        DragManager.ScreenToWorldCameraDelta = this.worldCamera.transform.position - this.dragCamera.transform.position;
+
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
         if (this.IsDraggingActive && this.CurrentDraggedTransform != null)
         {
             UpdateDrag(Input.mousePosition);
-
-            OnValidate();
             
             // Detect mouse release to end drag on swapped objects
             if (Input.GetMouseButtonUp(0))
