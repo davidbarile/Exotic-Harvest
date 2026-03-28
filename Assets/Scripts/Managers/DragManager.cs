@@ -119,6 +119,9 @@ public class DragManager : MonoBehaviour
 
         if (this.currentDragSource.OriginalParent.TryGetComponent(out UiDragTarget parentDragTarget))
         {
+            if (parentDragTarget.UnsnapRange == -1)
+                return false;
+                
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
             Vector3 clampedPosition = GetPositionInSpace(mousePos);
             if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
@@ -195,27 +198,11 @@ public class DragManager : MonoBehaviour
     public void SwapDraggedObject(RectTransform newDraggedTransform)
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
-        {
-            Debug.LogWarning("SwapDraggedObject called but no drag is active");
             return;
-        }
 
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
         newDraggedTransform.SetParent(this.DragCanvas, true);
-
-        // Recalculate drag offset to maintain cursor-to-object relationship
-        // Get current mouse position in local space
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            this.DragCanvas,
-            Input.mousePosition,
-            this.dragCamera,
-            out Vector2 currentLocalPointerPosition))
-        {
-            // Set DragOffset to current pointer position
-            // This makes originalLocalPosition = current position, maintaining visual offset
-            //this.OffsetFromCursor = currentLocalPointerPosition;
-        }
 
         // Update the reference to the new transform
         this.CurrentDraggedTransform = newDraggedTransform;

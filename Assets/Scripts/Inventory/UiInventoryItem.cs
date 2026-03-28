@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
@@ -162,7 +162,6 @@ public class UiInventoryItem : UiDraggable
     {
         if (this.shouldDetectDropTargets)
         {
-            Debug.Log($"UiInventoryItem.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))

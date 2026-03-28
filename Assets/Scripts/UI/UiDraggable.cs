@@ -125,8 +125,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.isDragging = true;
 
-        var mousePos = eventData.position;
-
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.originalWorldPosition = this.targetRectTransform.position;
@@ -134,8 +132,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
 
         this.targetRectTransform.position = dragPos + this.OffsetFromCursor;
-
-        //Debug.Log($"OnBeginDrag:  dragPos = {dragPos}   originalWorldPosition = {this.originalWorldPosition}     mousePos = {mousePos}    OffsetFromCursor = {this.OffsetFromCursor}");
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
@@ -175,8 +171,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected virtual bool TryToParentToDropTarget()
     {
-        var dropPosition = Vector3.zero;
-
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
@@ -186,25 +180,23 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     dragTarget.SetAsParent(this.targetRectTransform);
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
-
-                    dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
-                    this.targetRectTransform.position = dropPosition;
-
-                    //Debug.Log($"UiDraggable.  DROP TARGET FOUND.  dragTarget = {dragTarget.name} dropPosition = {dropPosition}    this.targetRectTransform.sibling = {this.targetRectTransform.GetSiblingIndex()}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}", dragTarget.gameObject);
+                    this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
 
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
             }
         }
-        
+
         var foundTarget = false;
-        foreach (var target in InputManager.ObjectsUnderMouse)
+        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (target.transform.IsChildOf(this.targetRectTransform))
+            //skip parts of dragged item
+            if (possibleTarget.transform.IsChildOf(this.targetRectTransform))
                 continue;
 
-            this.targetRectTransform.SetParent(target.transform, true);
+            //TODO: LOL! It got parented to a raindrop.  We should check if the possible target is a valid drop target before parenting to it.
+            this.targetRectTransform.SetParent(possibleTarget.transform, true);
             foundTarget = true;
             break;
         }
@@ -212,15 +204,11 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         // If not detecting drop targets, just reparent to original parent
         if(!foundTarget)
             this.targetRectTransform.SetParent(this.originalParent, true);
-
-        dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
-        this.targetRectTransform.position = dropPosition;
-
-        //Debug.Log($"UiDraggable.  NO!!!  DROP TARGET FOUND. dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}");
-        
+ 
+        this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
-        SaveItemPosition();//delete?
+        SaveItemPosition();
             
         return true;
     }
