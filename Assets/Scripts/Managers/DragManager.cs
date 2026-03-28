@@ -18,10 +18,7 @@ public class DragManager : MonoBehaviour
 
     public Transform DefaultParent;
 
-    //public Camera DragCamera => this.dragCamera;
     [SerializeField] private Camera dragCamera;
-
-    //public Camera WorldCamera => this.worldCamera;
     [SerializeField] private Camera worldCamera;
 
     [SerializeField] private GameObject inventoryOpenTrigger;
@@ -126,11 +123,12 @@ public class DragManager : MonoBehaviour
             Vector3 clampedPosition = GetPositionInSpace(mousePos);
             if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
             {
+                var offsetClampedPosition = clampedPosition + CameraDelta + this.OffsetFromCursor;
                 // Check if the point is inside the 2D collider
-                if (!parentDragTarget.BoundsCollider.OverlapPoint(clampedPosition + CameraDelta))
+                if (!parentDragTarget.BoundsCollider.OverlapPoint(offsetClampedPosition))
                 {
                     // Find the closest point on the collider's bounds
-                    Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(clampedPosition + CameraDelta) - (Vector2)CameraDelta;
+                    var closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(offsetClampedPosition) - (Vector2)this.OffsetFromCursor - (Vector2)CameraDelta;
                     clampedPosition = new Vector3(closestPoint.x, closestPoint.y, this.CurrentDraggedTransform.position.z);
                 }
             }
@@ -140,10 +138,10 @@ public class DragManager : MonoBehaviour
                 RectTransform parentRect = this.currentDragSource.OriginalParent.GetComponent<RectTransform>();
                 if (parentRect != null)
                 {
-                    Vector3[] worldCorners = new Vector3[4];
+                    var worldCorners = new Vector3[4];
                     parentRect.GetWorldCorners(worldCorners);
-                    Vector3 min = worldCorners[0] - CameraDelta;
-                    Vector3 max = worldCorners[2] - CameraDelta;
+                    Vector3 min = worldCorners[0] - this.OffsetFromCursor - CameraDelta;
+                    Vector3 max = worldCorners[2] - this.OffsetFromCursor - CameraDelta;
 
                     clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
                     clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
