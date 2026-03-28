@@ -204,7 +204,7 @@ public class UiDecorationBase : UiDraggable
         return null;
     }
 
-    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector2 inOffsetFromCursor)
+    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
     {
         Configure(inItemData);
 

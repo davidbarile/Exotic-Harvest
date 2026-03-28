@@ -126,29 +126,17 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         this.isDragging = true;
 
+        var mousePos = eventData.position;
+
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.originalWorldPosition = this.targetRectTransform.position;
 
-        this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
+        var dragPos = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
 
-        //figure out which canvas this object is a child of to determine drag space
-        var dragSpace = EDragSpace.World;
-        var parentCanvas = this.GetComponentInParent<Canvas>();
-        if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
-            dragSpace = EDragSpace.Screen;
+        this.targetRectTransform.position = dragPos + this.OffsetFromCursor;
 
-        var dragPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, dragSpace);
-        var screenStartPos = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, EDragSpace.Screen);
-
-        Vector3 cameraDelta = dragSpace == EDragSpace.World ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
-
-        //temp until I can figure out how to set OffsetFromCursor correctly in world space
-        this.OffsetFromCursor = (Vector3)eventData.position - screenStartPos + cameraDelta;
-
-        this.targetRectTransform.position = this.originalWorldPosition - this.OffsetFromCursor;
-
-        Debug.Log($"OnBeginDrag: dragSpace = {dragSpace}  cameraDelta = {cameraDelta}  dragPos = {dragPos}. screenStartPos = {screenStartPos}  originalWorldPosition = {this.originalWorldPosition}  eventData = {eventData.position}    OffsetFromCursor = {this.OffsetFromCursor}");
+        Debug.Log($"OnBeginDrag:  dragPos = {dragPos}   originalWorldPosition = {this.originalWorldPosition}     mousePos = {mousePos}    OffsetFromCursor = {this.OffsetFromCursor}");
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
@@ -181,7 +169,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected virtual bool TryToParentToDropTarget()
     {
-        var destinationSpace = EDragSpace.Screen;
         var dropPosition = Vector3.zero;
 
         if (this.shouldDetectDropTargets)
@@ -195,11 +182,9 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
 
-                    if (dragTarget.GetComponentInParent<Canvas>()?.renderMode == RenderMode.WorldSpace)
-                        destinationSpace = EDragSpace.World;
-
-                    dropPosition = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, destinationSpace);
-                    this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
+                    dropPosition = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
+                    this.targetRectTransform.position = dropPosition + this.OffsetFromCursor;
+        
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
@@ -208,13 +193,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         // If not detecting drop targets, just reparent to original parent
         this.targetRectTransform.SetParent(this.originalParent, true);
-      
-        if (this.originalParent.GetComponentInParent<Canvas>()?.renderMode == RenderMode.WorldSpace)
-            destinationSpace = EDragSpace.World;
 
-        dropPosition = DragManager.IN.GetPositionInSpace(this.targetRectTransform.position, destinationSpace);
+        dropPosition = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
+        this.targetRectTransform.position = dropPosition + this.OffsetFromCursor;
 
-        this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
         SaveItemPosition();//delete?
