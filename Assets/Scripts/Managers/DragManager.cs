@@ -124,7 +124,7 @@ public class DragManager : MonoBehaviour
         {
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
             Vector3 clampedPosition = GetPositionInSpace(mousePos);
-            if (parentDragTarget.BoundsCollider != null)
+            if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
             {
                 // Check if the point is inside the 2D collider
                 if (!parentDragTarget.BoundsCollider.OverlapPoint(clampedPosition + CameraDelta))
@@ -142,14 +142,11 @@ public class DragManager : MonoBehaviour
                 {
                     Vector3[] worldCorners = new Vector3[4];
                     parentRect.GetWorldCorners(worldCorners);
-                    Vector3 min = worldCorners[0];
-                    Vector3 max = worldCorners[2];
+                    Vector3 min = worldCorners[0] - CameraDelta;
+                    Vector3 max = worldCorners[2] - CameraDelta;
 
-                    //clampedPosition = this.CurrentDraggedTransform.position;
                     clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
                     clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
-
-                    print($"B. clampedPosition: {clampedPosition}");
                 }
             }
 
@@ -157,17 +154,14 @@ public class DragManager : MonoBehaviour
             {
                 // Distance from drag start point (should be 0 at drag start)
                 float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(this.dragCamera, clampedPosition));
-                print($"C. distance = {distance}  mousePos = {mousePos}  clampedPosition: {clampedPosition}  CameraDelta = {CameraDelta}");
                 if (distance > parentDragTarget.UnsnapRange)
                 {
                     // Outside unsnap range, do not clamp
-                    print($"D. Return");
                     return false;
                 }
             }
 
             this.CurrentDraggedTransform.position = clampedPosition + this.OffsetFromCursor;
-            print($"E. clampedPosition = {clampedPosition}   mousePos = {mousePos}  CameraDelta = {CameraDelta}. this.OffsetFromCursor = {this.OffsetFromCursor}. final position = {this.CurrentDraggedTransform.position}");
             return true;
         }
         return false;
