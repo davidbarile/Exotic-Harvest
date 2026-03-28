@@ -10,8 +10,10 @@ public class TimeManager : MonoBehaviour, ITickable
     public static TimeManager IN;
 
     public bool UseRealTime => this.useRealTime;
+    public bool FreezeTime => this.freezeTime;
     public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
-    [SerializeField] private bool useRealTime = false; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
+    [SerializeField] private bool useRealTime; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
+     [SerializeField] private bool freezeTime;
     
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private ETimeOfDay currentTimeOfDay = ETimeOfDay.Morning;
@@ -51,8 +53,11 @@ public class TimeManager : MonoBehaviour, ITickable
     
     public void SecondTick()
     {
+        if (this.freezeTime && Time.frameCount > 1) // Allow initial time setup but prevent progression
+            return;
+                
         if (this.useRealTime)
-        {
+        {   
             var realTime = DateTime.Now;
             this.currentHour = realTime.Hour + (realTime.Minute / 60f) + (realTime.Second / 3600f);
             //OnNewDay?.Invoke();
@@ -81,8 +86,8 @@ public class TimeManager : MonoBehaviour, ITickable
             OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
         }
 
-         if(this.timeDisplayText != null)
-                this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+        if(this.timeDisplayText)
+            this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
     }
     
     private ETimeOfDay GetTimeOfDayFromHour(float hour)
@@ -136,6 +141,9 @@ public class TimeManager : MonoBehaviour, ITickable
 
         if (this.timeSliderText != null)
             this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+
+        if(this.timeDisplayText)
+            this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
     }
 
     public void ToggleRealTime(bool useReal)
