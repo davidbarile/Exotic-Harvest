@@ -33,8 +33,6 @@ public class UiDragTarget : MonoBehaviour
         childObject.SetParent(transform, true);
 
         if(this.shouldSnapToCenter)
-        {
             childObject.localPosition = Vector3.zero;
-        }
     }
 }

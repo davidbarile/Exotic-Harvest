@@ -132,7 +132,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.originalWorldPosition = this.targetRectTransform.position;
 
-        var dragPos = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
+        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
 
         this.targetRectTransform.position = dragPos + this.OffsetFromCursor;
 
@@ -182,8 +182,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
 
-                    dropPosition = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
-                    this.targetRectTransform.position = dropPosition + this.OffsetFromCursor;
+                    dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+                    this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
+
+                    Debug.Log($"DROP TARGET FOUND.  dragTarget = {dragTarget.name} dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}", dragTarget.gameObject);
         
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
@@ -194,8 +196,11 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         // If not detecting drop targets, just reparent to original parent
         this.targetRectTransform.SetParent(this.originalParent, true);
 
-        dropPosition = DragManager.GetPositionValuesForDrag(this.targetRectTransform.position, this.gameObject, out this.OffsetFromCursor);
-        this.targetRectTransform.position = dropPosition + this.OffsetFromCursor;
+        dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+        this.targetRectTransform.position = dropPosition;
+
+        Debug.Log($"NO!!!  DROP TARGET FOUND. dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}");
+        
 
         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 

@@ -237,23 +237,30 @@ public class DragManager : MonoBehaviour
         var screenPoint = this.dragCamera.WorldToScreenPoint(inWorldPosition);
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(this.DragCanvas, screenPoint, this.dragCamera, out Vector2 localPoint))
-        {
             return this.DragCanvas.TransformPoint(localPoint);
-        }
 
         return inWorldPosition;
     }
 
-    public static Vector3 GetPositionValuesForDrag(Vector2 inPosition, GameObject inObject, out Vector3 outOffsetFromCursor)
+    public static Vector3 GetPositionValuesForDrag(Vector2 inMousePosition, Transform inObject, out Vector3 outOffsetFromCursor)
+    {
+        //figure out which canvas this object is a child of to determine drag space
+        var parentCanvas = inObject.GetComponentInParent<Canvas>();
+        var cameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
+
+        var objectPos = inObject.transform.position - cameraDelta;
+        outOffsetFromCursor = objectPos - (Vector3)inMousePosition;
+
+        return DragManager.IN.GetPositionInSpace(objectPos);
+    }
+
+    public static Vector3 GetPositionValuesForDrop(Vector2 inMousePosition, Transform inObject)
     {
         //figure out which canvas this object is a child of to determine drag space
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
         var cameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
 
         var objectPos = inObject.transform.position + cameraDelta;
-        var mouseWorldPos = (Vector3)inPosition + cameraDelta;
-
-        outOffsetFromCursor = objectPos - mouseWorldPos;
 
         return DragManager.IN.GetPositionInSpace(objectPos);
     }
