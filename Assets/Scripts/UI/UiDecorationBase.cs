@@ -214,9 +214,8 @@ public class UiDecorationBase : UiDraggable
         // Store drag state for proper cleanup on drag end
         this.OffsetFromCursor = inOffsetFromCursor;
         this.originalWorldPosition = this.targetRectTransform.position;
-        // this.originalParent = DragManager.IN.DefaultParent;//shouldn't it just
         // this.originalSiblingIndex = 0;
-           this.originalParent = this.targetRectTransform.parent;
+        this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
 
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);

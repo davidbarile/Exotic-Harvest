@@ -142,7 +142,14 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
     }
 
-    public virtual void OnDrag(PointerEventData eventData){}
+    public virtual void OnDrag(PointerEventData eventData)
+    {
+        if (!this.isDragging)
+            return;
+
+        if (!DoOnDrag())
+            return;
+    }
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
@@ -201,7 +208,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         Debug.Log($"NO!!!  DROP TARGET FOUND. dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}");
         
-
         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
         SaveItemPosition();//delete?

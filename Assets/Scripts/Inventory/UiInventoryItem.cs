@@ -126,39 +126,6 @@ public class UiInventoryItem : UiDraggable
         return true;
     }
 
-    protected override bool TryToParentToDropTarget()
-    {
-        if (this.shouldDetectDropTargets)
-        {
-            Debug.Log($"UiInventoryItem.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
-            foreach (var possibleTarget in InputManager.MouseRaycastResults)
-            {
-                if (possibleTarget.gameObject.TryGetComponent<UiDragTarget>(out var dragTarget))
-                {
-                    var cell = possibleTarget.gameObject.GetComponentInParent<UiInventoryCell>();
-                    if (cell != null)
-                    {
-                        dragTarget.SetAsParent(this.targetRectTransform);
-                        this.targetRectTransform.SetAsLastSibling();
-                        this.targetRectTransform.position = possibleTarget.worldPosition;// - this.OffsetFromCursor;
-                        this.targetRectTransform.localScale = Vector3.one;
-                        dragTarget.SetHighlight(false);
-                        return false;//found drag target, reparent and exit
-                    }
-                    else
-                    {
-                        if (!this.ItemData.CanDragToWorld)
-                        {
-                            return true;//bounce back
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
     protected override void DoSnapBack()
     {
         if (this.originalParent != null)
@@ -181,14 +148,58 @@ public class UiInventoryItem : UiDraggable
             }
         }
     }
-    
+
     public override void OnEndDrag(PointerEventData eventData)
     {
         var inventoryPanel = UiManager.IN.InventoryPanel;
         if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
             return;
 
-        base.OnEndDrag(eventData);
+        this.isDragging = false;
+
+        // Notify drag proxy that drag ended
+        DragManager.IN.EndDrag();
+
+        bool flowControl = TryToParentToDropTarget();
+
+        if (!flowControl)
+        {
+            DoOnEndDrag();
+            return;
+        }
+
+        DoSnapBack();
+    }
+
+    protected override bool TryToParentToDropTarget()
+    {
+        if (this.shouldDetectDropTargets)
+        {
+            Debug.Log($"UiInventoryItem.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
+            foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+            {
+                if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                {
+                    var cell = possibleTarget.GetComponentInParent<UiInventoryCell>();
+                    if (cell != null)
+                    {
+                        dragTarget.SetAsParent(this.targetRectTransform);
+                        this.targetRectTransform.SetAsLastSibling();
+                        dragTarget.SetHighlight(false);
+                        return false;//found drag target, reparent and exit
+                    }
+                    else
+                    {
+                        if (!this.ItemData.CanDragToWorld)
+                        {
+                            return true;//bounce back
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
     
     protected override bool DoOnEndDrag()
