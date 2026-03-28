@@ -6618,7 +6618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1215, y: -31}
+  m_AnchoredPosition: {x: 945, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &747597516
@@ -6635,7 +6635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UiDraggable
   isDraggingPermanent: 1
   onlyDragToTargets: 0
-  limitToParentTargetBounds: 0
+  limitToParentTargetBounds: 1
   shouldDetectDropTargets: 1
   targetRectTransform: {fileID: 747597515}
   dragEnabledDisplay: {fileID: 0}
@@ -7471,6 +7471,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 261552518}
+  - {fileID: 1039278074}
   - {fileID: 394831171}
   m_Father: {fileID: 1570269843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8204,7 +8205,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1570269843}
+    m_TransformParent: {fileID: 955227564}
     m_Modifications:
     - target: {fileID: 4234567890123456, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_Name
@@ -8272,7 +8273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1437
+      value: 117
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -12796,9 +12797,8 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 562039096}
-  - {fileID: 955227564}
   - {fileID: 747597515}
-  - {fileID: 1039278074}
+  - {fileID: 955227564}
   m_Father: {fileID: 1488441595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14958,7 +14958,6 @@ MonoBehaviour:
   dragCamera: {fileID: 1701725588}
   worldCamera: {fileID: 2084589448}
   inventoryOpenTrigger: {fileID: 1197052517}
-  worldDragObj: {fileID: 562039096}
 --- !u!114 &1713415302
 MonoBehaviour:
   m_ObjectHideFlags: 0

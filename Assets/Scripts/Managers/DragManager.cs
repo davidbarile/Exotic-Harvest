@@ -26,9 +26,6 @@ public class DragManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryOpenTrigger;
 
-    [Header("Debug")]
-    [SerializeField] private Transform worldDragObj;
-
     // Drag Proxy State
     public RectTransform CurrentDraggedTransform { get; private set; }
     public Vector3 OffsetFromCursor { get; private set; }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using static DragManager;
 
 [RequireComponent(typeof(RectTransform))]
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -180,7 +179,6 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         if (this.shouldDetectDropTargets)
         {
-            Debug.Log($"UiDraggable.TryToParentToDropTarget(). {InputManager.ObjectsUnderMouse.Count} objects under mouse");
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
@@ -192,7 +190,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
                     this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
 
-                    Debug.Log($"DROP TARGET FOUND.  dragTarget = {dragTarget.name} dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}", dragTarget.gameObject);
+                    Debug.Log($"UiDraggable.  DROP TARGET FOUND.  dragTarget = {dragTarget.name} dropPosition = {dropPosition}    this.targetRectTransform.sibling = {this.targetRectTransform.GetSiblingIndex()}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}", dragTarget.gameObject);
         
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
@@ -206,7 +204,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
         this.targetRectTransform.position = dropPosition;
 
-        Debug.Log($"NO!!!  DROP TARGET FOUND. dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}");
+        Debug.Log($"UiDraggable.  NO!!!  DROP TARGET FOUND. dropPosition = {dropPosition}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}");
         
         this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 

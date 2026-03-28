@@ -155,20 +155,7 @@ public class UiInventoryItem : UiDraggable
         if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
             return;
 
-        this.isDragging = false;
-
-        // Notify drag proxy that drag ended
-        DragManager.IN.EndDrag();
-
-        bool flowControl = TryToParentToDropTarget();
-
-        if (!flowControl)
-        {
-            DoOnEndDrag();
-            return;
-        }
-
-        DoSnapBack();
+        base.OnEndDrag(eventData);
     }
 
     protected override bool TryToParentToDropTarget()

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using static DragManager;
 
 public class UiDecorationBase : UiDraggable
 {
