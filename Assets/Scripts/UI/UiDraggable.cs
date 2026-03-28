@@ -188,18 +188,30 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     dragTarget.SetHighlight(false);
 
                     dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
-                    this.targetRectTransform.position = dropPosition;// - this.OffsetFromCursor;
+                    this.targetRectTransform.position = dropPosition;
 
                     //Debug.Log($"UiDraggable.  DROP TARGET FOUND.  dragTarget = {dragTarget.name} dropPosition = {dropPosition}    this.targetRectTransform.sibling = {this.targetRectTransform.GetSiblingIndex()}    mousePos = {Input.mousePosition}    this.OffsetFromCursor = {this.OffsetFromCursor}", dragTarget.gameObject);
-        
+
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
             }
         }
+        
+        var foundTarget = false;
+        foreach (var target in InputManager.ObjectsUnderMouse)
+        {
+            if (target.transform.IsChildOf(this.targetRectTransform))
+                continue;
+
+            this.targetRectTransform.SetParent(target.transform, true);
+            foundTarget = true;
+            break;
+        }
 
         // If not detecting drop targets, just reparent to original parent
-        this.targetRectTransform.SetParent(this.originalParent, true);
+        if(!foundTarget)
+            this.targetRectTransform.SetParent(this.originalParent, true);
 
         dropPosition = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
         this.targetRectTransform.position = dropPosition;
