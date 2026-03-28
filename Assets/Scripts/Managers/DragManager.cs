@@ -123,19 +123,15 @@ public class DragManager : MonoBehaviour
         if (this.currentDragSource.OriginalParent.TryGetComponent(out UiDragTarget parentDragTarget))
         {
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
-            Vector3 clampedPosition = this.CurrentDraggedTransform.position + CameraDelta;
+            Vector3 clampedPosition = GetPositionInSpace(mousePos);
             if (parentDragTarget.BoundsCollider != null)
             {
-                // Clamp position using BoundsCollider by raycasting from the center of the dragged object
-                Vector3 dragCenter = this.CurrentDraggedTransform.position + CameraDelta;
-
                 // Check if the point is inside the 2D collider
-                if (!parentDragTarget.BoundsCollider.OverlapPoint(dragCenter))
+                if (!parentDragTarget.BoundsCollider.OverlapPoint(clampedPosition + CameraDelta))
                 {
                     // Find the closest point on the collider's bounds
-                    Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(dragCenter);
+                    Vector2 closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(clampedPosition + CameraDelta) - (Vector2)CameraDelta;
                     clampedPosition = new Vector3(closestPoint.x, closestPoint.y, this.CurrentDraggedTransform.position.z);
-                    print($"A. dragCenter = {dragCenter}   closestPoint = {closestPoint}   clampedPosition: {clampedPosition}");
                 }
             }
             else
@@ -149,7 +145,7 @@ public class DragManager : MonoBehaviour
                     Vector3 min = worldCorners[0];
                     Vector3 max = worldCorners[2];
 
-                    clampedPosition = this.CurrentDraggedTransform.position;
+                    //clampedPosition = this.CurrentDraggedTransform.position;
                     clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
                     clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
 
@@ -160,7 +156,7 @@ public class DragManager : MonoBehaviour
             if (parentDragTarget.UnsnapRange > -1)
             {
                 // Distance from drag start point (should be 0 at drag start)
-                float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(this.dragCamera, clampedPosition + CameraDelta));
+                float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(this.dragCamera, clampedPosition));
                 print($"C. distance = {distance}  mousePos = {mousePos}  clampedPosition: {clampedPosition}  CameraDelta = {CameraDelta}");
                 if (distance > parentDragTarget.UnsnapRange)
                 {
@@ -171,6 +167,7 @@ public class DragManager : MonoBehaviour
             }
 
             this.CurrentDraggedTransform.position = clampedPosition + this.OffsetFromCursor;
+            print($"E. clampedPosition = {clampedPosition}   mousePos = {mousePos}  CameraDelta = {CameraDelta}. this.OffsetFromCursor = {this.OffsetFromCursor}. final position = {this.CurrentDraggedTransform.position}");
             return true;
         }
         return false;
