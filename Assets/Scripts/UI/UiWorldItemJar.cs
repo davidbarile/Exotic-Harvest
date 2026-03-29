@@ -22,7 +22,7 @@ public class UiWorldItemJar : UiDecorationBase
                 var success = this.linkedJar.AddAmount(collectible.Amount);
 
                 if (success)
-                    collectible.Collect();
+                    collectible.Collect(false);
             }
         }
     }

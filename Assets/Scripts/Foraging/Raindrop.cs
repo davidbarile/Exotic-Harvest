@@ -16,34 +16,31 @@ public class Raindrop : Collectable
     private Tweener fallTween;
     private Tweener waveTween;
     
-    protected override void Start()
+    public override void Spawn()
     {
         this.resourceType = EResourceType.Rain;
         this.amount = 1;
         this.collectionType = ECollectionMethod.Hover;
-        base.Start();
+        base.Spawn();
         StartFallingAnimation();
     }
     
     private void StartFallingAnimation()
     {
-        if (this.rectTransform != null && this.parentCanvas != null)
-        {
-            // Get canvas bounds for ground detection;
-            float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f - 50f; // Below canvas
-            
-            Vector2 startPos = this.rectTransform.anchoredPosition;
-            
-            // Falling animation
-            this.fallTween = this.rectTransform.DOAnchorPosY(groundY, this.fallDuration)
-                .SetEase(Ease.InQuad)
-                .OnComplete(HitGround);
-            
-            // Subtle horizontal wave motion
-            this.waveTween = this.rectTransform.DOAnchorPosX(startPos.x + this.sideWave, this.fallDuration * 0.5f)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo);
-        }
+        // Get canvas bounds for ground detection;
+        float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f - 50f; // Below canvas
+        
+        Vector2 startPos = this.transform.localPosition;
+        
+        // Falling animation
+        this.fallTween = this.transform.DOLocalMoveY(groundY, this.fallDuration)
+            .SetEase(Ease.InQuad)
+            .OnComplete(HitGround);
+        
+        // Subtle horizontal wave motion
+        this.waveTween = this.transform.DOLocalMoveX(startPos.x + this.sideWave, this.fallDuration * 0.5f)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
     
     private void HitGround()
@@ -56,7 +53,7 @@ public class Raindrop : Collectable
             if (this.collectableImage != null)
             {
                 var splashSequence = DOTween.Sequence()
-                    .Append(this.rectTransform.DOScale(1.3f, 0.1f))
+                    .Append(this.transform.DOScale(1.3f, 0.1f))
                     .Join(this.collectableImage.DOFade(0f, 0.2f))
                     .OnComplete(() => Destroy(gameObject));
             }
@@ -83,9 +80,9 @@ public class Raindrop : Collectable
         
         // Collection effect
         var sequence = DOTween.Sequence()
-            .Append(this.rectTransform.DOScale(1.2f, 0.1f))
+            .Append(this.transform.DOScale(1.2f, 0.1f))
             .Join(this.canvasGroup.DOFade(0f, 0.2f))
-            .Append(this.rectTransform.DOScale(0f, 0.1f))
+            .Append(this.transform.DOScale(0f, 0.1f))
             .OnComplete(() => base.OnCollected());
     }
     

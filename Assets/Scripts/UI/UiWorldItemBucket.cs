@@ -22,7 +22,7 @@ public class UiWorldItemBucket : UiDecorationBase
                 var success = this.linkedBucket.AddAmount(collectible.Amount);
 
                 if (success)
-                    collectible.Collect();
+                    collectible.Collect(false);//do not add to inventory immediately, bucket will handle it on collection
             }
         }
     }

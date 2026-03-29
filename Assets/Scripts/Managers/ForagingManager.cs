@@ -10,9 +10,8 @@ public class ForagingManager : MonoBehaviour, ITickable
     public static ForagingManager IN;
 
     [Header("UI Spawn Configuration")]
-    [SerializeField] private RectTransform gameplayCanvas; // Main gameplay area
 
-    public RectTransform RainParent => rainParent;
+    public RectTransform RainParent => this.rainParent;
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
@@ -33,11 +32,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     // Events
     public static Action<int> OnCollectableCountChanged;
     
-    private void Awake()
-    {            
-        if (gameplayCanvas == null)
-            gameplayCanvas = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
-    }
     
     private void OnEnable()
     {
@@ -99,32 +93,30 @@ public class ForagingManager : MonoBehaviour, ITickable
             
         if (UnityEngine.Random.value < dewdropSpawnChance)
         {
-            Vector2 spawnPos = GetRandomUIPosition();
-            var dewdropRect = PrefabManager.IN.SpawnPrefab<RectTransform>("Dewdrop", this.dewDropSpawnParent);
-            dewdropRect.anchoredPosition = spawnPos;
+            Vector2 spawnPos = GetRandomDewPosition();
+            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+            dewdrop.transform.localPosition = spawnPos;
+            dewdrop.Spawn();
         }
     }
     
     private void SpawnRaindrops()
     {            
         // Spawn based on rain intensity
-        float spawnChance = raindropSpawnRate * (WeatherManager.IN?.WeatherIntensity ?? 0.5f);
+        float spawnChance = this.raindropSpawnRate * (WeatherManager.IN?.WeatherIntensity ?? 0.5f);
         
         if (UnityEngine.Random.value < spawnChance)
         {
             Vector2 spawnPos = GetRaindropSpawnPosition();
-            var raindropRect = PrefabManager.IN.SpawnPrefab<RectTransform>("Raindrop", this.rainParent);
-            if (raindropRect != null)
-            raindropRect.anchoredPosition = spawnPos;
+            var raindrop = PrefabManager.IN.SpawnPrefab<Raindrop>("Raindrop", this.rainParent);
+            raindrop.transform.localPosition = spawnPos;
+            raindrop.Spawn();
         }
     }
     
-    private Vector2 GetRandomUIPosition()
-    {
-        if (gameplayCanvas == null)
-            return Vector2.zero;
-            
-        Rect canvasRect = gameplayCanvas.rect;
+    private Vector2 GetRandomDewPosition()
+    {   
+        var canvasRect = this.dewDropSpawnParent.rect;
         
         return new Vector2(
             UnityEngine.Random.Range(canvasRect.xMin + spawnAreaPadding.x, canvasRect.xMax - spawnAreaPadding.x),
@@ -134,10 +126,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private Vector2 GetRaindropSpawnPosition()
     {
-        if (gameplayCanvas == null)
-            return Vector2.zero;
-            
-        Rect canvasRect = gameplayCanvas.rect;
+        var canvasRect = this.rainParent.rect;
         
         // Raindrops spawn from the top
         return new Vector2(

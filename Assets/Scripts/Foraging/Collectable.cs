@@ -26,8 +26,6 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     [SerializeField] protected Image collectableImage;
     protected CanvasGroup canvasGroup;
     
-    protected RectTransform rectTransform;
-    protected Canvas parentCanvas;
     protected float spawnTime;
     protected bool isCollected = false;
     protected bool isDragging = false;
@@ -42,20 +40,16 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (this.collectableImage == null)
             this.collectableImage = GetComponent<Image>();
 
-        this.rectTransform = GetComponent<RectTransform>();
-        this.parentCanvas = GetComponentInParent<Canvas>();
         this.canvasGroup = GetComponent<CanvasGroup>();
     }
     
-    protected virtual void Start()
+    public virtual void Spawn()
     {            
         this.spawnTime = Time.time;
         OnCollectableSpawned?.Invoke(this);
         
         if (this.lifetime > 0)
-        {
             Destroy(gameObject, this.lifetime);
-        }
     }
     
     protected virtual void OnDestroy()
@@ -129,24 +123,24 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     protected virtual void OnDragEnd() { }
     
-    public virtual void Collect()
+    public virtual void Collect(bool inShouldAddResourceImmediately = true)
     {
         if (!CanBeCollected())
             return;
 
-        this.isCollected = true;
-        
-        // Try to add to inventory
-        if (ResourceManager.IN.AddResource(this.ResourceType, this.Amount))
+        if(inShouldAddResourceImmediately)
         {
-            OnCollected();
-            OnCollectableCollected?.Invoke(this);
-        }
-        else
-        {
-            // Inventory full - don't collect
-            this.isCollected = false;
-            return;
+            // Try to add to inventory
+            if (ResourceManager.IN.AddResource(this.ResourceType, this.Amount))
+            {
+                this.isCollected = true;
+                OnCollected();
+                OnCollectableCollected?.Invoke(this);
+            }
+            else
+            {
+                // Inventory full - don't collect
+            }
         }
     }
     

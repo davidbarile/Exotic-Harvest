@@ -12,11 +12,11 @@ public class Dewdrop : Collectable
     [SerializeField] private float bobAmount = 10f; // UI pixels
     [SerializeField] private float shimmerInterval = 3f;
     
-    private Vector2 startAnchoredPosition;
+    private Vector3 startLocalPosition;
     private Sequence bobSequence;
     private Sequence shimmerSequence;
     
-    protected override void Start()
+    public override void Spawn()
     {
         this.resourceType = EResourceType.Dew;
         this.amount = 1;
@@ -25,9 +25,9 @@ public class Dewdrop : Collectable
 
         this.canvasGroup.alpha = 1f;
         
-        base.Start();
+        base.Spawn();
         
-        this.startAnchoredPosition = this.rectTransform.anchoredPosition;
+        this.startLocalPosition = this.transform.localPosition;
         StartBobAnimation();
         StartShimmerAnimation();
     }
@@ -35,8 +35,8 @@ public class Dewdrop : Collectable
     private void StartBobAnimation()
     {
         this.bobSequence = DOTween.Sequence()
-            .Append(this.rectTransform.DOAnchorPosY(this.startAnchoredPosition.y + this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
-            .Append(this.rectTransform.DOAnchorPosY(this.startAnchoredPosition.y - this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
+            .Append(this.transform.DOLocalMoveY(this.startLocalPosition.y + this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
+            .Append(this.transform.DOLocalMoveY(this.startLocalPosition.y - this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
             .SetLoops(-1, LoopType.Yoyo);
     }
     
@@ -56,9 +56,9 @@ public class Dewdrop : Collectable
         
         // Collection animation
         var sequence = DOTween.Sequence()
-            .Append(this.rectTransform.DOScale(1.2f, 0.1f))
+            .Append(this.transform.DOScale(1.2f, 0.1f))
             .Join(this.canvasGroup.DOFade(0f, 0.2f))
-            .Append(this.rectTransform.DOScale(0f, 0.1f))
+            .Append(this.transform.DOScale(0f, 0.1f))
             .OnComplete(() => base.OnCollected());
     }
     

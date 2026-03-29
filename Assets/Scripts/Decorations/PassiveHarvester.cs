@@ -99,12 +99,12 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         }
     }
 
-    public bool AddAmount(int amount)
+    public bool AddAmount(int inAmount)
     {
-        if (amount <= 0)
+        if (inAmount <= 0)
             return false;
 
-        int actualAmount = Mathf.Min(amount, this.maxCapacity - this.currentAmount);
+        int actualAmount = Mathf.Min(inAmount, this.maxCapacity - this.currentAmount);
         this.currentAmount += actualAmount;
 
         if (actualAmount > 0)
