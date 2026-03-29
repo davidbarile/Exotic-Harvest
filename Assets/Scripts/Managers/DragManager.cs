@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class DragManager : MonoBehaviour
@@ -28,6 +29,7 @@ public class DragManager : MonoBehaviour
     public Vector3 OffsetFromCursor { get; private set; }
     public bool IsDraggingActive { get; private set; }
     private UiDraggable currentDragSource;
+    private GameObject currentDragProxy;
 
     private void Start()
     {
@@ -62,10 +64,8 @@ public class DragManager : MonoBehaviour
 
     private void SetDragOverInventoryZoneActive(bool isActive)
     {
-        if (this.inventoryOpenTrigger != null)
-        {
+        if (this.inventoryOpenTrigger)
             this.inventoryOpenTrigger.SetActive(isActive);
-        }
     }
 
     private void HandleDragModeChanged()
@@ -88,6 +88,17 @@ public class DragManager : MonoBehaviour
         this.IsDraggingActive = true;
 
         inDraggedTransform.SetParent(this.DragCanvas, true);
+
+        var dragDecoration = this.currentDragSource as UiDecorationBase;
+
+        if (dragDecoration != null && dragDecoration.WorldProxy != null)
+        {
+            this.currentDragProxy = dragDecoration.WorldProxy.gameObject;
+
+            var shouldShow = CameraDelta != Vector3.zero;
+            this.currentDragProxy.SetActive(shouldShow);
+            this.currentDragProxy.transform.localPosition = CameraDelta;
+        }
     }
 
     public void UpdateDrag(Vector2 mousePos)
@@ -100,6 +111,12 @@ public class DragManager : MonoBehaviour
             //TODO: swap for InventoryItem prefab
             // this.IsDraggingActive = false;
             // return;
+        }
+
+        if( this.currentDragProxy)
+        {
+            this.currentDragProxy.transform.localPosition = CameraDelta;
+            this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
         }
 
         if (this.currentDragSource.ShouldDetectDropTargets)
@@ -173,6 +190,7 @@ public class DragManager : MonoBehaviour
         this.IsDraggingActive = false;
         this.CurrentDraggedTransform = null;
         this.currentDragSource = null;
+        this.currentDragProxy = null;
     }
 
     private void TriggerEndDragOnCurrentObject()

@@ -10,6 +10,9 @@ public class UiDecorationBase : UiDraggable
     [SerializeField] private Image itemIcon;
     [SerializeField] private Image shadow;
 
+    public Image WorldProxy => this.worldProxy;
+    [SerializeField] private Image worldProxy;
+
     public InventoryItemData ItemData { get; private set; }
 
     [Header("Initialization Config - for setting up default decorations in the world")]
@@ -26,6 +29,12 @@ public class UiDecorationBase : UiDraggable
 
             if (this.shadow)
                 this.shadow.sprite = sprite;
+
+            if(this.worldProxy)
+            {
+                this.worldProxy.sprite = sprite;
+                this.worldProxy.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -71,6 +80,9 @@ public class UiDecorationBase : UiDraggable
         //maybe do it on base
         base.OnEndDrag(eventData);
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
+
+        if(this.worldProxy)
+            this.worldProxy.gameObject.SetActive(false);
 
         var inventoryPanel = UiManager.IN.InventoryPanel;
 

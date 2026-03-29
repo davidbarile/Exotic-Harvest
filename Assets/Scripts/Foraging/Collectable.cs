@@ -128,19 +128,29 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (!CanBeCollected())
             return;
 
-        if(inShouldAddResourceImmediately)
+        if (inShouldAddResourceImmediately)
         {
             // Try to add to inventory
             if (ResourceManager.IN.AddResource(this.ResourceType, this.Amount))
             {
-                this.isCollected = true;
-                OnCollected();
-                OnCollectableCollected?.Invoke(this);
+                DoCollect();
             }
             else
             {
                 // Inventory full - don't collect
             }
+        }
+        else
+        {
+            // Just mark as collected, actual resource addition will be handled by collector (e.g. bucket)
+            DoCollect();
+        }
+
+        void DoCollect()
+        {
+            this.isCollected = true;
+            OnCollected();
+            OnCollectableCollected?.Invoke(this);
         }
     }
     

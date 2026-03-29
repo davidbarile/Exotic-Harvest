@@ -1,7 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using TMPro;
-using Sirenix.OdinInspector;
 
 /// <summary>
 /// Manages weather effects and weather-based resource generation
@@ -10,39 +10,39 @@ public class WeatherManager : MonoBehaviour, ITickable
 {
     public static WeatherManager IN;
 
+    // Events
+    public static Action<EWeatherType> OnWeatherChanged;
+    public static Action<EWeatherType, float> OnWeatherIntensityChanged;
+    public static Action OnRainStarted;
+    public static Action OnRainStopped;
+
     [SerializeField] private TMP_Text weatherDisplayText;
-    
+
     [SerializeField] private EWeatherType currentWeather = EWeatherType.Clear;
+    [SerializeField] private EWeatherType debugWeather = EWeatherType.Clear;
     [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
     [SerializeField] private float weatherIntensity = 1f; // 0-1 for effects strength
     
     private float weatherTimer;
     private float nextWeatherChange;
     
-    // Events
-    public static Action<EWeatherType> OnWeatherChanged;
-    public static Action<EWeatherType, float> OnWeatherIntensityChanged;
-    public static Action OnRainStarted;
-    public static Action OnRainStopped;
-    
     // Properties
     public EWeatherType CurrentWeather => currentWeather;
     public float WeatherIntensity => weatherIntensity;
     public bool IsRaining => currentWeather.HasFlag(EWeatherType.Rain) || currentWeather.HasFlag(EWeatherType.Storm);
     
-    private void Start()
+    private IEnumerator Start()
     {
         this.nextWeatherChange = this.weatherChangeInterval;
 
         TickManager.OnSecondTick += SecondTick;
 
-        if (this.currentWeather != EWeatherType.Clear)
-        {
-            ForceWeather(this.currentWeather);
-            return;
-        }
-        
         ChangeWeather();
+
+        yield return new WaitForSeconds(1f); // Wait a moment to ensure everything is initialized
+        
+        if ((int)this.debugWeather > 0)
+            ForceWeather(this.debugWeather);
     }
     
     private void OnDestroy()
@@ -79,8 +79,7 @@ public class WeatherManager : MonoBehaviour, ITickable
         // Set intensity based on weather type
         this.weatherIntensity = GetWeatherIntensity(this.currentWeather);
         
-        if(this.weatherDisplayText != null)
-            this.weatherDisplayText.text = $"Weather: {this.currentWeather} (Intensity: {this.weatherIntensity:F2})";
+        UpdateWeatherDisplay();
         
         // Fire events
         if (oldWeather != this.currentWeather)
@@ -151,20 +150,28 @@ public class WeatherManager : MonoBehaviour, ITickable
                 return 1f;
         }
     }
-    
+
     public void ForceWeather(EWeatherType weather)
     {
         EWeatherType oldWeather = this.currentWeather;
         this.currentWeather = weather;
         this.weatherIntensity = GetWeatherIntensity(weather);
         this.weatherTimer = 0f;
-        
+
+        UpdateWeatherDisplay();
+
         OnWeatherChanged?.Invoke(this.currentWeather);
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
-        
+
         if (!IsWeatherRain(oldWeather) && IsWeatherRain(this.currentWeather))
             OnRainStarted?.Invoke();
         else if (IsWeatherRain(oldWeather) && !IsWeatherRain(this.currentWeather))
             OnRainStopped?.Invoke();
+    }
+    
+    private void UpdateWeatherDisplay()
+    {
+        if (this.weatherDisplayText != null)
+            this.weatherDisplayText.text = $"Weather: {this.currentWeather} (Intensity: {this.weatherIntensity:F2})";
     }
 }
