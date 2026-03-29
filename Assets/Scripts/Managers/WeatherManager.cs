@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// Manages weather effects and weather-based resource generation
@@ -32,15 +33,19 @@ public class WeatherManager : MonoBehaviour, ITickable
     private void Start()
     {
         this.nextWeatherChange = this.weatherChangeInterval;
+
+        TickManager.OnSecondTick += SecondTick;
+
+        if (this.currentWeather != EWeatherType.Clear)
+        {
+            ForceWeather(this.currentWeather);
+            return;
+        }
+        
         ChangeWeather();
     }
     
-    private void OnEnable()
-    {
-        TickManager.OnSecondTick += SecondTick;
-    }
-    
-    private void OnDisable()
+    private void OnDestroy()
     {
         TickManager.OnSecondTick -= SecondTick;
     }
@@ -129,7 +134,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     {
         return weather.HasFlag(EWeatherType.Rain) || weather.HasFlag(EWeatherType.Storm);
     }
-    
+
     public float GetResourceMultiplier(EResourceType resourceType)
     {
         switch (resourceType)

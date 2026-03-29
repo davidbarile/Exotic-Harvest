@@ -33,7 +33,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     public static Action<int> OnCollectableCountChanged;
     
     
-    private void OnEnable()
+    private void Start()
     {
         TickManager.OnTick += Tick;
         TickManager.OnSecondTick += SecondTick;
@@ -47,7 +47,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         TickManager.OnTick -= Tick;
         TickManager.OnSecondTick -= SecondTick;

@@ -12,6 +12,12 @@ public class SaveManager : MonoBehaviour, ITickable
     public static SaveManager IN;
 
     public static GameSaveData Data;
+
+    // Events
+    public static Action OnGameSaved;
+    public static Action OnGameLoaded;
+    public static Action<string> OnSaveError;
+    public static Action<string> OnLoadError;
     
     [Header("Save Settings")]
     [SerializeField] private string saveFileName = "exotic_harvest_save.json";
@@ -25,15 +31,9 @@ public class SaveManager : MonoBehaviour, ITickable
     private float autoSaveTimer = 0f;
     private float sessionStartTime;
     
-    // Events
-    public static Action OnGameSaved;
-    public static Action OnGameLoaded;
-    public static Action<string> OnSaveError;
-    public static Action<string> OnLoadError;
-    
     // Properties
     public bool HasSaveFile => File.Exists(savePath);
-    
+
     private void Awake()
     {
         var saveFolder = Application.persistentDataPath;
@@ -60,6 +60,13 @@ public class SaveManager : MonoBehaviour, ITickable
             DecorationManager.IN.InitDecorationsInWorld(isNewGame);
             LoadGame();
         }
+
+        TickManager.OnSecondTick += SecondTick;
+    }
+
+    private void OnDestroy()
+    {
+        TickManager.OnSecondTick -= SecondTick;
     }
     
     public void Tick()

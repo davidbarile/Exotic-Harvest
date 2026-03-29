@@ -35,15 +35,10 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     protected virtual void Start()
     {
-       
+       TickManager.OnSecondTick += SecondTick;
     }
-    
-    protected virtual void OnEnable()
-    {
-        TickManager.OnSecondTick += SecondTick;
-    }
-    
-    protected virtual void OnDisable()
+
+    protected virtual void OnDestroy()
     {
         TickManager.OnSecondTick -= SecondTick;
     }
