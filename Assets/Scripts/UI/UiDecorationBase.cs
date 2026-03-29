@@ -19,12 +19,12 @@ public class UiDecorationBase : UiDraggable
     {
         this.ItemData = inItemData;
 
-        if (this.itemIcon != null)
+        if (this.itemIcon)
         {
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
 
-            if (this.shadow != null)
+            if (this.shadow)
                 this.shadow.sprite = sprite;
         }
     }
@@ -196,7 +196,7 @@ public class UiDecorationBase : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget != null && possibleTarget.TryGetComponent<UiInventoryCell>(out var dragTargetCell) && dragTargetCell != null)
+            if (possibleTarget && possibleTarget.TryGetComponent<UiInventoryCell>(out var dragTargetCell) && dragTargetCell != null)
                 return dragTargetCell;
         }
 

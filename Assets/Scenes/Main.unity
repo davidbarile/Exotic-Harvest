@@ -12706,8 +12706,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2041074493}
   - {fileID: 955227564}
+  - {fileID: 2041074493}
   m_Father: {fileID: 1488441595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14067,7 +14067,7 @@ GameObject:
   - component: {fileID: 1696924141}
   - component: {fileID: 1696924142}
   m_Layer: 5
-  m_Name: Decoration Canvas AI
+  m_Name: Decoration Canvas Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14657,7 +14657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595ba9b7ba93e49038a3e8ea8d8c9d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DecorationManager
-  decorationCanvas: {fileID: 1696924141}
+  worldDecorationCanvas: {fileID: 1570269843}
+  screenDecorationCanvas: {fileID: 1696924141}
   PlacedDecorations: []
 --- !u!114 &1713415296
 MonoBehaviour:

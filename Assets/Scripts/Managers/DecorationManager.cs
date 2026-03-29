@@ -15,14 +15,15 @@ public class DecorationManager : MonoBehaviour
     // [SerializeField] private GameObject[] allDecorationPrefabs; // Array for all decoration types
 
     [Header("UI Placement Settings")]
-    [SerializeField] private RectTransform decorationCanvas; // Canvas for decorations
+    [SerializeField] private RectTransform worldDecorationCanvas; // Canvas for decorations
+    [SerializeField] private RectTransform screenDecorationCanvas; // Canvas for decorations
     
     private Dictionary<int,Transform> decorationParents = new(); // List of parent transforms for different decoration types
 
     // private Dictionary<EDecorationType, GameObject> decorationPrefabs;
     public List<UiDecorationBase> PlacedDecorations = new();
     
-    private UiDecorationBase[] initDecorations = new UiDecorationBase[0];
+    private List<UiDecorationBase> initDecorations = new();
 
     // Events
     // public static Action<DecorationBase> OnDecorationPlaced;
@@ -40,7 +41,11 @@ public class DecorationManager : MonoBehaviour
     /// </summary>
     public void InitDecorationsInWorld(bool isNewGame)
     {
-        this.initDecorations = this.decorationCanvas.GetComponentsInChildren<UiDecorationBase>();
+        this.initDecorations = new List<UiDecorationBase>(this.worldDecorationCanvas.GetComponentsInChildren<UiDecorationBase>());
+        var screenDecorations = new List<UiDecorationBase>(this.screenDecorationCanvas.GetComponentsInChildren<UiDecorationBase>());
+
+        this.initDecorations.AddRange(screenDecorations);
+
         foreach (var decoration in this.initDecorations)
         {
             if (decoration != null)
@@ -59,7 +64,7 @@ public class DecorationManager : MonoBehaviour
         }
         
         if(!isNewGame)
-            this.initDecorations = new UiDecorationBase[0];
+            this.initDecorations = new List<UiDecorationBase>();
     }
 
     // private void OnEnable()
@@ -89,7 +94,7 @@ public class DecorationManager : MonoBehaviour
     
     private void InitDecorationParents()
     {
-        var parentObjects = this.decorationCanvas.GetComponentsInChildren<Transform>(true);
+        var parentObjects = this.worldDecorationCanvas.GetComponentsInChildren<Transform>(true);
         foreach (var parent in parentObjects)
         {
             if (parent.TryGetComponent<UiDragTarget>(out var dragTarget))
