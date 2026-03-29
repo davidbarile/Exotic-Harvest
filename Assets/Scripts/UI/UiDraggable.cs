@@ -189,17 +189,17 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
 
         var foundTarget = false;
-        foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
-        {
-            //skip parts of dragged item
-            if (possibleTarget.transform.IsChildOf(this.targetRectTransform))
-                continue;
+        // foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
+        // {
+        //     //skip parts of dragged item
+        //     if (possibleTarget.transform.IsChildOf(this.targetRectTransform))
+        //         continue;
 
-            //TODO: LOL! It got parented to a raindrop.  We should check if the possible target is a valid drop target before parenting to it.
-            this.targetRectTransform.SetParent(possibleTarget.transform, true);
-            foundTarget = true;
-            break;
-        }
+        //     //TODO: LOL! It got parented to a raindrop.  We should check if the possible target is a valid drop target before parenting to it.
+        //     this.targetRectTransform.SetParent(possibleTarget.transform, true);
+        //     foundTarget = true;
+        //     break;
+        // }
 
         // If not detecting drop targets, just reparent to original parent
         if(!foundTarget)

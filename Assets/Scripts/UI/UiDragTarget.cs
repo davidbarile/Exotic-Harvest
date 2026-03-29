@@ -14,25 +14,20 @@ public class UiDragTarget : MonoBehaviour
 
     private void Awake()
     {
-        if (highlightObject != null)
-        {
-            highlightObject.SetActive(false);
-        }
+        SetHighlight(false);
     }
 
     public void SetHighlight(bool isHighlighted)
     {
-        if (highlightObject != null)
-        {
-            highlightObject.SetActive(isHighlighted);
-        }
+        if (this.highlightObject)
+            this.highlightObject.SetActive(isHighlighted);
     }
 
-    public void SetAsParent(Transform childObject)
+    public void SetAsParent(Transform inChildObject)
     {
-        childObject.SetParent(transform, true);
+        inChildObject.SetParent(transform, true);
 
         if(this.shouldSnapToCenter)
-            childObject.localPosition = Vector3.zero;
+            inChildObject.localPosition = Vector3.zero;
     }
 }
