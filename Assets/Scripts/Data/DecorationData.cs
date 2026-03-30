@@ -11,7 +11,8 @@ public class DecorationData
     public int SiblingIndex;
 
     // For passive harvesters
-    [Header("Resource Generation")] 
+    [Header("Resource Generation")]
+    public EResourceType GeneratedResource;
     public int CurrentAmount;
     public int MaxAmount;
     public float ConversionRatio = 1f;
@@ -29,6 +30,7 @@ public class DecorationData
             WorldPosition = decorationData.WorldPosition,
             ParentGuid = decorationData.ParentGuid,
             SiblingIndex = decorationData.SiblingIndex,
+            GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,
             ConversionRatio = decorationData.ConversionRatio,

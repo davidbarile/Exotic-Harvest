@@ -140,13 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb6d642de4d741568ee65f160975b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jar
-  generatedResource: 0
-  maxCapacity: 10
-  generationInterval: 30
-  requiresSpecificConditions: 1
-  currentAmount: 0
-  lastGenerationTime: 0
-  isActive: 1
   quantityText: {fileID: 2746075342888448478}
   CollectableResourceTypes: 384
   waterFillImage: {fileID: 0}
@@ -167,11 +160,34 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
-  shouldReturnToOriginalParent: 1
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
+  OffsetFromCursor: {x: 0, y: 0, z: 0}
   itemIcon: {fileID: 0}
   shadow: {fileID: 0}
+  worldProxy: {fileID: 0}
+  initItemData:
+    DisplayName: 
+    Quantity: 0
+    MaxStack: 0
+    Category: 0
+    DecorationData:
+      Type: 0
+      PrefabName: DefaultItemUI
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
+      GeneratedResource: 0
+      CurrentAmount: 0
+      MaxAmount: 0
+      ConversionRatio: 1
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
+      IsActive: 1
+    IsUnlocked: 1
+    CanDragToWorld: 0
+    IconSpriteName: 
+    ShopItemConfig: {fileID: 0}
   linkedJar: {fileID: 6824301037246945621}
 --- !u!1 &1244986525776074621
 GameObject:
@@ -297,7 +313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 8.92}
+  m_AnchoredPosition: {x: 0, y: 15.8}
   m_SizeDelta: {x: 88.7, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3846548185686249054
@@ -434,7 +450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: 0, y: -29.42}
   m_SizeDelta: {x: 88.7, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5122651449560882971
@@ -465,7 +481,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99/100
+  m_text: '99/100
+
+    99/100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -492,8 +510,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -505,7 +523,7 @@ MonoBehaviour:
   m_characterSpacing: 1
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 15
+  m_lineSpacing: -25
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

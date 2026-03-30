@@ -26,9 +26,4 @@ public class UiWorldItemBucket : UiDecorationBase
             }
         }
     }
-
-    protected override void TryAddResourcesToInventory()
-    {
-        var inventoryPanel = UiManager.IN.InventoryPanel;
-    }
 }

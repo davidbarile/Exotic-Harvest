@@ -69,15 +69,11 @@ public class UiInventoryCell : MonoBehaviour
 
     public void AddItem(UiInventoryItem item, InventoryItemData itemData)
     {
-        if (this.itemNameText != null)
-        {
+        if (this.itemNameText)
             this.itemNameText.text = itemData.DisplayName;
-        }
 
-        if (this.itemQuantityText != null)
-        {
+        if (this.itemQuantityText)
             this.itemQuantityText.text = itemData.Quantity > 1 ? itemData.Quantity.ToString() : string.Empty;
-        }
 
         item.transform.localPosition = Vector3.zero;
         item.transform.localRotation = Quaternion.identity;

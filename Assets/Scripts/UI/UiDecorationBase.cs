@@ -18,9 +18,32 @@ public class UiDecorationBase : UiDraggable
     [Header("Initialization Config - for setting up default decorations in the world")]
     [SerializeField] private InitInventoryItemData initItemData;
 
+    private void OnValidate()
+    {
+        if (this.initItemData.ShopItemConfig == null)
+            return;
+
+        this.initItemData.DisplayName = this.initItemData.ShopItemConfig.DisplayName;
+        this.initItemData.Category = this.initItemData.ShopItemConfig.Category;
+        this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
+        this.initItemData.CanDragToWorld = this.initItemData.ShopItemConfig.CanDragToWorld;
+        this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
+        this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
+
+        if (this.initItemData.Quantity <= 0)
+            this.initItemData.Quantity = 1;
+
+        if (this.initItemData.MaxStack <= 0)
+            this.initItemData.MaxStack = 1;
+
+        Configure(this.initItemData);
+    }
+
     public virtual void Configure(InventoryItemData inItemData)
     {
         this.ItemData = inItemData;
+
+        this.transform.localScale = Vector3.one * inItemData.Scale;
 
         if (this.itemIcon)
         {
@@ -38,29 +61,9 @@ public class UiDecorationBase : UiDraggable
         }
         
         if(TryGetComponent<PassiveHarvester>(out var harvester))
-        {
+        { 
             harvester.SetDecorationData(this.ItemData.DecorationData);
         }
-    }
-
-    private void OnValidate()
-    {
-        if (this.initItemData == null || this.initItemData.ShopItemConfig == null)
-            return;
-
-        this.initItemData.DisplayName = this.initItemData.ShopItemConfig.DisplayName;
-        this.initItemData.Category = this.initItemData.ShopItemConfig.Category;
-        this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
-        this.initItemData.CanDragToWorld = this.initItemData.ShopItemConfig.CanDragToWorld;
-        this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
-
-        if (this.initItemData.Quantity <= 0)
-            this.initItemData.Quantity = 1;
-
-        if (this.initItemData.MaxStack <= 0)
-            this.initItemData.MaxStack = 1;
-
-        Configure(this.initItemData);
     }
     
     public virtual void InitWorldPositionAndParent()
@@ -101,6 +104,11 @@ public class UiDecorationBase : UiDraggable
             {
                 if (cell.Item == null)
                 {
+                    if (TryGetComponent<PassiveHarvester>(out var harvester))
+                    {
+                        harvester.CollectAll();
+                    }
+                    
                     //if cell empty, add item to that cell
                     inventoryPanel.SpawnInventoryItemInCell(this.ItemData, cell.CellIndex);
                     SaveManager.Data.InventoryItems[cell.CellIndex] = InventoryItemData.Copy(this.ItemData);
@@ -177,11 +185,6 @@ public class UiDecorationBase : UiDraggable
 
             SaveItemPosition();
         });
-    }
-    
-    protected virtual void TryAddResourcesToInventory()
-    {
-        //implement in inherited members such as Bucket
     }
 
     protected override bool DoOnDrag()

@@ -282,13 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ef35c0cfbac455f85f6149e6430706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bucket
-  generatedResource: 0
-  maxCapacity: 500
-  generationInterval: 30
-  requiresSpecificConditions: 1
-  currentAmount: 0
-  lastGenerationTime: 0
-  isActive: 1
   quantityText: {fileID: 3574800819758532373}
   CollectableResourceTypes: 2
   waterFillImage: {fileID: 7496987049457471739}
@@ -326,8 +319,12 @@ MonoBehaviour:
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
+      GeneratedResource: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 0
+      ConversionRatio: 1
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 0
@@ -538,7 +535,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99/100
+  m_text: '99/100
+
+    99/100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -565,8 +564,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -578,7 +577,7 @@ MonoBehaviour:
   m_characterSpacing: 1
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 15
+  m_lineSpacing: -25
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

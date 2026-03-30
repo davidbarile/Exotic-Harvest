@@ -97,7 +97,7 @@ public class DragManager : MonoBehaviour
 
             var shouldShow = CameraDelta != Vector3.zero;
             this.currentDragProxy.SetActive(shouldShow);
-            this.currentDragProxy.transform.localPosition = CameraDelta;
+            this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
         }
     }
 
@@ -115,7 +115,7 @@ public class DragManager : MonoBehaviour
 
         if( this.currentDragProxy)
         {
-            this.currentDragProxy.transform.localPosition = CameraDelta;
+            this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
             this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
         }
 

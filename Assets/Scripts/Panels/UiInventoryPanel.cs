@@ -154,6 +154,7 @@ public class UiInventoryPanel : UIPanelBase
         var cell = this.allInventoryCells[cellIndex];
         var prefab = PrefabManager.IN.SpawnPrefab<UiInventoryItem>($"InventoryItemUI", cell.Container);
         prefab.name = $"Item_{itemData.DisplayName}";
+        prefab.transform.localScale = Vector3.one * itemData.Scale;
         cell.AddItem(prefab, itemData);
     }
 
@@ -226,7 +227,7 @@ public class UiInventoryPanel : UIPanelBase
             return;
 
         // Update itemData info
-        if (this.itemNameText != null)
+        if (this.itemNameText)
             this.itemNameText.text = this.selectedItemData.DisplayName;
 
         this.itemIcon.sprite = SpriteManager.GetSprite(this.selectedItemData.IconSpriteName);

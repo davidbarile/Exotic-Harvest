@@ -7,15 +7,9 @@ using UnityEngine;
 /// </summary>
 public abstract class PassiveHarvester : MonoBehaviour, ITickable
 {
-    // Events
-    public static Action<PassiveHarvester, int> OnResourceGenerated;
-    public static Action<PassiveHarvester, int> OnResourceCollected;
-    public static Action<PassiveHarvester> OnCapacityFull;
+    public DecorationData DecorationData { get; protected set; }
 
-    public DecorationData DecorationData { get; private set; }
-
-    public EResourceType GeneratedResource => generatedResource;
-    [SerializeField] protected EResourceType generatedResource;
+    public EResourceType GeneratedResource => this.DecorationData != null ? this.DecorationData.GeneratedResource : EResourceType.None;
 
     public int CurrentAmount => this.DecorationData != null ? this.DecorationData.CurrentAmount : 0;
     public int MaxCapacity => this.DecorationData != null ? this.DecorationData.MaxAmount : 0;
@@ -56,7 +50,8 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     
     public virtual void SetDecorationData(DecorationData inDecorationData)
     {
-        this.DecorationData = DecorationData.Copy(inDecorationData);
+        this.DecorationData = inDecorationData;
+        RefreshQuantityDisplay();
     }
     
     protected virtual bool CanGenerate()
@@ -89,13 +84,10 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
             if (actualAmount > 0)
             {
-                OnResourceGenerated?.Invoke(this, actualAmount);
+                ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, actualAmount);
                 OnGenerated(actualAmount);
-                RefreshQuantityText();
+                RefreshQuantityDisplay();
             }
-
-            if (IsFull)
-                OnCapacityFull?.Invoke(this);
         }
     }
 
@@ -109,21 +101,27 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
         if (actualAmount > 0)
         {
-            OnResourceCollected?.Invoke(this, actualAmount);
+            ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, actualAmount);
             OnGenerated(actualAmount);
-            RefreshQuantityText();
+            RefreshQuantityDisplay();
         }
-
-        if (IsFull)
-            OnCapacityFull?.Invoke(this);
 
         return actualAmount > 0;
     }
     
-    protected virtual void RefreshQuantityText()
+    protected virtual void RefreshQuantityDisplay()
     {
         if (this.quantityText)
-            this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";
+        {
+            if (this.DecorationData.ConversionRatio != 1f)
+            {
+                int amountCollected = Mathf.FloorToInt((float)this.DecorationData.CurrentAmount * this.DecorationData.ConversionRatio);
+                int total = Mathf.FloorToInt((float)this.DecorationData.MaxAmount * this.DecorationData.ConversionRatio);
+                this.quantityText.text = $"{amountCollected}/{total}\n<size=80%><i>({this.CurrentAmount}/{this.MaxCapacity})</i></size>";
+            }
+            else                
+                this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";
+        }
     }
     
     protected virtual int GetGenerationAmount()
@@ -141,15 +139,15 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         if (this.IsEmpty)
             return false;
 
-        int amountToCollect = Mathf.FloorToInt(this.DecorationData.CurrentAmount * this.DecorationData.ConversionRatio);
-            
-        if (ResourceManager.IN.AddResource(this.generatedResource, amountToCollect))
+        int amountToCollect = Mathf.FloorToInt((float)this.DecorationData.CurrentAmount * this.DecorationData.ConversionRatio);
+
+        if (ResourceManager.IN.AddResource(this.GeneratedResource, amountToCollect))
         {
             int collectedAmount = amountToCollect;
             this.DecorationData.CurrentAmount = 0;
-            OnResourceCollected?.Invoke(this, collectedAmount);
+            ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, collectedAmount);
             OnCollected(collectedAmount);
-            RefreshQuantityText();
+            RefreshQuantityDisplay();
             return true;
         }
         
@@ -171,7 +169,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         // Check for right mouse button press (button 1)
         if (Input.GetMouseButtonDown(1))
         {
-            if (!this.IsEmpty && !DragManager.IsDragModeActivated)
+            if (!DragManager.IsDragModeActivated)
             {
                 //not sure if I really want this here, but good for testing
                 CollectAll();

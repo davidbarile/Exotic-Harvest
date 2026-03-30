@@ -8,9 +8,10 @@ public class ShopItemConfig : ScriptableObject
 {
     public string ID; // Unique identifier, can be auto-generated from name or set manually
     [Header("Basic Info")]
-    public string DisplayName;
+     [TextArea(1, 4)] public string DisplayName;
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
+    public float Scale = 1f;
 
     [Header("Decoration Data")]
     public bool CanDragToWorld;

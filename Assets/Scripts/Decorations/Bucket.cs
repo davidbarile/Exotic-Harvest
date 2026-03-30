@@ -19,8 +19,13 @@ public class Bucket : PassiveHarvester
     protected override void Start()
     {
         base.Start();
-        UpdateWaterVisual(false);
-        RefreshQuantityText();
+        RefreshQuantityDisplay();
+    }
+
+    protected override void RefreshQuantityDisplay()
+    {
+        base.RefreshQuantityDisplay();
+        UpdateWaterMeter(false);
     }
     
     protected override bool CheckGenerationConditions()
@@ -42,17 +47,17 @@ public class Bucket : PassiveHarvester
     
     protected override void OnGenerated(int amount)
     {
-        UpdateWaterVisual();
+        UpdateWaterMeter();
         // TODO: Add water drop effects
     }
     
     protected override void OnCollected(int amount)
     {
-        UpdateWaterVisual();
+        UpdateWaterMeter();
         // TODO: Add collection effects
     }
     
-    private void UpdateWaterVisual(bool shouldAnimate = true)
+    private void UpdateWaterMeter(bool shouldAnimate = true)
     {
         if (this.waterFillImage == null)
             return;
@@ -67,6 +72,6 @@ public class Bucket : PassiveHarvester
             return;
         }
         
-        this.waterFillImage.fillAmount = this.targetFillAmount;
+        this.waterFillImage.fillAmount = this.CapacityPercent;
     }
 }

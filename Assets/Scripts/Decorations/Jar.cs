@@ -17,7 +17,13 @@ public class Jar : PassiveHarvester
     {
         base.Start();
         UpdateWaterVisual(false);
-        RefreshQuantityText();
+        RefreshQuantityDisplay();
+    }
+
+    protected override void RefreshQuantityDisplay()
+    {
+        base.RefreshQuantityDisplay();
+        UpdateWaterVisual(false);
     }
 
     protected override bool CheckGenerationConditions()

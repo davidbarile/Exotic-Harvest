@@ -16,6 +16,7 @@ public class InventoryItemData
 
     public bool IsUnlocked = true;
     public bool CanDragToWorld;
+    public float Scale;
     public string IconSpriteName;
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
@@ -28,6 +29,7 @@ public class InventoryItemData
             Category = cloneTarget.Category,
             IsUnlocked = cloneTarget.IsUnlocked,
             CanDragToWorld = cloneTarget.CanDragToWorld,
+            Scale = cloneTarget.Scale,
             IconSpriteName = cloneTarget.IconSpriteName,
             DecorationData = DecorationData.Copy(cloneTarget.DecorationData)
         };
@@ -43,6 +45,7 @@ public class InventoryItemData
             Category = shopConfig.Category,
             IsUnlocked = shopConfig.IsUnlockedByDefault,
             CanDragToWorld = shopConfig.IsDecoration,
+            Scale = shopConfig.Scale,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
             DecorationData = DecorationData.Copy(shopConfig.DecorationData)
         };

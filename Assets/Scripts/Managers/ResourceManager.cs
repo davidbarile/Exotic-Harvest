@@ -8,6 +8,11 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager IN;
+
+     // Events for UI updates
+    public static Action<EResourceType, int> OnResourceChanged;
+    public static Action<EResourceType, int> OnResourceGained;
+    public static Action OnInventoryFull;
     
     [Header("ResourceData Database")]
     [SerializeField] private ResourceDatabase resourceDatabase;
@@ -18,11 +23,6 @@ public class ResourceManager : MonoBehaviour
     private Dictionary<EResourceType, ResourceData> inventory = new();
     
     public ResourceDatabase Database => this.resourceDatabase;
-    
-    // Events for UI updates
-    public static Action<EResourceType, int> OnResourceChanged;
-    public static Action<EResourceType, int> OnResourceGained;
-    public static Action OnInventoryFull;
 
     public int DebugAddAmount = 10; // Amount to add when testing resource gain
     
