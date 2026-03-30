@@ -16,6 +16,7 @@ MonoBehaviour:
   DisplayName: Medium Jar
   Description: 
   Icon: {fileID: 21300000, guid: 24d0d3de425b14ae18f09b519db33877, type: 3}
+  Scale: 1
   CanDragToWorld: 1
   DecorationData:
     Type: 2
@@ -36,7 +37,9 @@ MonoBehaviour:
   Cost:
     requiredResources:
     - Type: 2
-      Amount: 50
+      Amount: 100
+    - Type: 33554432
+      Amount: 5
   IsUnlockedByDefault: 1
   PlayerLevelRequired: 1
   PrerequisiteItems: []

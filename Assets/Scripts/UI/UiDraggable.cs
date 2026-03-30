@@ -72,7 +72,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
     }
 
-    private void Awake()
+    private void OnValidate()
     {
         if (this.targetRectTransform == null)
             this.targetRectTransform = GetComponent<RectTransform>();

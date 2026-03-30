@@ -16,7 +16,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public int Amount => amount;
     [SerializeField] protected int amount = 1;
 
-    public ECollectionMethod CollectionMethod => collectionType;
+    public ECollectionMethod CollectionMethod => this.collectionType;
     [SerializeField] protected ECollectionMethod collectionType = ECollectionMethod.Click;
 
     [Tooltip("-1 for infinite, otherwise seconds to destroy")]

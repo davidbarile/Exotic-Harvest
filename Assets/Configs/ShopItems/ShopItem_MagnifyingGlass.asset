@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Bucket_Large
+  m_Name: ShopItem_MagnifyingGlass
   m_EditorClassIdentifier: 
-  ID: ShopItem_Bucket
-  DisplayName: 'Large
+  ID: ShopItem_MagnifyingGlass
+  DisplayName: 'Magnifying
 
-    Bucket'
+    Glass'
   Description: 
-  Icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
+  Icon: {fileID: 21300000, guid: 23236007f74164788b41ea003f68d3bc, type: 3}
   Scale: 1
   CanDragToWorld: 1
   DecorationData:
-    Type: 1
-    PrefabName: BucketItemUI
+    Type: 7
+    PrefabName: MagnifyingGlassUI
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
-    GeneratedResource: 2
+    GeneratedResource: 3436
     CurrentAmount: 0
-    MaxAmount: 500
-    ConversionRatio: 0.2
+    MaxAmount: 100
+    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0
@@ -38,12 +38,10 @@ MonoBehaviour:
   Category: 2
   Cost:
     requiredResources:
-    - Type: 67108864
-      Amount: 10
-    - Type: 33554432
-      Amount: 25
     - Type: 32768
-      Amount: 15
+      Amount: 50
+    - Type: 67108864
+      Amount: 3
   IsUnlockedByDefault: 1
   PlayerLevelRequired: 1
   PrerequisiteItems: []
@@ -52,6 +50,5 @@ MonoBehaviour:
   DecorationType: 0
   ResourceType: 0
   ResourceAmount: 0
-  DecorationPrefab: {fileID: 0}
   BackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1

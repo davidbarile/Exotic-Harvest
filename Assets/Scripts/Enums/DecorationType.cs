@@ -12,6 +12,7 @@ public enum EDecorationType
     LightningRod = 4,  // Collects lightning energy
     MoonCrystal = 5,   // Charges with moonbeams at night
     SpiderWeb = 6,     // Traps insects
+    MagnifyingGlass = 7, // Focuses sunlight to generate heat
 
     // Visual Decorations
     Plant = 20,         // Corner leaf clusters

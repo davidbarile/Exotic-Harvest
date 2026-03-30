@@ -19,6 +19,9 @@ public class UiWorldItemBucket : UiDecorationBase
                 if (!this.linkedBucket.CollectableResourceTypes.HasFlag(collectible.ResourceType))
                     return;
 
+                if(!collectible.CollectionMethod.HasFlag(ECollectionMethod.DragCollector))
+                    return;
+
                 var success = this.linkedBucket.AddAmount(collectible.Amount);
 
                 if (success)

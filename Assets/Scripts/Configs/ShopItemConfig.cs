@@ -41,7 +41,6 @@ public class ShopItemConfig : ScriptableObject
     public EDecorationType DecorationType; // For decoration items
     public EResourceType ResourceType;     // For resource items
     public int ResourceAmount = 0;        // Amount when purchasing resources
-    public GameObject DecorationPrefab;   // Prefab to spawn for decorations
     
     [Header("Visual")]
     public Color BackgroundColor = Color.white;
@@ -104,6 +103,7 @@ public class ShopItemConfig : ScriptableObject
             ResourceType = inConfig.ResourceType,
             ResourceAmount = inConfig.ResourceAmount,
             Icon = inConfig.Icon,
+            CanDragToWorld = inConfig.CanDragToWorld,   
             DecorationData = DecorationData.Copy(inConfig.DecorationData)
         };
         

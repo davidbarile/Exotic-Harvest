@@ -29,7 +29,7 @@ public class Jar : PassiveHarvester
     protected override bool CheckGenerationConditions()
     {
         // Only generate during rain
-        return WeatherManager.IN != null && WeatherManager.IN.IsRaining;
+        return WeatherManager.IN.IsRaining;
     }
 
     protected override int GetGenerationAmount()

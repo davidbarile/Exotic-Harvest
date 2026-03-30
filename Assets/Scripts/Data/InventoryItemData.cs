@@ -16,7 +16,7 @@ public class InventoryItemData
 
     public bool IsUnlocked = true;
     public bool CanDragToWorld;
-    public float Scale;
+    public float Scale = 1f;
     public string IconSpriteName;
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
@@ -44,7 +44,7 @@ public class InventoryItemData
             MaxStack = shopConfig.IsResource ? 100 : shopConfig.MaxStack,
             Category = shopConfig.Category,
             IsUnlocked = shopConfig.IsUnlockedByDefault,
-            CanDragToWorld = shopConfig.IsDecoration,
+            CanDragToWorld = shopConfig.CanDragToWorld,
             Scale = shopConfig.Scale,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
             DecorationData = DecorationData.Copy(shopConfig.DecorationData)
