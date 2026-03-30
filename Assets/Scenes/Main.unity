@@ -7630,6 +7630,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6824301037246945621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: maxCapacity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824301037246945621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: requiresSpecificConditions
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: initItemData.Category
       value: 2
@@ -8240,6 +8248,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824301037246945621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: maxCapacity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824301037246945621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: requiresSpecificConditions
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
@@ -12884,6 +12900,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BucketItemUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5961588561165740272, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
+      propertyPath: maxCapacity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961588561165740272, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
+      propertyPath: requiresSpecificConditions
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6164997889196244783, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14725,7 +14749,6 @@ MonoBehaviour:
   rainParent: {fileID: 1924561701}
   dewDropSpawnParent: {fileID: 406109113}
   spawnAreaPadding: {x: 50, y: 50}
-  allCollectablePrefabs: []
   maxDewdrops: 5
   dewdropSpawnChance: 0.1
   raindropSpawnRate: 2
@@ -14920,7 +14943,10 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 100
+      ConversionRatio: 0.2
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 1
@@ -14937,7 +14963,10 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 50
+      ConversionRatio: 1
+      GenerationInterval: 30
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 1
@@ -14954,7 +14983,10 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 50
+      ConversionRatio: 1
+      GenerationInterval: 30
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 1
@@ -14971,7 +15003,10 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 0
+      ConversionRatio: 1
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 1
@@ -14988,7 +15023,10 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       CurrentAmount: 0
-      LastGenerationTime: 0
+      MaxAmount: 0
+      ConversionRatio: 1
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
       IsActive: 1
     IsUnlocked: 1
     CanDragToWorld: 1

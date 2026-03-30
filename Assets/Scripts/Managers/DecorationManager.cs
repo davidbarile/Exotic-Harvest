@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,27 +8,14 @@ public class DecorationManager : MonoBehaviour
 {
     public static DecorationManager IN;
 
-    // [Header("Decoration Prefabs")]
-    // [SerializeField] private GameObject bucketPrefab;
-    // [SerializeField] private GameObject plantPrefab;
-    // [SerializeField] private GameObject[] allDecorationPrefabs; // Array for all decoration types
-
     [Header("UI Placement Settings")]
-    [SerializeField] private RectTransform worldDecorationCanvas; // Canvas for decorations
-    [SerializeField] private RectTransform screenDecorationCanvas; // Canvas for decorations
+    [SerializeField] private RectTransform worldDecorationCanvas, screenDecorationCanvas; // Canvas for decorations
     
     private Dictionary<int,Transform> decorationParents = new(); // List of parent transforms for different decoration types
 
-    // private Dictionary<EDecorationType, GameObject> decorationPrefabs;
     public List<UiDecorationBase> PlacedDecorations = new();
     
     private List<UiDecorationBase> initDecorations = new();
-
-    // Events
-    // public static Action<DecorationBase> OnDecorationPlaced;
-    // public static Action<DecorationBase> OnDecorationAdded;
-    // public static Action<DecorationBase> OnDecorationRemoved;
-    // public static Action<int> OnDecorationCountChanged;
 
     private void Awake()
     {
@@ -67,18 +53,6 @@ public class DecorationManager : MonoBehaviour
             this.initDecorations = new List<UiDecorationBase>();
     }
 
-    // private void OnEnable()
-    // {
-    //     DecorationBase.OnDecorationPlaced += OnDecorationPlaced;
-    //     DecorationBase.OnDecorationRemoved += OnDecorationRemoved;
-    // }
-
-    // private void OnDisable()
-    // {
-    //     DecorationBase.OnDecorationPlaced -= OnDecorationPlaced;
-    //     DecorationBase.OnDecorationRemoved -= OnDecorationRemoved;
-    // }
-
     public UiDecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, Transform parent = null)
     {
         if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
@@ -88,7 +62,7 @@ public class DecorationManager : MonoBehaviour
         worldItem.transform.localPosition = spawnPosition;
         worldItem.transform.localScale = Vector3.one;
         worldItem.name = $"Decoration_{itemData.DisplayName}";
-        worldItem.InitializeFromDrag(itemData, Vector2.zero);
+        worldItem.ConfigureFromDrag(itemData, Vector2.zero);
         return worldItem;
     }
     
@@ -103,20 +77,6 @@ public class DecorationManager : MonoBehaviour
             }
         }
     }
-
-    // For save system
-    // public List<InventoryItemData> GetSaveData()
-    // {
-    //     var saveData = new List<InventoryItemData>();
-
-    //     foreach (var decoration in this.PlacedDecorations)
-    //     {
-    //         if (decoration != null)
-    //             saveData.Add(decoration.ItemData);
-    //     }
-
-    //     return saveData;
-    // }
     
     public void LoadFromSaveData(List<InventoryItemData> savedWorldItems)
     {

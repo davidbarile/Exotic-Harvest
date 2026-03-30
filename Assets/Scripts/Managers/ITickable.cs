@@ -1,5 +1,3 @@
-using UnityEngine;
-
 //maybe change to abstract class and just inherit from it
 public interface ITickable
 {

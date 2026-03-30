@@ -79,14 +79,12 @@ public class UiInventoryItem : UiDraggable
                     
                     if (worldItem != null)
                     {
-                        // Transfer drag to the newly spawned world item
-                        var worldItemRect = worldItem.GetComponent<RectTransform>();
-                        if (worldItemRect != null)
+                        if(worldItem.TryGetComponent<RectTransform>(out var worldItemRect))
                         {
                             UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
 
                             // Initialize the world item with drag state
-                            worldItem.InitializeFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
+                            worldItem.ConfigureFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
                             
                             // Swap the dragged object to the new world item
                             DragManager.IN.SwapDraggedObject(worldItemRect);

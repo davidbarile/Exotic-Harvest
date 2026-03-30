@@ -30,11 +30,16 @@ public class UiDecorationBase : UiDraggable
             if (this.shadow)
                 this.shadow.sprite = sprite;
 
-            if(this.worldProxy)
+            if (this.worldProxy)
             {
                 this.worldProxy.sprite = sprite;
                 this.worldProxy.gameObject.SetActive(false);
             }
+        }
+        
+        if(TryGetComponent<PassiveHarvester>(out var harvester))
+        {
+            harvester.SetDecorationData(this.ItemData.DecorationData);
         }
     }
 
@@ -215,7 +220,7 @@ public class UiDecorationBase : UiDraggable
         return null;
     }
 
-    public virtual void InitializeFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
+    public virtual void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
     {
         Configure(inItemData);
 

@@ -16,9 +16,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
     
-    [Header("Collectable Prefabs")]
-    [SerializeField] private GameObject[] allCollectablePrefabs; // Array for all collectable types
-    
     [Header("Dewdrop Settings")]
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
@@ -78,12 +75,6 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             SpawnDewdrops();
         }
-        
-        // // Spawn raindrops during rain
-        // if (WeatherManager.IN != null && WeatherManager.IN.IsRaining)
-        // {
-        //     SpawnRaindrops();
-        // }
     }
     
     private void SpawnDewdrops()
