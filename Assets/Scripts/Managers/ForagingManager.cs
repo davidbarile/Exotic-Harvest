@@ -9,8 +9,10 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
 
-    [Header("UI Spawn Configuration")]
+    // Events
+    public static Action<int> OnCollectableCountChanged;
 
+    [Header("UI Spawn Configuration")]
     public RectTransform RainParent => this.rainParent;
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
@@ -19,15 +21,58 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Dewdrop Settings")]
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
-    
+
     [Header("Raindrop Settings")]
     [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
+    
+    [Header("Rock Pile Settings")]
+    [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
     
     private List<Collectable> activeCollectables = new();
     private float secondTimer = 0f;
     
-    // Events
-    public static Action<int> OnCollectableCountChanged;
+    public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize, float inOffsetRange, float inChanceToSwawn = 1f)
+    {
+        var positions = new List<Vector3>();
+        var xPos = 0f;
+        var yPos = 0f;
+
+        for (int i = 0; i < inCount; i++)
+        {
+            if (xPos > inSpawnArea.rect.width)
+            {
+                xPos = 0;
+                yPos += inGridSize;
+
+                if (yPos > inSpawnArea.rect.height)
+                    yPos = 0;
+            }
+            else if (yPos > inSpawnArea.rect.height)
+            {
+                yPos = 0;
+                xPos = 0;
+            }
+            else
+            {
+                xPos += inGridSize;
+            }
+
+            var position = new Vector3(xPos, yPos, 0f);
+            position += new Vector3(
+                UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
+                UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
+                0f
+            );
+            positions.Add(position);
+        }
+
+        if(inChanceToSwawn < 1f)
+        {
+            positions.RemoveAll(p => UnityEngine.Random.value > inChanceToSwawn);
+        }
+
+        return positions;
+    }
     
     
     private void Start()
@@ -65,15 +110,23 @@ public class ForagingManager : MonoBehaviour, ITickable
             SpawnRaindrops();
         }
     }
-    
+
     public void SecondTick()
     {
         secondTimer += 1f;
-        
+
         // Spawn dewdrops during morning
         if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning))
         {
             SpawnDewdrops();
+        }
+
+        //TODO: only spawn in Afternoon, every 1 refresh rocks
+        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && TimeManager.IN.CurrentHour >= 12f && TimeManager.IN.CurrentHour < 13f)
+        {
+            // Spawn rocks in the afternoon
+            if (this.rockPile)
+                this.rockPile.SpawnRocks();
         }
     }
     
