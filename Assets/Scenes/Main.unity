@@ -12884,6 +12884,7 @@ GameObject:
   - component: {fileID: 1570269845}
   - component: {fileID: 1570269844}
   - component: {fileID: 1570269846}
+  - component: {fileID: 1570269847}
   m_Layer: 5
   m_Name: Decoration Canvas World
   m_TagString: Untagged
@@ -12968,6 +12969,18 @@ MonoBehaviour:
   UnsnapRange: -1
   IsDragOutOfInventoryZone: 0
   IsDragOverOpenInventoryZone: 0
+--- !u!225 &1570269847
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570269842}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &1579995521 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8712850292872448468, guid: 60bda18ea0d1e485593e3c325a1417ec, type: 3}
@@ -17951,7 +17964,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143926667}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.5
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
