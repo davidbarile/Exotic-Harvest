@@ -83,10 +83,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 if (yPos > inSpawnArea.rect.height)
                 {
                     if (inForceGridToSpawnAreaSize)
-                    {
-                        Debug.Log($"{i} Generated {positions.Count} positions in spawn area.");
                         break; // Stop if we've filled the spawn area
-                    }
 
                     yPos = 0;
                     xPos = 0;
@@ -185,31 +182,22 @@ public class ForagingManager : MonoBehaviour, ITickable
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Convert the mouse's screen position to a world position
-            Vector3 mouseWorldPosition = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
+    // private void Update()
+    // {
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         Vector3 mouseWorldPosition = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
+    //         Collider2D hitCollider = Physics2D.OverlapPoint(mouseWorldPosition, LayerMask.GetMask("DewSpawn")); // Assuming collectables are on a layer named "Collectable"
 
-            // Use OverlapPoint to find a collider at the mouse position
-            Collider2D hitCollider = Physics2D.OverlapPoint(mouseWorldPosition, LayerMask.GetMask("DewSpawn")); // Assuming collectables are on a layer named "Collectable"
-
-            // Check if any collider was hit
-            if (hitCollider != null)
-            {
-                // Log the name of the hit object to the console
-                Debug.Log("Hit object: " + hitCollider.gameObject.name);
-            }
-
-            Debug.Log($"Mouse World Position: {mouseWorldPosition}. Input.mousePosition {Input.mousePosition}");
-
-            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
-            dewdrop.transform.position = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
-            dewdrop.transform.localScale = Vector3.one * 2f;
-            dewdrop.name = $"Derp_{UnityEngine.Random.Range(0, 999)}";
-        }
-    }
+    //         if (hitCollider != null)
+    //         {
+    //             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+    //             dewdrop.transform.position = mouseWorldPosition;
+    //             dewdrop.transform.localScale = Vector3.one * 2f;
+    //             dewdrop.name = $"Derp_{UnityEngine.Random.Range(0, 999)}";
+    //         }
+    //     }
+    // }
     
     private void InitDewDropPositions()
     {
