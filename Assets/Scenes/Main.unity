@@ -4283,6 +4283,7 @@ GameObject:
   - component: {fileID: 406109113}
   - component: {fileID: 406109114}
   - component: {fileID: 406109115}
+  - component: {fileID: 406109116}
   m_Layer: 7
   m_Name: Dew Spawn Parent
   m_TagString: Untagged
@@ -4298,7 +4299,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406109112}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4306,8 +4307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 139.35779, y: 0}
-  m_SizeDelta: {x: -292.594, y: 294.4849}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 1062.0842}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &406109114
 CanvasRenderer:
@@ -4363,17 +4364,54 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 65.81683, y: 101.033936}
-      - {x: 233.19116, y: 157.15698}
-      - {x: 417.03955, y: 235.39551}
-      - {x: 675.3821, y: 247.44385}
+    - - {x: 200.4148, y: 91.64343}
+      - {x: 349.00812, y: 179.06824}
+      - {x: 539.1167, y: 235.39551}
+      - {x: 775.5481, y: 247.44385}
+      - {x: 1006.9365, y: 195.77698}
       - {x: 902.71423, y: 203.95728}
-      - {x: 1044.4164, y: 248.17139}
+      - {x: 1329.2634, y: 201.21863}
       - {x: 1316.9733, y: 200.27747}
-      - {x: 1557.3693, y: 119.66821}
-      - {x: 1648.2781, y: -33.79248}
-      - {x: -22.01471, y: -46.635864}
+      - {x: 1626.2333, y: 138.44934}
+      - {x: 1767.2251, y: -27.532104}
+      - {x: 143.8852, y: -40.37549}
   m_UseDelaunayMesh: 1
+--- !u!58 &406109116
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406109112}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1428.55, y: 781.77}
+  m_Radius: 150
 --- !u!224 &408182767 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9002296622951132387, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
