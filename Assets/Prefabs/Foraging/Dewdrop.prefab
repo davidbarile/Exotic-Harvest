@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7234567890123459}
   - component: {fileID: 7234567890123460}
   - component: {fileID: 98299882751189051}
+  - component: {fileID: 3956219084123034549}
   m_Layer: 0
   m_Name: Dewdrop
   m_TagString: Untagged
@@ -57,9 +58,6 @@ MonoBehaviour:
   collectionType: 1
   lifetime: 30
   collectableImage: {fileID: 5415651036395075972}
-  bobSpeed: 2
-  bobAmount: 10
-  shimmerInterval: 3
 --- !u!58 &7234567890123459
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -104,7 +102,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7234567890123456}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -131,6 +129,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7234567890123456}
   m_CullTransparentMesh: 1
+--- !u!225 &3956219084123034549
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234567890123456}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7280983206103933652
 GameObject:
   m_ObjectHideFlags: 0

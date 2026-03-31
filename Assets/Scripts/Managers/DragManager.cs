@@ -19,6 +19,9 @@ public class DragManager : MonoBehaviour
 
     public Transform DefaultParent;
 
+    public Camera DragCamera => this.dragCamera;
+    public Camera WorldCamera => this.worldCamera;
+
     [SerializeField] private Camera dragCamera;
     [SerializeField] private Camera worldCamera;
 

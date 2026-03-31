@@ -7,15 +7,6 @@ using DG.Tweening;
 /// </summary>
 public class Dewdrop : Collectable
 {
-    [Header("Dewdrop Animation")]
-    [SerializeField] private float bobSpeed = 2f;
-    [SerializeField] private float bobAmount = 10f; // UI pixels
-    [SerializeField] private float shimmerInterval = 3f;
-    
-    private Vector3 startLocalPosition;
-    private Sequence bobSequence;
-    private Sequence shimmerSequence;
-    
     public override void Spawn()
     {
         this.resourceType = EResourceType.Dew;
@@ -26,33 +17,11 @@ public class Dewdrop : Collectable
         this.canvasGroup.alpha = 1f;
         
         base.Spawn();
-        
-        this.startLocalPosition = this.transform.localPosition;
-        StartBobAnimation();
-        StartShimmerAnimation();
-    }
-    
-    private void StartBobAnimation()
-    {
-        this.bobSequence = DOTween.Sequence()
-            .Append(this.transform.DOLocalMoveY(this.startLocalPosition.y + this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
-            .Append(this.transform.DOLocalMoveY(this.startLocalPosition.y - this.bobAmount, 1f / this.bobSpeed).SetEase(Ease.InOutSine))
-            .SetLoops(-1, LoopType.Yoyo);
-    }
-    
-    private void StartShimmerAnimation()
-    {
-        this.shimmerSequence = DOTween.Sequence()
-            .Append(this.collectableImage.DOFade(0.7f, this.shimmerInterval * 0.5f))
-            .Append(this.collectableImage.DOFade(1f, this.shimmerInterval * 0.5f))
-            .SetLoops(-1);
     }
     
     protected override void OnCollected()
     {
         // Stop animations
-        this.bobSequence?.Kill();
-        this.shimmerSequence?.Kill();
         
         // Collection animation
         var sequence = DOTween.Sequence()
@@ -64,9 +33,6 @@ public class Dewdrop : Collectable
     
     protected override void OnDestroy()
     {
-        this.bobSequence?.Kill();
-        this.shimmerSequence?.Kill();
-
         base.OnDestroy();
     }
 }

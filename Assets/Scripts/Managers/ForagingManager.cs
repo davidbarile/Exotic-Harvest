@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -12,68 +13,89 @@ public class ForagingManager : MonoBehaviour, ITickable
     // Events
     public static Action<int> OnCollectableCountChanged;
 
-    [Header("UI Spawn Configuration")]
-    public RectTransform RainParent => this.rainParent;
+    [Header("Raindrop Settings --------------")]
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
+    public RectTransform RainParent => this.rainParent;
+    [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
+
+    [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
-    [SerializeField] private Vector2 spawnAreaPadding = new Vector2(50f, 50f); // Padding from canvas edges
-    
-    [Header("Dewdrop Settings")]
+    public RectTransform DewDropSpawnParent => this.dewDropSpawnParent;
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
+    [SerializeField] private List<Vector3> dewSpawnPositions = new(); // Predefined positions for dew spawning
+     private List<Dewdrop> activeDewdrops = new();
 
-    [Header("Raindrop Settings")]
-    [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
-    
-    [Header("Rock Pile Settings")]
+    [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
+    [SerializeField] private float rockSpawnFrequency = 1f; // Rate to spawn rocks each hour in the Afternoon
     
     private List<Collectable> activeCollectables = new();
     private float secondTimer = 0f;
-    
-    public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize, float inOffsetRange, float inChanceToSwawn = 1f)
+    private float nextRockSpawnTime = -1;
+
+    #region Static Methods
+    public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize,
+        float inOffsetRange, float inChanceToSpawn = 1f, bool inForceGridToSpawnAreaSize = true, int inIterations = 1)
     {
         var positions = new List<Vector3>();
-        var xPos = 0f;
-        var yPos = 0f;
 
-        for (int i = 0; i < inCount; i++)
+        for (int i = 0; i < inIterations; i++)
         {
-            if (xPos > inSpawnArea.rect.width)
-            {
-                xPos = 0;
-                yPos += inGridSize;
-
-                if (yPos > inSpawnArea.rect.height)
-                    yPos = 0;
-            }
-            else if (yPos > inSpawnArea.rect.height)
-            {
-                yPos = 0;
-                xPos = 0;
-            }
-            else
-            {
-                xPos += inGridSize;
-            }
-
-            var position = new Vector3(xPos, yPos, 0f);
-            position += new Vector3(
-                UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
-                UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
-                0f
-            );
-            positions.Add(position);
+            GeneratePositions();
         }
 
-        if(inChanceToSwawn < 1f)
+        if (inChanceToSpawn < 1f)
         {
-            positions.RemoveAll(p => UnityEngine.Random.value > inChanceToSwawn);
+            positions.RemoveAll(p => UnityEngine.Random.value > inChanceToSpawn);
         }
 
         return positions;
+
+        void GeneratePositions()
+        {
+            var xPos = 0f;
+            var yPos = 0f;
+
+            if (inForceGridToSpawnAreaSize)
+                inCount = 99999;
+
+            for (int i = 0; i < inCount; i++)
+            {
+                var position = new Vector3(xPos, yPos, 0f);
+                position += new Vector3(
+                    UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
+                    UnityEngine.Random.Range(-inOffsetRange, inOffsetRange),
+                    0f
+                );
+                positions.Add(position);
+
+                if (xPos < inSpawnArea.rect.width)
+                {
+                    xPos += inGridSize;
+                }
+                else
+                {
+                    xPos = 0;
+                    yPos += inGridSize;
+                }
+
+                if (yPos > inSpawnArea.rect.height)
+                {
+                    if (inForceGridToSpawnAreaSize)
+                    {
+                        Debug.Log($"{i} Generated {positions.Count} positions in spawn area.");
+                        break; // Stop if we've filled the spawn area
+                    }
+
+                    yPos = 0;
+                    xPos = 0;
+                }
+            }
+        }
     }
     
+    #endregion
     
     private void Start()
     {
@@ -87,6 +109,13 @@ public class ForagingManager : MonoBehaviour, ITickable
         WeatherManager.OnRainStarted += OnRainStarted;
         WeatherManager.OnRainStopped += OnRainStopped;
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
+
+        InitDewDropPositions();
+        this.dewdropSpawnChance = 1f; // temp
+        for (int i = 0; i < this.dewSpawnPositions.Count; i++)
+        {
+            SpawnDewdrops(); // temp
+        }
     }
     
     private void OnDestroy()
@@ -116,39 +145,37 @@ public class ForagingManager : MonoBehaviour, ITickable
         secondTimer += 1f;
 
         // Spawn dewdrops during morning
-        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning))
+        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
+            (WeatherManager.IN.CurrentWeather == EWeatherType.Clear || WeatherManager.IN.CurrentWeather.HasFlag(EWeatherType.Foggy)))
         {
+            //TODO: clear dew if it rains
             SpawnDewdrops();
         }
 
-        //TODO: only spawn in Afternoon, every 1 refresh rocks
-        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && TimeManager.IN.CurrentHour >= 12f && TimeManager.IN.CurrentHour < 13f)
+        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
         {
-            // Spawn rocks in the afternoon
-            if (this.rockPile)
-                this.rockPile.SpawnRocks();
+            //spawn rocks every hour in the Afternoon
+            if (TimeManager.IN.CurrentHour > this.nextRockSpawnTime)
+            {
+                if (this.rockSpawnFrequency == 1f)
+                    this.nextRockSpawnTime = Mathf.Floor(TimeManager.IN.CurrentHour) + 1f;//lock it to the hour
+                else
+                    this.nextRockSpawnTime = TimeManager.IN.CurrentHour + this.rockSpawnFrequency;
+
+                RefreshRocks();
+            }
+        }
+        else
+        {
+            this.nextRockSpawnTime = -1; // Reset to allow spawning when we enter the time window again
         }
     }
-    
-    private void SpawnDewdrops()
-    {
-        if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= maxDewdrops)
-            return;
-            
-        if (UnityEngine.Random.value < dewdropSpawnChance)
-        {
-            Vector2 spawnPos = GetRandomDewPosition();
-            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
-            dewdrop.transform.localPosition = spawnPos;
-            dewdrop.Spawn();
-        }
-    }
-    
+
     private void SpawnRaindrops()
-    {            
+    {
         // Spawn based on rain intensity
         float spawnChance = this.raindropSpawnRate * (WeatherManager.IN?.WeatherIntensity ?? 0.5f);
-        
+
         if (UnityEngine.Random.value < spawnChance)
         {
             Vector2 spawnPos = GetRaindropSpawnPosition();
@@ -157,15 +184,79 @@ public class ForagingManager : MonoBehaviour, ITickable
             raindrop.Spawn();
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Convert the mouse's screen position to a world position
+            Vector3 mouseWorldPosition = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
+
+            // Use OverlapPoint to find a collider at the mouse position
+            Collider2D hitCollider = Physics2D.OverlapPoint(mouseWorldPosition, LayerMask.GetMask("DewSpawn")); // Assuming collectables are on a layer named "Collectable"
+
+            // Check if any collider was hit
+            if (hitCollider != null)
+            {
+                // Log the name of the hit object to the console
+                Debug.Log("Hit object: " + hitCollider.gameObject.name);
+            }
+
+            Debug.Log($"Mouse World Position: {mouseWorldPosition}. Input.mousePosition {Input.mousePosition}");
+
+            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+            dewdrop.transform.position = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
+            dewdrop.transform.localScale = Vector3.one * 2f;
+            dewdrop.name = $"Derp_{UnityEngine.Random.Range(0, 999)}";
+        }
+    }
     
-    private Vector2 GetRandomDewPosition()
-    {   
-        var canvasRect = this.dewDropSpawnParent.rect;
-        
-        return new Vector2(
-            UnityEngine.Random.Range(canvasRect.xMin + spawnAreaPadding.x, canvasRect.xMax - spawnAreaPadding.x),
-            UnityEngine.Random.Range(canvasRect.yMin + spawnAreaPadding.y, canvasRect.yMax - spawnAreaPadding.y)
-        );
+    private void InitDewDropPositions()
+    {
+        if (this.dewSpawnPositions.Count == 0)
+        {
+            // If no predefined positions, generate a grid of positions within the spawn area
+            this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 40, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+
+            var layerMask = LayerMask.GetMask("DewSpawn");
+
+            // Raycast to only show elements in colliders
+            for (int i = 0; i < this.dewSpawnPositions.Count; i++)
+            {
+                var screenPos = this.dewSpawnPositions[i];// + DragManager.ScreenToWorldCameraDelta;
+                screenPos = this.dewDropSpawnParent.TransformPoint(screenPos);
+
+                Collider2D hitCollider = Physics2D.OverlapPoint(screenPos, layerMask);
+
+                if (hitCollider == null)
+                {
+                    // No collider at this position, remove it from the list
+                    this.dewSpawnPositions.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+    }
+    
+    private void SpawnDewdrops()
+    {
+        // if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= this.maxDewdrops)
+        //     return;
+            
+        if (UnityEngine.Random.value < this.dewdropSpawnChance)
+        {
+            Vector2 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
+            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+            dewdrop.transform.localPosition = spawnPos;
+            dewdrop.Spawn();
+            this.activeDewdrops.Add(dewdrop);
+        }
+    }
+    
+    private void RefreshRocks()
+    {
+        if (this.rockPile)
+            this.rockPile.SpawnRocks();
     }
     
     private Vector2 GetRaindropSpawnPosition()
@@ -174,7 +265,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         
         // Raindrops spawn from the top
         return new Vector2(
-            UnityEngine.Random.Range(canvasRect.xMin + spawnAreaPadding.x, canvasRect.xMax - spawnAreaPadding.x),
+            UnityEngine.Random.Range(canvasRect.xMin, canvasRect.xMax),
             canvasRect.yMax + 100f // Slightly above canvas
         );
     }
@@ -182,7 +273,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     private int GetCollectableCount(EResourceType type, ECollectionMethod method)
     {
         int count = 0;
-        foreach (var collectable in activeCollectables)
+        foreach (var collectable in this.activeCollectables)
         {
             if (collectable != null && collectable.ResourceType == type && collectable.CollectionMethod == method)
                 count++;
@@ -192,20 +283,20 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void OnCollectableSpawned(Collectable collectable)
     {
-        activeCollectables.Add(collectable);
-        OnCollectableCountChanged?.Invoke(activeCollectables.Count);
+        this.activeCollectables.Add(collectable);
+        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
     }
     
     private void OnCollectableCollected(Collectable collectable)
     {
-        activeCollectables.Remove(collectable);
-        OnCollectableCountChanged?.Invoke(activeCollectables.Count);
+        this.activeCollectables.Remove(collectable);
+        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
     }
     
     private void OnCollectableExpired(Collectable collectable)
     {
-        activeCollectables.Remove(collectable);
-        OnCollectableCountChanged?.Invoke(activeCollectables.Count);
+        this.activeCollectables.Remove(collectable);
+        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
     }
     
     private void OnRainStarted()
@@ -230,9 +321,9 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void ClearCollectables(EResourceType type, ECollectionMethod method)
     {
-        for (int i = activeCollectables.Count - 1; i >= 0; i--)
+        for (int i = this.activeCollectables.Count - 1; i >= 0; i--)
         {
-            var collectable = activeCollectables[i];
+            var collectable = this.activeCollectables[i];
             if (collectable != null && collectable.ResourceType == type && collectable.CollectionMethod == method)
             {
                 Destroy(collectable.gameObject);

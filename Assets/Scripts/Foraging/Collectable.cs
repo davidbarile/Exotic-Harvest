@@ -10,6 +10,11 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(CanvasGroup))]
 public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
+    // Events
+    public static Action<Collectable> OnCollectableSpawned;
+    public static Action<Collectable> OnCollectableCollected;
+    public static Action<Collectable> OnCollectableExpired;
+    
     public EResourceType ResourceType => resourceType;
     [SerializeField] protected EResourceType resourceType;
 
@@ -29,11 +34,6 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     protected float spawnTime;
     protected bool isCollected = false;
     protected bool isDragging = false;
-    
-    // Events
-    public static Action<Collectable> OnCollectableSpawned;
-    public static Action<Collectable> OnCollectableCollected;
-    public static Action<Collectable> OnCollectableExpired;
 
     protected virtual void Awake()
     {
