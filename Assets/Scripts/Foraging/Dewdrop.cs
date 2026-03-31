@@ -15,7 +15,7 @@ public class Dewdrop : Collectable
         this.lifetime = 60f; // Dewdrops last longer
 
         this.canvasGroup.alpha = 1f;
-        
+
         base.Spawn();
     }
     

@@ -204,7 +204,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         if (this.dewSpawnPositions.Count == 0)
         {
             // If no predefined positions, generate a grid of positions within the spawn area
-            this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 40, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+            this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 20, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
 
             var layerMask = LayerMask.GetMask("DewSpawn");
 

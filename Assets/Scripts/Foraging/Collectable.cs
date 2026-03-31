@@ -66,6 +66,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     // UI Event System handlers
     public virtual void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log($"Clicked on {gameObject.name} with collection method {this.collectionType}");
         if (this.collectionType.HasFlag(ECollectionMethod.Click))
         {
             OnClick();

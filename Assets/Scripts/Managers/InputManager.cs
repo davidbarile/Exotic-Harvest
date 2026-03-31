@@ -68,6 +68,8 @@ public class InputManager : MonoBehaviour
 
         var results = new List<RaycastResult>();
 
+        var layerMask = LayerMask.GetMask("UI");
+
         if (EventSystem.current)
         {
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
@@ -83,7 +85,7 @@ public class InputManager : MonoBehaviour
 
             foreach (var result in results)
             {
-                if (result.gameObject.layer == 5)
+                if (result.gameObject.layer == layerMask)
                     return true;
             }
         }
