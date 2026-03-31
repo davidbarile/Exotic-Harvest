@@ -16,12 +16,12 @@ public class DragManager : MonoBehaviour
     public RectTransform DragCanvas;
     public RectTransform WorldRectTrans;
 
-    public Transform DefaultParent;
+    [Space] public Transform WorldDecorationsContainer;
 
     public Camera DragCamera => this.dragCamera;
     public Camera WorldCamera => this.worldCamera;
 
-    [SerializeField] private Camera dragCamera;
+    [Space, SerializeField] private Camera dragCamera;
     [SerializeField] private Camera worldCamera;
 
     [SerializeField] private GameObject inventoryOpenTrigger;
