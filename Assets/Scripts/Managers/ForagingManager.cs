@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Manages active foraging - spawning collectables based on time/weather
@@ -24,6 +25,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
     [SerializeField] private List<Vector3> dewSpawnPositions = new(); // Predefined positions for dew spawning
+    [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
      private List<Dewdrop> activeDewdrops = new();
 
     [Header("Rock Pile Settings --------------")]
@@ -91,9 +93,9 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
     }
-    
+
     #endregion
-    
+
     private void Start()
     {
         TickManager.OnTick += Tick;
@@ -101,18 +103,16 @@ public class ForagingManager : MonoBehaviour, ITickable
         Collectable.OnCollectableSpawned += OnCollectableSpawned;
         Collectable.OnCollectableCollected += OnCollectableCollected;
         Collectable.OnCollectableExpired += OnCollectableExpired;
-        
+
         // Listen to weather/time events
         WeatherManager.OnRainStarted += OnRainStarted;
         WeatherManager.OnRainStopped += OnRainStopped;
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
 
         InitDewDropPositions();
-        this.dewdropSpawnChance = 1f; // temp
-        for (int i = 0; i < this.dewSpawnPositions.Count; i++)
-        {
-            SpawnDewdrops(); // temp
-        }
+
+        if (this.debugSpawnAllDewdrops)
+            TestDewSpawn();
     }
     
     private void OnDestroy()
@@ -212,9 +212,9 @@ public class ForagingManager : MonoBehaviour, ITickable
             for (int i = 0; i < this.dewSpawnPositions.Count; i++)
             {
                 var screenPos = this.dewSpawnPositions[i];// + DragManager.ScreenToWorldCameraDelta;
-                screenPos = this.dewDropSpawnParent.TransformPoint(screenPos);
+                var worldPos = this.dewDropSpawnParent.TransformPoint(screenPos);
 
-                Collider2D hitCollider = Physics2D.OverlapPoint(screenPos, layerMask);
+                Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
 
                 if (hitCollider == null)
                 {
@@ -222,23 +222,53 @@ public class ForagingManager : MonoBehaviour, ITickable
                     this.dewSpawnPositions.RemoveAt(i);
                     i--;
                 }
+                else
+                {
+                    this.dewSpawnPositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
+                }
             }
         }
     }
-    
+
     private void SpawnDewdrops()
     {
         // if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= this.maxDewdrops)
         //     return;
-            
+
         if (UnityEngine.Random.value < this.dewdropSpawnChance)
         {
-            Vector2 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
+            Vector3 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
             dewdrop.transform.localPosition = spawnPos;
             dewdrop.Spawn();
             this.activeDewdrops.Add(dewdrop);
         }
+    }
+
+    [Button(ButtonSizes.Large)]
+    private void TestDewSpawn()
+    {
+        DeleteAllDewdrops();
+
+        var originalSpawnChance = this.dewdropSpawnChance;
+
+        this.dewdropSpawnChance = 1f;
+        for (int i = 0; i < this.dewSpawnPositions.Count; i++)
+        {
+            SpawnDewdrops();
+        }
+
+        this.dewdropSpawnChance = originalSpawnChance;
+    }
+
+    private void DeleteAllDewdrops()
+    {
+        foreach (var dewdrop in this.activeDewdrops)
+        {
+            if (dewdrop != null)
+                Destroy(dewdrop.gameObject);
+        }
+        this.activeDewdrops.Clear();
     }
     
     private void RefreshRocks()

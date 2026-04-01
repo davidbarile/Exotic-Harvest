@@ -4283,7 +4283,6 @@ GameObject:
   - component: {fileID: 406109113}
   - component: {fileID: 406109114}
   - component: {fileID: 406109115}
-  - component: {fileID: 406109116}
   m_Layer: 7
   m_Name: Dew Spawn Parent
   m_TagString: Untagged
@@ -4302,7 +4301,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1947422962}
   m_Father: {fileID: 308471513}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4376,42 +4376,6 @@ PolygonCollider2D:
       - {x: 1767.2251, y: -27.532104}
       - {x: 143.8852, y: -40.37549}
   m_UseDelaunayMesh: 1
---- !u!58 &406109116
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 406109112}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 1428.55, y: 781.77}
-  m_Radius: 150
 --- !u!224 &408182767 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9002296622951132387, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
@@ -14900,6 +14864,7 @@ MonoBehaviour:
   maxDewdrops: 5
   dewdropSpawnChance: 0.1
   dewSpawnPositions: []
+  debugSpawnAllDewdrops: 0
   rockPile: {fileID: 1364921590}
   rockSpawnFrequency: 1
 --- !u!114 &1713415297
@@ -14916,7 +14881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeatherManager
   weatherDisplayText: {fileID: 107059070}
   currentWeather: 0
-  debugWeather: 0
+  debugWeather: 2
   weatherChangeInterval: 300
   weatherIntensity: 1
 --- !u!114 &1713415298
@@ -16572,6 +16537,87 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8697382042116484799, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
   m_PrefabInstance: {fileID: 2654858883722818161}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1947422961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1947422962}
+  - component: {fileID: 1947422964}
+  - component: {fileID: 1947422963}
+  m_Layer: 7
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1947422962
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947422961}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 406109113}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 251, y: 14}
+  m_SizeDelta: {x: 200, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!58 &1947422963
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947422961}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 150
+--- !u!222 &1947422964
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947422961}
+  m_CullTransparentMesh: 1
 --- !u!1 &1986196162
 GameObject:
   m_ObjectHideFlags: 0

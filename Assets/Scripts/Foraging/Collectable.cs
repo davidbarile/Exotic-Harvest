@@ -30,8 +30,9 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     [Header("UI Components")]
     [SerializeField] protected Image collectableImage;
     protected CanvasGroup canvasGroup;
-    
+
     protected float spawnTime;
+    protected float initScale = 1f;
     protected bool isCollected = false;
     protected bool isDragging = false;
 

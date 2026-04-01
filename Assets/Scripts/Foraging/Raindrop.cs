@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class Raindrop : Collectable
 {
     [Header("Raindrop Animation")]
-    [SerializeField] private float fallDuration = 10f; // Time to fall across screen
+    [SerializeField] private float fallDuration = 5f; // Time to fall across screen
     [SerializeField] private float sideWave = 20f; // Horizontal movement
     
     private bool isFalling = true;
@@ -18,9 +18,10 @@ public class Raindrop : Collectable
     
     public override void Spawn()
     {
-        this.resourceType = EResourceType.Rain;
+        //this.resourceType = EResourceType.Rain;
+        // this.collectionType = ECollectionMethod.DragCollector;
         this.amount = 1;
-        this.collectionType = ECollectionMethod.Hover;
+
         base.Spawn();
         StartFallingAnimation();
     }
@@ -81,8 +82,8 @@ public class Raindrop : Collectable
         // Collection effect
         var sequence = DOTween.Sequence()
             .Append(this.transform.DOScale(1.2f, 0.1f))
-            .Join(this.canvasGroup.DOFade(0f, 0.2f))
-            .Append(this.transform.DOScale(0f, 0.1f))
+            .Join(this.canvasGroup.DOFade(0f, 0.05f))
+            .Append(this.transform.DOScale(0f, 0.05f))
             .OnComplete(() => base.OnCollected());
     }
     
