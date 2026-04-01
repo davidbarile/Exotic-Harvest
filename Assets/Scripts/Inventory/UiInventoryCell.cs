@@ -67,20 +67,20 @@ public class UiInventoryCell : MonoBehaviour
         }
     }
 
-    public void AddItem(UiInventoryItem item, InventoryItemData itemData)
+    public void AddItem(UiInventoryItem inItem, InventoryItemData inItemData)
     {
         if (this.itemNameText)
-            this.itemNameText.text = itemData.DisplayName;
+            this.itemNameText.text = inItemData.DisplayName;
 
         if (this.itemQuantityText)
-            this.itemQuantityText.text = itemData.Quantity > 1 ? itemData.Quantity.ToString() : string.Empty;
+            this.itemQuantityText.text = inItemData.MaxStack > 1 ? $"{inItemData.Quantity}<size=80%>/{inItemData.MaxStack}</size>" : string.Empty;
 
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
-        item.transform.localScale = Vector3.one;
+        inItem.transform.localPosition = Vector3.zero;
+        inItem.transform.localRotation = Quaternion.identity;
+        inItem.transform.localScale = Vector3.one;
 
-        this.Item = item;
-        this.Item.Configure(itemData);
+        this.Item = inItem;
+        this.Item.Configure(inItemData);
     }
 
     public void SwapItems(UiInventoryCell otherCell, UiInventoryItem otherItem)

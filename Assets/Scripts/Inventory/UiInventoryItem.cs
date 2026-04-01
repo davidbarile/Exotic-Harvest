@@ -28,7 +28,7 @@ public class UiInventoryItem : UiDraggable
         }
 
         if (this.itemQuantityText)
-            this.itemQuantityText.text = inItemData.Quantity > 1 ? inItemData.Quantity.ToString() : string.Empty;
+            this.itemQuantityText.text = inItemData.MaxStack > 1 ? $"{inItemData.Quantity}<size=80%>/{inItemData.MaxStack}</size>" : string.Empty;
     }
 
     public void Delete()

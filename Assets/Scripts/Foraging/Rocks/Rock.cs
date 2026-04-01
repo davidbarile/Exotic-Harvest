@@ -15,11 +15,9 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     [SerializeField] protected RectTransform targetRectTransform;
 
-    public LootConfig LootConfig { get; private set; }
+    private Vector3 OffsetFromCursor;
 
-    protected Vector2 originalLocalPointerPosition;
-    protected Vector3 originalLocalPosition;
-    protected Vector3 originalWorldPosition;
+    public LootConfig LootConfig { get; private set; }
 
     protected Transform originalParent;
     protected int originalSiblingIndex;
@@ -88,16 +86,10 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         TrySpawnLoot();
 
+        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
+        this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
+
         this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            DragManager.IN.DragCanvas,
-            eventData.position,
-            eventData.pressEventCamera,
-            out this.originalLocalPointerPosition);
-
-        this.originalLocalPosition = this.targetRectTransform.localPosition;
-        this.originalWorldPosition = this.targetRectTransform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -105,17 +97,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (!this.isDragging)
             return;
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            DragManager.IN.DragCanvas,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 localPointerPosition))
-        {
-            Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
-            this.targetRectTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
-
-            this.targetRectTransform.position -= DragManager.ScreenToWorldCameraDelta;
-        }
+        var dragPos = DragManager.IN.GetPositionInSpace(eventData.position);
+        this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -137,7 +120,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.hasBeenHarvested = true;
 
-        var lootDatas = this.LootConfig.GetRandomLoot(true, 10, 3);
+        var lootDatas = this.LootConfig.GetRandomLoot(false, 10, 3);
 
         if (lootDatas.Count == 0)
         {

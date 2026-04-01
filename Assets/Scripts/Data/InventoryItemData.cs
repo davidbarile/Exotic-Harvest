@@ -1,9 +1,10 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class InventoryItemData
 {
-    public string DisplayName;
+    [TextArea(1, 4)] public string DisplayName;
     public int Quantity;
     public int MaxStack;
     public int SpaceAvailableInStack => MaxStack - Quantity;

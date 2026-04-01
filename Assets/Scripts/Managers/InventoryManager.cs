@@ -22,6 +22,8 @@ public class InventoryManager : MonoBehaviour
                 itemData.Category = itemData.ShopItemConfig.Category;
                 itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
                 itemData.Scale = itemData.ShopItemConfig.Scale;
+                //itemData.Quantity = itemData.ShopItemConfig.Quanity;
+                itemData.MaxStack = itemData.ShopItemConfig.MaxStack;
                 itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
                 itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
             }
@@ -41,7 +43,7 @@ public class InventoryManager : MonoBehaviour
     public void AddDefaultItemsToInventory()
     {
         var sortedInitItemsList = this.initInventoryItemDatas.ToList();
-        sortedInitItemsList.Sort((a, b) => a.ShopItemConfig.Category.CompareTo(b.ShopItemConfig.Category));
+        //sortedInitItemsList.Sort((a, b) => a.ShopItemConfig.Category.CompareTo(b.ShopItemConfig.Category));
 
         foreach(var itemData in sortedInitItemsList)
         {
