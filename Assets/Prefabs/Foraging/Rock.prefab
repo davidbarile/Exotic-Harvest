@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 809022982435956101}
   - component: {fileID: 1162534655828490877}
   - component: {fileID: 8470364100657152188}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MiningMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 50948409129103114}
   - component: {fileID: 3649459224169916268}
   - component: {fileID: 1043829674556631540}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 7217665721599884027}
   - component: {fileID: 1067342504574829824}
   - component: {fileID: 6963151012213560505}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 1508149793737241667}
   - component: {fileID: 1201477452376822734}
   - component: {fileID: 8517679491980982711}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8268893724296855213}
   - component: {fileID: 9102515449634653400}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: LootInside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 9044055811845767157}
   - component: {fileID: 7321396977965030481}
   - component: {fileID: 4131782907010427489}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: RadialFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 674183586146611976}
   - component: {fileID: 5302835741260377303}
   - component: {fileID: 317996550867472667}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: RockImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -612,6 +612,14 @@ PrefabInstance:
     - target: {fileID: 2368731795693294975, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
       propertyPath: m_Name
       value: Loot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368731795693294975, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468512788951832317, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3493880337616461932, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
       propertyPath: m_Pivot.x
@@ -708,6 +716,14 @@ PrefabInstance:
     - target: {fileID: 3493880337616461932, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5308984677018612186, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7248286613556174204, guid: 43a2124c91994401eaff982f3678d90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

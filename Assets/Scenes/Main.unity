@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 22175096}
   - component: {fileID: 22175095}
   - component: {fileID: 22175094}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,6 +220,58 @@ PrefabInstance:
     - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Name
       value: ParallaxLayers
+      objectReference: {fileID: 0}
+    - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 603732101168424127, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 711810685749152536, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1243437273932714790, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2172883636041155455, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655271996804579883, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350705434243368263, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300400267325907104, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737055432934900709, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363295959770546425, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5546306765370338083, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336063008045165330, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740709766234205369, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7369230297683485775, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Pivot.x
@@ -365,8 +417,8 @@ GameObject:
   - component: {fileID: 49018777}
   - component: {fileID: 49018779}
   - component: {fileID: 49018778}
-  m_Layer: 5
-  m_Name: Square (2)
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 0.76711166, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1003,7 +1055,7 @@ GameObject:
   - component: {fileID: 113744385}
   - component: {fileID: 113744387}
   - component: {fileID: 113744386}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Volcano
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,7 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.52052844, g: 0.372864, b: 0.5377358, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1175,7 +1227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &144805235
 Light:
   m_ObjectHideFlags: 0
@@ -1221,15 +1273,15 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 223
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -1249,13 +1301,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144805234}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.10938166, w: 0.8754261}
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1713415286}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1488441595}
+  m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
 --- !u!1 &150487561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1319,7 @@ GameObject:
   - component: {fileID: 150487562}
   - component: {fileID: 150487564}
   - component: {fileID: 150487563}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1453,7 +1505,7 @@ GameObject:
   - component: {fileID: 202350892}
   - component: {fileID: 202350894}
   - component: {fileID: 202350893}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Lava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1491,7 +1543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.745283, g: 0.425444, b: 0.39021894, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1528,6 +1580,58 @@ PrefabInstance:
     - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Name
       value: ParallaxLayers
+      objectReference: {fileID: 0}
+    - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 603732101168424127, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 711810685749152536, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1243437273932714790, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2172883636041155455, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655271996804579883, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350705434243368263, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300400267325907104, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737055432934900709, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363295959770546425, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5546306765370338083, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336063008045165330, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740709766234205369, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7369230297683485775, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Pivot.x
@@ -1684,7 +1788,7 @@ GameObject:
   - component: {fileID: 248409876}
   - component: {fileID: 248409875}
   - component: {fileID: 248409874}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1840,13 +1944,13 @@ GameObject:
   m_Component:
   - component: {fileID: 254910829}
   - component: {fileID: 254910832}
-  m_Layer: 5
-  m_Name: Decorations Canvas
+  m_Layer: 0
+  m_Name: Leaves Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &254910829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2097,7 +2201,7 @@ GameObject:
   - component: {fileID: 261552521}
   - component: {fileID: 261552520}
   - component: {fileID: 261552519}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2188,7 +2292,7 @@ GameObject:
   - component: {fileID: 272291510}
   - component: {fileID: 272291509}
   - component: {fileID: 272291511}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Stars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2488,7 +2592,7 @@ GameObject:
   - component: {fileID: 286910809}
   - component: {fileID: 286910811}
   - component: {fileID: 286910810}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Green (.75)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2562,7 +2666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 308471513}
   - component: {fileID: 308471514}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Meadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2735,7 +2839,7 @@ GameObject:
   - component: {fileID: 328139442}
   - component: {fileID: 328139444}
   - component: {fileID: 328139443}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2810,7 +2914,7 @@ GameObject:
   - component: {fileID: 332249825}
   - component: {fileID: 332249827}
   - component: {fileID: 332249826}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2848,7 +2952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2885,7 +2989,7 @@ GameObject:
   - component: {fileID: 337703445}
   - component: {fileID: 337703447}
   - component: {fileID: 337703446}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Orange (.25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2960,7 +3064,7 @@ GameObject:
   - component: {fileID: 338514345}
   - component: {fileID: 338514347}
   - component: {fileID: 338514346}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2998,7 +3102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3035,7 +3139,7 @@ GameObject:
   - component: {fileID: 339904345}
   - component: {fileID: 339904347}
   - component: {fileID: 339904346}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3073,7 +3177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.15490389, g: 0.5566038, b: 0.2814115, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3111,7 +3215,7 @@ GameObject:
   - component: {fileID: 341083979}
   - component: {fileID: 341083978}
   - component: {fileID: 341083977}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: World Outine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3201,7 +3305,7 @@ GameObject:
   - component: {fileID: 344817647}
   - component: {fileID: 344817649}
   - component: {fileID: 344817648}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3239,7 +3343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.1522784, g: 0.5471698, b: 0.32887104, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3394,7 +3498,7 @@ GameObject:
   - component: {fileID: 352239056}
   - component: {fileID: 352239058}
   - component: {fileID: 352239057}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3432,7 +3536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.45594516, g: 0.6922162, b: 0.8867924, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3743,7 +3847,7 @@ GameObject:
   - component: {fileID: 370842524}
   - component: {fileID: 370842526}
   - component: {fileID: 370842525}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Foam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3781,7 +3885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.9198113, g: 1, b: 0.9846604, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3819,7 +3923,7 @@ GameObject:
   - component: {fileID: 375957689}
   - component: {fileID: 375957688}
   - component: {fileID: 375957687}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: World Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3919,15 +4023,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 405602265216798884, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 624067436655429655, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1538601182810791171, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919882553810127473, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: limitToParentTargetBounds
@@ -3935,55 +4039,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650858953138351193, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2676833755079353134, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3161294977154626936, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4651550108922254062, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4686214581884616917, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4889678613368148640, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5817362160595458952, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5834880905510999368, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6042175387997983471, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255492698371891216, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6434707865632878235, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6646476970092834340, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7087086872934131687, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7611801679564053011, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Name
@@ -3991,11 +4095,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7611801679564053011, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8268455788601863694, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8466997574689159998, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Pivot.x
@@ -4095,7 +4199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8941123072458672173, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4220,7 +4324,7 @@ GameObject:
   - component: {fileID: 404617347}
   - component: {fileID: 404617349}
   - component: {fileID: 404617348}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4258,7 +4362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4294,7 +4398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 406109113}
   - component: {fileID: 406109114}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Dew Spawn Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4346,7 +4450,7 @@ GameObject:
   - component: {fileID: 427088462}
   - component: {fileID: 427088464}
   - component: {fileID: 427088463}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4466,7 +4570,7 @@ GameObject:
   - component: {fileID: 435383143}
   - component: {fileID: 435383145}
   - component: {fileID: 435383144}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4505,7 +4609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0, g: 0.92941177, b: 0.8666667, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4541,7 +4645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465700225}
   - component: {fileID: 465700226}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4632,7 +4736,7 @@ GameObject:
   - component: {fileID: 503979804}
   - component: {fileID: 503979806}
   - component: {fileID: 503979805}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Red (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4707,7 +4811,7 @@ GameObject:
   - component: {fileID: 532283058}
   - component: {fileID: 532283060}
   - component: {fileID: 532283059}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4745,7 +4849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -4828,7 +4932,7 @@ GameObject:
   - component: {fileID: 567015230}
   - component: {fileID: 567015232}
   - component: {fileID: 567015231}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mountain3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4867,7 +4971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.3247597, g: 0.43218637, b: 0.7735849, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -5604,7 +5708,7 @@ GameObject:
   - component: {fileID: 633153140}
   - component: {fileID: 633153142}
   - component: {fileID: 633153141}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mountain2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5643,7 +5747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.26366144, g: 0.524827, b: 0.745283, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -5760,7 +5864,7 @@ GameObject:
   - component: {fileID: 645234102}
   - component: {fileID: 645234104}
   - component: {fileID: 645234103}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5798,7 +5902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.13950694, g: 0.5188679, b: 0.3085291, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6075,7 +6179,7 @@ GameObject:
   - component: {fileID: 681388052}
   - component: {fileID: 681388051}
   - component: {fileID: 681388050}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6163,7 +6267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 695710655}
   - component: {fileID: 695710656}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Waves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6285,7 +6389,7 @@ GameObject:
   - component: {fileID: 729263091}
   - component: {fileID: 729263093}
   - component: {fileID: 729263092}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6323,7 +6427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.1533019, g: 0.5, b: 0.30777133, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6360,7 +6464,7 @@ GameObject:
   - component: {fileID: 731197019}
   - component: {fileID: 731197021}
   - component: {fileID: 731197020}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6398,7 +6502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.45594516, g: 0.6922162, b: 0.8867924, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6435,8 +6539,8 @@ GameObject:
   - component: {fileID: 735799960}
   - component: {fileID: 735799962}
   - component: {fileID: 735799961}
-  m_Layer: 5
-  m_Name: Square (3)
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6473,7 +6577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.9296404, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6559,7 +6663,7 @@ GameObject:
   - component: {fileID: 747597518}
   - component: {fileID: 747597517}
   - component: {fileID: 747597516}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DerpDrag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6601,6 +6705,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 1
   shouldDetectDropTargets: 1
+  isMenuPanel: 0
   targetRectTransform: {fileID: 747597515}
   dragEnabledDisplay: {fileID: 0}
   OffsetFromCursor: {x: 0, y: 0, z: 0}
@@ -6616,15 +6721,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.944716, a: 1}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: dd4c22b9bf63f4b34a81cbb128941094, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6653,7 +6758,7 @@ GameObject:
   - component: {fileID: 748033088}
   - component: {fileID: 748033090}
   - component: {fileID: 748033089}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6691,7 +6796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.1522784, g: 0.5471698, b: 0.32887104, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6993,7 +7098,7 @@ GameObject:
   - component: {fileID: 865006487}
   - component: {fileID: 865006486}
   - component: {fileID: 865006485}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7081,7 +7186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868109197}
   - component: {fileID: 868109198}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Zones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7234,7 +7339,7 @@ GameObject:
   - component: {fileID: 891724522}
   - component: {fileID: 891724521}
   - component: {fileID: 891724520}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Surf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7324,7 +7429,7 @@ GameObject:
   - component: {fileID: 900928555}
   - component: {fileID: 900928554}
   - component: {fileID: 900928553}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7415,7 +7520,7 @@ GameObject:
   - component: {fileID: 955227567}
   - component: {fileID: 955227566}
   - component: {fileID: 955227565}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DragTarget 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7436,6 +7541,7 @@ RectTransform:
   m_Children:
   - {fileID: 261552518}
   - {fileID: 747597515}
+  - {fileID: 1888144238}
   - {fileID: 1039278074}
   - {fileID: 394831171}
   m_Father: {fileID: 1570269843}
@@ -7597,6 +7703,18 @@ PrefabInstance:
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -7658,7 +7776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: initItemData.Scale
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: initItemData.Category
@@ -8237,6 +8355,18 @@ PrefabInstance:
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234567890123457, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -8284,9 +8414,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1244986525776074621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2746075342888448478, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: m_text
       value: 0/25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287192561350283403, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615177942946277220, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6824301037246945621, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: maxCapacity
@@ -8298,7 +8440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: initItemData.Scale
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8160949974879223126, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
       propertyPath: initItemData.Category
@@ -8352,6 +8494,10 @@ PrefabInstance:
       propertyPath: initItemData.DecorationData.GeneratedResource
       value: 5243368
       objectReference: {fileID: 0}
+    - target: {fileID: 8392184584709894608, guid: e4924ac8a927f453a9056a17bcf0ae3c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8373,7 +8519,7 @@ GameObject:
   - component: {fileID: 1050503570}
   - component: {fileID: 1050503572}
   - component: {fileID: 1050503571}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Cliff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8412,7 +8558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.6698113, g: 0.5628296, b: 0.38229796, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -8524,7 +8670,7 @@ GameObject:
   - component: {fileID: 1062824806}
   - component: {fileID: 1062824808}
   - component: {fileID: 1062824807}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Yellow (.5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8851,7 +8997,7 @@ GameObject:
   - component: {fileID: 1082492497}
   - component: {fileID: 1082492499}
   - component: {fileID: 1082492498}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8889,7 +9035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.1522784, g: 0.5471698, b: 0.32887104, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -9001,7 +9147,7 @@ GameObject:
   - component: {fileID: 1115718732}
   - component: {fileID: 1115718734}
   - component: {fileID: 1115718733}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9039,7 +9185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -9147,7 +9293,7 @@ GameObject:
   - component: {fileID: 1119002077}
   - component: {fileID: 1119002079}
   - component: {fileID: 1119002078}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9228,7 +9374,7 @@ GameObject:
   - component: {fileID: 1152608061}
   - component: {fileID: 1152608060}
   - component: {fileID: 1152608059}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9435,7 +9581,7 @@ GameObject:
   - component: {fileID: 1157970865}
   - component: {fileID: 1157970867}
   - component: {fileID: 1157970866}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9850,7 +9996,7 @@ GameObject:
   - component: {fileID: 1213080582}
   - component: {fileID: 1213080584}
   - component: {fileID: 1213080583}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Blue (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9926,7 +10072,7 @@ GameObject:
   - component: {fileID: 1233806190}
   - component: {fileID: 1233806189}
   - component: {fileID: 1233806188}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Moon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10015,7 +10161,7 @@ GameObject:
   - component: {fileID: 1239258577}
   - component: {fileID: 1239258579}
   - component: {fileID: 1239258578}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10053,7 +10199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.8773585, g: 0.8427459, b: 0.624911, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -10090,7 +10236,7 @@ GameObject:
   - component: {fileID: 1250220099}
   - component: {fileID: 1250220101}
   - component: {fileID: 1250220100}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Foam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10128,7 +10274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.9198113, g: 1, b: 0.9846604, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -10165,7 +10311,7 @@ GameObject:
   - component: {fileID: 1259561243}
   - component: {fileID: 1259561245}
   - component: {fileID: 1259561244}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10203,7 +10349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.512994, g: 0.5853366, b: 0.8301887, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -10342,7 +10488,7 @@ GameObject:
   - component: {fileID: 1283388696}
   - component: {fileID: 1283388698}
   - component: {fileID: 1283388697}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sunrise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10490,7 +10636,7 @@ GameObject:
   - component: {fileID: 1307293480}
   - component: {fileID: 1307293482}
   - component: {fileID: 1307293481}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Meadow Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10839,7 +10985,7 @@ GameObject:
   - component: {fileID: 1334701172}
   - component: {fileID: 1334701174}
   - component: {fileID: 1334701173}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11081,7 +11227,7 @@ GameObject:
   - component: {fileID: 1364921589}
   - component: {fileID: 1364921591}
   - component: {fileID: 1364921590}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: RockPile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11176,8 +11322,8 @@ GameObject:
   - component: {fileID: 1368756293}
   - component: {fileID: 1368756295}
   - component: {fileID: 1368756294}
-  m_Layer: 5
-  m_Name: Square (1)
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11214,7 +11360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 0.5490196, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -11400,7 +11546,7 @@ GameObject:
   - component: {fileID: 1388627987}
   - component: {fileID: 1388627989}
   - component: {fileID: 1388627988}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mountain5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11439,7 +11585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.26366144, g: 0.524827, b: 0.745283, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -11476,7 +11622,7 @@ GameObject:
   - component: {fileID: 1414192407}
   - component: {fileID: 1414192409}
   - component: {fileID: 1414192408}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11514,7 +11660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.512994, g: 0.5853366, b: 0.8301887, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -11550,7 +11696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414665090}
   - component: {fileID: 1414665091}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11763,7 +11909,7 @@ GameObject:
   - component: {fileID: 1482974147}
   - component: {fileID: 1482974149}
   - component: {fileID: 1482974148}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11840,7 +11986,7 @@ GameObject:
   - component: {fileID: 1488441596}
   - component: {fileID: 1488441598}
   - component: {fileID: 1488441599}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Root-Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11859,6 +12005,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 144805236}
   - {fileID: 2143926668}
   - {fileID: 465700225}
   - {fileID: 2139499901}
@@ -12403,7 +12550,7 @@ GameObject:
   - component: {fileID: 1508858523}
   - component: {fileID: 1508858525}
   - component: {fileID: 1508858524}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12441,7 +12588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -12523,7 +12670,7 @@ GameObject:
   - component: {fileID: 1510153012}
   - component: {fileID: 1510153014}
   - component: {fileID: 1510153013}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Wave_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12562,7 +12709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0, g: 0.92941177, b: 0.8666667, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -12598,7 +12745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1538158139}
   - component: {fileID: 1538158140}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12651,7 +12798,7 @@ GameObject:
   - component: {fileID: 1545952894}
   - component: {fileID: 1545952893}
   - component: {fileID: 1545952892}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12741,7 +12888,7 @@ GameObject:
   - component: {fileID: 1555836071}
   - component: {fileID: 1555836070}
   - component: {fileID: 1555836069}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12830,7 +12977,7 @@ GameObject:
   - component: {fileID: 1564595651}
   - component: {fileID: 1564595653}
   - component: {fileID: 1564595652}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12868,7 +13015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.45594516, g: 0.6922162, b: 0.8867924, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -12905,7 +13052,7 @@ GameObject:
   - component: {fileID: 1570269843}
   - component: {fileID: 1570269845}
   - component: {fileID: 1570269846}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Decoration Canvas World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13555,7 +13702,7 @@ GameObject:
   - component: {fileID: 1604264128}
   - component: {fileID: 1604264130}
   - component: {fileID: 1604264129}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Palm Curved
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13594,7 +13741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.4339623, g: 0.35602084, b: 0.20265219, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -13706,7 +13853,7 @@ GameObject:
   - component: {fileID: 1624200400}
   - component: {fileID: 1624200402}
   - component: {fileID: 1624200401}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Palm Straight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13782,7 +13929,7 @@ GameObject:
   - component: {fileID: 1626243899}
   - component: {fileID: 1626243901}
   - component: {fileID: 1626243900}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13820,7 +13967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.1522784, g: 0.5471698, b: 0.32887104, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -13934,8 +14081,8 @@ GameObject:
   - component: {fileID: 1673225855}
   - component: {fileID: 1673225857}
   - component: {fileID: 1673225856}
-  m_Layer: 5
-  m_Name: Square
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13972,7 +14119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 0.5490196, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -14009,7 +14156,7 @@ GameObject:
   - component: {fileID: 1673989237}
   - component: {fileID: 1673989239}
   - component: {fileID: 1673989238}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14047,7 +14194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.28475437, g: 0.745283, b: 0.29098105, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -14085,7 +14232,7 @@ GameObject:
   - component: {fileID: 1680237723}
   - component: {fileID: 1680237722}
   - component: {fileID: 1680237721}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14367,7 +14514,7 @@ GameObject:
   - component: {fileID: 1699458335}
   - component: {fileID: 1699458337}
   - component: {fileID: 1699458336}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14763,7 +14910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1709397235}
   - component: {fileID: 1709397236}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Beach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14868,7 +15015,6 @@ Transform:
   m_Children:
   - {fileID: 2084589449}
   - {fileID: 1701725585}
-  - {fileID: 144805236}
   - {fileID: 254831463}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15056,7 +15202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   useRealTime: 0
-  freezeTime: 1
+  freezeTime: 0
   dayLengthInMinutes: 48
   currentTimeOfDay: 0
   currentHour: 8
@@ -15952,7 +16098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1788022271}
   - component: {fileID: 1788022272}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: LappingAnim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16073,8 +16219,8 @@ GameObject:
   - component: {fileID: 1798396221}
   - component: {fileID: 1798396223}
   - component: {fileID: 1798396222}
-  m_Layer: 5
-  m_Name: Square (3)
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16111,7 +16257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 1, g: 0.76711166, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -16148,8 +16294,8 @@ GameObject:
   - component: {fileID: 1820266987}
   - component: {fileID: 1820266989}
   - component: {fileID: 1820266988}
-  m_Layer: 5
-  m_Name: Square (2)
+  m_Layer: 0
+  m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16186,7 +16332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.9296404, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -16224,7 +16370,7 @@ GameObject:
   - component: {fileID: 1845580974}
   - component: {fileID: 1845580973}
   - component: {fileID: 1845580972}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Ocean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16313,7 +16459,7 @@ GameObject:
   - component: {fileID: 1860651526}
   - component: {fileID: 1860651528}
   - component: {fileID: 1860651527}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mountain1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16352,7 +16498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.3247597, g: 0.43218637, b: 0.7735849, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -16378,6 +16524,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860651525}
   m_CullTransparentMesh: 1
+--- !u!1 &1888144237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1888144238}
+  - component: {fileID: 1888144241}
+  - component: {fileID: 1888144240}
+  - component: {fileID: 1888144239}
+  m_Layer: 0
+  m_Name: DerpDrag_Unlit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1888144238
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888144237}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 955227564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -479.3, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1888144239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888144237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf3b2b3048e84710af693ddb2f4906f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiDraggable
+  isDraggingPermanent: 1
+  onlyDragToTargets: 0
+  limitToParentTargetBounds: 1
+  shouldDetectDropTargets: 1
+  isMenuPanel: 0
+  targetRectTransform: {fileID: 1888144238}
+  dragEnabledDisplay: {fileID: 0}
+  OffsetFromCursor: {x: 0, y: 0, z: 0}
+--- !u!114 &1888144240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888144237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: dd4c22b9bf63f4b34a81cbb128941094, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1888144241
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888144237}
+  m_CullTransparentMesh: 1
 --- !u!1 &1911150498
 GameObject:
   m_ObjectHideFlags: 0
@@ -16389,7 +16631,7 @@ GameObject:
   - component: {fileID: 1911150499}
   - component: {fileID: 1911150501}
   - component: {fileID: 1911150500}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Beach Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16526,7 +16768,7 @@ GameObject:
   - component: {fileID: 1919533010}
   - component: {fileID: 1919533012}
   - component: {fileID: 1919533011}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16616,7 +16858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1924561701}
   - component: {fileID: 1924561702}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Rain Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16763,7 +17005,7 @@ GameObject:
   - component: {fileID: 1932417753}
   - component: {fileID: 1932417755}
   - component: {fileID: 1932417754}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16999,7 +17241,7 @@ GameObject:
   - component: {fileID: 1990652592}
   - component: {fileID: 1990652594}
   - component: {fileID: 1990652593}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mtn (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17165,7 +17407,7 @@ GameObject:
   - component: {fileID: 2041074495}
   - component: {fileID: 2041074494}
   - component: {fileID: 2041074496}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DragTarget-NoSnapRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17364,7 +17606,7 @@ GameObject:
   - component: {fileID: 2053833936}
   - component: {fileID: 2053833938}
   - component: {fileID: 2053833937}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Mountain4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17403,7 +17645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   m_Color: {r: 0.26366144, g: 0.524827, b: 0.745283, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -17441,7 +17683,7 @@ GameObject:
   - component: {fileID: 2072440366}
   - component: {fileID: 2072440365}
   - component: {fileID: 2072440364}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hill (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17905,7 +18147,7 @@ GameObject:
   - component: {fileID: 2100942426}
   - component: {fileID: 2100942425}
   - component: {fileID: 2100942424}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18095,7 +18337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2139499901}
   - component: {fileID: 2139499902}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Moon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18216,7 +18458,7 @@ GameObject:
   - component: {fileID: 2143926668}
   - component: {fileID: 2143926670}
   - component: {fileID: 2143926671}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: FadeOutBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19089,6 +19331,58 @@ PrefabInstance:
     - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Name
       value: ParallaxLayers
+      objectReference: {fileID: 0}
+    - target: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 603732101168424127, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 711810685749152536, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1243437273932714790, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2172883636041155455, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655271996804579883, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350705434243368263, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300400267325907104, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737055432934900709, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363295959770546425, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5546306765370338083, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336063008045165330, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740709766234205369, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7369230297683485775, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       propertyPath: m_Pivot.x

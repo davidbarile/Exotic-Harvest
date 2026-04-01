@@ -13,8 +13,8 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
 
-    [Header("Set False for Menus, etc.")]
     [SerializeField] protected bool shouldDetectDropTargets = true;
+    [SerializeField] protected bool isMenuPanel;
 
     [Header("(Defaults to Object Root)")]
     [SerializeField] protected RectTransform targetRectTransform;
@@ -171,6 +171,17 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected virtual bool TryToParentToDropTarget()
     {
+        if (this.isMenuPanel)
+        {
+            this.targetRectTransform.SetParent(this.originalParent, true);
+
+        this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+        SaveItemPosition();
+            return false;
+        }
+        
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
