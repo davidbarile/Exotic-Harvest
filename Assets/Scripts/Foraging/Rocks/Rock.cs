@@ -113,6 +113,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
             this.targetRectTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
+            this.targetRectTransform.position -= DragManager.ScreenToWorldCameraDelta;//TODO: fix
         }
     }
 

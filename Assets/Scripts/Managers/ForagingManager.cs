@@ -24,17 +24,20 @@ public class ForagingManager : MonoBehaviour, ITickable
     public RectTransform DewDropSpawnParent => this.dewDropSpawnParent;
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
-    [SerializeField] private List<Vector3> dewSpawnPositions = new(); // Predefined positions for dew spawning
     [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
-     private List<Dewdrop> activeDewdrops = new();
+    private List<Dewdrop> activeDewdrops = new();
+    private List<Vector3> dewSpawnPositions = new();
 
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
     [SerializeField] private float rockSpawnFrequency = 1f; // Rate to spawn rocks each hour in the Afternoon
+
+    [Space, SerializeField] private bool debugSpawnRocks;
     
     private List<Collectable> activeCollectables = new();
     private float secondTimer = 0f;
     private float nextRockSpawnTime = -1;
+    private ETimeOfDay lastTimeOfDay = ETimeOfDay.Morning; // Track last time of day to detect changes
 
     #region Static Methods
     public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize,
@@ -112,7 +115,10 @@ public class ForagingManager : MonoBehaviour, ITickable
         InitDewDropPositions();
 
         if (this.debugSpawnAllDewdrops)
-            TestDewSpawn();
+            DebugDewSpawn();
+
+         if (this.debugSpawnRocks)
+            DebugSpawnRocks();
     }
     
     private void OnDestroy()
@@ -151,6 +157,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
         {
+            if (this.lastTimeOfDay != ETimeOfDay.Afternoon)
+                this.rockPile.InitRockPositions();//do once when it turns afternoon
+                
             //spawn rocks every hour in the Afternoon
             if (TimeManager.IN.CurrentHour > this.nextRockSpawnTime)
             {
@@ -159,13 +168,15 @@ public class ForagingManager : MonoBehaviour, ITickable
                 else
                     this.nextRockSpawnTime = TimeManager.IN.CurrentHour + this.rockSpawnFrequency;
 
-                RefreshRocks();
+                this.rockPile.SpawnRocks();
             }
         }
         else
         {
             this.nextRockSpawnTime = -1; // Reset to allow spawning when we enter the time window again
         }
+
+        this.lastTimeOfDay = TimeManager.IN.CurrentTimeOfDay;
     }
 
     private void SpawnRaindrops()
@@ -201,31 +212,28 @@ public class ForagingManager : MonoBehaviour, ITickable
     
     private void InitDewDropPositions()
     {
-        if (this.dewSpawnPositions.Count == 0)
+        // If no predefined positions, generate a grid of positions within the spawn area
+        this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 20, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+
+        var layerMask = LayerMask.GetMask("DewSpawn");
+
+        // Raycast to only show elements in colliders
+        for (int i = 0; i < this.dewSpawnPositions.Count; i++)
         {
-            // If no predefined positions, generate a grid of positions within the spawn area
-            this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 20, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+            var screenPos = this.dewSpawnPositions[i];
+            var worldPos = this.dewDropSpawnParent.TransformPoint(screenPos);
 
-            var layerMask = LayerMask.GetMask("DewSpawn");
+            Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
 
-            // Raycast to only show elements in colliders
-            for (int i = 0; i < this.dewSpawnPositions.Count; i++)
+            if (hitCollider == null)
             {
-                var screenPos = this.dewSpawnPositions[i];// + DragManager.ScreenToWorldCameraDelta;
-                var worldPos = this.dewDropSpawnParent.TransformPoint(screenPos);
-
-                Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
-
-                if (hitCollider == null)
-                {
-                    // No collider at this position, remove it from the list
-                    this.dewSpawnPositions.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    this.dewSpawnPositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
-                }
+                // No collider at this position, remove it from the list
+                this.dewSpawnPositions.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                this.dewSpawnPositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
             }
         }
     }
@@ -239,6 +247,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             Vector3 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+            dewdrop.name = $"Dewdrop_{this.activeDewdrops.Count}";
             dewdrop.transform.localPosition = spawnPos;
             dewdrop.Spawn();
             this.activeDewdrops.Add(dewdrop);
@@ -246,7 +255,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     }
 
     [Button(ButtonSizes.Large)]
-    private void TestDewSpawn()
+    private void DebugDewSpawn()
     {
         DeleteAllDewdrops();
 
@@ -269,12 +278,6 @@ public class ForagingManager : MonoBehaviour, ITickable
                 Destroy(dewdrop.gameObject);
         }
         this.activeDewdrops.Clear();
-    }
-    
-    private void RefreshRocks()
-    {
-        if (this.rockPile)
-            this.rockPile.SpawnRocks();
     }
     
     private Vector2 GetRaindropSpawnPosition()
@@ -321,10 +324,17 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         // Could add special effects or increase spawn rates
     }
-    
+
     private void OnRainStopped()
     {
         // Stop rain effects
+    }
+    
+    [Button(ButtonSizes.Large)]
+    private void DebugSpawnRocks()
+    {
+        this.rockPile.InitRockPositions();
+        this.rockPile.SpawnRocks();
     }
     
     private void OnTimeOfDayChanged(ETimeOfDay newTime)
