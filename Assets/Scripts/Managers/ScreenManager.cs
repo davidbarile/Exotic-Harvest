@@ -3,9 +3,10 @@ using DG.Tweening;
 
 public class ScreenManager : MonoBehaviour
 {
-    public static ScreenManager IN; 
+    public static ScreenManager IN;
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
+     [SerializeField] private CanvasGroup worldCanvasGroup;
     [SerializeField] private CanvasGroup decorationsCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
 
@@ -86,18 +87,6 @@ public class ScreenManager : MonoBehaviour
         }
         SwitchToMonitor(this.monitorIndex);
     }
-    
-    public void FadeInRoot()
-    {
-        this.maximizeButton.SetActive(false);
-
-        this.rootCanvasGroup.gameObject.SetActive(true);
-        
-        this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
-        {
-            SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
-        });
-    }
 
     private void HandleEscapeKeyPress()
     {
@@ -105,6 +94,25 @@ public class ScreenManager : MonoBehaviour
             return;
 
         FadeOutRoot();
+    }
+    
+    public void FadeInRoot()
+    {
+        this.maximizeButton.SetActive(false);
+
+        this.rootCanvasGroup.gameObject.SetActive(true);
+
+        this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        {
+            SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
+        });
+        
+        this.worldCanvasGroup.gameObject.SetActive(true);
+        
+        this.worldCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        {
+            SetCanvasGroupInteractable(this.worldCanvasGroup, true, 1f);
+        });
     }
     
     public void FadeOutRoot()
@@ -115,6 +123,12 @@ public class ScreenManager : MonoBehaviour
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, false, 0f);
             this.rootCanvasGroup.gameObject.SetActive(false);
+        });
+
+        this.worldCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
+        {
+            SetCanvasGroupInteractable(this.worldCanvasGroup, false, 0f);
+            this.worldCanvasGroup.gameObject.SetActive(false);
         });
     }
 
