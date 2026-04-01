@@ -113,7 +113,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             Vector3 offsetToOriginal = localPointerPosition - this.originalLocalPointerPosition;
             this.targetRectTransform.localPosition = originalLocalPosition + new Vector3(offsetToOriginal.x, offsetToOriginal.y, 0f);
-            this.targetRectTransform.position -= DragManager.ScreenToWorldCameraDelta;//TODO: fix
+
+            this.targetRectTransform.position -= DragManager.ScreenToWorldCameraDelta;
         }
     }
 
@@ -124,6 +125,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetParent(this.originalParent, true);
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.targetRectTransform.position += DragManager.ScreenToWorldCameraDelta;
+
         SetShadowActive(false);
     }
 

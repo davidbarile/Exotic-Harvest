@@ -11120,17 +11120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93a0ce81b4ef4d44be599d81154853c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RockPile
-  rockCount: 2000
   rockSpawnArea: {fileID: 1364921589}
-  gridSize: 50
+  gridSize: 35
   offsetRange: 15
-  rockMinMaxScale: {x: 0.3, y: 0.75}
+  spawnIterations: 5
+  rockMinMaxScale: {x: 0.3, y: 0.6}
   rockColorGradient:
     serializedVersion: 2
-    key0: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+    key0: {r: 0.24528301, g: 0.23487005, b: 0.23487005, a: 1}
     key1: {r: 0.38679248, g: 0.36307406, b: 0.36307406, a: 1}
     key2: {r: 0.33490565, g: 0.33490565, b: 0.33490565, a: 0}
-    key3: {r: 0.3679245, g: 0.280992, b: 0.20305268, a: 0}
+    key3: {r: 0.3962264, g: 0.3211743, b: 0.21493414, a: 0}
     key4: {r: 0.35628614, g: 0.35069636, b: 0.34236866, a: 0}
     key5: {r: 0.6509434, g: 0.56831753, b: 0.4452207, a: 0}
     key6: {r: 0.3737725, g: 0.36361104, b: 0.3484724, a: 0}
@@ -14632,14 +14632,15 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -79.23544, y: 115.7168}
-      - {x: -157.62875, y: 99.25525}
-      - {x: -243.71686, y: 57.128296}
-      - {x: -329.20706, y: -16.807861}
-      - {x: -325.80978, y: -39.16992}
+    - - {x: -80.32248, y: 111.739136}
+      - {x: -167.76407, y: 76.57312}
+      - {x: -247.4613, y: 27.19226}
+      - {x: -315.77805, y: -19.669922}
+      - {x: -329.33853, y: -43.58069}
       - {x: 321.70615, y: -40.256714}
-      - {x: 270.60617, y: 50.608887}
-      - {x: 74.678955, y: 115.5293}
+      - {x: 270.42868, y: 38.356323}
+      - {x: 209.73563, y: 63.41028}
+      - {x: 62.317673, y: 111.3468}
   m_UseDelaunayMesh: 1
 --- !u!222 &1704726567
 CanvasRenderer:
@@ -15023,7 +15024,7 @@ MonoBehaviour:
   debugSpawnAllDewdrops: 0
   rockPile: {fileID: 1364921590}
   rockSpawnFrequency: 1
-  debugSpawnRocks: 0
+  debugSpawnRocks: 1
 --- !u!114 &1713415297
 MonoBehaviour:
   m_ObjectHideFlags: 0

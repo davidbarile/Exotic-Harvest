@@ -4,11 +4,11 @@ using Sirenix.OdinInspector;
 
 public class RockPile : MonoBehaviour
 {
-    [SerializeField] private int rockCount;
     [SerializeField] private RectTransform rockSpawnArea;
     [Range(0f, 100f), SerializeField] private float gridSize;
     [Range(0f, 30f), SerializeField] private float offsetRange;
-    [SerializeField] private Vector2 rockMinMaxScale = new Vector2(0.35f, 0.75f);
+    [Range(0f, 100f), SerializeField] private int spawnIterations = 1;
+    [SerializeField] private Vector2 rockMinMaxScale = new Vector2(0.25f, 0.65f);
     [SerializeField] private Gradient rockColorGradient;
     [SerializeField] private LootConfig lootConfig;
 
@@ -18,7 +18,7 @@ public class RockPile : MonoBehaviour
     public void InitRockPositions()
     {
         // If no predefined positions, generate a grid of positions within the spawn area
-        this.rockSpawnPositions = ForagingManager.GetRandomPositions(this.rockSpawnArea, this.rockCount, this.gridSize, this.offsetRange);
+        this.rockSpawnPositions = ForagingManager.GetRandomPositions(this.rockSpawnArea, inCount: -1, inGridSize: this.gridSize, inOffsetRange: this.offsetRange, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: this.spawnIterations);
 
         var layerMask = LayerMask.GetMask("RocksSpawn");
 
