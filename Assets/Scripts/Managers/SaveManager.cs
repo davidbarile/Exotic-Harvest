@@ -30,6 +30,7 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private float autoSaveTimer = 0f;
     private float sessionStartTime;
+    private bool isDeletingSave;
     
     // Properties
     public bool HasSaveFile => File.Exists(savePath);
@@ -111,6 +112,8 @@ public class SaveManager : MonoBehaviour, ITickable
     
     public bool SaveGame()
     {
+        if (this.isDeletingSave) return false; // Don't save if we're in the process of deleting the save file
+         
         try
         {
             // Update save data from current game state
@@ -269,6 +272,7 @@ public class SaveManager : MonoBehaviour, ITickable
     [Button(ButtonSizes.Large)]
     private void NukeSaveFile()
     {
+        this.isDeletingSave = true; // Set flag to prevent saving during deletion process
         Awake();
         DeleteSave();
     }
@@ -346,10 +350,12 @@ public class SaveManager : MonoBehaviour, ITickable
         //     Data.StatsData.MermaidEncounters++;
     }
     
-    public void HandeDeleteDataButtonPress()
+    public void HandleDeleteDataButtonPress()
     {
         UIConfirmPanel.IN.Show("Delete Save Data", "Are you sure you want to delete all save data?\nThis action cannot be undone.\nThis will also quit the game.", () =>
         {
+            this.isDeletingSave = true; // Set flag to prevent saving during deletion process
+            
             DeleteSave();
 
 #if UNITY_EDITOR
