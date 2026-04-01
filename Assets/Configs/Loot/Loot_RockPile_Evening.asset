@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80f1e4b0e782b4d81802d870eeb14698, type: 3}
-  m_Name: Loot_RockPile_Lv1
+  m_Name: Loot_RockPile_Evening
   m_EditorClassIdentifier: Assembly-CSharp::LootConfig
-  DisplayName: RockPile_Lv1
+  DisplayName: RockPile_Evening
   LootType: 1
   LootDatas:
   - DisplayName: Shell
@@ -20,11 +20,11 @@ MonoBehaviour:
     ResourceType: 32768
     ChanceToDrop:
       MinQuantity: 3
-      MaxQuantity: 15
+      MaxQuantity: 7
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1
-      MaxQuantity: 4
+      MaxQuantity: 3
       MinMaxWeightFactor: 0.25
   - DisplayName: Gold Coin
     OverrideSpriteName: Icon_Color_0034

@@ -17,19 +17,21 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     private Vector3 OffsetFromCursor;
 
-    public LootConfig LootConfig { get; private set; }
+    private LootConfig afternoonLootConfig;
+    private LootConfig eveningLootConfig;
 
-    protected Transform originalParent;
-    protected int originalSiblingIndex;
-    protected bool isDragging = false;
+    private Transform originalParent;
+    private int originalSiblingIndex;
+    private bool isDragging = false;
 
-    protected List<Loot> spawnedLoots = new();
+    private List<Loot> spawnedLoots = new();
 
     private bool hasBeenHarvested = false;
 
-    public void Configure(LootConfig inLootConfig)
+    public void Configure(LootConfig inAfternoonLootConfig, LootConfig inEveningLootConfig)
     {
-        this.LootConfig = inLootConfig;
+        this.afternoonLootConfig = inAfternoonLootConfig;
+        this.eveningLootConfig = inEveningLootConfig;
 
         // if (this.rockImage != null)
         // {
@@ -118,9 +120,17 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (this.hasBeenHarvested)
             return;
 
+        if (!TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && !TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening))
+        {
+            Debug.Log($"<color=yellow>Rock.TrySpawnLoot() It's not afternoon, skipping loot spawn {name}</color>");
+            return;
+        }
+
         this.hasBeenHarvested = true;
 
-        var lootDatas = this.LootConfig.GetRandomLoot(false, 10, 3);
+        var lootConfig = TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) ? this.afternoonLootConfig : this.eveningLootConfig;
+
+        var lootDatas = lootConfig.GetRandomLoot(false, 10, 3);
 
         if (lootDatas.Count == 0)
         {
