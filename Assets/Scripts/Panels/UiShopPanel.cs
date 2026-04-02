@@ -6,9 +6,10 @@ using TMPro;
 public class UiShopPanel : UIPanelBase
 {
     [Header("Shop UI Elements")]
-    [SerializeField] private Transform categoryTabsParent;
     [SerializeField] private Transform itemsGridParent;
     [SerializeField] private Toggle[] categoryTabs;
+    [Header("Add Categories Here")]
+    [SerializeField] private EShopCategory[] categoryTabMapping; // Maps toggle index to shop category
     
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
@@ -19,7 +20,7 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private TextMeshProUGUI purchaseButtonText;
     [SerializeField] private ResourceDisplayUI[] buyButtonCostDisplays;
     
-    private EShopCategory currentCategory = EShopCategory.Decorations;
+    private EShopCategory currentCategory = EShopCategory.Tools;
     private ShopItemData selectedItemData;
     private List<GameObject> currentItemDisplays = new();
 
@@ -78,16 +79,19 @@ public class UiShopPanel : UIPanelBase
         {
             int categoryIndex = i;
             var tab = this.categoryTabs[i];
-            if (tab != null)
+            var shouldShow = categoryIndex < this.categoryTabMapping.Length;
+            tab.gameObject.SetActive(shouldShow);
+            if (shouldShow)
             {
-                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory((EShopCategory)categoryIndex); });
-                tab.GetComponentInChildren<TextMeshProUGUI>().text = ((EShopCategory)categoryIndex).ToString();
+                tab.onValueChanged.AddListener(isOn => { if (isOn) SwitchCategory(this.categoryTabMapping[categoryIndex]); });
+                tab.GetComponentInChildren<TextMeshProUGUI>().text = this.categoryTabMapping[categoryIndex].ToString();
             }
         }
     }
     
     public void SwitchCategory(EShopCategory category)
     {
+        Debug.Log($"Switching to category: {category}");
         this.currentCategory = category;
         this.selectedItemData = null;
         RefreshItemGrid();

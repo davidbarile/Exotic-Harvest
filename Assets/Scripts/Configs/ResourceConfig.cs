@@ -7,6 +7,7 @@ using UnityEngine;
 public class ResourceConfig : ScriptableObject
 {
     public string ID; // Unique identifier, can be auto-generated from name or set manually
+
     [Header("Basic Info")]
     public string DisplayName;
     [TextArea(2, 10)] public string Description;

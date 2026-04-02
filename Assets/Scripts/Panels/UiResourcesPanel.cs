@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-//TODO: add toggle to show all resources vs only owned resources
 public class UiResourcesPanel : UIPanelBase
 {
     [Header("UI Settings")]
@@ -21,13 +20,19 @@ public class UiResourcesPanel : UIPanelBase
         CreateResourceDisplays();
         ResourceManager.OnResourceChanged += OnResourceChanged;
     }
-    
+
     private void OnDestroy()
     {
         if (ResourceManager.IN != null)
         {
             ResourceManager.OnResourceChanged -= OnResourceChanged;
         }
+    }
+    
+    public void HandleShowAllToggleChanged(bool value)
+    {
+        this.showOnlyOwnedResources = !value;
+        RefreshAllDisplays();
     }
     
     private void CreateResourceDisplays()

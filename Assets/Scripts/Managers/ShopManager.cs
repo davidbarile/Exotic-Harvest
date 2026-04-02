@@ -170,9 +170,9 @@ public class ShopManager : MonoBehaviour
             case EShopCategory.Resources:
                 return PurchaseResource(itemData);
             case EShopCategory.Tools:
+            case EShopCategory.Pets:
             case EShopCategory.Upgrades:
-            case EShopCategory.Premium:
-            case EShopCategory.Special:
+            case EShopCategory.Gems:
                 // TODO: Implement in future phases
                 return true;
             default:
