@@ -61,9 +61,13 @@ public class ShopItemUI : MonoBehaviour
         }
         
         // Update icon
-        if (this.itemIcon != null)
+        if (this.itemIcon)
         {
             this.itemIcon.sprite = this.shopItemData.Icon;
+            this.itemIcon.color = Color.white;
+
+            if(this.shopItemData.IsResource )
+                this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.shopItemData.ResourceItems[0].ResourceType)?.UiColor ?? Color.white;
         }
         
         // Update background color

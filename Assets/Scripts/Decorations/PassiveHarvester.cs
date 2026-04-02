@@ -141,17 +141,15 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
         int amountToCollect = Mathf.FloorToInt((float)this.DecorationData.CurrentAmount * this.DecorationData.ConversionRatio);
 
-        if (ResourceManager.IN.AddResource(this.GeneratedResource, amountToCollect))
-        {
-            int collectedAmount = amountToCollect;
-            this.DecorationData.CurrentAmount = 0;
-            ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, collectedAmount);
-            OnCollected(collectedAmount);
-            RefreshQuantityDisplay();
-            return true;
-        }
+        ResourceManager.IN.AddResource(this.GeneratedResource, amountToCollect);
+
+        int collectedAmount = amountToCollect;
+        this.DecorationData.CurrentAmount = 0;
+        ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, collectedAmount);
+        OnCollected(collectedAmount);
+        RefreshQuantityDisplay();
         
-        return false; // Inventory full
+        return true;
     }
     
     protected virtual void OnCollected(int amount)

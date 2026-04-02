@@ -61,12 +61,6 @@ public class ShopDatabase : ScriptableObject
         return new ShopItemConfig[0];
     }
     
-    public ShopItemConfig[] GetAvailableItems(EShopCategory category, int playerLevel = 1, string[] purchasedItemIds = null)
-    {
-        var categoryItems = GetItemsByCategory(category);
-        return categoryItems.Where(item => item != null && item.IsUnlocked(playerLevel, purchasedItemIds ?? new string[0])).ToArray();
-    }
-    
     public ShopItemConfig[] GetDecorationItems()
     {
         return GetItemsByCategory(EShopCategory.Decorations);
@@ -75,11 +69,6 @@ public class ShopDatabase : ScriptableObject
     public ShopItemConfig[] GetResourceItems()
     {
         return GetItemsByCategory(EShopCategory.Resources);
-    }
-    
-    public ShopItemConfig[] GetUnlockedItems(int playerLevel = 1, string[] purchasedItemIds = null)
-    {
-        return this.allShopItems.Where(item => item != null && item.IsUnlocked(playerLevel, purchasedItemIds ?? new string[0])).ToArray();
     }
 
 #if UNITY_EDITOR

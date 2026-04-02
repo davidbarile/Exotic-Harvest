@@ -10,45 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Bucket_Large
+  m_Name: ShopItem_Tools_Jar_Large
   m_EditorClassIdentifier: 
-  ID: ShopItem_Bucket
-  DisplayName: 'Large
-
-    Bucket'
+  ID: ShopItem_Jar
+  DisplayName: Large Jar
   Description: 
-  Icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
+  Icon: {fileID: 21300000, guid: 24d0d3de425b14ae18f09b519db33877, type: 3}
   Scale: 1
   CanDragToWorld: 1
   DecorationData:
-    Type: 1
-    PrefabName: BucketItemUI
+    Type: 2
+    PrefabName: JarItemUI
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
-    GeneratedResource: 2
+    GeneratedResource: 5243368
     CurrentAmount: 0
-    MaxAmount: 500
-    ConversionRatio: 0.2
+    MaxAmount: 100
+    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0
   Quanity: 1
-  MaxStack: 1
+  MaxStack: 3
   Category: 0
+  ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 67108864
-      Amount: 10
+    - Type: 2
+      Amount: 200
     - Type: 134217728
       Amount: 25
-    - Type: 32768
+    - Type: 67108864
       Amount: 15
-  IsUnlockedByDefault: 1
-  PlayerLevelRequired: 1
-  PrerequisiteItems: []
-  HasLimitedQuantity: 0
-  MaxPurchases: 1
+  MaxPurchases: -1
   DecorationType: 0
   ResourceType: 0
   ResourceAmount: 0

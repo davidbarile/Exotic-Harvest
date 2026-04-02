@@ -122,8 +122,7 @@ public class UiShopPanel : UIPanelBase
         // Create UI elements for each itemData
         foreach (var item in items)
         {
-            if (item.IsUnlocked)
-                CreateItemDisplay(item);
+            CreateItemDisplay(item);
         }
     }
     
@@ -171,12 +170,14 @@ public class UiShopPanel : UIPanelBase
         }
             
         // Update itemData info
-        if (this.itemNameText != null)
-            this.itemNameText.text = this.selectedItemData.DisplayName;
+        this.itemNameText.text = this.selectedItemData.DisplayName;
+        this.itemDescriptionText.text = this.selectedItemData.Description;
+        this.itemIcon.sprite = this.selectedItemData.Icon;
+        
+        this.itemIcon.color = Color.white;
 
-        if (this.itemDescriptionText != null)
-            this.itemDescriptionText.text = this.selectedItemData.Description;        if (this.itemIcon != null && this.selectedItemData.Icon != null)
-            this.itemIcon.sprite = this.selectedItemData.Icon;
+        if(this.selectedItemData.IsResource )
+            this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.selectedItemData.ResourceItems[0].ResourceType)?.UiColor ?? Color.white;
         
         // Update purchase button
         RefreshPurchaseButton();
@@ -199,7 +200,7 @@ public class UiShopPanel : UIPanelBase
         if (this.purchaseButtonText != null)
         {
             if (!this.selectedItemData.CanPurchase)
-                this.purchaseButtonText.text = this.selectedItemData.IsMaxedOut ? "Max Purchased" : "Locked";
+                this.purchaseButtonText.text = "Max Purchased";
             else if (!hasInventorySpace)
                 this.purchaseButtonText.text = "No Inventory Space";
             else if (!canPurchase)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Plant
+  m_Name: ShopItem_Decorations_Plant
   m_EditorClassIdentifier: 
   ID: ShopItem_Plant
   DisplayName: Plant
@@ -34,17 +34,14 @@ MonoBehaviour:
   Quanity: 1
   MaxStack: 10
   Category: 1
+  ResourceItems: []
   Cost:
     requiredResources:
     - Type: 2
       Amount: 25
     - Type: 32768
       Amount: 10
-  IsUnlockedByDefault: 1
-  PlayerLevelRequired: 1
-  PrerequisiteItems: []
-  HasLimitedQuantity: 0
-  MaxPurchases: 1
+  MaxPurchases: -1
   DecorationType: 6
   ResourceType: 0
   ResourceAmount: 0

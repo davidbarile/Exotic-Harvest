@@ -1,4 +1,6 @@
 using UnityEngine;
+using Sirenix.OdinInspector;
+using System;
 
 /// <summary>
 /// ScriptableObject definition for shop items
@@ -14,7 +16,9 @@ public class ShopItemConfig : ScriptableObject
     public float Scale = 1f;
 
     [Header("Decoration Data")]
+    [HideIf("Category", EShopCategory.Resources)]
     public bool CanDragToWorld;
+    [HideIf("Category", EShopCategory.Resources)]
     public DecorationData DecorationData;
 
     [Header("Inventory Item Data")]
@@ -23,24 +27,21 @@ public class ShopItemConfig : ScriptableObject
 
     [Header("Shop Properties")]
     public EShopCategory Category;
+
+    [ShowIf("Category", EShopCategory.Resources)]
+    public ResourceItemData[] ResourceItems;
+
     public bool IsTool => this.Category == EShopCategory.Tools;
     public bool IsResource => this.Category == EShopCategory.Resources;
     public bool IsDecoration => this.Category == EShopCategory.Decorations;
+
     public ResourceCost Cost;
     
-    [Header("Availability")]
-    public bool IsUnlockedByDefault = true;
-    public int PlayerLevelRequired = 1;
-    public string[] PrerequisiteItems = new string[0]; // IDs of items that must be purchased first
-    
     [Header("Purchase Limits")]
-    public bool HasLimitedQuantity = false;
-    public int MaxPurchases = 1;
+    public int MaxPurchases = -1;
     
     [Header("Item Effects")]
     public EDecorationType DecorationType; // For decoration items
-    public EResourceType ResourceType;     // For resource items
-    public int ResourceAmount = 0;        // Amount when purchasing resources
     
     [Header("Visual")]
     public Color BackgroundColor = Color.white;
@@ -58,55 +59,30 @@ public class ShopItemConfig : ScriptableObject
     }
 #endif
 
-    public bool IsUnlocked(int playerLevel, string[] purchasedItemIds)
-    {
-        if (!this.IsUnlockedByDefault)
-            return false;
 
-        if (playerLevel < this.PlayerLevelRequired)
-            return false;
-
-        // Check prerequisites
-        foreach (var prereq in this.PrerequisiteItems)
-        {
-            bool found = false;
-            if (purchasedItemIds != null)
-            {
-                foreach (var purchased in purchasedItemIds)
-                {
-                    if (purchased == prereq)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found)
-                return false;
-        }
-
-        return true;
-    }
-    
     public static ShopItemData CreateShopItemDataFromConfig(ShopItemConfig inConfig)
     {
         var shopItem = new ShopItemData(inConfig.ID, inConfig.DisplayName, inConfig.Category)
         {
             Description = inConfig.Description,
             Cost = inConfig.Cost,
-            IsUnlocked = inConfig.IsUnlockedByDefault,
-            IsLimitedQuantity = inConfig.HasLimitedQuantity,
             Quanity = inConfig.Quanity,
             MaxStack = inConfig.MaxStack,
             MaxPurchases = inConfig.MaxPurchases,
             DecorationType = inConfig.DecorationType,
-            ResourceType = inConfig.ResourceType,
-            ResourceAmount = inConfig.ResourceAmount,
+            ResourceItems = inConfig.ResourceItems,
             Icon = inConfig.Icon,
-            CanDragToWorld = inConfig.CanDragToWorld,   
+            CanDragToWorld = inConfig.CanDragToWorld,
             DecorationData = DecorationData.Copy(inConfig.DecorationData)
         };
-        
+
         return shopItem;
+    }
+    
+    [Serializable]
+    public class ResourceItemData
+    {
+        public EResourceType ResourceType;
+        public int Amount;
     }
 }

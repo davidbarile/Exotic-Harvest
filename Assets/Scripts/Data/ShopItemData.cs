@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using static ShopItemConfig;
 
 /// <summary>
 /// Represents an item that can be purchased in the shop
@@ -18,15 +20,15 @@ public class ShopItemData
     public ResourceCost Cost;
     
     [Header("Purchase Rules")]
-    public bool IsUnlocked = true;
-    public bool IsLimitedQuantity = false;
-    public int MaxPurchases = 1;
+    public int MaxPurchases = -1;
     public int CurrentPurchases = 0;
-    
+
     [Header("Item Data")]
     public EDecorationType DecorationType; // For decoration items
-    public EResourceType ResourceType;     // For resource items
-    public int ResourceAmount = 1;        // Amount when purchasing resources
+
+    [ShowIf("Category", EShopCategory.Resources)]
+    public ResourceItemData[] ResourceItems;
+    
     public int Quanity = 1;
     public int MaxStack = 1;
 
@@ -39,9 +41,8 @@ public class ShopItemData
     public bool ShowInShop = true;
     
     // Properties
-    public bool CanPurchase => IsUnlocked && (!IsLimitedQuantity || CurrentPurchases < MaxPurchases);
-    public bool IsMaxedOut => IsLimitedQuantity && CurrentPurchases >= MaxPurchases;
-    public int RemainingPurchases => IsLimitedQuantity ? MaxPurchases - CurrentPurchases : -1;
+    public bool CanPurchase => MaxPurchases < 0 || CurrentPurchases < MaxPurchases;
+    public int RemainingPurchases => MaxPurchases < 0 ? 99999 : MaxPurchases - CurrentPurchases;
     public bool IsTool => this.Category == EShopCategory.Tools;
     public bool IsResource => this.Category == EShopCategory.Resources;
     public bool IsDecoration => this.Category == EShopCategory.Decorations;
@@ -59,8 +60,7 @@ public class ShopItemData
         if (!this.CanPurchase)
             return false;
             
-        if (this.IsLimitedQuantity)
-            this.CurrentPurchases++;
+        this.CurrentPurchases++;
             
         return true;
     }
@@ -79,7 +79,7 @@ public class ShopItemData
         {
             DisplayName = shopItemData.DisplayName,
             Category = shopItemData.Category,
-            Quantity = shopItemData.IsResource ? shopItemData.ResourceAmount : shopItemData.Quanity,
+            Quantity = shopItemData.Quanity,
             MaxStack = shopItemData.IsResource ? 100 : shopItemData.MaxStack,
             IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
             CanDragToWorld = shopItemData.CanDragToWorld,

@@ -8,6 +8,11 @@ using UnityEngine;
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager IN;
+
+    // Events
+    public static Action<ShopItemData> OnItemPurchased;
+    public static Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
+    public static Action OnShopRefreshed;
     
     [Header("Shop Configuration")]
     [SerializeField] private ShopDatabase shopDatabase;
@@ -19,11 +24,6 @@ public class ShopManager : MonoBehaviour
     private Dictionary<EShopCategory, List<ShopItemData>> itemsByCategory;
     
     public ShopDatabase Database => this.shopDatabase;
-    
-    // Events
-    public static Action<ShopItemData> OnItemPurchased;
-    public static Action<ShopItemData, string> OnPurchaseFailed; // Item, reason
-    public static Action OnShopRefreshed;
     
     public void Init()
     {
@@ -52,33 +52,6 @@ public class ShopManager : MonoBehaviour
         }
         
         RefreshShop();
-    }
-    
-    public ShopItemData CreateDecorationItem(string id, string name, string description, EDecorationType decorationType, ResourceCost cost)
-    {
-        var item = new ShopItemData(id, name, EShopCategory.Decorations)
-        {
-            Description = description,
-            DecorationType = decorationType,
-            Cost = cost
-        };
-        
-        AddItem(item);
-        return item;
-    }
-    
-    public ShopItemData CreateResourceItem(string id, string name, string description, EResourceType resourceType, int amount, ResourceCost cost)
-    {
-        var item = new ShopItemData(id, name, EShopCategory.Resources)
-        {
-            Description = description,
-            ResourceType = resourceType,
-            ResourceAmount = amount,
-            Cost = cost
-        };
-        
-        AddItem(item);
-        return item;
     }
     
     public void AddItem(ShopItemData itemData)
@@ -192,11 +165,11 @@ public class ShopManager : MonoBehaviour
     
     private bool PurchaseResource(ShopItemData itemData)
     {
-        if (ResourceManager.IN != null)
+        foreach (var resourceItem in itemData.ResourceItems)
         {
-            return ResourceManager.IN.AddResource(itemData.ResourceType, itemData.ResourceAmount);
+            ResourceManager.IN.AddResource(resourceItem.ResourceType, resourceItem.Amount);
         }
-        return false;
+        return true;
     }
     
     public List<ShopItemData> GetItemsByCategory(EShopCategory category)
@@ -246,24 +219,6 @@ public class ShopManager : MonoBehaviour
     {
         // Update item availability, prices, etc.
         OnShopRefreshed?.Invoke();
-    }
-    
-    public void UnlockItem(string itemId)
-    {
-        if (shopItemsById.TryGetValue(itemId, out ShopItemData item))
-        {
-            item.IsUnlocked = true;
-            RefreshShop();
-        }
-    }
-    
-    public void LockItem(string itemId)
-    {
-        if (shopItemsById.TryGetValue(itemId, out ShopItemData item))
-        {
-            item.IsUnlocked = false;
-            RefreshShop();
-        }
     }
     
     // For save system
