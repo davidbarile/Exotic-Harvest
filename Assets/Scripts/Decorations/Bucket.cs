@@ -8,8 +8,6 @@ using DG.Tweening;
 /// </summary>
 public class Bucket : PassiveHarvester
 {
-    public EResourceType CollectableResourceTypes;
-
     [Header("Bucket UI Components")]
     [SerializeField] private Image waterFillImage; // Shows water level
     [SerializeField] private float fillAnimationDuration = 0.5f;

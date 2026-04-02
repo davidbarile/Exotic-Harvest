@@ -282,8 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ef35c0cfbac455f85f6149e6430706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bucket
+  CollectableResourceTypes: 02000000
   quantityText: {fileID: 3574800819758532373}
-  CollectableResourceTypes: 2
   waterFillImage: {fileID: 7496987049457471739}
   fillAnimationDuration: 0.5
 --- !u!114 &1347775785759856374
@@ -302,6 +302,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
   dragEnabledDisplay: {fileID: 0}
   OffsetFromCursor: {x: 0, y: 0, z: 0}
@@ -326,7 +327,6 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1
-    IsUnlocked: 1
     CanDragToWorld: 0
     Scale: 1
     IconSpriteName: 

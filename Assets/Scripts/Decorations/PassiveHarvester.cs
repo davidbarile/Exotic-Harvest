@@ -23,6 +23,8 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public bool IsEmpty => this.CurrentAmount <= 0;
     public float CapacityPercent => (float)this.CurrentAmount / this.MaxCapacity;
 
+    public EResourceType[] CollectableResourceTypes;
+
     [SerializeField] protected TextMeshProUGUI quantityText;
 
     protected virtual void Start()

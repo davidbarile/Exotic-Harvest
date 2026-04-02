@@ -337,18 +337,6 @@ public class SaveManager : MonoBehaviour, ITickable
         if (Data?.StatsData != null)
             Data.StatsData.DecorationsPlaced++;
     }
-
-    public void RecordRareEvent(EResourceType eventType)
-    {
-        if (Data?.StatsData == null) return;
-
-        Data.StatsData.RareEventsWitnessed++;
-
-        // if (eventType.HasFlag(EResourceType.UnicornBlessing))
-        //     Data.StatsData.UnicornEncounters++;
-        // else if (eventType.HasFlag(EResourceType.MermaidSong))
-        //     Data.StatsData.MermaidEncounters++;
-    }
     
     public void HandleDeleteDataButtonPress()
     {

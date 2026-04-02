@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Jar))]
@@ -16,7 +17,7 @@ public class UiWorldItemJar : UiDecorationBase
         {
             if(collision.TryGetComponent<Collectable>(out var collectible))
             {
-                if (!this.linkedJar.CollectableResourceTypes.HasFlag(collectible.ResourceType))
+                if (!this.linkedJar.CollectableResourceTypes.Contains(collectible.ResourceType))
                     return;
 
                 var success = this.linkedJar.AddAmount(collectible.Amount);

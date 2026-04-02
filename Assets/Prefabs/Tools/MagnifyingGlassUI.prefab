@@ -219,8 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4087cc249d4d24a76bad332eb8fbd69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagnifyingGlass
+  CollectableResourceTypes: 14000000180000001a00000028000000290000002a00000053000000
   quantityText: {fileID: 3574800819758532373}
-  CollectableResourceTypes: 3400
   innerWorld: {fileID: 2407089188760004882}
   container: {fileID: 3588536358203022025}
   scrollSpeed: 5
@@ -240,6 +240,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
   dragEnabledDisplay: {fileID: 0}
   OffsetFromCursor: {x: 0, y: 0, z: 0}
@@ -264,7 +265,6 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1
-    IsUnlocked: 1
     CanDragToWorld: 0
     Scale: 1
     IconSpriteName: 

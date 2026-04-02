@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class MagnifyingGlass : PassiveHarvester
 {
-    public EResourceType CollectableResourceTypes;
-
     [SerializeField] private RectTransform innerWorld;
     [SerializeField] private Transform container;
     [SerializeField] private float scrollSpeed = 1f;

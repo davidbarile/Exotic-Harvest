@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Bucket))]
@@ -16,7 +17,7 @@ public class UiWorldItemBucket : UiDecorationBase
         {
             if (collision.TryGetComponent<Collectable>(out var collectible))
             {
-                if (!this.linkedBucket.CollectableResourceTypes.HasFlag(collectible.ResourceType))
+                if (!this.linkedBucket.CollectableResourceTypes.Contains(collectible.ResourceType))
                     return;
 
                 if(!collectible.CollectionMethod.HasFlag(ECollectionMethod.DragCollector))

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 //TODO: This is currently identical to the Bucket world item - we can either merge them or add unique visual effects to differentiate them
 public class Jar : PassiveHarvester
 {
-    public EResourceType CollectableResourceTypes;
-
     [Header("Bucket UI Components")]
     [SerializeField] private Image waterFillImage; // Shows water level
     [SerializeField] private float fillAnimationDuration = 0.5f;

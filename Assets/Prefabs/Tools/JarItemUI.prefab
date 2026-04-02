@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb6d642de4d741568ee65f160975b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jar
+  CollectableResourceTypes: 1900000041000000
   quantityText: {fileID: 2746075342888448478}
-  CollectableResourceTypes: 384
   waterFillImage: {fileID: 0}
   fillAnimationDuration: 0.5
 --- !u!114 &8160949974879223126
@@ -160,6 +160,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
   OffsetFromCursor: {x: 0, y: 0, z: 0}
@@ -184,7 +185,6 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1
-    IsUnlocked: 1
     CanDragToWorld: 0
     Scale: 1
     IconSpriteName: 

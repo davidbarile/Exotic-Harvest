@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(MagnifyingGlass))]
@@ -28,7 +29,7 @@ public class UiWorldItemMagnifyingGlass : UiDecorationBase
         {
             if (collision.TryGetComponent<Collectable>(out var collectible))
             {
-                if (!this.linkedMagnifyingGlass.CollectableResourceTypes.HasFlag(collectible.ResourceType))
+                if (!this.linkedMagnifyingGlass.CollectableResourceTypes.Contains(collectible.ResourceType))
                     return;
 
                 if (!collectible.CollectionMethod.HasFlag(ECollectionMethod.DragCollector))
