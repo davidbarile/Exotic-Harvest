@@ -91,7 +91,7 @@ public class UIPanelBase : MonoBehaviour
             CurrentOpenPanel = this;
         else if (CurrentOpenPanel == this)
             CurrentOpenPanel = null;
-   
+
         if (inIsVisible)
             this.gameObject.SetActive(true);
 
