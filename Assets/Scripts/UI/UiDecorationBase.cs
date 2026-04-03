@@ -19,7 +19,7 @@ public class UiDecorationBase : UiDraggable
     public InventoryItemData ItemData { get; private set; }
 
     [Header("Initialization Config - for setting up default decorations in the world")]
-    [SerializeField] private InitInventoryItemData initItemData;
+    [SerializeField] private InitInventoryItemData initItemData = new();
 
     protected virtual void Awake()
     {
@@ -76,8 +76,7 @@ public class UiDecorationBase : UiDraggable
     
     public virtual void InitWorldPositionAndParent()
     {
-        if (this.initItemData == null)
-            return;
+        OnValidate(); // Ensure ItemData and DecorationData are set up based on initItemData
 
         this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.ParentGuid = this.transform.parent.GetInstanceID();

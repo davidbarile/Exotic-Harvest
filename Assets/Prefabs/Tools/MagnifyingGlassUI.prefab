@@ -248,28 +248,29 @@ MonoBehaviour:
   shadow: {fileID: 0}
   worldProxy: {fileID: 0}
   initItemData:
-    DisplayName: 
-    Quantity: 0
-    MaxStack: 0
+    DisplayName: 'Magnifying
+
+      Glass'
+    Quantity: 1
+    MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 0
-      PrefabName: DefaultItemUI
+      Type: 7
+      PrefabName: MagnifyingGlassUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
       GeneratedResource: 0
       CurrentAmount: 0
-      MaxAmount: 0
+      MaxAmount: 100
       ConversionRatio: 1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
-      IsActive: 1
-    CanDragToWorld: 0
+      IsActive: 0
+    CanDragToWorld: 1
     Scale: 1
-    IconSpriteName: 
-    ShopItemConfig: {fileID: 0}
-  linkedMagnifyingGlass: {fileID: 897754675947445887}
+    IconSpriteName: Icon_MagnifyingGlass
+    ShopItemConfig: {fileID: 11400000, guid: 6668c71fe5256462396508d88191eeda, type: 2}
 --- !u!1 &5611255278226997218
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,9 +576,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '99/100
-
-    99/100'
+  m_text: 0/100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}

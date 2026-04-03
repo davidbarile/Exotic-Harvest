@@ -9,7 +9,7 @@ public class InventoryItemData
     public int MaxStack;
     public int SpaceAvailableInStack => MaxStack - Quantity;
     public EShopCategory Category;
-    public DecorationData DecorationData;
+    public DecorationData DecorationData = new();
 
     public bool IsItem => this.Category != EShopCategory.Resources;
     public bool IsDecoration => this.Category == EShopCategory.Decorations;

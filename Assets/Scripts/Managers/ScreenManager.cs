@@ -64,7 +64,7 @@ public class ScreenManager : MonoBehaviour
         SetCanvasGroupInteractable(this.bgCanvasGroup, !this.isClickThrough);
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
 
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
 
         // if (isBgShowing)
         // {
@@ -166,7 +166,7 @@ public class ScreenManager : MonoBehaviour
 
             uniWin.monitorToFit = monitorIndex < monitorCount ? monitorIndex : 0;
             
-            UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.");
+            UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.", true);
                 
             uniWin.shouldFitMonitor = true;
         }
@@ -188,7 +188,7 @@ public class ScreenManager : MonoBehaviour
 
             info += $"Current: Monitor {uniWin.monitorToFit}, Fit: {uniWin.shouldFitMonitor}";
 
-            UiManager.IN.SetDebugText(info);
+            UiManager.IN.SetDebugText(info, true);
             Debug.Log(info);
         }
     }
@@ -196,12 +196,12 @@ public class ScreenManager : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         this.appHasFocus = hasFocus;
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}");
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
     }
 
     void OnApplicationPause(bool pauseStatus)
     {
-        UiManager.IN.SetDebugText($"App Paused: {pauseStatus}");
+        UiManager.IN.SetDebugText($"App Paused: {pauseStatus}", true);
     }
 
     public void HandleQuitButtonClick()

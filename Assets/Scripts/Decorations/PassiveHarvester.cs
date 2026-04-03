@@ -45,9 +45,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public virtual void SecondTick()
     {
         if (CanGenerate())
-        {
             TryGenerate();
-        }
     }
     
     public virtual void SetDecorationData(DecorationData inDecorationData)
@@ -57,9 +55,10 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     }
     
     protected virtual bool CanGenerate()
-    {    
-        if (!this.DecorationData.IsActive)
+    {
+        if (this.DecorationData == null || !this.DecorationData.IsActive)
             return false;
+            
         if (!this.IsActive || this.IsFull)
             return false;
             
@@ -76,6 +75,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     protected virtual void TryGenerate()
     {
+        if (this.DecorationData == null)
+            return;
+            
         int amountToGenerate = GetGenerationAmount();
 
         if (amountToGenerate > 0)
@@ -95,6 +97,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     public bool AddAmount(int inAmount)
     {
+        if (this.DecorationData == null)
+            return false;
+            
         if (inAmount <= 0)
             return false;
 
@@ -113,6 +118,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     
     protected virtual void RefreshQuantityDisplay()
     {
+        if (this.DecorationData == null)
+            return;
+            
         if (this.quantityText)
         {
             if (this.DecorationData.ConversionRatio != 1f)
@@ -138,7 +146,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     
     public virtual bool CollectAll()
     {
-        if (this.IsEmpty)
+        if (this.DecorationData == null || this.IsEmpty)
             return false;
 
         int amountToCollect = Mathf.FloorToInt((float)this.DecorationData.CurrentAmount * this.DecorationData.ConversionRatio);
@@ -161,6 +169,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     
     public virtual void SetActive(bool active)
     {
+        if (this.DecorationData == null)
+            return;
+            
         this.DecorationData.IsActive = active;
     }
 

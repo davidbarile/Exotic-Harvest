@@ -91,27 +91,27 @@ MonoBehaviour:
   shadow: {fileID: 8528135043831553738}
   worldProxy: {fileID: 1298532410139078883}
   initItemData:
-    DisplayName: 
-    Quantity: 0
-    MaxStack: 0
+    DisplayName: Sponge
+    Quantity: 1
+    MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 0
-      PrefabName: DefaultItemUI
+      Type: 8
+      PrefabName: SpongeItemUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
-      GeneratedResource: 0
+      GeneratedResource: 1
       CurrentAmount: 0
-      MaxAmount: 0
-      ConversionRatio: 1
+      MaxAmount: 100
+      ConversionRatio: 0.2
       GenerationInterval: 0
       RequiresSpecificConditions: 0
-      IsActive: 1
-    CanDragToWorld: 0
+      IsActive: 0
+    CanDragToWorld: 1
     Scale: 1
-    IconSpriteName: 
-    ShopItemConfig: {fileID: 0}
+    IconSpriteName: Icon_Sponge
+    ShopItemConfig: {fileID: 11400000, guid: 42ca2be75e7fd41d8bcaba7bba6a4fd0, type: 2}
 --- !u!60 &1826616977222817347
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -384,9 +384,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '99/100
+  m_text: '0/20
 
-    99/100'
+    <size=80%><i>(0/100)</i></size>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -552,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &111268007146042686
 RectTransform:
   m_ObjectHideFlags: 0

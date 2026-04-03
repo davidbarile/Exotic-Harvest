@@ -71,7 +71,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.254
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -109,7 +109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8213539290543482430
 RectTransform:
   m_ObjectHideFlags: 0
@@ -309,29 +309,30 @@ MonoBehaviour:
   itemIcon: {fileID: 8060148061350629382}
   shadow: {fileID: 124930487897692285}
   worldProxy: {fileID: 7673662616455603993}
-  linkedPassiveHarvester: {fileID: 5961588561165740272}
   initItemData:
-    DisplayName: 
-    Quantity: 0
-    MaxStack: 0
+    DisplayName: 'Large
+
+      Bucket'
+    Quantity: 1
+    MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 0
-      PrefabName: DefaultItemUI
+      Type: 1
+      PrefabName: BucketItemUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
-      GeneratedResource: 0
+      GeneratedResource: 2
       CurrentAmount: 0
-      MaxAmount: 0
-      ConversionRatio: 1
+      MaxAmount: 500
+      ConversionRatio: 0.2
       GenerationInterval: 0
       RequiresSpecificConditions: 0
-      IsActive: 1
-    CanDragToWorld: 0
+      IsActive: 0
+    CanDragToWorld: 1
     Scale: 1
-    IconSpriteName: 
-    ShopItemConfig: {fileID: 0}
+    IconSpriteName: Bucket
+    ShopItemConfig: {fileID: 11400000, guid: 1413e55c2290446379a129873a55c041, type: 2}
 --- !u!50 &82978680336248110
 Rigidbody2D:
   serializedVersion: 5
@@ -536,9 +537,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '99/100
+  m_text: '0/100
 
-    99/100'
+    <size=80%><i>(0/500)</i></size>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}

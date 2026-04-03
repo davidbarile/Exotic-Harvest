@@ -89,9 +89,14 @@ public class UiManager : MonoBehaviour
             this.resourcesPanel.Show();
     }
 
-    public void SetDebugText(string text)
+    public void SetDebugText(string text, bool append = false)
     {
         if (this.debugText)
-            this.debugText.text = text;
+        {
+            if (append)
+                this.debugText.text += $"\n{text}";
+            else
+                this.debugText.text = text;
+        }
     }
 }
