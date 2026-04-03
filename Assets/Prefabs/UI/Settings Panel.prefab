@@ -3747,7 +3747,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 528806459764749843, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
       propertyPath: m_Name
-      value: Toggle
+      value: Toggle Use Real Time
       objectReference: {fileID: 0}
     - target: {fileID: 2930332648038072180, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
       propertyPath: m_Pivot.x
@@ -3846,8 +3846,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2094696052160195789}
     - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6686882193880686167}
+    - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
@@ -3859,6 +3863,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UiSettingsPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: UiSettingsPanel, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4333545432157905878, guid: 7a4b4bd1e51e246328bf55f0bf08a239, type: 3}

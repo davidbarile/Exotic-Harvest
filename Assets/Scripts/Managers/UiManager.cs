@@ -91,7 +91,7 @@ public class UiManager : MonoBehaviour
 
     public void SetDebugText(string text)
     {
-        if (this.debugText != null)
+        if (this.debugText)
             this.debugText.text = text;
     }
 }

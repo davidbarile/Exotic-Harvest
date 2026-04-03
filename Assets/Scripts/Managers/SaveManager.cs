@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using Sirenix.OdinInspector;
 using Leguar.TotalJSON;
 
 /// <summary>
@@ -35,9 +35,11 @@ public class SaveManager : MonoBehaviour, ITickable
     // Properties
     public bool HasSaveFile => File.Exists(savePath);
 
-    private void Awake()
+    public void Init()
     {
         var saveFolder = Application.persistentDataPath;
+
+        Debug.Log($"Save folder path: {saveFolder}");
 
 #if UNITY_EDITOR
         saveFolder = "Assets/PlayerData";
@@ -45,10 +47,7 @@ public class SaveManager : MonoBehaviour, ITickable
 
         this.savePath = Path.Combine(saveFolder, this.saveFileName);
         this.sessionStartTime = Time.time;
-    }
 
-    public void Init()
-    {
         var isNewGame = !this.HasSaveFile || this.nukeDataOnStart;
 
         if (isNewGame)
@@ -273,7 +272,14 @@ public class SaveManager : MonoBehaviour, ITickable
     private void NukeSaveFile()
     {
         this.isDeletingSave = true; // Set flag to prevent saving during deletion process
-        Awake();
+
+        var saveFolder = Application.persistentDataPath;
+
+#if UNITY_EDITOR
+        saveFolder = "Assets/PlayerData";
+#endif
+
+        this.savePath = Path.Combine(saveFolder, this.saveFileName);
         DeleteSave();
     }
 

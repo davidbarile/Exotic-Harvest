@@ -21,5 +21,7 @@ public class UiSettingsPanel : UIPanelBase
         //reversed to work with Toggle
         this.timeOfDaySlider.SetActive(!active);
         this.timeScaleSlider.SetActive(!active);
+
+        TimeManager.IN.ToggleRealTime(active);
     }
 }
