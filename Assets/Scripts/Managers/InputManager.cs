@@ -45,9 +45,10 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F3)) OnF3Press?.Invoke();
         if (Input.GetKeyDown(KeyCode.M)) OnMPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha1)) OnSettingsPress?.Invoke();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) OnShopPress?.Invoke();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) OnInventoryPress?.Invoke();
-        if (Input.GetKeyDown(KeyCode.Alpha4)) OnResourcesPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) OnResourcesPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) OnShopPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Alpha4)) OnInventoryPress?.Invoke();
+    
     }
     
     public void SecondTick()

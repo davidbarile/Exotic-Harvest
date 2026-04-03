@@ -2,21 +2,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System.Linq;
 
 public class UiDecorationBase : UiDraggable
 {
     [Header("Inventory Item UI Elements")]
 
-    [SerializeField] private Image itemIcon;
-    [SerializeField] private Image shadow;
+    [SerializeField] protected Image itemIcon;
+    [SerializeField] protected Image shadow;
 
     public Image WorldProxy => this.worldProxy;
-    [SerializeField] private Image worldProxy;
+    [SerializeField] protected Image worldProxy;
+
+    protected PassiveHarvester linkedPassiveHarvester;
 
     public InventoryItemData ItemData { get; private set; }
 
     [Header("Initialization Config - for setting up default decorations in the world")]
     [SerializeField] private InitInventoryItemData initItemData;
+
+    protected virtual void Awake()
+    {
+        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
+    }
 
     private void OnValidate()
     {
@@ -54,11 +62,11 @@ public class UiDecorationBase : UiDraggable
                 this.shadow.sprite = sprite;
 
             if (this.worldProxy)
-            {
                 this.worldProxy.sprite = sprite;
-                this.worldProxy.gameObject.SetActive(false);
-            }
         }
+
+        if (this.worldProxy)
+            this.worldProxy.gameObject.SetActive(false);
         
         if(TryGetComponent<PassiveHarvester>(out var harvester))
         { 
@@ -245,5 +253,22 @@ public class UiDecorationBase : UiDraggable
         this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
         this.ItemData.DecorationData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision != null)
+        {
+            if(collision.TryGetComponent<Collectable>(out var collectible))
+            {
+                if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(collectible.ResourceType))
+                    return;
+
+                var success = this.linkedPassiveHarvester.AddAmount(collectible.Amount);
+
+                if (success)
+                    collectible.Collect(false);
+            }
+        }
     }
 }

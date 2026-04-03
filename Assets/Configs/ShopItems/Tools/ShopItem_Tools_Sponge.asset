@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Tools_Bucket_Small
+  m_Name: ShopItem_Tools_Sponge
   m_EditorClassIdentifier: 
-  ID: ShopItem_Bucket_Small
+  ID: ShopItem_Sponge
   DisplayName: 'Small
 
-    Bucket'
+    Sponge'
   Description: 
-  Icon: {fileID: 21300000, guid: ba26b0a528ca24dd9b682d5f1a6eadc4, type: 3}
-  Scale: 0.65
+  Icon: {fileID: 21300000, guid: 16cbd9dd9937a4cc59008e21dbcaf815, type: 3}
+  Scale: 1
   CanDragToWorld: 1
   DecorationData:
     Type: 1
-    PrefabName: BucketItemUI
+    PrefabName: SpongeItemUI
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
-    GeneratedResource: 2
+    GeneratedResource: 1
     CurrentAmount: 0
     MaxAmount: 100
     ConversionRatio: 0.2
@@ -39,11 +39,11 @@ MonoBehaviour:
   ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 83
-      Amount: 1
+    - Type: 1
+      Amount: 50
     - Type: 82
-      Amount: 2
-  MaxPurchases: -1
+      Amount: 1
+  MaxPurchases: 1
   DecorationType: 0
   BackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1
