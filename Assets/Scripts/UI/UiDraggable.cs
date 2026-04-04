@@ -33,7 +33,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     protected Vector3 originalWorldPosition;
 
-    public Vector3 OffsetFromCursor;
+    protected Vector3 offsetFromCursor;
 
     protected Transform originalParent;
     protected int originalSiblingIndex;
@@ -129,16 +129,21 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.originalWorldPosition = this.targetRectTransform.position;
 
-        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
+        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out var cursorOffset);
 
-        this.targetRectTransform.position = dragPos + this.OffsetFromCursor;
+        this.offsetFromCursor = cursorOffset;
+
+        this.targetRectTransform.position = dragPos + this.offsetFromCursor;
 
         // Register with drag proxy
-        DragManager.IN.StartDrag(this, this.targetRectTransform, this.OffsetFromCursor);
+        DragManager.IN.StartDrag(this, this.targetRectTransform, this.offsetFromCursor);
     }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
+        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+            return;
+
         if (!this.isDragging)
             return;
 
@@ -148,6 +153,9 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
+        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+            return;
+            
         this.isDragging = false;
 
         // Notify drag proxy that drag ended

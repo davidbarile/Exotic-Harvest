@@ -238,7 +238,7 @@ public class UiDecorationBase : UiDraggable
         this.isDragging = true;
 
         // Store drag state for proper cleanup on drag end
-        this.OffsetFromCursor = inOffsetFromCursor;
+        this.offsetFromCursor = inOffsetFromCursor;
         this.originalWorldPosition = this.targetRectTransform.position;
         // this.originalSiblingIndex = 0;
         this.originalParent = this.targetRectTransform.parent;

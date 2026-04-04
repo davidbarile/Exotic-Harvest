@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class DecorationData
 {
-    public EDecorationType Type;
     public string PrefabName = "DefaultItemUI";
     public Vector3 WorldPosition;
     public int ParentGuid;
@@ -25,7 +24,6 @@ public class DecorationData
     {
         return new DecorationData
         {
-            Type = decorationData.Type,
             PrefabName = decorationData.PrefabName,
             WorldPosition = decorationData.WorldPosition,
             ParentGuid = decorationData.ParentGuid,

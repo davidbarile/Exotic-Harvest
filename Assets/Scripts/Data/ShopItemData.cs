@@ -24,8 +24,6 @@ public class ShopItemData
     public int CurrentPurchases = 0;
 
     [Header("Item Data")]
-    public EDecorationType DecorationType; // For decoration items
-
     [ShowIf("Category", EShopCategory.Resources)]
     public ResourceItemData[] ResourceItems;
     

@@ -40,9 +40,6 @@ public class ShopItemConfig : ScriptableObject
     [Header("Purchase Limits")]
     public int MaxPurchases = -1;
     
-    [Header("Item Effects")]
-    public EDecorationType DecorationType; // For decoration items
-    
     [Header("Visual")]
     public Color BackgroundColor = Color.white;
     public bool ShowInShop = true;
@@ -69,7 +66,6 @@ public class ShopItemConfig : ScriptableObject
             Quanity = inConfig.Quanity,
             MaxStack = inConfig.MaxStack,
             MaxPurchases = inConfig.MaxPurchases,
-            DecorationType = inConfig.DecorationType,
             ResourceItems = inConfig.ResourceItems,
             Icon = inConfig.Icon,
             CanDragToWorld = inConfig.CanDragToWorld,
