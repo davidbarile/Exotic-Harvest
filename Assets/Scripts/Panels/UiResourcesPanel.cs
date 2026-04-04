@@ -12,6 +12,8 @@ public class UiResourcesPanel : UIPanelBase
     [SerializeField] private bool showOnlyOwnedResources = true;
 
     [SerializeField] private int maxItemsPerRow = 15;
+
+    private List<GameObject> allResourceObjects = new();
     
     private Dictionary<EResourceType, ResourceDisplayUI> activeDisplaysDict = new();
     
@@ -68,6 +70,7 @@ public class UiResourcesPanel : UIPanelBase
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
         ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.grid.transform);
+        this.allResourceObjects.Add(displayUI.gameObject);
         
         displayUI.Configure(resourceConfig.ResourceType, resourceConfig, true);
         this.activeDisplaysDict[resourceConfig.ResourceType] = displayUI;
@@ -77,32 +80,23 @@ public class UiResourcesPanel : UIPanelBase
     
     private void OnResourceChanged(EResourceType type, int newAmount)
     {            
-        if (this.showOnlyOwnedResources)
-        {
-            if (this.activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
-            {
-                display.gameObject.SetActive(newAmount > 0);
-            }
-        }
+        if (this.activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
+            display.gameObject.SetActive(newAmount > 0 || !this.showOnlyOwnedResources);
+      
     }
     
     public void RefreshAllDisplays()
     {
         // Clear existing displays
-        foreach (var display in this.activeDisplaysDict.Values)
+        foreach (var resourceObject in this.allResourceObjects)
         {
-            if (display != null)
-                Destroy(display.gameObject);
+            Destroy(resourceObject);
         }
+        
         this.activeDisplaysDict.Clear();
+        this.allResourceObjects.Clear();
         
         // Recreate displays
         CreateResourceDisplays();
-    }
-    
-    [ContextMenu("Refresh Displays")]
-    private void RefreshDisplaysContextMenu()
-    {
-        RefreshAllDisplays();
     }
 }

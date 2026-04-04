@@ -10,24 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68d8b037a5f474a51aea388e35ee8190, type: 3}
-  m_Name: Resource_Gold
+  m_Name: Resource_Diamonds
   m_EditorClassIdentifier: 
-  ID: Resource_Gold
-  DisplayName: Coins
-  Description: 'It''s not uncommon
+  ID: Resource_Diamonds
+  DisplayName: Diamonds
+  Description: 'On rare occasions
 
-    to find Coins at
+    you may find Diamonds
 
-    the beach'
-  Icon: {fileID: 21300000, guid: 5b80c2cfdff244147ac9917d68b3ea88, type: 3}
+    below rocks at
+
+    the
+    beach'
+  Icon: {fileID: 21300000, guid: 50f97846f561a4d90a10b35f5fb3686f, type: 3}
   IconColor: {r: 1, g: 1, b: 1, a: 1}
-  ResourceType: 82
+  ResourceType: 84
   Category: 16
-  BaseValue: 100
+  BaseValue: 500
   MaxStack: 1000000
   IsAvailableAtStart: 1
   AvailableTimes: 07000000
-  AvailableWeather: 01000000
+  AvailableWeather: ffffffff
   CanBeActivelyForaged: 1
   CanBePassivelyGenerated: 0
   BaseGenerationRate: 1

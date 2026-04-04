@@ -12,6 +12,7 @@ public enum EResourceType
     Crickets = 24,
     Fireflies = 25,
     Ladybugs = 26,
+    Snails = 27,
 
     // Nature
     Seeds = 40,
@@ -38,6 +39,8 @@ public enum EResourceType
     Gems = 81,
     Gold = 82,
     Jewelry = 83,
+    Diamonds = 84,
+    Keys = 85,
 
     // Abstract
     Secrets = 100,
