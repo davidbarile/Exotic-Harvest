@@ -12,7 +12,7 @@ public class ResourceConfig : ScriptableObject
     public string DisplayName;
     [TextArea(2, 10)] public string Description;
     public Sprite Icon;
-    public Color UiColor = Color.white;
+    public Color IconColor = Color.white;
     
     [Header("ResourceData Properties")]
     public EResourceType ResourceType;

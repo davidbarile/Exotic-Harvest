@@ -39,9 +39,10 @@ public class ShopItemConfig : ScriptableObject
     
     [Header("Purchase Limits")]
     public int MaxPurchases = -1;
-    
+
     [Header("Visual")]
-    public Color BackgroundColor = Color.white;
+    public Color IconColor = Color.white;
+    public Color BgColor = Color.white;
     public bool ShowInShop = true;
     
 #if UNITY_EDITOR
@@ -68,6 +69,8 @@ public class ShopItemConfig : ScriptableObject
             MaxPurchases = inConfig.MaxPurchases,
             ResourceItems = inConfig.ResourceItems,
             Icon = inConfig.Icon,
+            IconColor = inConfig.IconColor,
+            BgColor = inConfig.BgColor,
             CanDragToWorld = inConfig.CanDragToWorld,
             DecorationData = DecorationData.Copy(inConfig.DecorationData)
         };

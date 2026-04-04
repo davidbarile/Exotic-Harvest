@@ -173,11 +173,11 @@ public class UiShopPanel : UIPanelBase
         this.itemNameText.text = this.selectedItemData.DisplayName;
         this.itemDescriptionText.text = this.selectedItemData.Description;
         this.itemIcon.sprite = this.selectedItemData.Icon;
-        
-        this.itemIcon.color = Color.white;
 
-        if(this.selectedItemData.IsResource )
-            this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.selectedItemData.ResourceItems[0].ResourceType)?.UiColor ?? Color.white;
+        if (this.selectedItemData.IsResource)
+            this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.selectedItemData.ResourceItems[0].ResourceType)?.IconColor ?? Color.white;
+        else
+            this.itemIcon.color = this.selectedItemData.IconColor;
         
         // Update purchase button
         RefreshPurchaseButton();

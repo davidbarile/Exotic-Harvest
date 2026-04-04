@@ -24,6 +24,7 @@ public class UiInventoryItem : UiDraggable
         {
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
+            this.itemIcon.color = inItemData.IconColor;
             this.shadow.sprite = sprite;
         }
 
@@ -87,7 +88,7 @@ public class UiInventoryItem : UiDraggable
                         // Swap the dragged object to the new world item
                         DragManager.IN.SwapDraggedObject(worldItemRect);
 
-                         Debug.Log($"Spawned world item [{worldItem.name}] from inventory item [{name}] at position {worldItem.transform.position}", worldItem);
+                        Debug.Log($"Spawned world item [{worldItem.name}] from inventory item [{name}] at position {worldItem.transform.position}", worldItem);
 
                         // Mark as not dragging so OnEndDrag doesn't process
                         this.isDragging = false;

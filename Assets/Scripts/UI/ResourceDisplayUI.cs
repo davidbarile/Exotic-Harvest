@@ -79,7 +79,7 @@ public class ResourceDisplayUI : MonoBehaviour
 
         // Update icon
         this.iconImage.sprite = this.resourceConfig.Icon;
-        this.iconImage.color = this.resourceConfig.UiColor;
+        this.iconImage.color = this.resourceConfig.IconColor;
 
         // Update background color based on resource category
         var bgColor = ColorManager.IN.GetResourceCategoryColor(this.resourceConfig.Category, EColorType.Dark);

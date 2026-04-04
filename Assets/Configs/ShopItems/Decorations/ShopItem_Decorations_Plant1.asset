@@ -10,37 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Resources_Feathers_5
+  m_Name: ShopItem_Decorations_Plant1
   m_EditorClassIdentifier: 
-  ID: ShopItem_Feathers
-  DisplayName: Feathers (5)
+  ID: ShopItem_Plant
+  DisplayName: Plant
   Description: 
-  Icon: {fileID: 21300000, guid: 2a56d5793421048009989af2026039fb, type: 3}
+  Icon: {fileID: 21300000, guid: c7b8f9893008145e7959340650e2909b, type: 3}
   Scale: 1
-  CanDragToWorld: 0
+  CanDragToWorld: 1
   DecorationData:
-    PrefabName: DefaultItemUI
+    PrefabName: Decoration_General
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
-    GeneratedResource: 16384
-    CurrentAmount: 0
-    MaxAmount: 0
+    GeneratedResource: 0
+    CurrentAmount: 1
+    MaxAmount: 10
     ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
-    IsActive: 0
+    IsActive: 1
   Quanity: 1
   MaxStack: 10
-  Category: 2
-  ResourceItems:
-  - ResourceType: 45
-    Amount: 5
+  Category: 1
+  ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 1
+    - Type: 2
       Amount: 25
   MaxPurchases: -1
-  IconColor: {r: 0.76910096, g: 0.6650944, b: 1, a: 1}
-  BgColor: {r: 1, g: 1, b: 1, a: 1}
+  IconColor: {r: 0.005509968, g: 0.745283, b: 0, a: 1}
   ShowInShop: 1

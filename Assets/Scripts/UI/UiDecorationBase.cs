@@ -57,6 +57,7 @@ public class UiDecorationBase : UiDraggable
         {
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             this.itemIcon.sprite = sprite;
+            this.itemIcon.color = inItemData.IconColor;
 
             if (this.shadow)
                 this.shadow.sprite = sprite;

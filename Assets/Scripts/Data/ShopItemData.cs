@@ -35,7 +35,8 @@ public class ShopItemData
     public bool CanDragToWorld;
 
     [Header("Visual")]
-    public Color BackgroundColor = Color.white;
+    public Color IconColor = Color.white;
+    public Color BgColor = Color.white;
     public bool ShowInShop = true;
     
     // Properties
@@ -80,6 +81,7 @@ public class ShopItemData
             Quantity = shopItemData.Quanity,
             MaxStack = shopItemData.IsResource ? 100 : shopItemData.MaxStack,
             IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
+            IconColor = shopItemData.IconColor,
             CanDragToWorld = shopItemData.CanDragToWorld,
             DecorationData = DecorationData.Copy(shopItemData.DecorationData)
         };

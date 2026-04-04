@@ -72,6 +72,6 @@ public class ResourceData
     public string DisplayName => GetConfig()?.DisplayName ?? Type.ToString();
     public string Description => GetConfig()?.Description ?? "";
     public Sprite Icon => GetConfig()?.Icon;
-    public Color UIColor => GetConfig()?.UiColor ?? Color.white;
+    public Color IconColor => GetConfig()?.IconColor ?? Color.white;
     public int BaseValue => GetConfig()?.BaseValue ?? 1;
 }

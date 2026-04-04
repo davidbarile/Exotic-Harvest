@@ -18,6 +18,7 @@ public class InventoryItemData
     public bool CanDragToWorld;
     public float Scale = 1f;
     public string IconSpriteName;
+    public Color IconColor = Color.white;
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
     {
@@ -30,7 +31,8 @@ public class InventoryItemData
             CanDragToWorld = cloneTarget.CanDragToWorld,
             Scale = cloneTarget.Scale,
             IconSpriteName = cloneTarget.IconSpriteName,
-            DecorationData = DecorationData.Copy(cloneTarget.DecorationData)
+            IconColor = cloneTarget.IconColor,
+            DecorationData = DecorationData.Copy(cloneTarget.DecorationData),
         };
     }
 
@@ -45,6 +47,7 @@ public class InventoryItemData
             CanDragToWorld = shopConfig.CanDragToWorld,
             Scale = shopConfig.Scale,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
+            IconColor = shopConfig.IconColor,
             DecorationData = DecorationData.Copy(shopConfig.DecorationData)
         };
     }
