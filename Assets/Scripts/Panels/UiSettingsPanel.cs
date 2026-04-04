@@ -8,6 +8,8 @@ public class UiSettingsPanel : UIPanelBase
 
     [SerializeField] private Toggle useRealTimeToggle;
 
+    [SerializeField] private GameObject[] contentDisplays;
+
     public override void Show()
     {
         base.Show();
@@ -23,5 +25,55 @@ public class UiSettingsPanel : UIPanelBase
         this.timeScaleSlider.SetActive(!active);
 
         TimeManager.IN.ToggleRealTime(active);
+    }
+
+    private void HideAllContentDisplays()
+    {
+        foreach (var display in this.contentDisplays)
+        {
+            display.SetActive(false);
+        }
+    }
+
+    public void HandleToggleChanged_0(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[0].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_1(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[1].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_2(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[2].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_3(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[3].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_4(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[4].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_5(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[5].SetActive(isOn);
+    }
+
+    public void HandleToggleChanged_6(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[6].SetActive(isOn);
     }
 }
