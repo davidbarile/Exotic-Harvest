@@ -48,7 +48,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
             var dragTarget = possibleTarget.GetComponent<UiDragTarget>();
 
-            if (dragTarget != null)
+            if (dragTarget != null && !dragTarget.transform.IsChildOf(DragManager.IN.CurrentDraggedTransform))
             {
                 CurrentHighlightedTargets.Add(dragTarget);
                 dragTarget.SetHighlight(true);
@@ -155,7 +155,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
-            
+
         this.isDragging = false;
 
         // Notify drag proxy that drag ended
@@ -194,7 +194,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
-                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && !dragTarget.transform.IsChildOf(this.targetRectTransform))
                 {
                     dragTarget.SetAsParent(this.targetRectTransform);
                     this.targetRectTransform.SetAsLastSibling();
