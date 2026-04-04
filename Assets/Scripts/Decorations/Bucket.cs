@@ -9,7 +9,7 @@ using DG.Tweening;
 public class Bucket : PassiveHarvester
 {
     [Header("Bucket UI Components")]
-    [SerializeField] private Image waterFillImage; // Shows water level
+    [SerializeField] private Image fillImage;
     [SerializeField] private float fillAnimationDuration = 0.5f;
     
     private float targetFillAmount;
@@ -57,7 +57,7 @@ public class Bucket : PassiveHarvester
     
     private void UpdateWaterMeter(bool shouldAnimate = true)
     {
-        if (this.waterFillImage == null)
+        if (this.fillImage == null)
             return;
 
         // Smooth fill animation
@@ -65,11 +65,11 @@ public class Bucket : PassiveHarvester
         {
             this.targetFillAmount = this.CapacityPercent;
 
-            this.waterFillImage.DOFillAmount(this.targetFillAmount, this.fillAnimationDuration)
+            this.fillImage.DOFillAmount(this.targetFillAmount, this.fillAnimationDuration)
                 .SetEase(Ease.OutQuad);
             return;
         }
         
-        this.waterFillImage.fillAmount = this.CapacityPercent;
+        this.fillImage.fillAmount = this.CapacityPercent;
     }
 }

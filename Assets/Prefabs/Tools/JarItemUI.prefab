@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Jar
   CollectableResourceTypes: 1900000041000000
   quantityText: {fileID: 2746075342888448478}
-  waterFillImage: {fileID: 0}
+  waterFillImage: {fileID: 8571585493580664529}
   fillAnimationDuration: 0.5
 --- !u!114 &8160949974879223126
 MonoBehaviour:
@@ -163,7 +163,6 @@ MonoBehaviour:
   isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
-  OffsetFromCursor: {x: 0, y: 0, z: 0}
   itemIcon: {fileID: 3342623731043592785}
   shadow: {fileID: 0}
   worldProxy: {fileID: 0}
@@ -173,7 +172,6 @@ MonoBehaviour:
     MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 2
       PrefabName: JarItemUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
@@ -188,6 +186,7 @@ MonoBehaviour:
     CanDragToWorld: 1
     Scale: 1
     IconSpriteName: Jar
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 7371b579f41ac473e9d2588ae4d32798, type: 2}
 --- !u!1 &1244986525776074621
 GameObject:
@@ -624,7 +623,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0

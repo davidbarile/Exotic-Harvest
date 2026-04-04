@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bucket
   CollectableResourceTypes: 02000000
   quantityText: {fileID: 3574800819758532373}
-  waterFillImage: {fileID: 7496987049457471739}
+  fillImage: {fileID: 7496987049457471739}
   fillAnimationDuration: 0.5
 --- !u!114 &1347775785759856374
 MonoBehaviour:
@@ -305,7 +305,6 @@ MonoBehaviour:
   isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
   dragEnabledDisplay: {fileID: 0}
-  OffsetFromCursor: {x: 0, y: 0, z: 0}
   itemIcon: {fileID: 8060148061350629382}
   shadow: {fileID: 124930487897692285}
   worldProxy: {fileID: 7673662616455603993}
@@ -317,7 +316,6 @@ MonoBehaviour:
     MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 1
       PrefabName: BucketItemUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
@@ -332,6 +330,7 @@ MonoBehaviour:
     CanDragToWorld: 1
     Scale: 1
     IconSpriteName: Bucket
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 1413e55c2290446379a129873a55c041, type: 2}
 --- !u!50 &82978680336248110
 Rigidbody2D:
