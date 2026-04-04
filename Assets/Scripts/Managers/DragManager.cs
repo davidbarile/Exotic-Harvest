@@ -231,6 +231,13 @@ public class DragManager : MonoBehaviour
         if (newDraggedTransform.TryGetComponent<UiDraggable>(out var newDragSource))
         {
             this.currentDragSource = newDragSource;
+
+            if(!newDragSource.IsDraggingPermanent)
+            {
+                Debug.Log($"SetDragMode(true)  Swapped drag to new object [{newDraggedTransform.name}] with source [{newDragSource.name}]", newDraggedTransform);
+                //flag to turn off on complete
+                DragManager.IN.SetDragMode(true);
+            }
         }
     }
 

@@ -77,41 +77,40 @@ public class UiInventoryItem : UiDraggable
                     // Spawn world item at current position
                     var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
                     
-                    if (worldItem != null)
+                    if(worldItem.TryGetComponent<RectTransform>(out var worldItemRect))
                     {
-                        if(worldItem.TryGetComponent<RectTransform>(out var worldItemRect))
+                        UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
+
+                        // Initialize the world item with drag state
+                        worldItem.ConfigureFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
+
+                        // Swap the dragged object to the new world item
+                        DragManager.IN.SwapDraggedObject(worldItemRect);
+
+                         Debug.Log($"Spawned world item [{worldItem.name}] from inventory item [{name}] at position {worldItem.transform.position}", worldItem);
+
+                        // Mark as not dragging so OnEndDrag doesn't process
+                        this.isDragging = false;
+
+                        if (this.ItemData.Quantity > 1)
                         {
-                            UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
-
-                            // Initialize the world item with drag state
-                            worldItem.ConfigureFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
-                            
-                            // Swap the dragged object to the new world item
-                            DragManager.IN.SwapDraggedObject(worldItemRect);
-
-                            // Mark as not dragging so OnEndDrag doesn't process
-                            this.isDragging = false;
-
-                            if (this.ItemData.Quantity > 1)
-                            {
-                                var newItemData = InventoryItemData.Copy(this.ItemData);
-                                newItemData.Quantity = 1;
-                                this.ItemData.Quantity -= 1;
-                                SaveManager.Data.WorldItems.Add(newItemData);
-                            }
-                            else
-                            {
-                                SaveManager.Data.WorldItems.Add(this.ItemData);
-
-                                var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
-                                SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
-                            }
-                            
-                            // Destroy the inventory item
-                            Delete();
-                            
-                            return false;
+                            var newItemData = InventoryItemData.Copy(this.ItemData);
+                            newItemData.Quantity = 1;
+                            this.ItemData.Quantity -= 1;
+                            SaveManager.Data.WorldItems.Add(newItemData);
                         }
+                        else
+                        {
+                            SaveManager.Data.WorldItems.Add(this.ItemData);
+
+                            var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+                            SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
+                        }
+                        
+                        // Destroy the inventory item
+                        Delete();
+                        
+                        return false;
                     }
                 }
 

@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 136.5}
-  m_SizeDelta: {x: 173, y: 273}
+  m_SizeDelta: {x: 173, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &88742154026180064
 CanvasRenderer:
@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 2.8321, y: 178.99}
+  m_AnchoredPosition: {x: 2.8321, y: 150.86}
   m_SizeDelta: {x: 143.9, y: 45.412994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3931258302951841023
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.8640461, a: 0.07058824}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -301,7 +301,7 @@ MonoBehaviour:
     MaxStack: 1
     Category: 1
     DecorationData:
-      PrefabName: DefaultItemUI
+      PrefabName: Decoration_Stool
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
@@ -343,15 +343,15 @@ RectTransform:
   m_GameObject: {fileID: 7288514629395603946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1.1, y: 1.05, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3827860167909860021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 136.9089}
-  m_SizeDelta: {x: 173, y: 257.3925}
+  m_AnchoredPosition: {x: 0, y: 136.5}
+  m_SizeDelta: {x: 173, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4307453814656652111
 CanvasRenderer:

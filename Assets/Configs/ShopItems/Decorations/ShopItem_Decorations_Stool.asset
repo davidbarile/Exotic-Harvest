@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: ShopItem_Stool
   DisplayName: Stool
-  Description: 
+  Description: Place in the world and set Buckets and Crystels on them to collect
+    passively.
   Icon: {fileID: 21300000, guid: 4bcb0b5fa5e8a491692d30f2b376f7c3, type: 3}
   Scale: 1
   CanDragToWorld: 1
   DecorationData:
-    PrefabName: DefaultItemUI
+    PrefabName: Decoration_Stool
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
