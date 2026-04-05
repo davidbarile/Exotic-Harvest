@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Decorations_Cactus
+  m_Name: ShopItem_Decorations_Bush1
   m_EditorClassIdentifier: 
-  ID: ShopItem_Cactus
-  DisplayName: Cactus
+  ID: ShopItem_Bush1
+  DisplayName: Bush 1
   Description: 
-  Icon: {fileID: 21300000, guid: cd353147bc7ca451a94c8adf4c186bcb, type: 3}
+  Icon: {fileID: 21300000, guid: 010e39ad91bc3459294c957500cb31e9, type: 3}
   Scale: 1
   CanDragToWorld: 1
   DecorationData:
@@ -36,11 +36,9 @@ MonoBehaviour:
   ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 24
-      Amount: 5
-    - Type: 1
-      Amount: 10
+    - Type: 2
+      Amount: 25
   MaxPurchases: -1
-  IconColor: {r: 0.5981356, g: 0.764151, b: 0.06127627, a: 1}
+  IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1

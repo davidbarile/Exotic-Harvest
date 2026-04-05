@@ -77,6 +77,8 @@ public class ResourceDisplayUI : MonoBehaviour
                 this.amountText.color = Color.red;
         }
 
+        Debug.Log($"Updating display for {this.resourceType}:this.resourceConfig = {this.resourceConfig?.DisplayName}");
+
         // Update icon
         this.iconImage.sprite = this.resourceConfig.Icon;
         this.iconImage.color = this.resourceConfig.IconColor;

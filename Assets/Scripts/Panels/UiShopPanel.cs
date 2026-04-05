@@ -35,6 +35,9 @@ public class UiShopPanel : UIPanelBase
             this.isInitialized = true;
             RefreshShop();
         }
+
+        this.selectedItemData = null;
+        HideItemDetail();
     }
     
     protected override void RegisterEvents()
@@ -149,16 +152,14 @@ public class UiShopPanel : UIPanelBase
     
     private void ShowItemDetail()
     {
-        if (this.itemDetailPanel != null)
-            this.itemDetailPanel.SetActive(true);
+        this.itemDetailPanel.SetActive(true);
             
         RefreshItemDetail();
     }
     
     private void HideItemDetail()
     {
-        if (this.itemDetailPanel != null)
-            this.itemDetailPanel.SetActive(false);
+        this.itemDetailPanel.SetActive(false);
     }
     
     private void RefreshItemDetail()
