@@ -1,14 +1,18 @@
-using UnityEngine;
-using DG.Tweening;
 using System;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class DayNightCycleController : MonoBehaviour
 {
-     [SerializeField] private Transform cameraTransform;
+    private static readonly WaitForSeconds _waitForSeconds0_05 = new(0.05f);
+    
+    [SerializeField] private Transform cameraTransform;
     [SerializeField] private Animation dayNightCycleAnim;
     [SerializeField] private RectTransform timeOfDayRectTrans;
     [SerializeField] private float cameraOffset = -1920;
+    [SerializeField] private Slider worldPanSlider;
 
     private Vector3 initCameraPos;
 
@@ -77,6 +81,7 @@ public class DayNightCycleController : MonoBehaviour
         if (TimeManager.IN.UseRealTime || Time.frameCount < 100)
         {
             this.cameraTransform.localPosition = newPosition;
+            this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
             return;
         }
 
@@ -88,15 +93,19 @@ public class DayNightCycleController : MonoBehaviour
 
             this.cameraTransform.localPosition = new Vector3(newPosition.x - fakeDelta, this.cameraTransform.localPosition.y, this.cameraTransform.localPosition.z); // Move to the opposite side before tweening
             StartCoroutine(DelayedSetTimeOfDayRectPosition(newPosition));
+            //this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
+            this.worldPanSlider.SetValueWithoutNotify(.5f);
             return;
         }
 
         this.cameraTransform.DOLocalMoveX(newPosition.x, 1f).SetEase(Ease.Linear);
+        //this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
+        this.worldPanSlider.SetValueWithoutNotify(.5f);
     }
     
     private IEnumerator DelayedSetTimeOfDayRectPosition(Vector3 newPosition)
     {
-        yield return new WaitForSeconds(0.05f); // Wait a short time before tweening to the new position    
+        yield return _waitForSeconds0_05; // Wait a short time before tweening to the new position    
         this.cameraTransform.DOLocalMoveX(newPosition.x, 0.95f).SetEase(Ease.Linear);
     }
 }

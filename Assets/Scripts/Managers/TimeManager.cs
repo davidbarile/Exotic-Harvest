@@ -47,14 +47,17 @@ public class TimeManager : MonoBehaviour, ITickable
     public float CurrentHour => this.currentHour;
     public float DayProgress => this.currentHour / 24f; // 0-1 progress through day
     
-    private void OnEnable()
+    private void Start() 
     {
         TickManager.OnSecondTick += SecondTick;
+        //TickManager.OnTick += Tick;
     }
-    
-    private void OnDisable()
+        
+    private void OnDestroy()
     {
         TickManager.OnSecondTick -= SecondTick;
+        //TickManager.OnTick -= Tick;
+
     }
 
     public void Tick()
