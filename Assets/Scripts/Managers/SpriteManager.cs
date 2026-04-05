@@ -31,30 +31,30 @@ public class SpriteManager : MonoBehaviour
     {
         inImage.sprite = inSprite;
 
-        if(!shouldFitInRect) return;
+        if (!shouldFitInRect) return;
 
-        var rectSize = inImage.rectTransform.sizeDelta;
-        var spriteDims = inImage.sprite.bounds.size;
+        var spriteDims = new Vector2(inSprite.texture.width, inSprite.texture.height);
+        var rectSize = inImage.rectTransform.rect.size;
+       
         var spriteDimsRatio = spriteDims.x / spriteDims.y;
         var rectSizeRatio = rectSize.x / rectSize.y;
-        var isWider = spriteDimsRatio > rectSizeRatio;
 
-        float minWidth;
-        float minHeight;
-        if (isWider)
+        var isSpriteWider = spriteDimsRatio > rectSizeRatio;
+
+        float width;
+        float height;
+        if (isSpriteWider)
         {
-            minWidth = inImage.rectTransform.sizeDelta.x;
-            minHeight = minWidth / spriteDimsRatio;
+            width = inImage.rectTransform.rect.width;
+            height = width / spriteDimsRatio;
         }
         else
         {
-            minHeight = inImage.rectTransform.sizeDelta.y;
-            minWidth = minHeight * spriteDimsRatio;
+            height = inImage.rectTransform.rect.height;
+            width = height * spriteDimsRatio;
         }
 
-        inImage.rectTransform.sizeDelta = new Vector2(
-            minWidth,
-            minHeight
-        );
+        inImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        inImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
 }
