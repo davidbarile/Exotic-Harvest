@@ -26,8 +26,30 @@ MonoBehaviour:
       MinQuantity: 1
       MaxQuantity: 3
       MinMaxWeightFactor: 0.25
+  - DisplayName: Oyster
+    OverrideSpriteName: Icon_Oyster
+    ResourceType: 47
+    ChanceToDrop:
+      MinQuantity: 1
+      MaxQuantity: 5
+      MinMaxWeightFactor: 0.4
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 3
+      MinMaxWeightFactor: 0.2
+  - DisplayName: Snail
+    OverrideSpriteName: Icon_Snail
+    ResourceType: 27
+    ChanceToDrop:
+      MinQuantity: 3
+      MaxQuantity: 10
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 3
+      MinMaxWeightFactor: 0.2
   - DisplayName: Gold Coin
-    OverrideSpriteName: Icon_Color_0034
+    OverrideSpriteName: Icon_Gold
     ResourceType: 82
     ChanceToDrop:
       MinQuantity: 0
@@ -38,7 +60,7 @@ MonoBehaviour:
       MaxQuantity: 2
       MinMaxWeightFactor: 0.1
   - DisplayName: Ring
-    OverrideSpriteName: Icon_Color_0075
+    OverrideSpriteName: Icon_Ring
     ResourceType: 83
     ChanceToDrop:
       MinQuantity: 0
