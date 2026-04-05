@@ -49,34 +49,34 @@ public class ShopItemUI : MonoBehaviour
         // Update display when resources change (affects affordability)
         UpdateDisplay();
     }
-    
+
     private void UpdateDisplay()
     {
         if (this.shopItemData == null) return;
-        
+
         // Update itemData name
         if (this.itemNameText != null)
         {
             this.itemNameText.text = this.shopItemData.DisplayName;
         }
-        
+
         // Update icon
         if (this.itemIcon)
         {
-            this.itemIcon.sprite = this.shopItemData.Icon;
+            SpriteManager.SetImageSprite(this.itemIcon, this.shopItemData.Icon);
 
             if (this.shopItemData.IsResource)
                 this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.shopItemData.ResourceItems[0].ResourceType)?.IconColor ?? this.shopItemData.IconColor;
             else
                 this.itemIcon.color = this.shopItemData.IconColor;
         }
-        
+
         // Update background color
         this.backgroundImage.color = this.shopItemData.BgColor;
-        
+
         // Update price display
         UpdatePriceDisplay();
-        
+
         // Update availability overlays
         UpdateAvailabilityOverlays();
     }
