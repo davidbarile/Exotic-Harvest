@@ -9,12 +9,23 @@ public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
 
+    public enum EDayOfWeek
+    {
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday
+    }
+
     public bool UseRealTime => this.useRealTime;
     public bool FreezeTime => this.freezeTime;
     public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
     [SerializeField] private bool useRealTime; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
-     [SerializeField] private bool freezeTime;
-    
+    [SerializeField] private bool freezeTime;
+    [SerializeField] private EDayOfWeek currentDayOfWeek = EDayOfWeek.Sunday;
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private ETimeOfDay currentTimeOfDay = ETimeOfDay.Morning;
     [SerializeField, Range(0f, 24f)] private float currentHour = 8f; // Start at 8 AM
@@ -60,6 +71,7 @@ public class TimeManager : MonoBehaviour, ITickable
         {   
             var realTime = DateTime.Now;
             this.currentHour = realTime.Hour + (realTime.Minute / 60f) + (realTime.Second / 3600f);
+            this.currentDayOfWeek = (EDayOfWeek)realTime.DayOfWeek;
             //OnNewDay?.Invoke();
         }
         else
@@ -73,6 +85,7 @@ public class TimeManager : MonoBehaviour, ITickable
             {
                 this.currentHour -= 24f;
                 OnNewDay?.Invoke();
+                this.currentDayOfWeek = (EDayOfWeek)(((int)this.currentDayOfWeek + 1) % 7);
             }
         }
         
@@ -87,16 +100,16 @@ public class TimeManager : MonoBehaviour, ITickable
         }
 
         if(this.timeDisplayText)
-            this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+            this.timeDisplayText.text = $"{FormatFloatAsTime(this.currentHour)}\n<size=80%>{this.currentDayOfWeek} {this.currentTimeOfDay}</size>";
     }
     
     private ETimeOfDay GetTimeOfDayFromHour(float hour)
     {
         if (hour >= 6f && hour < 12f)
             return ETimeOfDay.Morning;
-        else if (hour >= 12f && hour < 18f)
+        else if (hour >= 12f && hour < 16f)
             return ETimeOfDay.Afternoon;
-        else if (hour >= 18f && hour < 22f)
+        else if (hour >= 16f && hour < 20f)
             return ETimeOfDay.Evening;
         else
             return ETimeOfDay.Night;
@@ -140,10 +153,10 @@ public class TimeManager : MonoBehaviour, ITickable
         OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
 
         if (this.timeSliderText != null)
-            this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+            this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} {this.currentTimeOfDay})";
 
         if(this.timeDisplayText)
-            this.timeDisplayText.text = $"Time: {FormatFloatAsTime(this.currentHour)} ({this.currentTimeOfDay})";
+            this.timeDisplayText.text = $"{FormatFloatAsTime(this.currentHour)}\n<size=80%>{this.currentDayOfWeek} {this.currentTimeOfDay}</size>";
     }
 
     public void ToggleRealTime(bool useReal)

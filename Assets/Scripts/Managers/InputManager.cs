@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     public static Action OnShopPress;
     public static Action OnInventoryPress;
     public static Action OnResourcesPress;
+    public static Action OnTimeWeatherPress;
     public static Action OnF1Press;
     public static Action OnF2Press;
     public static Action OnF3Press;
@@ -39,16 +40,19 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab)) OnTabPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Escape)) OnEscapePress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Space)) OnSpacePress?.Invoke();
+
         if (Input.GetKeyDown(KeyCode.D)) OnDragPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.M)) OnMPress?.Invoke();
+
         if (Input.GetKeyDown(KeyCode.F1)) OnF1Press?.Invoke();
         if (Input.GetKeyDown(KeyCode.F2)) OnF2Press?.Invoke();
         if (Input.GetKeyDown(KeyCode.F3)) OnF3Press?.Invoke();
-        if (Input.GetKeyDown(KeyCode.M)) OnMPress?.Invoke();
+
         if (Input.GetKeyDown(KeyCode.Alpha1)) OnSettingsPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha2)) OnResourcesPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha3)) OnShopPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha4)) OnInventoryPress?.Invoke();
-    
+        if (Input.GetKeyDown(KeyCode.Alpha5)) OnTimeWeatherPress?.Invoke();
     }
     
     public void SecondTick()

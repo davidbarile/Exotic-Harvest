@@ -16,6 +16,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
     [SerializeField] private UiResourcesPanel resourcesPanel;
+    [SerializeField] private  UIPanelBase timeWeatherPanel;
     [SerializeField] private UiCompass compass;
 
     private void Awake()
@@ -30,6 +31,7 @@ public class UiManager : MonoBehaviour
         InputManager.OnShopPress += ToggleShopPanelVisibility;
         InputManager.OnInventoryPress += ToggleInventoryPanelVisibility;
         InputManager.OnResourcesPress += ToggleResourcesPanelVisibility;
+        InputManager.OnTimeWeatherPress += ToggleTimeWeatherPanelVisibility;
         
         this.shopPanel.SetVisible(false, true);
         this.settingsPanel.SetVisible(false, true);
@@ -44,6 +46,7 @@ public class UiManager : MonoBehaviour
         InputManager.OnShopPress -= ToggleShopPanelVisibility;
         InputManager.OnInventoryPress -= ToggleInventoryPanelVisibility;
         InputManager.OnResourcesPress -= ToggleResourcesPanelVisibility;
+        InputManager.OnTimeWeatherPress -= ToggleTimeWeatherPanelVisibility;
     }
 
     private void HandleSpacePress()
@@ -87,6 +90,14 @@ public class UiManager : MonoBehaviour
             this.resourcesPanel.Hide();
         else
             this.resourcesPanel.Show();
+    }
+
+    public void ToggleTimeWeatherPanelVisibility()
+    {
+        if (this.timeWeatherPanel.IsShowing)
+            this.timeWeatherPanel.Hide();
+        else
+            this.timeWeatherPanel.Show();
     }
 
     public void SetDebugText(string text, bool append = false)

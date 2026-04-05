@@ -172,6 +172,6 @@ public class WeatherManager : MonoBehaviour, ITickable
     private void UpdateWeatherDisplay()
     {
         if (this.weatherDisplayText != null)
-            this.weatherDisplayText.text = $"Weather: {this.currentWeather} (Intensity: {this.weatherIntensity:F2})";
+            this.weatherDisplayText.text = $"Weather: {this.currentWeather}\n<size=80%>Intensity: {this.weatherIntensity:P0}</size>";
     }
 }
