@@ -55,19 +55,26 @@ public class UiManager : MonoBehaviour
     }
     
     public void ToggleSettingsPanelVisibility()
-    {     
+    {
+        this.inventoryPanel.Hide();
+        this.shopPanel.Hide();
+        
         this.settingsPanel.Toggle();  
     }
 
     public void ToggleShopPanelVisibility()
     {
         this.inventoryPanel.Hide();
+        this.settingsPanel.Hide();
+
         this.shopPanel.Toggle();  
     }
 
     public void ToggleInventoryPanelVisibility()
     {
         this.shopPanel.Hide();
+        this.settingsPanel.Hide();
+
         this.inventoryPanel.Toggle();
     }
 

@@ -10,6 +10,8 @@ public class UIPanelBase : MonoBehaviour
     [SerializeField] private bool shouldFadeInOut;
     [Range(0f, 1f), SerializeField] private float tweenDuration = 0.3f;
 
+    [SerializeField] private bool canEscapeKeyClose;
+
     private Canvas Canvas
     {
         get
@@ -39,12 +41,14 @@ public class UIPanelBase : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnEscapePress += HideCurrentPanel; 
+        if (this.canEscapeKeyClose)
+            InputManager.OnEscapePress += HideCurrentPanel;
     }
 
     private void OnDisable()
     {
-        InputManager.OnEscapePress -= HideCurrentPanel;
+        if (this.canEscapeKeyClose)
+            InputManager.OnEscapePress -= HideCurrentPanel;
     }
 
     public virtual void Show()
@@ -98,10 +102,13 @@ public class UIPanelBase : MonoBehaviour
     
     private void CanvasShowHide(bool inIsVisible)
     {
-        if (inIsVisible)
-            CurrentOpenPanel = this;
-        else if (CurrentOpenPanel == this)
-            CurrentOpenPanel = null;
+        if(this.canEscapeKeyClose)
+        {
+            if (inIsVisible)
+                CurrentOpenPanel = this;
+            else if (CurrentOpenPanel == this)
+                CurrentOpenPanel = null;
+        }
 
         if (inIsVisible)
             this.gameObject.SetActive(true);

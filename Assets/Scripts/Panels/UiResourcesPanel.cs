@@ -7,7 +7,6 @@ public class UiResourcesPanel : UIPanelBase
 {
     [Header("UI Settings")]
     [SerializeField] private GridLayoutGroup grid;
-    [SerializeField] private ContentSizeFitter contentSizeFitter;
     [SerializeField] private EResourceCategory categoriesToShow;
     [SerializeField] private bool showOnlyOwnedResources = true;
 
@@ -42,21 +41,27 @@ public class UiResourcesPanel : UIPanelBase
         // Get resources to display
         var resourcesToShow = GetResourcesToDisplay();
 
-        if (resourcesToShow.Length < this.maxItemsPerRow)
-        {
-            this.grid.constraint = GridLayoutGroup.Constraint.Flexible;
-            this.contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
-        }
-        else
-        {
-            this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
-            this.grid.constraintCount = this.maxItemsPerRow;
-            this.contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        }
-        
         foreach (var resourceConfig in resourcesToShow)
         {
             CreateResourceDisplay(resourceConfig);
+        }
+
+        var visibleResources = resourcesToShow.Where(r => ResourceManager.IN.GetResourceAmount(r.ResourceType) > 0 || !this.showOnlyOwnedResources).ToArray();
+
+        this.grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+
+        if (visibleResources.Length < this.maxItemsPerRow + 1)
+        {
+            this.grid.constraintCount = 1;
+        }
+        else if (visibleResources.Length < this.maxItemsPerRow * 2 + 1)
+        {
+            this.grid.constraintCount = 2;
+        }
+        else
+        {
+            this.grid.constraintCount = this.maxItemsPerRow;
+            this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         }
     }
     
