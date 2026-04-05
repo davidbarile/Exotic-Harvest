@@ -15,7 +15,8 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private GameObject itemDetailPanel;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
-    [SerializeField] private Image itemIcon;
+    [SerializeField] private GameObject[] itemIconDisplayObjects;
+    [SerializeField] private ShopItemIconDisplayUI[] itemIconDisplays;
     [SerializeField] private Button purchaseButton;
     [SerializeField] private TextMeshProUGUI purchaseButtonText;
     [SerializeField] private ResourceDisplayUI[] buyButtonCostDisplays;
@@ -164,21 +165,49 @@ public class UiShopPanel : UIPanelBase
     
     private void RefreshItemDetail()
     {
-        if (selectedItemData == null)
+        if (this.selectedItemData == null)
         {
             HideItemDetail();
             return;
         }
-            
-        // Update itemData info
+
+        // Update itemData name and description
         this.itemNameText.text = this.selectedItemData.DisplayName;
         this.itemDescriptionText.text = this.selectedItemData.Description;
-        this.itemIcon.sprite = this.selectedItemData.Icon;
 
-        if (this.selectedItemData.IsResource)
-            this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.selectedItemData.ResourceItems[0].ResourceType)?.IconColor ?? Color.white;
+        //hide all icon displays initially
+        foreach (var iconDisplayObject in this.itemIconDisplayObjects)
+        {
+            iconDisplayObject.SetActive(false);
+        }
+        
+        //show icons and quantity based on number of resources if it's a resource item, otherwise show single icon
+        if(this.selectedItemData.IsResource)
+        {
+            Debug.Log($"Configuring resource item with {this.selectedItemData.ResourceItems.Length} resource types.  this.itemIconDisplayObjects length: {this.itemIconDisplayObjects.Length}, this.itemIconDisplays length: {this.itemIconDisplays.Length}");
+            this.itemIconDisplayObjects[this.selectedItemData.ResourceItems.Length - 1].SetActive(true);
+
+            var indexOffset = this.selectedItemData.ResourceItems.Length - 1;
+
+            if (this.selectedItemData.ResourceItems.Length == 3)
+                indexOffset = 3;
+            else if (this.selectedItemData.ResourceItems.Length == 4)
+                indexOffset = 6;
+                
+            for(int i = 0; i < this.selectedItemData.ResourceItems.Length && i < this.itemIconDisplays.Length; i++)
+            {
+                var resourceItem = this.selectedItemData.ResourceItems[i];
+                var iconDisplay = this.itemIconDisplays[i + indexOffset];
+                var resourceData = ResourceManager.IN.Database.GetResource(resourceItem.ResourceType);
+                iconDisplay.Configure(resourceData.Icon, resourceItem.Amount, resourceData.IconColor);
+            }
+        }
         else
-            this.itemIcon.color = this.selectedItemData.IconColor;
+        {
+            this.itemIconDisplayObjects[0].SetActive(true);
+            var iconDisplay = this.itemIconDisplays[0];
+            iconDisplay.Configure(this.selectedItemData.Icon, 1, this.selectedItemData.IconColor);
+        }
         
         // Update purchase button
         RefreshPurchaseButton();

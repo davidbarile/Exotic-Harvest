@@ -39,12 +39,12 @@ public class UIPanelBase : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnEscapePress += SetCurrentPanel; 
+        InputManager.OnEscapePress += HideCurrentPanel; 
     }
 
     private void OnDisable()
     {
-        InputManager.OnEscapePress -= SetCurrentPanel;
+        InputManager.OnEscapePress -= HideCurrentPanel;
     }
 
     public virtual void Show()
@@ -54,14 +54,22 @@ public class UIPanelBase : MonoBehaviour
 
     public virtual void Hide()
     {
-        SetVisible(false); 
+        SetVisible(false);
     }
     
+    public virtual void Toggle()
+    {
+        if(this.IsShowing)
+            Hide();
+        else
+            Show();
+    }
+
     protected virtual void RegisterEvents() {}
 
     protected virtual void UnregisterEvents() {}
 
-    private void SetCurrentPanel()
+    private void HideCurrentPanel()
     {
         if (CurrentOpenPanel != null && CurrentOpenPanel == this)
             CurrentOpenPanel.Hide();
@@ -70,6 +78,9 @@ public class UIPanelBase : MonoBehaviour
     [Tooltip("This avoids calling functionality of overrides")]
     public void SetVisible(bool inIsVisible, bool inSkipFade = false)
     {
+        if (inIsVisible == this.IsShowing)
+            return;
+            
         this.IsShowing = inIsVisible;
 
         if (this.shouldFadeInOut && !inSkipFade)

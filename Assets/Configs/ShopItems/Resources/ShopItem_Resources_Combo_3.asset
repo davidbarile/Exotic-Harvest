@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
+  m_Name: ShopItem_Resources_Combo_3
+  m_EditorClassIdentifier: 
+  ID: ShopItem_Combo_3
+  DisplayName: Triple Combo
+  Description: 
+  Icon: {fileID: 0}
+  Scale: 1
+  CanDragToWorld: 0
+  DecorationData:
+    PrefabName: DefaultItemUI
+    WorldPosition: {x: 0, y: 0, z: 0}
+    ParentGuid: 0
+    SiblingIndex: 0
+    GeneratedResource: 0
+    CurrentAmount: 0
+    MaxAmount: 0
+    ConversionRatio: 1
+    GenerationInterval: 0
+    RequiresSpecificConditions: 0
+    IsActive: 0
+  Quanity: 1
+  MaxStack: 20
+  Category: 2
+  ResourceItems:
+  - ResourceType: 51
+    Amount: 33
+  - ResourceType: 41
+    Amount: 55
+  - ResourceType: 47
+    Amount: 65
+  Cost:
+    requiredResources:
+    - Type: 45
+      Amount: 15
+    - Type: 26
+      Amount: 10
+    - Type: 51
+      Amount: 3
+  MaxPurchases: -1
+  IconColor: {r: 1, g: 1, b: 1, a: 1}
+  BgColor: {r: 1, g: 1, b: 1, a: 1}
+  ShowInShop: 1

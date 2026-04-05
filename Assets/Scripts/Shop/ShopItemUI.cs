@@ -10,7 +10,8 @@ public class ShopItemUI : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Button itemButton;
-    [SerializeField] private Image itemIcon;
+    [SerializeField] private GameObject[] itemIconDisplayObjects;
+    [SerializeField] private ShopItemIconDisplayUI[] itemIconDisplays;
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private GameObject soldOutOverlay;
@@ -55,20 +56,40 @@ public class ShopItemUI : MonoBehaviour
         if (this.shopItemData == null) return;
 
         // Update itemData name
-        if (this.itemNameText != null)
+        this.itemNameText.text = this.shopItemData.DisplayName;
+
+        //hide all displays
+        foreach (var iconDisplayObject in this.itemIconDisplayObjects)
         {
-            this.itemNameText.text = this.shopItemData.DisplayName;
+            iconDisplayObject.SetActive(false);
         }
 
-        // Update icon
-        if (this.itemIcon)
+        //show icons and quantity based on number of resources if it's a resource item, otherwise show single icon
+        if(this.shopItemData.IsResource)
         {
-            SpriteManager.SetImageSprite(this.itemIcon, this.shopItemData.Icon);
+            Debug.Log($"Configuring resource item with {this.shopItemData.ResourceItems.Length} resource types.  this.itemIconDisplayObjects length: {this.itemIconDisplayObjects.Length}, this.itemIconDisplays length: {this.itemIconDisplays.Length}");
+            this.itemIconDisplayObjects[this.shopItemData.ResourceItems.Length - 1].SetActive(true);
 
-            if (this.shopItemData.IsResource)
-                this.itemIcon.color = ResourceManager.IN.Database.GetResource(this.shopItemData.ResourceItems[0].ResourceType)?.IconColor ?? this.shopItemData.IconColor;
-            else
-                this.itemIcon.color = this.shopItemData.IconColor;
+            var indexOffset = this.shopItemData.ResourceItems.Length - 1;
+
+            if (this.shopItemData.ResourceItems.Length == 3)
+                indexOffset = 3;
+            else if (this.shopItemData.ResourceItems.Length == 4)
+                indexOffset = 6;
+                
+            for(int i = 0; i < this.shopItemData.ResourceItems.Length && i < this.itemIconDisplays.Length; i++)
+            {
+                var resourceItem = this.shopItemData.ResourceItems[i];
+                var iconDisplay = this.itemIconDisplays[i + indexOffset];
+                var resourceData = ResourceManager.IN.Database.GetResource(resourceItem.ResourceType);
+                iconDisplay.Configure(resourceData.Icon, resourceItem.Amount, resourceData.IconColor);
+            }
+        }
+        else
+        {
+            this.itemIconDisplayObjects[0].SetActive(true);
+            var iconDisplay = this.itemIconDisplays[0];
+            iconDisplay.Configure(this.shopItemData.Icon, 1, this.shopItemData.IconColor);
         }
 
         // Update background color

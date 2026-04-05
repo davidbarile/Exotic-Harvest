@@ -6743,10 +6743,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1983084944}
-  - {fileID: 348875968}
   - {fileID: 62484260}
   - {fileID: 277883424}
   - {fileID: 9175530770079150032}
+  - {fileID: 348875968}
   m_Father: {fileID: 1116631535}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -15940,13 +15940,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56067a2106ffc4fd6843841060b45509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiManager
-  debugText: {fileID: 369173869}
   settingsPanel: {fileID: 348875970}
   shopPanel: {fileID: 62484262}
   inventoryPanel: {fileID: 277883425}
   resourcesPanel: {fileID: 9175530770079150033}
   timeWeatherPanel: {fileID: 5643882755429292273}
   compass: {fileID: 1350708676}
+  debugText: {fileID: 369173869}
 --- !u!114 &1713415290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21777,6 +21777,14 @@ PrefabInstance:
     - target: {fileID: 8312021812629234143, guid: 2de63d97fa8e647a0877c3d543f699e0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727536555433144559, guid: 2de63d97fa8e647a0877c3d543f699e0, type: 3}
+      propertyPath: m_Size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727536555433144559, guid: 2de63d97fa8e647a0877c3d543f699e0, type: 3}
+      propertyPath: m_Value
+      value: 1.0000011
       objectReference: {fileID: 0}
     - target: {fileID: 9099283838490896556, guid: 2de63d97fa8e647a0877c3d543f699e0, type: 3}
       propertyPath: m_AnchorMax.y

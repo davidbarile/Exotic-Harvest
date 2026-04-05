@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Resources_Feathers_5
+  m_Name: ShopItem_Resources_Combo_4
   m_EditorClassIdentifier: 
-  ID: ShopItem_Feathers
-  DisplayName: Feathers (5)
-  Description: 
-  Icon: {fileID: 21300000, guid: 2a56d5793421048009989af2026039fb, type: 3}
+  ID: ShopItem_Combo_4
+  DisplayName: 'Quad Combo
+
+    Quad Combo'
+  Description: Four Great Items together in a combo package for the first ime since
+    2025
+  Icon: {fileID: 0}
   Scale: 1
   CanDragToWorld: 0
   DecorationData:
@@ -31,16 +34,26 @@ MonoBehaviour:
     RequiresSpecificConditions: 0
     IsActive: 0
   Quanity: 1
-  MaxStack: 10
+  MaxStack: 20
   Category: 2
   ResourceItems:
+  - ResourceType: 27
+    Amount: 86
+  - ResourceType: 42
+    Amount: 34
+  - ResourceType: 63
+    Amount: 23
   - ResourceType: 45
-    Amount: 5
+    Amount: 18
   Cost:
     requiredResources:
-    - Type: 1
+    - Type: 46
+      Amount: 35
+    - Type: 27
+      Amount: 15
+    - Type: 41
       Amount: 25
   MaxPurchases: -1
-  IconColor: {r: 0.76910096, g: 0.6650944, b: 1, a: 1}
+  IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1

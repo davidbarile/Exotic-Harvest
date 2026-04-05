@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Resources_Oysters_5
+  m_Name: ShopItem_Resources_GoldenApples_x5
   m_EditorClassIdentifier: 
-  ID: ShopItem_Oysters
-  DisplayName: Oysters (3)
-  Description: 
-  Icon: {fileID: 21300000, guid: e5c7959f714b84338bb9759c5d515dfc, type: 3}
+  ID: ShopItem_GoldenApples_5
+  DisplayName: Golden Apple
+  Description: This can be used to time travel, and buy premium decorations and tools.
+  Icon: {fileID: 21300000, guid: 047a5b9e26fb7469e893e4965fd2df1e, type: 3}
   Scale: 1
   CanDragToWorld: 0
   DecorationData:
@@ -31,15 +31,21 @@ MonoBehaviour:
     RequiresSpecificConditions: 0
     IsActive: 0
   Quanity: 1
-  MaxStack: 20
-  Category: 2
+  MaxStack: 10
+  Category: 5
   ResourceItems:
-  - ResourceType: 47
-    Amount: 3
+  - ResourceType: 200
+    Amount: 1
   Cost:
     requiredResources:
-    - Type: 46
+    - Type: 51
       Amount: 25
+    - Type: 26
+      Amount: 10
+    - Type: 63
+      Amount: 5
+    - Type: 81
+      Amount: 2
   MaxPurchases: -1
   IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}

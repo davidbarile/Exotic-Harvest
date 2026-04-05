@@ -5,7 +5,6 @@ public class UiManager : MonoBehaviour
 {
     public static UiManager IN;
 
-    [SerializeField] private TMP_Text debugText;
     public UiSettingsPanel SettingsPanel => this.settingsPanel;
     public UiShopPanel ShopPanel => this.shopPanel;
     public UiInventoryPanel InventoryPanel => this.inventoryPanel;
@@ -16,8 +15,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
     [SerializeField] private UiResourcesPanel resourcesPanel;
-    [SerializeField] private  UIPanelBase timeWeatherPanel;
+    [SerializeField] private UIPanelBase timeWeatherPanel;
     [SerializeField] private UiCompass compass;
+    [SerializeField] private TMP_Text debugText;
 
     private void Awake()
     {
@@ -55,49 +55,30 @@ public class UiManager : MonoBehaviour
     }
     
     public void ToggleSettingsPanelVisibility()
-    {
-        if (this.settingsPanel.IsShowing)
-            this.settingsPanel.Hide();
-        else
-        {
-            this.shopPanel.SetVisible(false);
-            this.settingsPanel.Show();
-        }
+    {     
+        this.settingsPanel.Toggle();  
     }
 
     public void ToggleShopPanelVisibility()
     {
-        if (this.shopPanel.IsShowing)
-            this.shopPanel.Hide();
-        else
-        {
-            this.settingsPanel.SetVisible(false);
-            this.shopPanel.Show();
-        }
+        this.inventoryPanel.Hide();
+        this.shopPanel.Toggle();  
     }
 
     public void ToggleInventoryPanelVisibility()
     {
-        if (this.inventoryPanel.IsShowing)
-            this.inventoryPanel.Hide();
-        else
-            this.inventoryPanel.Show();
+        this.shopPanel.Hide();
+        this.inventoryPanel.Toggle();
     }
 
     public void ToggleResourcesPanelVisibility()
     {
-        if (this.resourcesPanel.IsShowing)
-            this.resourcesPanel.Hide();
-        else
-            this.resourcesPanel.Show();
+        this.resourcesPanel.Toggle();
     }
 
     public void ToggleTimeWeatherPanelVisibility()
     {
-        if (this.timeWeatherPanel.IsShowing)
-            this.timeWeatherPanel.Hide();
-        else
-            this.timeWeatherPanel.Show();
+        this.timeWeatherPanel.Toggle();
     }
 
     public void SetDebugText(string text, bool append = false)
