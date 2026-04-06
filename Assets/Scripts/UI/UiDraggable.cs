@@ -41,6 +41,12 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public static void UpdateHighlightedObjects()
     {
+        EDecorationType decorationType = EDecorationType.All;
+        if (DragManager.IN.CurrentDragSource is UiDecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
+        {
+            decorationType = decoration.ItemData.DecorationData.DecorationType;
+        }
+
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
             if (possibleTarget == null)
@@ -50,8 +56,11 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
             if (dragTarget != null && !dragTarget.transform.IsChildOf(DragManager.IN.CurrentDraggedTransform))
             {
-                CurrentHighlightedTargets.Add(dragTarget);
-                dragTarget.SetHighlight(true);
+                if (dragTarget.AllowsDecorationType(decorationType))
+                {
+                    CurrentHighlightedTargets.Add(dragTarget);
+                    dragTarget.SetHighlight(true);
+                }
             }
         }
 
@@ -183,19 +192,28 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
 
-        this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
-        this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+            this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
-        SaveItemPosition();
+            SaveItemPosition();
             return false;
         }
         
         if (this.shouldDetectDropTargets)
         {
+            EDecorationType decorationType = EDecorationType.All;
+            if (this is UiDecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
+            {
+                decorationType = decoration.ItemData.DecorationData.DecorationType;
+            }
+        
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && !dragTarget.transform.IsChildOf(this.targetRectTransform))
                 {
+                    if (!dragTarget.AllowsDecorationType(decorationType))
+                        continue;
+                        
                     dragTarget.SetAsParent(this.targetRectTransform);
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);

@@ -32,7 +32,6 @@ public class ShopItemData
 
     [Header("Decoration Data")]
     public DecorationData DecorationData;
-    public bool CanDragToWorld;
 
     [Header("Visual")]
     public Color IconColor = Color.white;
@@ -82,7 +81,6 @@ public class ShopItemData
             MaxStack = shopItemData.IsResource ? 100 : shopItemData.MaxStack,
             IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
             IconColor = shopItemData.IconColor,
-            CanDragToWorld = shopItemData.CanDragToWorld,
             DecorationData = DecorationData.Copy(shopItemData.DecorationData)
         };
 

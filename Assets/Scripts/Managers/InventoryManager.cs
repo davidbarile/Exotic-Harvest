@@ -24,7 +24,6 @@ public class InventoryManager : MonoBehaviour
                 itemData.Scale = itemData.ShopItemConfig.Scale;
                 //itemData.Quantity = itemData.ShopItemConfig.Quanity;
                 itemData.MaxStack = itemData.ShopItemConfig.MaxStack;
-                itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
                 itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
             }
         }
@@ -50,7 +49,6 @@ public class InventoryManager : MonoBehaviour
             itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
             itemData.Category = itemData.ShopItemConfig.Category;
             itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
-            itemData.CanDragToWorld = itemData.ShopItemConfig.CanDragToWorld;
             itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
         }
 

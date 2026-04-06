@@ -69,7 +69,7 @@ public class UiInventoryItem : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone && this.ItemData.CanDragToWorld)
+            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone)
             {
                 UiManager.IN.InventoryPanel.Hide();
 
@@ -173,12 +173,7 @@ public class UiInventoryItem : UiDraggable
                         return false;//found drag target, reparent and exit
                     }
                     else
-                    {
-                        if (!this.ItemData.CanDragToWorld)
-                        {
-                            return true;//bounce back
-                        }
-                    }
+                        return true;//bounce back
                 }
             }
         }

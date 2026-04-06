@@ -17,8 +17,6 @@ public class ShopItemConfig : ScriptableObject
 
     [Header("Decoration Data")]
     [HideIf("Category", EShopCategory.Resources)]
-    public bool CanDragToWorld;
-    [HideIf("Category", EShopCategory.Resources)]
     public DecorationData DecorationData;
 
     [Header("Inventory Item Data")]
@@ -71,7 +69,6 @@ public class ShopItemConfig : ScriptableObject
             Icon = inConfig.Icon,
             IconColor = inConfig.IconColor,
             BgColor = inConfig.BgColor,
-            CanDragToWorld = inConfig.CanDragToWorld,
             DecorationData = DecorationData.Copy(inConfig.DecorationData)
         };
 

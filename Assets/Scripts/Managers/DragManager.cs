@@ -30,6 +30,8 @@ public class DragManager : MonoBehaviour
     public RectTransform CurrentDraggedTransform { get; private set; }
     public Vector3 OffsetFromCursor { get; private set; }
     public bool IsDraggingActive { get; private set; }
+
+    public UiDraggable CurrentDragSource => this.currentDragSource;
     private UiDraggable currentDragSource;
     private GameObject currentDragProxy;
 

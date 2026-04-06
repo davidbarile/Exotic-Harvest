@@ -9,6 +9,9 @@ public class DecorationData
     public int ParentGuid;
     public int SiblingIndex;
 
+    [Space, Header("Drag Zone Flags")]
+    public EDecorationType DecorationType;
+
     // For passive harvesters
     [Header("Resource Generation")]
     public EResourceType GeneratedResource;
@@ -28,6 +31,7 @@ public class DecorationData
             WorldPosition = decorationData.WorldPosition,
             ParentGuid = decorationData.ParentGuid,
             SiblingIndex = decorationData.SiblingIndex,
+            DecorationType = decorationData.DecorationType,
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,

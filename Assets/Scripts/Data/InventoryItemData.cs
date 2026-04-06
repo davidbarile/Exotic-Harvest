@@ -15,7 +15,6 @@ public class InventoryItemData
     public bool IsDecoration => this.Category == EShopCategory.Decorations;
     public bool IsResource => this.Category == EShopCategory.Resources;
 
-    public bool CanDragToWorld;
     public float Scale = 1f;
     public string IconSpriteName;
     public Color IconColor = Color.white;
@@ -28,7 +27,6 @@ public class InventoryItemData
             Quantity = cloneTarget.Quantity,
             MaxStack = cloneTarget.MaxStack,
             Category = cloneTarget.Category,
-            CanDragToWorld = cloneTarget.CanDragToWorld,
             Scale = cloneTarget.Scale,
             IconSpriteName = cloneTarget.IconSpriteName,
             IconColor = cloneTarget.IconColor,
@@ -44,7 +42,6 @@ public class InventoryItemData
             Quantity = shopConfig.Quanity,
             MaxStack = shopConfig.IsResource ? 100 : shopConfig.MaxStack,
             Category = shopConfig.Category,
-            CanDragToWorld = shopConfig.CanDragToWorld,
             Scale = shopConfig.Scale,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
             IconColor = shopConfig.IconColor,

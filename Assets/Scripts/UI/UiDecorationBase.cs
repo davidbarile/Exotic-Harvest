@@ -34,7 +34,6 @@ public class UiDecorationBase : UiDraggable
         this.initItemData.DisplayName = this.initItemData.ShopItemConfig.DisplayName;
         this.initItemData.Category = this.initItemData.ShopItemConfig.Category;
         this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
-        this.initItemData.CanDragToWorld = this.initItemData.ShopItemConfig.CanDragToWorld;
         this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
         this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
 
