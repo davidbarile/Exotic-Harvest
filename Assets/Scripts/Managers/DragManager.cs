@@ -9,6 +9,9 @@ public class DragManager : MonoBehaviour
 
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
 
+    public static Action<EDecorationType> OnDragStartedWithDecorationType;
+    public static Action OnDragEnded;
+
     public static bool IsDragModeActivated = false;
 
     public static Action<bool> OnDragModeChanged;
@@ -94,6 +97,9 @@ public class DragManager : MonoBehaviour
         inDraggedTransform.SetParent(this.DragCanvas, true);
 
         var dragDecoration = this.currentDragSource as UiDecorationBase;
+
+        if(inSource.HighlightAvailableTargetsWhenDragged)
+            OnDragStartedWithDecorationType?.Invoke(dragDecoration != null ? dragDecoration.ItemData.DecorationData.DecorationType : EDecorationType.None);
 
         if (dragDecoration != null && dragDecoration.WorldProxy != null)
         {
@@ -195,6 +201,7 @@ public class DragManager : MonoBehaviour
         this.CurrentDraggedTransform = null;
         this.currentDragSource = null;
         this.currentDragProxy = null;
+        OnDragEnded?.Invoke();
     }
 
     private void TriggerEndDragOnCurrentObject()

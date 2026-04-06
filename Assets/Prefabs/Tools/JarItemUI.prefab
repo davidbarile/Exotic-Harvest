@@ -160,6 +160,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  highlightAvailableTargetsWhenDragged: 1
   isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
@@ -176,6 +177,7 @@ MonoBehaviour:
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
+      DecorationType: 2049
       GeneratedResource: 25
       CurrentAmount: 0
       MaxAmount: 100
@@ -183,7 +185,6 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0
-    CanDragToWorld: 1
     Scale: 1
     IconSpriteName: Jar
     IconColor: {r: 1, g: 1, b: 1, a: 1}

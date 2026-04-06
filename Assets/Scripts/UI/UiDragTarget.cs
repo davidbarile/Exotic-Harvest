@@ -20,6 +20,26 @@ public class UiDragTarget : MonoBehaviour
     {
         this.BoundsCollider = this.BoundsCollider == null ? GetComponent<Collider2D>() : this.BoundsCollider;
         SetHighlight(false);
+
+        DragManager.OnDragStartedWithDecorationType += OnDragStartedWithDecorationType;
+        DragManager.OnDragEnded += OnDragEnded;
+    }
+
+    private void OnDestroy()
+    {
+        DragManager.OnDragStartedWithDecorationType -= OnDragStartedWithDecorationType;
+        DragManager.OnDragEnded -= OnDragEnded;
+    }
+
+    private void OnDragStartedWithDecorationType(EDecorationType decorationType)
+    {
+        SetIsValidHighlight(AllowsDecorationType(decorationType));
+    }
+
+    private void OnDragEnded()
+    {
+        SetHighlight(false);
+        SetIsValidHighlight(false);
     }
 
     public bool AllowsDecorationType(EDecorationType decorationType)

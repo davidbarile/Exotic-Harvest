@@ -14,6 +14,8 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [SerializeField] protected bool limitToParentTargetBounds;
 
     [SerializeField] protected bool shouldDetectDropTargets = true;
+    public bool HighlightAvailableTargetsWhenDragged => this.highlightAvailableTargetsWhenDragged;
+    [SerializeField] protected bool highlightAvailableTargetsWhenDragged;
     [SerializeField] protected bool isMenuPanel;
 
     [Header("(Defaults to Object Root)")]
