@@ -30,7 +30,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3270201178428596670}
+  m_Father: {fileID: 75735733123627162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -166,8 +166,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7467792971585227021}
+  m_Children: []
   m_Father: {fileID: 2749251519718306862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -242,7 +241,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7467792971585227021}
   m_Father: {fileID: 2749251519718306862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -351,8 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UiDragTarget
   highlightObject: {fileID: 3422583370968283031}
   isValidHighlight: {fileID: 4035289803484547256}
-  shouldSnapToCenter: 0
   acceptedDecorationTypes: 7168
+  shouldSnapToCenter: 0
   BoundsCollider: {fileID: 2322978490796278655}
   UnsnapRange: -1
   IsDragOutOfInventoryZone: 0

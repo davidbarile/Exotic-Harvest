@@ -36,6 +36,8 @@ public class UiDecorationBase : UiDraggable
         this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
         this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
         this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
+        
+        this.highlightValidTargetsWhenDragged = this.initItemData.DecorationData.HighlightValidTargetsWhenDragged;
 
         if (this.initItemData.Quantity <= 0)
             this.initItemData.Quantity = 1;

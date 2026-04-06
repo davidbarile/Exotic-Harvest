@@ -11,6 +11,7 @@ public class DecorationData
 
     [Space, Header("Drag Zone Flags")]
     public EDecorationType DecorationType;
+    public bool HighlightValidTargetsWhenDragged;
 
     // For passive harvesters
     [Header("Resource Generation")]
@@ -32,6 +33,7 @@ public class DecorationData
             ParentGuid = decorationData.ParentGuid,
             SiblingIndex = decorationData.SiblingIndex,
             DecorationType = decorationData.DecorationType,
+            HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,

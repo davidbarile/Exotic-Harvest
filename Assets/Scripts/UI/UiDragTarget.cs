@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class UiDragTarget : MonoBehaviour
 {
+    [Header("Leave null to not highlight on valid drag over")]
     [SerializeField] private GameObject highlightObject;
-     [SerializeField] private GameObject isValidHighlight;
-    [SerializeField] private bool shouldSnapToCenter;
+    [Header("Leave null to not highlight on valid drag start")]
+    [SerializeField] private GameObject isValidHighlight;
 
     public EDecorationType AcceptedDecorationTypes => this.acceptedDecorationTypes;
-    [SerializeField] private EDecorationType acceptedDecorationTypes = EDecorationType.All;
+    [Space, SerializeField] private EDecorationType acceptedDecorationTypes = EDecorationType.All;
+
+    [Space, SerializeField] private bool shouldSnapToCenter;
 
     [Header("Optional Bounds")]
     public Collider2D BoundsCollider;
@@ -20,6 +23,7 @@ public class UiDragTarget : MonoBehaviour
     {
         this.BoundsCollider = this.BoundsCollider == null ? GetComponent<Collider2D>() : this.BoundsCollider;
         SetHighlight(false);
+        SetIsValidHighlight(false);
 
         DragManager.OnDragStartedWithDecorationType += OnDragStartedWithDecorationType;
         DragManager.OnDragEnded += OnDragEnded;
