@@ -302,7 +302,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
-  highlightAvailableTargetsWhenDragged: 1
+  highlightValidTargetsWhenDragged: 1
   isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
   dragEnabledDisplay: {fileID: 0}
@@ -322,6 +322,7 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       DecorationType: 1027
+      HighlightValidTargetsWhenDragged: 1
       GeneratedResource: 2
       CurrentAmount: 0
       MaxAmount: 500

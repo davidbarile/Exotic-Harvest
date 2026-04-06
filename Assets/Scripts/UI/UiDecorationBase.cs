@@ -98,7 +98,9 @@ public class UiDecorationBase : UiDraggable
         base.OnEndDrag(eventData);
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
 
-        if(this.worldProxy)
+        var parentCanvas = this.GetComponentInParent<Canvas>();
+
+        if(this.worldProxy && parentCanvas?.renderMode == RenderMode.WorldSpace)
             this.worldProxy.gameObject.SetActive(false);
 
         var inventoryPanel = UiManager.IN.InventoryPanel;
@@ -238,6 +240,12 @@ public class UiDecorationBase : UiDraggable
 
         // Mark as actively being dragged
         this.isDragging = true;
+
+        if(this.worldProxy)
+        {
+            this.worldProxy.gameObject.SetActive(true);
+            this.worldProxy.transform.localPosition = DragManager.ScreenToWorldCameraDelta / this.transform.localScale.x;
+        }
 
         // Store drag state for proper cleanup on drag end
         this.offsetFromCursor = inOffsetFromCursor;
