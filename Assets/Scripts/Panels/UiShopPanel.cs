@@ -184,7 +184,6 @@ public class UiShopPanel : UIPanelBase
         //show icons and quantity based on number of resources if it's a resource item, otherwise show single icon
         if(this.selectedItemData.IsResource)
         {
-            Debug.Log($"Configuring resource item with {this.selectedItemData.ResourceItems.Length} resource types.  this.itemIconDisplayObjects length: {this.itemIconDisplayObjects.Length}, this.itemIconDisplays length: {this.itemIconDisplays.Length}");
             this.itemIconDisplayObjects[this.selectedItemData.ResourceItems.Length - 1].SetActive(true);
 
             var indexOffset = this.selectedItemData.ResourceItems.Length - 1;
