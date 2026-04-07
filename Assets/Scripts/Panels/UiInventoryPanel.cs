@@ -14,12 +14,6 @@ public class UiInventoryPanel : UIPanelBase
     [SerializeField] private Transform itemsGridParent;
     [SerializeField] private Toggle[] categoryTabs;
 
-    [Header("Item Detail Panel")]
-    [SerializeField] private GameObject itemDetailPanel;
-    [SerializeField] private TextMeshProUGUI itemNameText;
-    [SerializeField] private TextMeshProUGUI itemDescriptionText;
-    [SerializeField] private Image itemIcon;
-
     [Header("Inventory Stats")]
     [SerializeField] private EShopCategory[] categoriesToShow; // Which categories to display in inventory
     public EShopCategory CurrentCategory => this.currentCategory;
@@ -100,13 +94,11 @@ public class UiInventoryPanel : UIPanelBase
         this.selectedItemData = null;
         
         RefreshItemGrid(false);
-        HideItemDetail();
     }
 
     private void RefreshInventory()
     {
         RefreshItemGrid(false);
-        RefreshItemDetail();
     }
 
     private void RefreshItemGrid(bool shouldRecreateCells)
@@ -204,33 +196,6 @@ public class UiInventoryPanel : UIPanelBase
     private void SelectItem(InventoryItemData itemData)
     {
         this.selectedItemData = itemData;
-        ShowItemDetail();
-    }
-    
-    private void ShowItemDetail()
-    {
-        if (this.itemDetailPanel != null)
-            this.itemDetailPanel.SetActive(true);
-            
-        RefreshItemDetail();
-    }
-    
-    private void HideItemDetail()
-    {
-        if (this.itemDetailPanel != null)
-            this.itemDetailPanel.SetActive(false);
-    }
-
-    private void RefreshItemDetail()
-    {
-        if (this.selectedItemData == null)
-            return;
-
-        // Update itemData info
-        if (this.itemNameText)
-            this.itemNameText.text = this.selectedItemData.DisplayName;
-
-        this.itemIcon.sprite = SpriteManager.GetSprite(this.selectedItemData.IconSpriteName);
     }
 
     private void SetDragOutOfInventoryZoneActive(bool isActive)
