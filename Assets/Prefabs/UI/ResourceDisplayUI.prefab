@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 3234567890123457}
   - component: {fileID: 574298216413674008}
   - component: {fileID: 4518121589791246073}
-  - component: {fileID: 7909804203037494150}
-  - component: {fileID: 1455210214939626983}
+  - component: {fileID: 8593373597283902767}
   - component: {fileID: 463727920880288472}
   - component: {fileID: 7236042993726227405}
   m_Layer: 5
@@ -57,7 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceDisplayUI
   iconImage: {fileID: 9151379015479823966}
   amountText: {fileID: 1446449662638651843}
-  backgroundImage: {fileID: 7909804203037494150}
+  backgroundImage: {fileID: 8593373597283902767}
   isShopDisplay: 0
   tooltipTrigger: {fileID: 463727920880288472}
 --- !u!222 &4518121589791246073
@@ -68,7 +67,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3234567890123456}
   m_CullTransparentMesh: 1
---- !u!114 &7909804203037494150
+--- !u!114 &8593373597283902767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,19 +76,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3234567890123456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f1c5417c9d7ab4b84e531f83f60a4b, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.UI.ProceduralImage.ProceduralImage
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 0.5019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f91331724a9da84197e9b6d94f0483c, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 26d9d8c1882964c1ca8f20b845f1d6f8, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -97,22 +96,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
-  borderWidth: 0
-  falloffDistance: 0.2
---- !u!114 &1455210214939626983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3234567890123456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8714c362c0c8a6449a9559a31cdab9a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UniformModifier
-  radius: 12
+  m_PixelsPerUnitMultiplier: 7
 --- !u!114 &463727920880288472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +261,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 34.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

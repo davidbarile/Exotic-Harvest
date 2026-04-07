@@ -35,6 +35,30 @@ public class UiSettingsPanel : UIPanelBase
         }
     }
 
+    public void HandlePanelColorSliderChanged_Red(float value)
+    {
+        ColorManager.IN.PanelColor = new Color(value, ColorManager.IN.PanelColor.g, ColorManager.IN.PanelColor.b, ColorManager.IN.PanelColor.a);
+        ColorManager.OnPanelColorChanged?.Invoke(ColorManager.IN.PanelColor);
+    }
+
+    public void HandlePanelColorSliderChanged_Green(float value)
+    {
+        ColorManager.IN.PanelColor = new Color(ColorManager.IN.PanelColor.r, value, ColorManager.IN.PanelColor.b, ColorManager.IN.PanelColor.a);
+        ColorManager.OnPanelColorChanged?.Invoke(ColorManager.IN.PanelColor);
+    }
+
+    public void HandlePanelColorSliderChanged_Blue(float value)
+    {
+        ColorManager.IN.PanelColor = new Color(ColorManager.IN.PanelColor.r, ColorManager.IN.PanelColor.g, value, ColorManager.IN.PanelColor.a);
+        ColorManager.OnPanelColorChanged?.Invoke(ColorManager.IN.PanelColor);
+    }
+
+     public void HandlePanelColorSliderChanged_Alpha(float value)
+    {
+        ColorManager.IN.PanelColor = new Color(ColorManager.IN.PanelColor.r, ColorManager.IN.PanelColor.g, ColorManager.IN.PanelColor.b, value);
+        ColorManager.OnPanelColorChanged?.Invoke(ColorManager.IN.PanelColor);
+    }
+
     public void HandleToggleChanged_0(bool isOn)
     {
         HideAllContentDisplays();
