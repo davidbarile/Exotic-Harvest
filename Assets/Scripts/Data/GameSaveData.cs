@@ -25,9 +25,10 @@ public class GameSaveData
     
     [Header("Resources")]
     public ResourceSaveData ResourcesSaveDatas = new();
-    
+
     [Header("Settings")]
     public GameSettingsData SettingsData = new();
+    public Color PanelColor = Color.black;
     
     [Header("Time & Weather")]
     public float CurrentGameHour = 8f;

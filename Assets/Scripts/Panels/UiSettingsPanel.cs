@@ -9,6 +9,7 @@ public class UiSettingsPanel : UIPanelBase
     [SerializeField] private Toggle useRealTimeToggle;
 
     [SerializeField] private GameObject[] contentDisplays;
+     [SerializeField] private Slider[] panelColorSliders; // 0-Red, 1-Green, 2-Blue, 3-Alpha
 
     public override void Show()
     {
@@ -99,5 +100,13 @@ public class UiSettingsPanel : UIPanelBase
     {
         HideAllContentDisplays();
         this.contentDisplays[6].SetActive(isOn);
+    }
+
+    public void ApplySettingsDataToUI(Color inPanelColor)
+    {
+        this.panelColorSliders[0].value = inPanelColor.r;
+        this.panelColorSliders[1].value = inPanelColor.g;
+        this.panelColorSliders[2].value = inPanelColor.b;
+        this.panelColorSliders[3].value = inPanelColor.a;
     }
 }

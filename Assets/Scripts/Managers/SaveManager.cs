@@ -213,6 +213,8 @@ public class SaveManager : MonoBehaviour, ITickable
 
         Data.CurrentWeather = WeatherManager.IN.CurrentWeather;
         Data.WeatherIntensity = WeatherManager.IN.WeatherIntensity;
+
+        Data.PanelColor = ColorManager.IN.PanelColor;
         
         // Settings (window position, etc.)
         CollectSettingsData();
@@ -229,6 +231,10 @@ public class SaveManager : MonoBehaviour, ITickable
 
         TimeManager.IN.SetTime(Data.CurrentGameHour);
         WeatherManager.IN.ForceWeather(Data.CurrentWeather);
+
+        ColorManager.IN.PanelColor = Data.PanelColor;
+        ColorManager.OnPanelColorChanged?.Invoke(Data.PanelColor);
+        UiManager.IN.SettingsPanel.ApplySettingsDataToUI(Data.PanelColor);
         
         ApplySettingsData();
     }
