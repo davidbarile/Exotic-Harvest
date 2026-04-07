@@ -36,6 +36,7 @@ RectTransform:
   m_Children:
   - {fileID: 4681535256830346884}
   - {fileID: 111268007146042686}
+  - {fileID: 299443244843381461}
   - {fileID: 7733198439197344044}
   - {fileID: 1927962182464305959}
   m_Father: {fileID: 0}
@@ -85,7 +86,7 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 1
   shouldDetectDropTargets: 1
-  highlightAvailableTargetsWhenDragged: 1
+  highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
@@ -103,6 +104,7 @@ MonoBehaviour:
       ParentGuid: 0
       SiblingIndex: 0
       DecorationType: 0
+      HighlightValidTargetsWhenDragged: 0
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 0
@@ -244,7 +246,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7733198439197344044}
+  m_Father: {fileID: 4234567890123457}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -272,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.93627626, b: 0.68956923, a: 1}
+  m_Color: {r: 0.97969306, g: 0.8349056, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -318,8 +320,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 299443244843381461}
+  m_Children: []
   m_Father: {fileID: 4234567890123457}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -355,7 +356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0bdfbdcbc25e3489a9adb27f895fff84, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63aca6f216935440f948d020f6faa4fd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -648,7 +649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0bdfbdcbc25e3489a9adb27f895fff84, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63aca6f216935440f948d020f6faa4fd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
