@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 1644726107479040912}
   quantityText: {fileID: 5402006124994323336}
+  tooltipTrigger: {fileID: 0}
 --- !u!1 &863403035808062666
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +474,8 @@ GameObject:
   - component: {fileID: 1530284198565028433}
   - component: {fileID: 6825922478103952626}
   - component: {fileID: 1158436530775786628}
+  - component: {fileID: 3395307083441097131}
+  - component: {fileID: 1880084689785164788}
   m_Layer: 5
   m_Name: IconDisplay_1
   m_TagString: Untagged
@@ -522,6 +525,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 9176393770630637774}
   quantityText: {fileID: 1760871236581146486}
+  tooltipTrigger: {fileID: 3395307083441097131}
+--- !u!114 &3395307083441097131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232600418496848979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 45, z: 0}
+  TooltipText: 
+--- !u!114 &1880084689785164788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232600418496848979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1373380303618133391
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +656,8 @@ GameObject:
   - component: {fileID: 7209501374246249599}
   - component: {fileID: 896968038273404864}
   - component: {fileID: 5033875164829162380}
+  - component: {fileID: 6084857976931631979}
+  - component: {fileID: 1998267041758050212}
   m_Layer: 5
   m_Name: IconDisplay_0
   m_TagString: Untagged
@@ -657,6 +707,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 5894718626435468579}
   quantityText: {fileID: 6240979160140072068}
+  tooltipTrigger: {fileID: 6084857976931631979}
+--- !u!114 &6084857976931631979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486216114972351721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 45, z: 0}
+  TooltipText: 
+--- !u!114 &1998267041758050212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486216114972351721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1769943605593304347
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +763,8 @@ GameObject:
   - component: {fileID: 4328279278098476286}
   - component: {fileID: 6398581558992354095}
   - component: {fileID: 1445336264767303505}
+  - component: {fileID: 9216369180907372479}
+  - component: {fileID: 6419280521386399045}
   m_Layer: 5
   m_Name: IconDisplay_0
   m_TagString: Untagged
@@ -717,6 +814,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 7620926687334176251}
   quantityText: {fileID: 4727748835445257824}
+  tooltipTrigger: {fileID: 9216369180907372479}
+--- !u!114 &9216369180907372479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769943605593304347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 50, z: 0}
+  TooltipText: 
+--- !u!114 &6419280521386399045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769943605593304347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1914468321523104482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1207,8 @@ GameObject:
   - component: {fileID: 557340603177317100}
   - component: {fileID: 8328931937778478549}
   - component: {fileID: 1860073350780855361}
+  - component: {fileID: 8783363688409362417}
+  - component: {fileID: 3718568088063719161}
   m_Layer: 5
   m_Name: IconDisplay_2
   m_TagString: Untagged
@@ -1114,6 +1258,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 699965426443346187}
   quantityText: {fileID: 1826455467223135438}
+  tooltipTrigger: {fileID: 8783363688409362417}
+--- !u!114 &8783363688409362417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525466995719299305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 45, z: 0}
+  TooltipText: 
+--- !u!114 &3718568088063719161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525466995719299305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4319534756863621577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1389,8 @@ GameObject:
   - component: {fileID: 7565890847681820361}
   - component: {fileID: 5715353252356552293}
   - component: {fileID: 2079577109020343918}
+  - component: {fileID: 6981622474065879900}
+  - component: {fileID: 8895836828330082215}
   m_Layer: 5
   m_Name: IconDisplay_1
   m_TagString: Untagged
@@ -1249,6 +1440,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 5520228012254295955}
   quantityText: {fileID: 8250234192769988897}
+  tooltipTrigger: {fileID: 6981622474065879900}
+--- !u!114 &6981622474065879900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390225342588988935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 55, z: 0}
+  TooltipText: 
+--- !u!114 &8895836828330082215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390225342588988935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4561898413363745997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1770,8 @@ GameObject:
   - component: {fileID: 793807607870381348}
   - component: {fileID: 1306766331606297403}
   - component: {fileID: 5047796155333618653}
+  - component: {fileID: 8607213828581180553}
+  - component: {fileID: 3536918555019443189}
   m_Layer: 5
   m_Name: IconDisplay_2
   m_TagString: Untagged
@@ -1583,6 +1821,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 5395857762089746882}
   quantityText: {fileID: 7123364362985834480}
+  tooltipTrigger: {fileID: 8607213828581180553}
+--- !u!114 &8607213828581180553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4894755915261648752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 50, z: 0}
+  TooltipText: 
+--- !u!114 &3536918555019443189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4894755915261648752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5310840831440663509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,6 +2164,8 @@ GameObject:
   - component: {fileID: 4747703308311446161}
   - component: {fileID: 2321111813520494983}
   - component: {fileID: 3103490107497916520}
+  - component: {fileID: 6854472377285272214}
+  - component: {fileID: 5416409002727710184}
   m_Layer: 5
   m_Name: IconDisplay_3
   m_TagString: Untagged
@@ -1930,6 +2215,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 5448831561524917635}
   quantityText: {fileID: 1058031633627575049}
+  tooltipTrigger: {fileID: 6854472377285272214}
+--- !u!114 &6854472377285272214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905247255225465344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 45, z: 0}
+  TooltipText: 
+--- !u!114 &5416409002727710184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905247255225465344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6915151923616328878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2078,6 +2408,8 @@ GameObject:
   - component: {fileID: 7174658594210071456}
   - component: {fileID: 4471487582419074917}
   - component: {fileID: 8318618393039345353}
+  - component: {fileID: 8605442961651887925}
+  - component: {fileID: 5700567592592960710}
   m_Layer: 5
   m_Name: IconDisplay_1
   m_TagString: Untagged
@@ -2127,6 +2459,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 3504146585344069187}
   quantityText: {fileID: 5404215808459824957}
+  tooltipTrigger: {fileID: 8605442961651887925}
+--- !u!114 &8605442961651887925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181910946762603346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 50, z: 0}
+  TooltipText: 
+--- !u!114 &5700567592592960710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181910946762603346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7403976519330364082
 GameObject:
   m_ObjectHideFlags: 0
@@ -2685,6 +3062,8 @@ GameObject:
   - component: {fileID: 995573295055858999}
   - component: {fileID: 1623367084532121933}
   - component: {fileID: 6633330389348662181}
+  - component: {fileID: 2582769448567794456}
+  - component: {fileID: 7832942748756165539}
   m_Layer: 5
   m_Name: IconDisplay_0
   m_TagString: Untagged
@@ -2734,6 +3113,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
   itemIcon: {fileID: 8058635381489003830}
   quantityText: {fileID: 2369072871114682083}
+  tooltipTrigger: {fileID: 2582769448567794456}
+--- !u!114 &2582769448567794456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8453790784406321400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: 55, z: 0}
+  TooltipText: 
+--- !u!114 &7832942748756165539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8453790784406321400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8589310790876733788
 GameObject:
   m_ObjectHideFlags: 0

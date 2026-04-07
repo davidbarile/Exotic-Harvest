@@ -188,6 +188,9 @@ public class InventoryManager : MonoBehaviour
 
     private void OnShopItemPurchased(ShopItemData itemData)
     {
+        if (itemData.IsResource)
+            return;
+            
         // Handle adding purchased item to inventory    
         var inventoryItemData = ShopItemData.ToInventoryItemData(itemData);
 

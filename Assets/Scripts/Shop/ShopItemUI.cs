@@ -82,7 +82,7 @@ public class ShopItemUI : MonoBehaviour
                 var resourceItem = this.shopItemData.ResourceItems[i];
                 var iconDisplay = this.itemIconDisplays[i + indexOffset];
                 var resourceData = ResourceManager.IN.Database.GetResource(resourceItem.ResourceType);
-                iconDisplay.Configure(resourceData.Icon, resourceItem.Amount, resourceData.IconColor);
+                iconDisplay.Configure(resourceData.Icon, resourceItem.Amount, resourceData.IconColor, $"{resourceItem.ResourceType}");
             }
         }
         else
