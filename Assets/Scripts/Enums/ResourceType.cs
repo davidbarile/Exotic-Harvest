@@ -27,6 +27,7 @@ public enum EResourceType
     Pollen = 49,
     Herbs = 50,
     Toadstools = 51,
+    Dandelions = 52,
 
     // Night Sky
     Moonbeams = 60,
