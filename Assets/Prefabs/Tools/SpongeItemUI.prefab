@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Sponge
   CollectableResourceTypes: 
   quantityText: {fileID: 2746075342888448478}
-  waterFillImage: {fileID: 1627848786645917381}
+  fillImage: {fileID: 0}
   fillAnimationDuration: 0.5
 --- !u!114 &2431263926754673148
 MonoBehaviour:
@@ -85,10 +85,10 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
   dragEnabledDisplay: {fileID: 0}
-  OffsetFromCursor: {x: 0, y: 0, z: 0}
   itemIcon: {fileID: 8098834855979571109}
   shadow: {fileID: 8528135043831553738}
   worldProxy: {fileID: 1298532410139078883}
@@ -98,11 +98,12 @@ MonoBehaviour:
     MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 8
       PrefabName: SpongeItemUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
+      DecorationType: 8193
+      HighlightValidTargetsWhenDragged: 0
       GeneratedResource: 1
       CurrentAmount: 0
       MaxAmount: 100
@@ -110,9 +111,9 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0
-    CanDragToWorld: 1
     Scale: 1
     IconSpriteName: Icon_Sponge
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 42ca2be75e7fd41d8bcaba7bba6a4fd0, type: 2}
 --- !u!50 &6769618328763659009
 Rigidbody2D:
@@ -281,7 +282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 16cbd9dd9937a4cc59008e21dbcaf815, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1b1a5f302391d47f2812f28d6bd437b7, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
