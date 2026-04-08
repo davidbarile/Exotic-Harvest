@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Complete save data structure for the game
+/// Archive version of GameSaveData for loading older save files. Do not add new fields to this class. 
+/// If you need to add new fields, create a new version of GameSaveData and implement conversion logic in SaveManager.
 /// </summary>
 [Serializable]
-public class GameSaveData
+public class GameSaveData_v1
 {
     [Header("Save Metadata")]
     public string SaveVersion = "1.0";
@@ -38,27 +39,8 @@ public class GameSaveData
     [Header("Statistics")]
     public GameStatsData StatsData = new();
 
-    public GameSaveData()
+    public GameSaveData_v1()
     {
-        SaveTime = DateTime.Now;
-    }
-    
-    public static GameSaveData ConvertFrom_v1(GameSaveData_v1 oldData, GameSaveData newData)
-    {
-        newData.SaveVersion = oldData.SaveVersion;
-        newData.SaveTime = oldData.SaveTime;
-        newData.TotalPlayTime = oldData.TotalPlayTime;
-        newData.PlayerLevel = oldData.PlayerLevel;
-        newData.Experience = oldData.Experience;
-        newData.InventoryItems = oldData.InventoryItems;
-        newData.WorldItems = oldData.WorldItems;
-        newData.ResourcesSaveDatas = oldData.ResourcesSaveDatas;
-        newData.SettingsData = oldData.SettingsData;
-        newData.PanelColor = oldData.PanelColor;
-        newData.CurrentGameHour = oldData.CurrentGameHour;
-        newData.CurrentWeather = oldData.CurrentWeather;
-        newData.WeatherIntensity = oldData.WeatherIntensity;
-        newData.StatsData = oldData.StatsData;
-        return newData;
+
     }
 }

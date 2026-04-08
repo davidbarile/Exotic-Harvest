@@ -25,6 +25,8 @@ public class SaveManager : MonoBehaviour, ITickable
     [SerializeField] private float autoSaveInterval = 300f; // 5 minutes
     [SerializeField] private bool saveOnApplicationPause = true;
     [SerializeField] private bool nukeDataOnStart;
+
+    [SerializeField] private int currentPlayerDataVersion = 1; // Increment this when making breaking changes to save data structure to trigger new save creation
     
     private string savePath;
     
@@ -48,9 +50,14 @@ public class SaveManager : MonoBehaviour, ITickable
         this.savePath = Path.Combine(saveFolder, this.saveFileName);
         this.sessionStartTime = Time.time;
 
+        if(this.nukeDataOnStart)
+            PlayerPrefs.DeleteAll();
+
         var isNewGame = !this.HasSaveFile || this.nukeDataOnStart;
 
-        if (isNewGame)
+        var gamePlayerDataVersion = PlayerPrefs.GetInt("PlayerDataVersion", 0);
+
+        if (gamePlayerDataVersion == 0)
         {
             CreateNewSave();
             DecorationManager.IN.InitDecorationsInWorld(isNewGame);
@@ -60,6 +67,8 @@ public class SaveManager : MonoBehaviour, ITickable
             DecorationManager.IN.InitDecorationsInWorld(isNewGame);
             LoadGame();
         }
+
+        PlayerPrefs.SetInt("PlayerDataVersion", this.currentPlayerDataVersion);
 
         TickManager.OnSecondTick += SecondTick;
     }
@@ -149,6 +158,7 @@ public class SaveManager : MonoBehaviour, ITickable
 
     public bool LoadGame()
     {
+        bool isGameDataOutOfDate = false;
         try
         {
             if (!this.HasSaveFile)
@@ -156,14 +166,37 @@ public class SaveManager : MonoBehaviour, ITickable
                 Debug.Log("No save file found, creating new save");
                 CreateNewSave();
             }
+            else
+            {
+                var gamePlayerDataVersion = PlayerPrefs.GetInt("PlayerDataVersion", 0);
+                isGameDataOutOfDate = gamePlayerDataVersion < this.currentPlayerDataVersion;
+            }
 
-            DeserializeSettings deserializeSettings = new DeserializeSettings()
+            var deserializeSettings = new DeserializeSettings()
             {
                 RequireAllFieldsArePopulated = false
             };
 
             JSON savedMapProgressDataJSON = LoadTextFileToJsonObject(this.savePath);
-            Data = savedMapProgressDataJSON.Deserialize<GameSaveData>(deserializeSettings);
+
+            if (isGameDataOutOfDate)
+            {
+                Debug.Log("Save data version is outdated. Creating new save data with default values and applying any compatible data from old save.");
+
+                // Try to populate compatible fields from old save
+                var oldData = savedMapProgressDataJSON.Deserialize<GameSaveData_v1>(deserializeSettings);
+
+                if (oldData == null)
+                    throw new Exception("Failed to deserialize GameSaveData_v1 data");
+
+                if (oldData != null)
+                {
+                    Data = GameSaveData.ConvertFrom_v1(oldData, new GameSaveData());
+                    //add new variables here with default values
+                }
+            }
+            else
+                Data = savedMapProgressDataJSON.Deserialize<GameSaveData>(deserializeSettings);
 
             if (Data == null)
                 throw new Exception("Failed to deserialize save data");
@@ -291,6 +324,8 @@ public class SaveManager : MonoBehaviour, ITickable
 
     public bool DeleteSave()
     {
+        PlayerPrefs.DeleteAll();
+
         try
         {
             if (HasSaveFile)
