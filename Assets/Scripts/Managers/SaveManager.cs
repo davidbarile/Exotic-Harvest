@@ -193,6 +193,10 @@ public class SaveManager : MonoBehaviour, ITickable
                 {
                     Data = GameSaveData.ConvertFrom_v1(oldData, new GameSaveData());
                     //add new variables here with default values
+
+                    // NOTE: if changes are made to any serialized classes or enums, it will still break
+                    // need to do a similar conversion process for any serialized classes or enums that have breaking changes as well 
+                    // (ResourceSaveData, InventoryItemData, GameSettingsData, GameStatsData, EWeatherType)
                 }
             }
             else
