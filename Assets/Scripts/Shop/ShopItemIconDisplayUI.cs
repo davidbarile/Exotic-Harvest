@@ -8,6 +8,8 @@ public class ShopItemIconDisplayUI : MonoBehaviour
     [SerializeField] private TMP_Text quantityText;
     [SerializeField] private TooltipTrigger tooltipTrigger;
 
+    private static readonly int desaturateID = Shader.PropertyToID("_DesaturateStrength");
+
     public void Configure(Sprite inIconSprite, int inQuantity, Color iconColor, string tooltipText = "")
     {
         SpriteManager.SetImageSprite(this.itemIcon, inIconSprite);
@@ -18,5 +20,14 @@ public class ShopItemIconDisplayUI : MonoBehaviour
 
         if (this.tooltipTrigger && hasTooltip)
             this.tooltipTrigger.TooltipText = tooltipText;
+    }
+
+    public void SetSpriteSaturation(bool inIsSaturated)
+    {
+        if (this.itemIcon != null)
+        {
+            // this way we don't create instances
+            this.itemIcon.material = inIsSaturated ? ColorManager.IN.SaturateMaterial : ColorManager.IN.DesaturateMaterial;
+        }
     }
 }

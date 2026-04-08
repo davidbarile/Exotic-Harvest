@@ -21,6 +21,11 @@ public class ColorManager : MonoBehaviour
     [Header("Resource Colors")]
     [SerializeField] private ResourcePalette[] resourceColors;
 
+    [Header("Saturation")]
+    public Material SaturateMaterial;
+    public Material DesaturateMaterial;
+
+
     private void Start()
     {
         OnPanelColorChanged?.Invoke(this.PanelColor);

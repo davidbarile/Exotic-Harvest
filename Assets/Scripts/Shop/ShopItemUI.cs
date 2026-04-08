@@ -132,6 +132,10 @@ public class ShopItemUI : MonoBehaviour
         this.cannotAffordOverlay.SetActive(canPurchase && !canAfford);
 
         //this.itemButton.interactable = canPurchase && canAfford;
+        foreach (var iconDisplay in this.itemIconDisplays)
+        {
+            iconDisplay.SetSpriteSaturation(canPurchase && canAfford);
+        }
     }
     
     //called by Button and other children with ClickableObject script on prefab

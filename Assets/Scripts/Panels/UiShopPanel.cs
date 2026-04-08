@@ -171,6 +171,9 @@ public class UiShopPanel : UIPanelBase
             return;
         }
 
+        bool hasInventorySpace = InventoryManager.TryAddItemToInventory(ShopItemData.ToInventoryItemData(this.selectedItemData), true);
+        bool canPurchase = hasInventorySpace && this.selectedItemData.CanPurchase && (this.selectedItemData.Cost?.CanAfford() ?? false);
+
         // Update itemData name and description
         this.itemNameText.text = this.selectedItemData.DisplayName;
         this.itemDescriptionText.text = this.selectedItemData.Description;
@@ -199,6 +202,7 @@ public class UiShopPanel : UIPanelBase
                 var iconDisplay = this.itemIconDisplays[i + indexOffset];
                 var resourceData = ResourceManager.IN.Database.GetResource(resourceItem.ResourceType);
                 iconDisplay.Configure(resourceData.Icon, resourceItem.Amount, resourceData.IconColor, $"{resourceItem.ResourceType}");
+                iconDisplay.SetSpriteSaturation(canPurchase);
             }
         }
         else
@@ -206,6 +210,7 @@ public class UiShopPanel : UIPanelBase
             this.itemIconDisplayObjects[0].SetActive(true);
             var iconDisplay = this.itemIconDisplays[0];
             iconDisplay.Configure(this.selectedItemData.Icon, 1, this.selectedItemData.IconColor);
+            iconDisplay.SetSpriteSaturation(canPurchase);
         }
         
         // Update purchase button
@@ -223,7 +228,7 @@ public class UiShopPanel : UIPanelBase
         bool hasInventorySpace = InventoryManager.TryAddItemToInventory(ShopItemData.ToInventoryItemData(this.selectedItemData), true);
         
         bool canPurchase = hasInventorySpace && this.selectedItemData.CanPurchase && (this.selectedItemData.Cost?.CanAfford() ?? false);
-       
+
         this.purchaseButton.interactable = canPurchase;
         
         if (this.purchaseButtonText != null)
