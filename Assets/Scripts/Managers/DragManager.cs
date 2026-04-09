@@ -105,9 +105,10 @@ public class DragManager : MonoBehaviour
         {
             this.currentDragProxy = dragDecoration.WorldProxy.gameObject;
 
-            var shouldShow = CameraDelta != Vector3.zero;
+            var shouldShow = true; //CameraDelta != Vector3.zero;
             this.currentDragProxy.SetActive(shouldShow);
-            this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
+            // this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
+            this.currentDragProxy.transform.localPosition = ScreenToWorldCameraDelta / this.currentDragSource.transform.localScale.x;
         }
     }
 
@@ -125,7 +126,8 @@ public class DragManager : MonoBehaviour
 
         if( this.currentDragProxy)
         {
-            this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
+            //this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
+            this.currentDragProxy.transform.localPosition = ScreenToWorldCameraDelta / this.currentDragSource.transform.localScale.x;
             this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
         }
 

@@ -67,8 +67,8 @@ public class UiDecorationBase : UiDraggable
                 this.worldProxy.sprite = sprite;
         }
 
-        if (this.worldProxy)
-            this.worldProxy.gameObject.SetActive(false);
+        // if (this.worldProxy)
+        //     this.worldProxy.gameObject.SetActive(false);
         
         if(TryGetComponent<PassiveHarvester>(out var harvester))
         { 
@@ -100,8 +100,8 @@ public class UiDecorationBase : UiDraggable
 
         var parentCanvas = this.GetComponentInParent<Canvas>();
 
-        if(this.worldProxy && parentCanvas?.renderMode == RenderMode.WorldSpace)
-            this.worldProxy.gameObject.SetActive(false);
+        // if(this.worldProxy && parentCanvas?.renderMode == RenderMode.WorldSpace)
+        //     this.worldProxy.gameObject.SetActive(false);
 
         var inventoryPanel = UiManager.IN.InventoryPanel;
 
