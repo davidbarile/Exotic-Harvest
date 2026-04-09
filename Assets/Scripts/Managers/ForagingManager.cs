@@ -21,7 +21,6 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
-    public RectTransform DewDropSpawnParent => this.dewDropSpawnParent;
     [SerializeField] private int maxDewdrops = 5;
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
     [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
@@ -248,7 +247,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             Vector3 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
             dewdrop.name = $"Dewdrop_{this.activeDewdrops.Count}";
-            dewdrop.transform.localPosition = spawnPos;
+            dewdrop.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
             dewdrop.Spawn();
             this.activeDewdrops.Add(dewdrop);
         }

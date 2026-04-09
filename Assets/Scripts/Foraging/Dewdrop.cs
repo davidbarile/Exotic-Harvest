@@ -7,6 +7,15 @@ using DG.Tweening;
 /// </summary>
 public class Dewdrop : Collectable
 {
+    public override int Amount
+    {
+        get
+        {
+            var amountBySize = this.amount * this.transform.localScale.x * 4f;
+            return Mathf.CeilToInt(amountBySize);
+        }
+    }
+
     public override void Spawn()
     {
         //this.resourceType = EResourceType.Dew;
@@ -17,7 +26,7 @@ public class Dewdrop : Collectable
         this.canvasGroup.alpha = 0f;
 
         this.initScale = Random.Range(0.5f, 1f);
-        this.transform.localScale = Vector3.one * this.initScale * 0.1f;
+        this.transform.localScale = 0.1f * this.initScale * Vector3.one;
 
         KillTweens();
 

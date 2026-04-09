@@ -4,15 +4,20 @@ using UnityEngine;
 public class Attractor : MonoBehaviour
 {
     public bool IsActive = true;
-    [SerializeField ] private float strength = 1f;
-    [SerializeField] private float maxDistance = 5f;
+    [Range(0f, 100f),SerializeField] private float strength = 1f;
+    [Range(0f, 1000f), SerializeField] private float maxDistance = 100f;
+    [Range(0f, 100f), SerializeField] private float collisionRadius= 5f;
     [SerializeField] private LayerMask attractableLayer;
-
     [SerializeField] private string tagToAttract = "Attractable";
+
+    [SerializeField] private PassiveHarvester linkedPassiveHarvester;
 
     private void FixedUpdate()
     {
         if (!IsActive) return;
+
+        if(this.linkedPassiveHarvester != null && this.linkedPassiveHarvester.IsFull)
+            return;
         
         Collider2D[] attractables = new Collider2D[10];
         int count = Physics2D.OverlapCircleNonAlloc(this.transform.position, this.maxDistance, attractables, this.attractableLayer);
@@ -21,13 +26,35 @@ public class Attractor : MonoBehaviour
             Collider2D attractable = attractables[i];
             if (!attractable.CompareTag(this.tagToAttract)) continue;
 
-            Vector3 direction = this.transform.position - attractable.transform.position;
+            Vector2 direction = (Vector2)this.transform.position - (Vector2)attractable.transform.position;
             float distance = direction.magnitude;
-            if (distance > 0f)
+
+            Debug.Log($"Attracting {attractable.gameObject.name} at distance {distance}");
+
+            if (distance > this.collisionRadius)
             {
-                var moveTowards = Vector3.MoveTowards(attractable.transform.position, this.transform.position, this.strength * 1000 * Time.deltaTime / distance);
-                //Debug.Log($"RB = {attractable.name}.  distance = {distance}. this.strength = {this.strength} is being attracted to {name}.  pos = {attractable.transform.position}.  moveTowards = {moveTowards}");
-                attractable.transform.position = moveTowards;
+                Rigidbody2D rb = attractable.attachedRigidbody;
+                if (rb != null)
+                {
+                    Vector2 force = direction.normalized * this.strength * 100f / distance;
+                    rb.AddForce(force);
+                }
+            }
+            else
+            {
+                var collectable = attractable.GetComponent<Collectable>();
+                if(collectable != null)
+                {
+                    if(this.linkedPassiveHarvester != null)
+                    {
+                        this.linkedPassiveHarvester.AddAmount(collectable.Amount);
+                        Destroy(collectable.gameObject);
+                    }
+                    else
+                    {
+                        collectable.Collect();
+                    }
+                }
             }
         }
     }
@@ -36,5 +63,8 @@ public class Attractor : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(this.transform.position, this.maxDistance);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(this.transform.position, this.collisionRadius);
     }
 }

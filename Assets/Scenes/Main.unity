@@ -16639,6 +16639,7 @@ MonoBehaviour:
   autoSaveInterval: 300
   saveOnApplicationPause: 1
   nukeDataOnStart: 0
+  currentPlayerDataVersion: 1
 --- !u!114 &1713415295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16671,7 +16672,7 @@ MonoBehaviour:
   dewDropSpawnParent: {fileID: 406109113}
   maxDewdrops: 5
   dewdropSpawnChance: 0.1
-  debugSpawnAllDewdrops: 0
+  debugSpawnAllDewdrops: 1
   rockPile: {fileID: 1364921590}
   rockSpawnFrequency: 1
   debugSpawnRocks: 1
@@ -16689,7 +16690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeatherManager
   weatherDisplayText: {fileID: 107059070}
   currentWeather: 0
-  debugWeather: 2
+  debugWeather: 0
   weatherChangeInterval: 300
   weatherIntensity: 1
 --- !u!114 &1713415298
@@ -16705,7 +16706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   useRealTime: 0
-  freezeTime: 0
+  freezeTime: 1
   currentDayOfWeek: 0
   dayLengthInMinutes: 48
   currentTimeOfDay: 0
@@ -17072,8 +17073,8 @@ MonoBehaviour:
       HighlightValidTargetsWhenDragged: 0
       GeneratedResource: 1
       CurrentAmount: 0
-      MaxAmount: 100
-      ConversionRatio: 0.2
+      MaxAmount: 1000
+      ConversionRatio: 0.05
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0

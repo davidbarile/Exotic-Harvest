@@ -18,7 +18,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public EResourceType ResourceType => resourceType;
     [SerializeField] protected EResourceType resourceType;
 
-    public int Amount => amount;
+    public virtual int Amount => amount;
     [SerializeField] protected int amount = 1;
 
     public ECollectionMethod CollectionMethod => this.collectionType;
