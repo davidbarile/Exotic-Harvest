@@ -99,4 +99,12 @@ public class UiManager : MonoBehaviour
                 this.debugText.text = text;
         }
     }
+
+    public void ClearDebugText()
+    {
+        if (this.debugText)
+        {
+            this.debugText.text = string.Empty;
+        }
+    }
 }
