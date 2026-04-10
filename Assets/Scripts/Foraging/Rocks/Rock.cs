@@ -91,7 +91,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
         this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
 
-        this.targetRectTransform.SetParent(DragManager.IN.DragCanvas, true);
+        this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
     }
 
     public void OnDrag(PointerEventData eventData)

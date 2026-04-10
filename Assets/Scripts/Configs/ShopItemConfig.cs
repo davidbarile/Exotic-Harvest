@@ -43,7 +43,6 @@ public class ShopItemConfig : ScriptableObject
     public Color BgColor = Color.white;
     public bool ShowInShop = true;
     
-#if UNITY_EDITOR
     private void OnValidate()
     {
         if (!string.IsNullOrEmpty(this.ID))
@@ -51,9 +50,10 @@ public class ShopItemConfig : ScriptableObject
 
         this.ID = this.name;
         //this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
+#if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
-    }
 #endif
+    }
 
 
     public static ShopItemData CreateShopItemDataFromConfig(ShopItemConfig inConfig)

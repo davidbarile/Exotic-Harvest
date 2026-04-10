@@ -16,16 +16,7 @@ public class DragManager : MonoBehaviour
 
     public static Action<bool> OnDragModeChanged;
 
-    public RectTransform DragCanvas;
-    public RectTransform WorldRectTrans;
-
     [Space] public Transform WorldDecorationsContainer;
-
-    public Camera DragCamera => this.dragCamera;
-    public Camera WorldCamera => this.worldCamera;
-
-    [Space, SerializeField] private Camera dragCamera;
-    [SerializeField] private Camera worldCamera;
 
     [SerializeField] private GameObject inventoryOpenTrigger;
 
@@ -38,6 +29,8 @@ public class DragManager : MonoBehaviour
     private UiDraggable currentDragSource;
     private GameObject currentDragProxy;
 
+    private bool hasBrokenFreeOfClamp = false;
+
     private void Start()
     {
         InputManager.OnDragPress += HandleDragModeChanged;
@@ -47,7 +40,7 @@ public class DragManager : MonoBehaviour
 
     private void Update()
     {
-        DragManager.ScreenToWorldCameraDelta = this.worldCamera.transform.position - this.dragCamera.transform.position;
+        DragManager.ScreenToWorldCameraDelta = UiManager.IN.WorldCamera.transform.position - UiManager.IN.DragCamera.transform.position;
 
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
@@ -93,8 +86,9 @@ public class DragManager : MonoBehaviour
         this.CurrentDraggedTransform = inDraggedTransform;
         this.OffsetFromCursor = inOffsetFromCursor;
         this.IsDraggingActive = true;
+        this.hasBrokenFreeOfClamp = false;
 
-        inDraggedTransform.SetParent(this.DragCanvas, true);
+        inDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
 
         var dragDecoration = this.currentDragSource as UiDecorationBase;
 
@@ -134,8 +128,10 @@ public class DragManager : MonoBehaviour
         if (this.currentDragSource.ShouldDetectDropTargets)
             UiDraggable.UpdateHighlightedObjects();
 
-        if(IsClampedToDragTargetBounds(mousePos))
+        if (!this.hasBrokenFreeOfClamp && IsClampedToDragTargetBounds(mousePos))
             return;
+
+        this.hasBrokenFreeOfClamp = true;
 
         var dragPos = GetPositionInSpace(mousePos);
         this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor;
@@ -183,7 +179,7 @@ public class DragManager : MonoBehaviour
             if (parentDragTarget.UnsnapRange > -1)
             {
                 // Distance from drag start point (should be 0 at drag start)
-                float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(this.dragCamera, clampedPosition));
+                float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(UiManager.IN.DragCamera, clampedPosition));
                 if (distance > parentDragTarget.UnsnapRange)
                 {
                     // Outside unsnap range, do not clamp
@@ -203,6 +199,7 @@ public class DragManager : MonoBehaviour
         this.CurrentDraggedTransform = null;
         this.currentDragSource = null;
         this.currentDragProxy = null;
+        this.hasBrokenFreeOfClamp = false;
         OnDragEnded?.Invoke();
     }
 
@@ -233,7 +230,7 @@ public class DragManager : MonoBehaviour
 
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
-        newDraggedTransform.SetParent(this.DragCanvas, true);
+        newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
 
         // Update the reference to the new transform
         this.CurrentDraggedTransform = newDraggedTransform;
@@ -254,10 +251,10 @@ public class DragManager : MonoBehaviour
 
     public Vector3 GetPositionInSpace(Vector3 inWorldPosition)
     {
-        var screenPoint = this.dragCamera.WorldToScreenPoint(inWorldPosition);
+        var screenPoint = UiManager.IN.DragCamera.WorldToScreenPoint(inWorldPosition);
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(this.DragCanvas, screenPoint, this.dragCamera, out Vector2 localPoint))
-            return this.DragCanvas.TransformPoint(localPoint);
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(UiManager.IN.DragCanvas, screenPoint, UiManager.IN.DragCamera, out Vector2 localPoint))
+            return UiManager.IN.DragCanvas.TransformPoint(localPoint);
 
         return inWorldPosition;
     }

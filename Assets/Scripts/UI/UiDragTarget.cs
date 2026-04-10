@@ -10,6 +10,7 @@ public class UiDragTarget : MonoBehaviour
     public EDecorationType AcceptedDecorationTypes => this.acceptedDecorationTypes;
     [Space, SerializeField] private EDecorationType acceptedDecorationTypes = EDecorationType.All;
 
+    public bool ShouldSnapToCenter => this.shouldSnapToCenter;
     [Space, SerializeField] private bool shouldSnapToCenter;
 
     [Header("Optional Bounds")]

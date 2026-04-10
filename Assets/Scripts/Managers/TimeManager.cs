@@ -144,7 +144,7 @@ public class TimeManager : MonoBehaviour, ITickable
     {
         this.TimeScale = Mathf.Max(0f, scale);
 
-        if (this.timeScaleSliderText != null)
+        if (this.timeScaleSliderText)
             this.timeScaleSliderText.text = $"Time Scale: {this.TimeScale:0.0}x";
     }
 
@@ -155,8 +155,8 @@ public class TimeManager : MonoBehaviour, ITickable
         OnHourChanged?.Invoke(this.currentHour);
         OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
 
-        if (this.timeSliderText != null)
-            this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} {this.currentTimeOfDay})";
+        if (this.timeSliderText)
+            this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} <i>({this.currentTimeOfDay})</i>";
 
         if(this.timeDisplayText)
             this.timeDisplayText.text = $"{FormatFloatAsTime(this.currentHour)}\n<size=80%>{this.currentDayOfWeek} {this.currentTimeOfDay}</size>";

@@ -1,8 +1,8 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using System.Linq;
 
 public class UiDecorationBase : UiDraggable
 {
@@ -26,8 +26,10 @@ public class UiDecorationBase : UiDraggable
         this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
     }
 
-    private void OnValidate()
+    protected override void OnValidate()
     {
+        base.OnValidate();
+
         if (this.initItemData.ShopItemConfig == null)
             return;
 
@@ -36,7 +38,7 @@ public class UiDecorationBase : UiDraggable
         this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
         this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
         this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
-        
+
         this.highlightValidTargetsWhenDragged = this.initItemData.DecorationData.HighlightValidTargetsWhenDragged;
 
         if (this.initItemData.Quantity <= 0)

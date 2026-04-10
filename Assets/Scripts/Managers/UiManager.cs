@@ -1,27 +1,51 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     public static UiManager IN;
 
+    public Camera WorldCamera => this.worldCamera;
+    public Camera DragCamera => this.dragCamera;
+
+    public RectTransform DragCanvas => this.dragCanvas;
+    public RectTransform WorldRectTrans => this.worldRectTrans;
+
     public UiSettingsPanel SettingsPanel => this.settingsPanel;
     public UiShopPanel ShopPanel => this.shopPanel;
     public UiInventoryPanel InventoryPanel => this.inventoryPanel;
     public UiResourcesPanel ResourcesPanel => this.resourcesPanel;
+
     public UiCompass Compass => this.compass;
+
+    [Header("Cameras")]
+    [SerializeField] private Camera worldCamera;
+    [SerializeField] private Camera dragCamera;
+
+    [Header("Canvas RectTransforms")]
+    [SerializeField] private RectTransform dragCanvas;
+    [SerializeField] private RectTransform worldRectTrans;
     
+    [Header("Panels")]
     [SerializeField] private UiSettingsPanel settingsPanel;
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
     [SerializeField] private UiResourcesPanel resourcesPanel;
     [SerializeField] private UIPanelBase timeWeatherPanel;
+
+    [Header("Misc")]
     [SerializeField] private UiCompass compass;
     [SerializeField] private TMP_Text debugText;
 
+    private void OnDrawGizmos()
+    {
+        var wc = this.worldCamera.transform;
+        this.worldCamera.transform.position = new Vector3(wc.position.x, this.worldRectTrans.position.y, wc.position.z);
+    }
+
     private void Awake()
     {
+        OnDrawGizmos();
         SetDebugText(string.Empty);
     }
 

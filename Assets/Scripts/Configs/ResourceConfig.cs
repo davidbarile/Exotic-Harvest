@@ -35,7 +35,6 @@ public class ResourceConfig : ScriptableObject
     public AudioClip CollectionSound;
     public AudioClip SpawnSound;
     
-#if UNITY_EDITOR
     private void OnValidate()
     {
         // if (!string.IsNullOrEmpty(this.ID))
@@ -44,9 +43,10 @@ public class ResourceConfig : ScriptableObject
         this.ID = this.name;
         //this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
         //this.ID = $"Resource_{this.ID}";
+#if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
-    }
 #endif
+    }
     
     public bool IsAvailableAtTime(ETimeOfDay currentTime)
     {

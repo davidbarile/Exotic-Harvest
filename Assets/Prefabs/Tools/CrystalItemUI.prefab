@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8776988387856860576}
   - component: {fileID: 6769618328763659009}
   - component: {fileID: 1826616977222817347}
-  - component: {fileID: -2616133491407755728}
   m_Layer: 0
   m_Name: CrystalItemUI
   m_TagString: Untagged
@@ -89,6 +88,8 @@ MonoBehaviour:
   highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 4234567890123457}
+  snapToCenterOffset: {x: 0, y: 58, z: 0}
+  autoCalculateSnapToCenterOffset: 0
   dragEnabledDisplay: {fileID: 0}
   itemIcon: {fileID: 8098834855979571109}
   shadow: {fileID: 8528135043831553738}
@@ -197,25 +198,6 @@ PolygonCollider2D:
       - {x: -23.733643, y: 43.411316}
       - {x: -0.68743896, y: 61.98645}
   m_UseDelaunayMesh: 1
---- !u!114 &-2616133491407755728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4234567890123456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2349e56a0c144d62ab4d3ee987fddb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Attractor
-  IsActive: 1
-  strength: 10000
-  maxDistance: 300
-  attractableLayer:
-    serializedVersion: 2
-    m_Bits: 255
-  tagToAttract: Attractable
 --- !u!1 &57666444203062493
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,8 +521,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.300003, y: -6.0999985}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.77010345, y: -6.0999985}
+  m_SizeDelta: {x: 5.683, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2788261919811694844
 CanvasRenderer:
@@ -570,7 +552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0bdfbdcbc25e3489a9adb27f895fff84, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63aca6f216935440f948d020f6faa4fd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -601,7 +583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &111268007146042686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -744,15 +726,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 38.228577, y: -39.27005}
-      - {x: -27.039185, y: -61.86508}
-      - {x: -71.13599, y: -28.273285}
-      - {x: -70.37244, y: 20.261414}
-      - {x: -26.01587, y: 45.56317}
-      - {x: 27.527527, y: 61.298523}
-      - {x: 52.918274, y: 48.471863}
-      - {x: 68.316284, y: 27.680298}
-      - {x: 71.88818, y: -5.243347}
+    - - {x: 21.812988, y: 44.842834}
+      - {x: 47.26178, y: -5.717987}
+      - {x: 17.811829, y: -58.914307}
+      - {x: -13.704407, y: -59.28415}
+      - {x: -47.907654, y: -14.938507}
+      - {x: -23.733643, y: 43.411316}
+      - {x: -0.68743896, y: 61.98645}
   m_UseDelaunayMesh: 1
 --- !u!114 &642577225819594244
 MonoBehaviour:
@@ -767,9 +747,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attractor
   IsActive: 1
-  strength: 100
+  strength: 65
   maxDistance: 300
+  collisionRadius: 54.9
   attractableLayer:
     serializedVersion: 2
     m_Bits: 255
   tagToAttract: Attractable
+  linkedPassiveHarvester: {fileID: 0}

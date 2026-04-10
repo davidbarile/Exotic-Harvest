@@ -17,7 +17,6 @@ public class PrefabLookup : ScriptableObject
     private Dictionary<string, GameObject> prefabDictionary = new();
 
 #if UNITY_EDITOR
-
     private void OnValidate()
     {
         var nameSet = new HashSet<string>();
@@ -39,7 +38,6 @@ public class PrefabLookup : ScriptableObject
 
         UnityEditor.EditorUtility.SetDirty(this);
     }
-    
 #endif
 
     private void OnEnable()

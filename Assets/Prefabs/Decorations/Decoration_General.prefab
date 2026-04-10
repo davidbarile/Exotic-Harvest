@@ -138,8 +138,11 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 1
   shouldDetectDropTargets: 1
+  highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 3827860167909860021}
+  snapToCenterOffset: {x: 0, y: 70, z: 0}
+  autoCalculateSnapToCenterOffset: 1
   dragEnabledDisplay: {fileID: 7288514629395603946}
   itemIcon: {fileID: 2056835041292401957}
   shadow: {fileID: 0}
@@ -154,6 +157,8 @@ MonoBehaviour:
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
+      DecorationType: 0
+      HighlightValidTargetsWhenDragged: 0
       GeneratedResource: 0
       CurrentAmount: 1
       MaxAmount: 1
@@ -161,7 +166,6 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1
-    CanDragToWorld: 1
     Scale: 1
     IconSpriteName: X
     IconColor: {r: 1, g: 1, b: 1, a: 1}

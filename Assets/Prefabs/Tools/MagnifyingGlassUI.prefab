@@ -240,10 +240,12 @@ MonoBehaviour:
   onlyDragToTargets: 0
   limitToParentTargetBounds: 0
   shouldDetectDropTargets: 1
+  highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
+  snapToCenterOffset: {x: 0, y: 125, z: 0}
+  autoCalculateSnapToCenterOffset: 1
   dragEnabledDisplay: {fileID: 0}
-  OffsetFromCursor: {x: 0, y: 0, z: 0}
   itemIcon: {fileID: 0}
   shadow: {fileID: 0}
   worldProxy: {fileID: 0}
@@ -255,11 +257,12 @@ MonoBehaviour:
     MaxStack: 1
     Category: 0
     DecorationData:
-      Type: 7
       PrefabName: MagnifyingGlassUI
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
+      DecorationType: 1
+      HighlightValidTargetsWhenDragged: 0
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 100
@@ -267,9 +270,9 @@ MonoBehaviour:
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0
-    CanDragToWorld: 1
     Scale: 1
     IconSpriteName: Icon_MagnifyingGlass
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 6668c71fe5256462396508d88191eeda, type: 2}
 --- !u!1 &5611255278226997218
 GameObject:

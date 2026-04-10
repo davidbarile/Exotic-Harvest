@@ -298,6 +298,10 @@ PrefabInstance:
       propertyPath: isMenuPanel
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4065138776385294642, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      propertyPath: snapToCenterOffset.y
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 6970618749069963688, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -429,4 +433,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIPanelBase
   shouldFadeInOut: 1
   tweenDuration: 0.3
+  canEscapeKeyClose: 0
   canvas: {fileID: 1474803751889928307}

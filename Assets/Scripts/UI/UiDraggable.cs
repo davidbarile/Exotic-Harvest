@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(RectTransform))]
 public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -21,8 +22,10 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     [Header("(Defaults to Object Root)")]
     [SerializeField] protected RectTransform targetRectTransform;
+    [Space, SerializeField] protected Vector3 snapToCenterOffset;
+    [SerializeField] private bool autoCalculateSnapToCenterOffset = true;
 
-    [Header("Optional outline to show when drag mode is enabled")]
+    [HideIf("IsDraggingPermanent"), Header("Optional outline to show when drag mode is enabled")]
     [SerializeField] protected GameObject dragEnabledDisplay;
 
     public bool IsDraggingPermanent => this.isDraggingPermanent;
@@ -41,6 +44,21 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     protected Transform originalParent;
     protected int originalSiblingIndex;
     protected bool isDragging = false;
+
+    protected virtual void OnValidate()
+    {
+        if (this.targetRectTransform == null)
+            this.targetRectTransform = GetComponent<RectTransform>();
+
+        if (this.autoCalculateSnapToCenterOffset)
+        {
+            this.snapToCenterOffset = new Vector3(0, this.targetRectTransform.rect.height * 0.5f);
+        }
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+    }
+
 
     public static void UpdateHighlightedObjects()
     {
@@ -84,29 +102,23 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
     }
 
-    private void OnValidate()
-    {
-        if (this.targetRectTransform == null)
-            this.targetRectTransform = GetComponent<RectTransform>();
-    }
-
     protected virtual void Start()
     {
-        DragManager.OnDragModeChanged += HandleDragModeChanged;
-        HandleDragModeChanged(DragManager.IsDragModeActivated);
+        SetDragEnabledDisplayVisibility(false);
+
+        DragManager.OnDragModeChanged += SetDragEnabledDisplayVisibility;
+        SetDragEnabledDisplayVisibility(DragManager.IsDragModeActivated);
     }
 
     protected virtual void OnDestroy()
     {
-        DragManager.OnDragModeChanged -= HandleDragModeChanged;
+        DragManager.OnDragModeChanged -= SetDragEnabledDisplayVisibility;
     }
 
-    protected virtual void HandleDragModeChanged(bool isDragMode)
+    protected virtual void SetDragEnabledDisplayVisibility(bool isDragMode)
     {
-        if (this.dragEnabledDisplay != null)
-        {
+        if (this.dragEnabledDisplay)
             this.dragEnabledDisplay.SetActive(isDragMode);
-        }
     }
 
     protected virtual bool DoOnBeginDrag()
@@ -216,8 +228,12 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 {
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;
-                        
+
                     dragTarget.SetAsParent(this.targetRectTransform);
+
+                    if (dragTarget.ShouldSnapToCenter)
+                        this.targetRectTransform.localPosition += this.snapToCenterOffset;
+                        
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
                     this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
