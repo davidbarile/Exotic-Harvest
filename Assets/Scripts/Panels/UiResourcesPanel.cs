@@ -63,6 +63,14 @@ public class UiResourcesPanel : UIPanelBase
             this.grid.constraintCount = this.maxItemsPerRow;
             this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         }
+
+        if(ResourceManager.IN.DebugGrantAllResources)
+        {
+            foreach (var resource in resourcesToShow)
+            {
+                ResourceManager.IN.AddResource(resource.ResourceType, ResourceManager.IN.DebugAddAmount);
+            }
+        }
     }
     
     private ResourceConfig[] GetResourcesToDisplay()

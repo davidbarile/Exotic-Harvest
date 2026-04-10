@@ -15,6 +15,8 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private GameObject itemDetailPanel;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [SerializeField] private TMP_Text ownedText;
+    [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject[] itemIconDisplayObjects;
     [SerializeField] private ShopItemIconDisplayUI[] itemIconDisplays;
     [SerializeField] private Button purchaseButton;
@@ -177,6 +179,15 @@ public class UiShopPanel : UIPanelBase
         // Update itemData name and description
         this.itemNameText.text = this.selectedItemData.DisplayName;
         this.itemDescriptionText.text = this.selectedItemData.Description;
+
+        if (this.ownedText)
+        {
+            this.ownedText.text = this.selectedItemData.MaxPurchases > 0 ? $"Owned: {this.selectedItemData.CurrentPurchases}/{this.selectedItemData.MaxPurchases}" : string.Empty;
+            this.ownedText.color = this.selectedItemData.CanPurchase ? Color.white : Color.red;
+        }
+        
+        if(this.soldOutOverlay != null)
+            this.soldOutOverlay.SetActive(this.selectedItemData.MaxPurchases > 0 && this.selectedItemData.CurrentPurchases >= this.selectedItemData.MaxPurchases);
 
         //hide all icon displays initially
         foreach (var iconDisplayObject in this.itemIconDisplayObjects)

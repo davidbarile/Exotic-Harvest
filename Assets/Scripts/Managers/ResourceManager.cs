@@ -22,6 +22,7 @@ public class ResourceManager : MonoBehaviour
     public ResourceDatabase Database => this.resourceDatabase;
 
     public int DebugAddAmount = 10; // Amount to add when testing resource gain
+    public bool DebugGrantAllResources; // Toggle for testing resource gain in Update()
     
     private void Awake()
     {
