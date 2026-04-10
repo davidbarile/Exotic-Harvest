@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class FollowObject : MonoBehaviour
@@ -8,9 +7,22 @@ public class FollowObject : MonoBehaviour
     [SerializeField] private float followSpeed = -1f;
 
     [SerializeField] private bool shouldScaleWithTarget;
-     [SerializeField] private float scaleMultiplier = 1f;
+    [SerializeField] private float scaleMultiplier = 1f;
+
+    [SerializeField] private bool updateInEditor;
     private Vector3 initialScale;
-    
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (this.target != null && this.updateInEditor)
+        {
+            this.initialScale = transform.localScale;
+            Update();
+        }
+    }
+#endif
+
     private void Start()
     {
         this.initialScale = transform.localScale;
