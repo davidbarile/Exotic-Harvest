@@ -181,7 +181,7 @@ public class UiInventoryItem : Draggable
         return true;
     }
     
-    protected override bool DoOnEndDrag()
+    protected override bool DoNoDropTargetFound()
     {
         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
 

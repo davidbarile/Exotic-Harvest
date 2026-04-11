@@ -28,8 +28,13 @@ public class InputManager : MonoBehaviour
 
     public bool IsShiftPressed => this.isShiftPressed;
     private bool isShiftPressed;
-
     private bool isMouseOverUiThisFrame;
+    private int uiLayerMask = 0;
+
+    private void Awake()
+    {
+        this.uiLayerMask = LayerMask.GetMask("UI");
+    }
 
     public void Update()
     {
@@ -73,8 +78,6 @@ public class InputManager : MonoBehaviour
 
         var results = new List<RaycastResult>();
 
-        var layerMask = LayerMask.GetMask("UI");
-
         if (EventSystem.current)
         {
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
@@ -90,7 +93,7 @@ public class InputManager : MonoBehaviour
 
             foreach (var result in results)
             {
-                if (result.gameObject.layer == layerMask)
+                if (result.gameObject.layer == this.uiLayerMask)
                     return true;
             }
         }

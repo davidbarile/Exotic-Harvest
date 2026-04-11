@@ -132,8 +132,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         // Override in subclasses for additional behavior
         return true;
     }
+
+    protected virtual void DoOnEndDrag()
+    {
+        // Override in subclasses for additional behavior
+    }
     
-    protected virtual bool DoOnEndDrag()
+    protected virtual bool DoNoDropTargetFound()
     {
         // Override in subclasses for additional behavior
         return true;
@@ -189,9 +194,12 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         if (!flowControl)
         {
+            DoNoDropTargetFound();
             DoOnEndDrag();
             return;
         }
+
+        DoOnEndDrag();
 
         DoSnapBack();
     }

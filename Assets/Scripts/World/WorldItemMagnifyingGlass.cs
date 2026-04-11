@@ -9,5 +9,6 @@ public class WorldItemMagnifyingGlass : SearchToolBase
     {
         base.Awake();
         this.linkedMagnifyingGlass = GetComponent<MagnifyingGlass>();
+        this.searchableLayerMask = LayerMask.GetMask("MeadowSearchable");
     }
 }
