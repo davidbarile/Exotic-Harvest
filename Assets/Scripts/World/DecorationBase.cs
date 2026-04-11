@@ -200,14 +200,9 @@ public class DecorationBase : Draggable
         });
     }
 
-    protected override bool DoOnDrag()
+    public override void OnDragUpdate()
     {
-        if (CheckIfOverInventoryZone())
-        {
-            return false;
-        }
-
-        return true;
+        CheckIfOverInventoryZone();
     }
 
     public static bool CheckIfOverInventoryZone()

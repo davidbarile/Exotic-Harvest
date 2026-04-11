@@ -65,7 +65,7 @@ public class UiInventoryItem : Draggable
         return true;
     }
 
-    protected override bool DoOnDrag()
+    public override void OnDragUpdate()
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
@@ -110,18 +110,15 @@ public class UiInventoryItem : Draggable
                         
                         // Destroy the inventory item
                         Delete();
-                        
-                        return false;
+                        return;
                     }
                 }
 
                 // Fallback: just destroy if spawn failed
                 this.isDragging = false;
                 Delete();
-                return false;
             }
         }
-        return true;
     }
 
     protected override void DoSnapBack()

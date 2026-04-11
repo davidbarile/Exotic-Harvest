@@ -135,6 +135,8 @@ public class DragManager : MonoBehaviour
 
         var dragPos = GetPositionInSpace(mousePos);
         this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor;
+
+        this.currentDragSource.OnDragUpdate();
     }
     
     private bool IsClampedToDragTargetBounds(Vector2 mousePos)

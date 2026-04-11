@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -115,12 +114,12 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
         return actualAmount > 0;
     }
-    
+
     protected virtual void RefreshQuantityDisplay()
     {
         if (this.DecorationData == null)
             return;
-            
+
         if (this.quantityText)
         {
             if (this.DecorationData.ConversionRatio != 1f)
@@ -129,9 +128,15 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
                 int total = Mathf.FloorToInt((float)this.DecorationData.MaxAmount * this.DecorationData.ConversionRatio);
                 this.quantityText.text = $"{amountCollected}/{total}\n<size=80%><i>({this.CurrentAmount}/{this.MaxCapacity})</i></size>";
             }
-            else                
+            else
                 this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";
         }
+    }
+    
+    public void SetText(string inText)
+    {
+        if (this.quantityText)
+            this.quantityText.text = inText;
     }
     
     protected virtual int GetGenerationAmount()

@@ -127,10 +127,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         return true;
     }
 
-    protected virtual bool DoOnDrag()
+    public virtual void OnDragUpdate()
     {
-        // Override in subclasses for additional behavior
-        return true;
+        // Called from DragManager Override in subclasses for additional behavior
     }
 
     protected virtual void DoOnEndDrag()
@@ -174,9 +173,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             return;
 
         if (!this.isDragging)
-            return;
-
-        if (!DoOnDrag())
             return;
     }
 
