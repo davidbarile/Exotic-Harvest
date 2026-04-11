@@ -21,7 +21,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
-    [SerializeField] private int maxDewdrops = 5;
+    [SerializeField] private float dewGridSize = 20f; // Grid size for potential dewdrop spawn positions
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
     [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
     private List<Dewdrop> activeDewdrops = new();
@@ -212,7 +212,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     private void InitDewDropPositions()
     {
         // If no predefined positions, generate a grid of positions within the spawn area
-        this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: 20, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+        this.dewSpawnPositions = GetRandomPositions(this.dewDropSpawnParent, inCount: -1, inGridSize: this.dewGridSize, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
 
         var layerMask = LayerMask.GetMask("DewSpawn");
 
@@ -248,6 +248,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
             dewdrop.name = $"Dewdrop_{this.activeDewdrops.Count}";
             dewdrop.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
+            dewdrop.transform.position = new Vector3(dewdrop.transform.position.x, dewdrop.transform.position.y, spawnPos.z); // Set Z based on collider
             dewdrop.Spawn();
             this.activeDewdrops.Add(dewdrop);
         }
