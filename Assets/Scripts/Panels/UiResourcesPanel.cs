@@ -14,7 +14,7 @@ public class UiResourcesPanel : UIPanelBase
 
     private List<GameObject> allResourceObjects = new();
     
-    private Dictionary<EResourceType, ResourceDisplayUI> activeDisplaysDict = new();
+    private Dictionary<EResourceType, UiResourceDisplay> activeDisplaysDict = new();
     
     public void Init()
     {
@@ -82,7 +82,7 @@ public class UiResourcesPanel : UIPanelBase
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        ResourceDisplayUI displayUI = PrefabManager.IN.SpawnPrefab<ResourceDisplayUI>($"ResourceDisplayUI", this.grid.transform);
+        UiResourceDisplay displayUI = PrefabManager.IN.SpawnPrefab<UiResourceDisplay>($"ResourceDisplayUI", this.grid.transform);
         this.allResourceObjects.Add(displayUI.gameObject);
         
         displayUI.Configure(resourceConfig.ResourceType, resourceConfig, true);
@@ -93,7 +93,7 @@ public class UiResourcesPanel : UIPanelBase
     
     private void OnResourceChanged(EResourceType type, int newAmount)
     {            
-        if (this.activeDisplaysDict.TryGetValue(type, out ResourceDisplayUI display))
+        if (this.activeDisplaysDict.TryGetValue(type, out UiResourceDisplay display))
             display.gameObject.SetActive(newAmount > 0 || !this.showOnlyOwnedResources);
       
     }

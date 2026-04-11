@@ -6,7 +6,7 @@ using static ColorPalette;
 /// <summary>
 /// UI component for displaying a single resource amount
 /// </summary>
-public class ResourceDisplayUI : MonoBehaviour
+public class UiResourceDisplay : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Image iconImage;

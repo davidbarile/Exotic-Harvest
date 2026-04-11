@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UiDragTarget : MonoBehaviour
+public class DragTarget : MonoBehaviour
 {
     [Header("Leave null to not highlight on valid drag over")]
     [SerializeField] private GameObject highlightObject;

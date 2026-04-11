@@ -18,10 +18,10 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private TMP_Text ownedText;
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject[] itemIconDisplayObjects;
-    [SerializeField] private ShopItemIconDisplayUI[] itemIconDisplays;
+    [SerializeField] private UiShopItemIconDisplay[] itemIconDisplays;
     [SerializeField] private Button purchaseButton;
     [SerializeField] private TextMeshProUGUI purchaseButtonText;
-    [SerializeField] private ResourceDisplayUI[] buyButtonCostDisplays;
+    [SerializeField] private UiResourceDisplay[] buyButtonCostDisplays;
     
     private EShopCategory currentCategory = EShopCategory.Tools;
     private ShopItemData selectedItemData;
@@ -134,7 +134,7 @@ public class UiShopPanel : UIPanelBase
     
     private void CreateItemDisplay(ShopItemData itemData)
     {            
-        var shopItemUI = PrefabManager.IN.SpawnPrefab<ShopItemUI>("ShopItemUI", this.itemsGridParent);
+        var shopItemUI = PrefabManager.IN.SpawnPrefab<UiShopItem>("ShopItemUI", this.itemsGridParent);
         this.currentItemDisplays.Add(shopItemUI.gameObject);
         
         // Setup itemData display (this would be expanded with actual UI components)

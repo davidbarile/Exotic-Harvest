@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CostItemUI : MonoBehaviour
+public class UiCostItem : MonoBehaviour
 {
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Image resourceIcon;

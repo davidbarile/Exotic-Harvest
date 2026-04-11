@@ -13,9 +13,9 @@ public class DecorationManager : MonoBehaviour
     
     private Dictionary<int,Transform> decorationParents = new(); // List of parent transforms for different decoration types
 
-    public List<UiDecorationBase> PlacedDecorations = new();
+    public List<DecorationBase> PlacedDecorations = new();
     
-    private List<UiDecorationBase> initDecorations = new();
+    private List<DecorationBase> initDecorations = new();
 
     private void Awake()
     {
@@ -27,8 +27,8 @@ public class DecorationManager : MonoBehaviour
     /// </summary>
     public void InitDecorationsInWorld(bool isNewGame)
     {
-        this.initDecorations = new List<UiDecorationBase>(this.worldDecorationCanvas.GetComponentsInChildren<UiDecorationBase>());
-        var screenDecorations = new List<UiDecorationBase>(this.screenDecorationCanvas.GetComponentsInChildren<UiDecorationBase>());
+        this.initDecorations = new List<DecorationBase>(this.worldDecorationCanvas.GetComponentsInChildren<DecorationBase>());
+        var screenDecorations = new List<DecorationBase>(this.screenDecorationCanvas.GetComponentsInChildren<DecorationBase>());
 
         this.initDecorations.AddRange(screenDecorations);
 
@@ -50,15 +50,15 @@ public class DecorationManager : MonoBehaviour
         }
         
         if(!isNewGame)
-            this.initDecorations = new List<UiDecorationBase>();
+            this.initDecorations = new List<DecorationBase>();
     }
 
-    public UiDecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, Transform parent = null)
+    public DecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, Transform parent = null)
     {
         if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
             return null;
 
-        var worldItem = PrefabManager.IN.SpawnPrefab<UiDecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.WorldDecorationsContainer);
+        var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.WorldDecorationsContainer);
         worldItem.transform.localPosition = spawnPosition;
         worldItem.transform.localScale = Vector3.one;
         worldItem.name = $"Decoration_{itemData.DisplayName}";
@@ -71,7 +71,7 @@ public class DecorationManager : MonoBehaviour
         var parentObjects = this.worldDecorationCanvas.GetComponentsInChildren<Transform>(true);
         foreach (var parent in parentObjects)
         {
-            if (parent.TryGetComponent<UiDragTarget>(out var dragTarget))
+            if (parent.TryGetComponent<DragTarget>(out var dragTarget))
             {
                 this.decorationParents.Add(parent.GetInstanceID(), parent);
             }

@@ -84,7 +84,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037185857257913224}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -212,11 +212,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5665508844365652592}
   - {fileID: 8002848353742864462}
   - {fileID: 8305830809846947720}
   - {fileID: 8525943209058786747}
   - {fileID: 8158017517496755742}
-  - {fileID: 5665508844365652592}
   - {fileID: 743387814425888228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -247,12 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MagnifyingGlass
   CollectableResourceTypes: 14000000180000001a0000001b00000028000000290000002a00000053000000
   quantityText: {fileID: 3574800819758532373}
-  innerWorld: {fileID: 2407089188760004882}
-  container: {fileID: 3588536358203022025}
-  lensMask: {fileID: 8621744787930508965}
-  lensCanvasGroup: {fileID: 3854682026704921767}
-  scrollSpeed: 5
-  isMaskActive: 1
 --- !u!114 &5183398858512519061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +297,12 @@ MonoBehaviour:
     IconSpriteName: Icon_MagnifyingGlass
     IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 6668c71fe5256462396508d88191eeda, type: 2}
+  innerWorld: {fileID: 2407089188760004882}
+  container: {fileID: 3588536358203022025}
+  lensMask: {fileID: 8621744787930508965}
+  lensCanvasGroup: {fileID: 3854682026704921767}
+  scrollSpeed: 5
+  isMaskEnabled: 1
 --- !u!50 &82978680336248110
 Rigidbody2D:
   serializedVersion: 5
@@ -810,7 +810,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ffaa2118df0814f08a290f5218119b4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9d58a97b067e471d8c4d99e40c393eb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -3089,6 +3089,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1307293480}
+  - {fileID: 731974292}
   - {fileID: 244455263}
   - {fileID: 406109113}
   m_Father: {fileID: 1488441595}
@@ -5089,7 +5090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &509844373
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11564,6 +11565,107 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731197018}
   m_CullTransparentMesh: 1
+--- !u!1 &731974291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 731974292}
+  - component: {fileID: 731974294}
+  - component: {fileID: 731974293}
+  m_Layer: 8
+  m_Name: MeadowZone_MagnifyingGlassActivation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &731974292
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731974291}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 308471513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!60 &731974293
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731974291}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -403.47644, y: -293.13672}
+      - {x: -164.29272, y: -274.95215}
+      - {x: 175.94763, y: -270.30054}
+      - {x: 465.7484, y: -307.7771}
+      - {x: 765.7129, y: -363.10767}
+      - {x: 917.01807, y: -426.80762}
+      - {x: 1023.3586, y: -532.58374}
+      - {x: -861.47705, y: -539.1102}
+      - {x: -696.4216, y: -363.62024}
+  m_UseDelaunayMesh: 1
+--- !u!222 &731974294
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731974291}
+  m_CullTransparentMesh: 1
 --- !u!1 &735799959
 GameObject:
   m_ObjectHideFlags: 0
@@ -12299,8 +12401,8 @@ MonoBehaviour:
   _OffsetY: 10
   _DistanceX: 0.005
   _DistanceY: 0.005
-  _WaveTimeX: 2.3595767
-  _WaveTimeY: 2.3595767
+  _WaveTimeX: 2.1214855
+  _WaveTimeY: 2.1214855
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 5
   AutoPlayWaveY: 1
@@ -12321,7 +12423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 1492709214}
+  m_Material: {fileID: 1250551041}
   m_Color: {r: 1, g: 0.97524023, b: 0.48584908, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -16600,6 +16702,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250220098}
   m_CullTransparentMesh: 1
+--- !u!21 &1250551041
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.005
+    - _DistanceY: 0.005
+    - _OffsetX: 10
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 2.060425
+    - _WaveTimeY: 2.060425
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &1257388814
 Material:
   serializedVersion: 8
@@ -17778,6 +17926,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e3eef029dc8475fa1134377c8d3bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiCompass
+--- !u!21 &1360731758
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.01
+    - _DistanceY: 0
+    - _OffsetX: 60
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 2.060425
+    - _WaveTimeY: 0.12
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1364921588
 GameObject:
   m_ObjectHideFlags: 0
@@ -18810,52 +19004,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1491229072}
   m_CullTransparentMesh: 1
---- !u!21 &1492709214
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.005
-    - _DistanceY: 0.005
-    - _OffsetX: 10
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 1.7258894
-    - _WaveTimeY: 1.7258894
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1502916304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19058,52 +19206,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8466997574689159998, guid: 40cab0b785f0a44c0bb3c5b58fc8c7f0, type: 3}
   m_PrefabInstance: {fileID: 1502916304}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1504178595
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.015
-    - _DistanceY: 0.01
-    - _OffsetX: 10
-    - _OffsetY: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 0.03553363
-    - _WaveTimeY: 1.709223
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1510153011
 GameObject:
   m_ObjectHideFlags: 0
@@ -20078,52 +20180,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596819487}
   m_CullTransparentMesh: 1
---- !u!21 &1599522284
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.01
-    - _DistanceY: 0
-    - _OffsetX: 60
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 1.7258894
-    - _WaveTimeY: 0.12
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1603679873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22342,6 +22398,30 @@ MonoBehaviour:
     IconSpriteName: Crystal
     IconColor: {r: 1, g: 1, b: 1, a: 1}
     ShopItemConfig: {fileID: 11400000, guid: 635f2abdd31cb4a649b3661573dae1c3, type: 2}
+  - DisplayName: 'Magnifying
+
+      Glass'
+    Quantity: 1
+    MaxStack: 1
+    Category: 0
+    DecorationData:
+      PrefabName: MagnifyingGlassUI
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
+      DecorationType: 1
+      HighlightValidTargetsWhenDragged: 0
+      GeneratedResource: 0
+      CurrentAmount: 0
+      MaxAmount: 100
+      ConversionRatio: 1
+      GenerationInterval: 0
+      RequiresSpecificConditions: 0
+      IsActive: 0
+    Scale: 1
+    IconSpriteName: Icon_MagnifyingGlass
+    IconColor: {r: 1, g: 1, b: 1, a: 1}
+    ShopItemConfig: {fileID: 11400000, guid: 6668c71fe5256462396508d88191eeda, type: 2}
 --- !u!114 &1713415303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23345,8 +23425,8 @@ MonoBehaviour:
   _OffsetY: 1
   _DistanceX: 0.015
   _DistanceY: 0.01
-  _WaveTimeX: 0.415746
-  _WaveTimeY: 1.962698
+  _WaveTimeX: 6.0985827
+  _WaveTimeY: 3.0002308
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 3
   AutoPlayWaveY: 1
@@ -23367,7 +23447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 1504178595}
+  m_Material: {fileID: 2013636743}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -23623,7 +23703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1911864635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24278,6 +24358,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2588911065442878135, guid: ade4134976b464f9d9089c7c232835cf, type: 3}
   m_PrefabInstance: {fileID: 5643882755429292272}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &2013636743
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.015
+    - _DistanceY: 0.01
+    - _OffsetX: 10
+    - _OffsetY: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 6.0619464
+    - _WaveTimeY: 2.9758067
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &2041074492
 GameObject:
   m_ObjectHideFlags: 0
@@ -24761,7 +24887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 1599522284}
+  m_Material: {fileID: 1360731758}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -24798,7 +24924,7 @@ MonoBehaviour:
   _OffsetY: 10
   _DistanceX: 0.01
   _DistanceY: 0
-  _WaveTimeX: 2.3595767
+  _WaveTimeX: 2.1214855
   _WaveTimeY: 0.12
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 5

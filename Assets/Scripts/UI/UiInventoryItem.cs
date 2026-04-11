@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public class UiInventoryItem : UiDraggable
+public class UiInventoryItem : Draggable
 {
     [Header("Inventory Item UI Elements")]
 
@@ -69,7 +69,7 @@ public class UiInventoryItem : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone)
+            if (possibleTarget.TryGetComponent<DragTarget>(out var dragTarget) && dragTarget.IsDragOutOfInventoryZone)
             {
                 UiManager.IN.InventoryPanel.Hide();
 
@@ -162,7 +162,7 @@ public class UiInventoryItem : UiDraggable
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
-                if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget))
+                if (possibleTarget != null && possibleTarget.TryGetComponent<DragTarget>(out var dragTarget))
                 {
                     var cell = possibleTarget.GetComponentInParent<UiInventoryCell>();
                     if (cell != null)

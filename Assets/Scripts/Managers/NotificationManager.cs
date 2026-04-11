@@ -10,6 +10,10 @@ using UnityEngine;
 public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager IN;
+
+    // Events
+    public static Action<ToastNotification> OnNotificationShown;
+    //public static Action<ToastNotification> OnNotificationDismissed;
     
     [Header("Notification Settings")]
     [SerializeField] private Transform notificationParent;
@@ -22,12 +26,8 @@ public class NotificationManager : MonoBehaviour
     [SerializeField] private AudioClip errorSound;
     [SerializeField] private AudioClip infoSound;
     
-    private Queue<ToastNotificationUI> activeNotifications = new Queue<ToastNotificationUI>();
+    private Queue<UiToastNotification> activeNotifications = new();
     private bool notificationsEnabled = true;
-    
-    // Events
-    public static Action<ToastNotification> OnNotificationShown;
-    //public static Action<ToastNotification> OnNotificationDismissed;
     
     private void Awake()
     {
@@ -135,7 +135,7 @@ public class NotificationManager : MonoBehaviour
         }
         
         // Create notification UI
-        var notificationUI = PrefabManager.IN.SpawnPrefab<ToastNotificationUI>("ToastNotification", this.notificationParent);
+        var notificationUI = PrefabManager.IN.SpawnPrefab<UiToastNotification>("ToastNotification", this.notificationParent);
         
         notificationUI.Initialize(notification, OnNotificationDismissedCallback);
         this.activeNotifications.Enqueue(notificationUI);
@@ -150,7 +150,7 @@ public class NotificationManager : MonoBehaviour
         OnNotificationShown?.Invoke(notification);
     }
     
-    private void PositionNotification(ToastNotificationUI notification)
+    private void PositionNotification(UiToastNotification notification)
     {
         // Position based on number of active notifications
         RectTransform rectTransform = notification.GetComponent<RectTransform>();
@@ -165,10 +165,10 @@ public class NotificationManager : MonoBehaviour
         }
     }
     
-    private void OnNotificationDismissedCallback(ToastNotificationUI notification)
+    private void OnNotificationDismissedCallback(UiToastNotification notification)
     {
         // Remove from active notifications (it might not be the first one if manually dismissed)
-        var notificationsList = new List<ToastNotificationUI>(this.activeNotifications);
+        var notificationsList = new List<UiToastNotification>(this.activeNotifications);
         notificationsList.Remove(notification);
         
         this.activeNotifications.Clear();

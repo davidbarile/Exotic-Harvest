@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Jar))]
-public class UiWorldItemJar : UiDecorationBase
+public class WorldItemJar : DecorationBase
 {
     protected override void Awake()
     {

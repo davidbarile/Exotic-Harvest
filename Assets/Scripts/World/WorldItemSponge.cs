@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Sponge))]
-public class UiWorldItemSponge : UiDecorationBase
+public class WorldItemSponge : DecorationBase
 {
     protected override void Awake()
     {

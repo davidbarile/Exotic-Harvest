@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Bucket))]
-public class UiWorldItemBucket : UiDecorationBase
+public class WorldItemBucket : DecorationBase
 {
     protected override void Awake()
     {

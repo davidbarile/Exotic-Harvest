@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class UiDecorationBase : UiDraggable
+public class DecorationBase : Draggable
 {
     [Header("Inventory Item UI Elements")]
 
@@ -214,7 +214,7 @@ public class UiDecorationBase : UiDraggable
     {
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
-            if (possibleTarget != null && possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && dragTarget != null && dragTarget.IsDragOverOpenInventoryZone)
+            if (possibleTarget != null && possibleTarget.TryGetComponent<DragTarget>(out var dragTarget) && dragTarget != null && dragTarget.IsDragOverOpenInventoryZone)
             {
                 UiManager.IN.InventoryPanel.Show();
                 UiManager.IN.InventoryPanel.SwitchCategory(EShopCategory.All);

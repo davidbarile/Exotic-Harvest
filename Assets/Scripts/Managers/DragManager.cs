@@ -25,8 +25,8 @@ public class DragManager : MonoBehaviour
     public Vector3 OffsetFromCursor { get; private set; }
     public bool IsDraggingActive { get; private set; }
 
-    public UiDraggable CurrentDragSource => this.currentDragSource;
-    private UiDraggable currentDragSource;
+    public Draggable CurrentDragSource => this.currentDragSource;
+    private Draggable currentDragSource;
     private GameObject currentDragProxy;
 
     private bool hasBrokenFreeOfClamp = false;
@@ -80,7 +80,7 @@ public class DragManager : MonoBehaviour
         OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
 
-    public void StartDrag(UiDraggable inSource, RectTransform inDraggedTransform, Vector2 inOffsetFromCursor)
+    public void StartDrag(Draggable inSource, RectTransform inDraggedTransform, Vector2 inOffsetFromCursor)
     {
         this.currentDragSource = inSource;
         this.CurrentDraggedTransform = inDraggedTransform;
@@ -90,7 +90,7 @@ public class DragManager : MonoBehaviour
 
         inDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
 
-        var dragDecoration = this.currentDragSource as UiDecorationBase;
+        var dragDecoration = this.currentDragSource as DecorationBase;
 
         if(inSource.HighlightValidTargetsWhenDragged)
             OnDragStartedWithDecorationType?.Invoke(dragDecoration != null ? dragDecoration.ItemData.DecorationData.DecorationType : EDecorationType.None);
@@ -111,7 +111,7 @@ public class DragManager : MonoBehaviour
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
 
-        if (!UiManager.IN.InventoryPanel.IsShowing && UiDecorationBase.CheckIfOverInventoryZone())
+        if (!UiManager.IN.InventoryPanel.IsShowing && DecorationBase.CheckIfOverInventoryZone())
         {
             //TODO: swap for InventoryItem prefab
             // this.IsDraggingActive = false;
@@ -126,7 +126,7 @@ public class DragManager : MonoBehaviour
         }
 
         if (this.currentDragSource.ShouldDetectDropTargets)
-            UiDraggable.UpdateHighlightedObjects();
+            Draggable.UpdateHighlightedObjects();
 
         if (!this.hasBrokenFreeOfClamp && IsClampedToDragTargetBounds(mousePos))
             return;
@@ -142,7 +142,7 @@ public class DragManager : MonoBehaviour
         if (!this.currentDragSource.LimitToParentTargetBounds || this.currentDragSource.OriginalParent == null)
             return false;
 
-        if (this.currentDragSource.OriginalParent.TryGetComponent(out UiDragTarget parentDragTarget))
+        if (this.currentDragSource.OriginalParent.TryGetComponent(out DragTarget parentDragTarget))
         {
             if (parentDragTarget.UnsnapRange == -1)
                 return false;
@@ -236,7 +236,7 @@ public class DragManager : MonoBehaviour
         this.CurrentDraggedTransform = newDraggedTransform;
 
         // Update drag source if the new object has UiDraggable
-        if (newDraggedTransform.TryGetComponent<UiDraggable>(out var newDragSource))
+        if (newDraggedTransform.TryGetComponent<Draggable>(out var newDragSource))
         {
             this.currentDragSource = newDragSource;
 

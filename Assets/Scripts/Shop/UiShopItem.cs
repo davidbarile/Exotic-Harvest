@@ -6,18 +6,18 @@ using UnityEngine.UI;
 /// <summary>
 /// UI component for displaying shop items
 /// </summary>
-public class ShopItemUI : MonoBehaviour
+public class UiShopItem : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Button itemButton;
     [SerializeField] private GameObject[] itemIconDisplayObjects;
-    [SerializeField] private ShopItemIconDisplayUI[] itemIconDisplays;
+    [SerializeField] private UiShopItemIconDisplay[] itemIconDisplays;
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text ownedText;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private GameObject soldOutOverlay;
     [SerializeField] private GameObject cannotAffordOverlay;
-    [SerializeField] private ResourceDisplayUI[] resourceCostDisplays;
+    [SerializeField] private UiResourceDisplay[] resourceCostDisplays;
     
     private ShopItemData shopItemData;
     // private ShopItemDefinition itemDefinition;

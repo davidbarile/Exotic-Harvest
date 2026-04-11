@@ -89,7 +89,7 @@ public class UiInventoryCell : MonoBehaviour
         var thisItemData = InventoryItemData.Copy(thisItem.ItemData);
         var otherItemData = InventoryItemData.Copy(otherItem.ItemData);
 
-        if (otherCell.Container.TryGetComponent<UiDragTarget>(out var dragTarget))
+        if (otherCell.Container.TryGetComponent<DragTarget>(out var dragTarget))
         {
             dragTarget.SetAsParent(otherItem.transform);
         }
@@ -103,7 +103,7 @@ public class UiInventoryCell : MonoBehaviour
     
     public void MergeItems(UiInventoryCell otherCell, UiInventoryItem otherItem)
     {
-        if (otherCell.Container.TryGetComponent<UiDragTarget>(out var dragTarget))
+        if (otherCell.Container.TryGetComponent<DragTarget>(out var dragTarget))
         {
             dragTarget.SetAsParent(otherItem.transform);
         }

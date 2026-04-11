@@ -5,9 +5,9 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(RectTransform))]
-public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public static HashSet<UiDragTarget> CurrentHighlightedTargets = new();
+    public static HashSet<DragTarget> CurrentHighlightedTargets = new();
 
     [Header("Can drag when Drag Mode is Off")]
     [SerializeField] protected bool isDraggingPermanent;
@@ -63,7 +63,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     public static void UpdateHighlightedObjects()
     {
         EDecorationType decorationType = EDecorationType.All;
-        if (DragManager.IN.CurrentDragSource is UiDecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
+        if (DragManager.IN.CurrentDragSource is DecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
         {
             decorationType = decoration.ItemData.DecorationData.DecorationType;
         }
@@ -73,7 +73,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             if (possibleTarget == null)
                 continue;
 
-            var dragTarget = possibleTarget.GetComponent<UiDragTarget>();
+            var dragTarget = possibleTarget.GetComponent<DragTarget>();
 
             if (dragTarget != null && !dragTarget.transform.IsChildOf(DragManager.IN.CurrentDraggedTransform))
             {
@@ -86,7 +86,7 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
 
         // Clear highlights from targets no longer under the mouse
-        List<UiDragTarget> targetsToClear = new();
+        List<DragTarget> targetsToClear = new();
         foreach (var highlightedTarget in CurrentHighlightedTargets)
         {
             if (!InputManager.ObjectsUnderMouse.Contains(highlightedTarget.gameObject))
@@ -217,14 +217,14 @@ public class UiDraggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (this.shouldDetectDropTargets)
         {
             EDecorationType decorationType = EDecorationType.All;
-            if (this is UiDecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
+            if (this is DecorationBase decoration && decoration.ItemData != null && decoration.ItemData.DecorationData != null)
             {
                 decorationType = decoration.ItemData.DecorationData.DecorationType;
             }
         
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
-                if (possibleTarget.TryGetComponent<UiDragTarget>(out var dragTarget) && !dragTarget.transform.IsChildOf(this.targetRectTransform))
+                if (possibleTarget.TryGetComponent<DragTarget>(out var dragTarget) && !dragTarget.transform.IsChildOf(this.targetRectTransform))
                 {
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Crystal))]
-public class UiWorldItemCrystal : UiDecorationBase
+public class WorldItemCrystal : DecorationBase
 {
     protected override void Awake()
     {

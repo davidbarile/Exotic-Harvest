@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,7 +7,7 @@ using DG.Tweening;
 /// <summary>
 /// UI component for displaying individual toast notifications
 /// </summary>
-public class ToastNotificationUI : MonoBehaviour
+public class UiToastNotification : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Image backgroundImage;
@@ -26,7 +27,7 @@ public class ToastNotificationUI : MonoBehaviour
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Tween animationTween;
-    private System.Action<ToastNotificationUI> onDismissed;
+    private Action<UiToastNotification> onDismissed;
     
     private void Awake()
     {
@@ -44,7 +45,7 @@ public class ToastNotificationUI : MonoBehaviour
         }
     }
     
-    public void Initialize(ToastNotification notification, System.Action<ToastNotificationUI> onDismissCallback)
+    public void Initialize(ToastNotification notification, Action<UiToastNotification> onDismissCallback)
     {
         this.notificationData = notification;
         this.onDismissed = onDismissCallback;

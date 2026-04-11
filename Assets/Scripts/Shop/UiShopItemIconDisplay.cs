@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ShopItemIconDisplayUI : MonoBehaviour
+public class UiShopItemIconDisplay : MonoBehaviour
 {
     [SerializeField] private Image itemIcon;
     [SerializeField] private TMP_Text quantityText;
