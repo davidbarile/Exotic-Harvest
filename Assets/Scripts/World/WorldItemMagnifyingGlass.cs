@@ -9,7 +9,7 @@ public class WorldItemMagnifyingGlass : SearchToolBase
     {
         base.Awake();
         this.linkedMagnifyingGlass = GetComponent<MagnifyingGlass>();
-        this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchable");
+        this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchArea");
     }
 
     protected override bool DoOnBeginDrag()

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static LootData;
 
+//So far this is unused... but maybe when loot changes dynamically we can do it here, so don't delete
 public class LootManager : MonoBehaviour
 {
     public static LootManager IN;
@@ -25,10 +26,10 @@ public class LootManager : MonoBehaviour
     public List<LootConfig> GetLootConfigsOfType(ELootType lootType)
     {
         var lootConfigsOfType = new List<LootConfig>();
-        
-        foreach(var config in this.lootConfigs)
+
+        foreach (var config in this.lootConfigs)
         {
-            if(config.LootType == lootType)
+            if (config.LootType == lootType)
             {
                 lootConfigsOfType.Add(config);
             }

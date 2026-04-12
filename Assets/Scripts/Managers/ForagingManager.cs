@@ -30,6 +30,12 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Meadow Settings --------------")]
     [SerializeField] private Transform meadowLootField; // Parent transform for meadow collectables (e.g. mushrooms, flowers)
     public Transform MeadowLootField => this.meadowLootField;
+    [SerializeField] private RectTransform meadowSearchableParent; // UI container for meadow searchable positions
+    [SerializeField] private float meadowGridSize = 20f; // Grid size for potential meadow searchable positions
+    [SerializeField] private float meadowSearchableSpawnChance = 0.1f; // Per second during morning
+    [SerializeField] private bool debugSpawnAllMeadowSearchables; // For testing - force spawn meadow searchables on start
+    private List<Searchable> activeMeadowSearchables = new();
+    private List<Vector3> meadowSearchablePositions = new();
 
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
@@ -99,7 +105,6 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
     }
-
     #endregion
 
     private void Start()
@@ -116,14 +121,18 @@ public class ForagingManager : MonoBehaviour, ITickable
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
 
         InitDewDropPositions();
+        InitMeadowSearchablePositions();
 
         if (this.debugSpawnAllDewdrops)
             DebugDewSpawn();
 
-         if (this.debugSpawnRocks)
+        if (this.debugSpawnRocks)
             DebugSpawnRocks();
+            
+        if(this.debugSpawnAllMeadowSearchables)
+            DebugSpawnMeadowSearchables();
     }
-    
+
     private void OnDestroy()
     {
         TickManager.OnTick -= Tick;
@@ -131,12 +140,13 @@ public class ForagingManager : MonoBehaviour, ITickable
         Collectable.OnCollectableSpawned -= OnCollectableSpawned;
         Collectable.OnCollectableCollected -= OnCollectableCollected;
         Collectable.OnCollectableExpired -= OnCollectableExpired;
-        
+
         WeatherManager.OnRainStarted -= OnRainStarted;
         WeatherManager.OnRainStopped -= OnRainStopped;
         TimeManager.OnTimeOfDayChanged -= OnTimeOfDayChanged;
     }
     
+    #region Timed Events
     public void Tick()
     {
         // Spawn raindrops during rain
@@ -162,7 +172,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             if (this.lastTimeOfDay != ETimeOfDay.Afternoon)
                 this.rockPile.InitRockPositions();//do once when it turns afternoon
-                
+
             //spawn rocks every hour in the Afternoon
             if (TimeManager.IN.CurrentHour > this.nextRockSpawnTime)
             {
@@ -182,6 +192,18 @@ public class ForagingManager : MonoBehaviour, ITickable
         this.lastTimeOfDay = TimeManager.IN.CurrentTimeOfDay;
     }
 
+    private void OnTimeOfDayChanged(ETimeOfDay newTime)
+    {
+        // Adjust spawning based on time
+        if (!newTime.HasFlag(ETimeOfDay.Morning))
+        {
+            // Clear existing dewdrops when morning ends
+            ClearCollectables(EResourceType.Dew, ECollectionMethod.Click);
+        }
+    }
+    #endregion
+
+    #region Raindrops
     private void SpawnRaindrops()
     {
         // Spawn based on rain intensity
@@ -194,6 +216,27 @@ public class ForagingManager : MonoBehaviour, ITickable
             raindrop.transform.localPosition = spawnPos;
             raindrop.Spawn();
         }
+    }
+
+    private Vector2 GetRaindropSpawnPosition()
+    {
+        var canvasRect = this.rainParent.rect;
+
+        // Raindrops spawn from the top
+        return new Vector2(
+            UnityEngine.Random.Range(canvasRect.xMin, canvasRect.xMax),
+            canvasRect.yMax + 100f // Slightly above canvas
+        );
+    }
+    
+    private void OnRainStarted()
+    {
+        // Could add special effects or increase spawn rates
+    }
+
+    private void OnRainStopped()
+    {
+        // Stop rain effects
     }
 
     // private void Update()
@@ -212,6 +255,10 @@ public class ForagingManager : MonoBehaviour, ITickable
     //         }
     //     }
     // }
+
+    #endregion
+
+    #region Dewdrops
     
     private void InitDewDropPositions()
     {
@@ -283,18 +330,92 @@ public class ForagingManager : MonoBehaviour, ITickable
         }
         this.activeDewdrops.Clear();
     }
-    
-    private Vector2 GetRaindropSpawnPosition()
+    #endregion
+
+    #region Rocks
+    [Button(ButtonSizes.Large)]
+    private void DebugSpawnRocks()
     {
-        var canvasRect = this.rainParent.rect;
-        
-        // Raindrops spawn from the top
-        return new Vector2(
-            UnityEngine.Random.Range(canvasRect.xMin, canvasRect.xMax),
-            canvasRect.yMax + 100f // Slightly above canvas
-        );
+        this.rockPile.InitRockPositions();
+        this.rockPile.SpawnRocks();
+    }
+    #endregion
+
+    #region Meadow Searchables
+    private void InitMeadowSearchablePositions()
+    {
+        // If no predefined positions, generate a grid of positions within the spawn area
+        this.meadowSearchablePositions = GetRandomPositions(this.meadowSearchableParent, inCount: -1, inGridSize: this.meadowGridSize, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+
+        var layerMask = LayerMask.GetMask("MeadowSearchables");
+
+        // Raycast to only show elements in colliders
+        for (int i = 0; i < this.meadowSearchablePositions.Count; i++)
+        {
+            var screenPos = this.meadowSearchablePositions[i];
+            var worldPos = this.meadowSearchableParent.TransformPoint(screenPos);
+
+            Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
+
+            if (hitCollider == null)
+            {
+                // No collider at this position, remove it from the list
+                this.meadowSearchablePositions.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                this.meadowSearchablePositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
+            }
+        }
+    }
+
+    [Button(ButtonSizes.Large)]
+    private void DebugSpawnMeadowSearchables()
+    {
+        DeleteAllMeadowSearchables();
+
+        var originalSpawnChance = this.meadowSearchableSpawnChance;
+
+        this.meadowSearchableSpawnChance = 1f;
+        for (int i = 0; i < this.meadowSearchablePositions.Count; i++)
+        {
+            SpawnMeadowSearchables();
+        }
+
+        this.meadowSearchableSpawnChance = originalSpawnChance;
     }
     
+      private void SpawnMeadowSearchables()
+    {
+        // if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= this.maxDewdrops)
+        //     return;
+
+        if (UnityEngine.Random.value < this.meadowSearchableSpawnChance)
+        {
+            Vector3 spawnPos = this.meadowSearchablePositions[this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count]; // Cycle through predefined positions
+            var meadowSearchable = PrefabManager.IN.SpawnPrefab<Searchable>("MeadowSearchable", this.meadowSearchableParent);
+            meadowSearchable.name = $"MeadowSearchable_{this.activeMeadowSearchables.Count}";
+            meadowSearchable.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
+            meadowSearchable.transform.position = new Vector3(meadowSearchable.transform.position.x, meadowSearchable.transform.position.y, spawnPos.z); // Set Z based on collider
+            meadowSearchable.Spawn();
+            this.activeMeadowSearchables.Add(meadowSearchable);
+        }
+    }
+
+    private void DeleteAllMeadowSearchables()
+    {
+        foreach (var meadowSearchable in this.activeMeadowSearchables)
+        {
+            if (meadowSearchable != null)
+                Destroy(meadowSearchable.gameObject);
+        }
+        this.activeMeadowSearchables.Clear();
+    }
+
+    #endregion
+    
+    #region Collectables
     private int GetCollectableCount(EResourceType type, ECollectionMethod method)
     {
         int count = 0;
@@ -324,33 +445,6 @@ public class ForagingManager : MonoBehaviour, ITickable
         OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
     }
     
-    private void OnRainStarted()
-    {
-        // Could add special effects or increase spawn rates
-    }
-
-    private void OnRainStopped()
-    {
-        // Stop rain effects
-    }
-    
-    [Button(ButtonSizes.Large)]
-    private void DebugSpawnRocks()
-    {
-        this.rockPile.InitRockPositions();
-        this.rockPile.SpawnRocks();
-    }
-    
-    private void OnTimeOfDayChanged(ETimeOfDay newTime)
-    {
-        // Adjust spawning based on time
-        if (!newTime.HasFlag(ETimeOfDay.Morning))
-        {
-            // Clear existing dewdrops when morning ends
-            ClearCollectables(EResourceType.Dew, ECollectionMethod.Click);
-        }
-    }
-    
     private void ClearCollectables(EResourceType type, ECollectionMethod method)
     {
         for (int i = this.activeCollectables.Count - 1; i >= 0; i--)
@@ -362,9 +456,10 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
     }
-    
+
     public List<Collectable> GetActiveCollectables()
     {
         return new(this.activeCollectables);
     }
+    #endregion
 }

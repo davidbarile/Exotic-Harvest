@@ -29,7 +29,7 @@ public class SearchToolBase : DecorationBase
     protected int searchAreaLayerMask = 0;
     protected int searchObjectLayerMask = 0;
 
-    protected GameObject activeSearchObject = null;
+    protected Searchable activeSearchable = null;
 
     private DateTime startActiveObjectHoverTime;
 
@@ -54,7 +54,7 @@ public class SearchToolBase : DecorationBase
 
         this.searchObjectLayerMask = LayerMask.GetMask("Default");
         //set this in override
-        //this.searchAreaLayerMask = LayerMask.GetMask("Searchable");
+        //this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchArea");
     }
 
     protected override void Start()
@@ -116,16 +116,16 @@ public class SearchToolBase : DecorationBase
 
         this.innerWorld.localPosition = this.transform.localPosition * -1 * this.scrollSpeed;
 
-        var wasSearchObjectNull = this.activeSearchObject == null;
+        var wasSearchObjectNull = this.activeSearchable == null;
 
-        this.activeSearchObject = GetActiveSearchObject();
-        if (this.activeSearchObject != null)
+        this.activeSearchable = GetActiveSearchObject();
+        if (this.activeSearchable != null)
         {
             if(wasSearchObjectNull)
             {
                 this.startActiveObjectHoverTime = DateTime.Now;
                 SetFillBarActive(true);
-                this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchObject.name}!");
+                this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchable.name}!");
             }
             else
             {
@@ -135,8 +135,8 @@ public class SearchToolBase : DecorationBase
 
                 if (hoverDuration >= this.timeToActivateHover)
                 {
-                    Destroy(this.activeSearchObject);
-                    this.activeSearchObject = null;
+                    this.activeSearchable.Collect();
+                    this.activeSearchable = null;
                     SetFillBarActive(false);
                     this.linkedPassiveHarvester.SetText(string.Empty);
                 }
@@ -149,13 +149,13 @@ public class SearchToolBase : DecorationBase
         }
     }
 
-    private GameObject GetActiveSearchObject()
+    private Searchable GetActiveSearchObject()
     {
         Collider2D hitCollider = Physics2D.OverlapPoint(this.rayCastOrigin.position, this.searchObjectLayerMask);
 
-        if (hitCollider != null && hitCollider.gameObject != this.gameObject && hitCollider.CompareTag("Searchable"))
+        if (hitCollider != null && hitCollider.TryGetComponent<Searchable>(out var searchable))
         {
-            return hitCollider.gameObject;
+            return searchable;
         }
 
         return null;
