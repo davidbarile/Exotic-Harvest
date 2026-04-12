@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using static GlobalEnums;
 
@@ -15,12 +14,3 @@ public class LootData
     public WeightedRandom ChanceToDrop;
     public WeightedRandom QuantityToDrop;
 }
-
-    [Serializable]
-    public class LootBundle
-    {
-        public EDayOfWeek DayOfWeek;
-        public ETimeOfDay TimeOfDay;
-        public ELootType LootType;
-        public List<LootData> LootDatas;
-    }

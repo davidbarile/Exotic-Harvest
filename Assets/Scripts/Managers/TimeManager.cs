@@ -64,7 +64,7 @@ public class TimeManager : MonoBehaviour, ITickable
         {   
             var realTime = DateTime.Now;
             this.currentHour = realTime.Hour + (realTime.Minute / 60f) + (realTime.Second / 3600f);
-            this.currentDayOfWeek = (EDayOfWeek)realTime.DayOfWeek;
+            this.currentDayOfWeek = GetDayOfWeekFromInt((int)realTime.DayOfWeek);
             //OnNewDay?.Invoke();
         }
         else
@@ -78,7 +78,7 @@ public class TimeManager : MonoBehaviour, ITickable
             {
                 this.currentHour -= 24f;
                 OnNewDay?.Invoke();
-                this.currentDayOfWeek = (EDayOfWeek)(((int)this.currentDayOfWeek + 1) % 7);
+                this.currentDayOfWeek = GetDayOfWeekFromInt((int)this.currentDayOfWeek + 1);
             }
         }
         

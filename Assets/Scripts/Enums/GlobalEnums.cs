@@ -12,15 +12,38 @@ public class GlobalEnums
         All = ~0
     }
 
+    [Flags]
     public enum EDayOfWeek
     {
-        Sunday,
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday
+        None = 0,
+        Sunday = 1 << 0,
+        Monday = 1 << 1,
+        Tuesday = 1 << 2,
+        Wednesday = 1 << 3,
+        Thursday = 1 << 4,
+        Friday = 1 << 5,
+        Saturday = 1 << 6,
+        Weekday = Monday | Tuesday | Wednesday | Thursday | Friday,
+        Weekend = Saturday | Sunday,
+        All = ~0
+    }
+
+    public static EDayOfWeek GetDayOfWeekFromInt(int inDayNum)
+    {
+        var dayNum = inDayNum % 7; // Ensure it's within 0-6
+        
+        switch (dayNum)
+        {
+            case 0: return EDayOfWeek.Sunday;
+            case 1: return EDayOfWeek.Monday;
+            case 2: return EDayOfWeek.Tuesday;
+            case 3: return EDayOfWeek.Wednesday;
+            case 4: return EDayOfWeek.Thursday;
+            case 5: return EDayOfWeek.Friday;
+            case 6: return EDayOfWeek.Saturday;
+            default:
+                return EDayOfWeek.None; // Default fallback
+        }
     }
 
     [Flags]

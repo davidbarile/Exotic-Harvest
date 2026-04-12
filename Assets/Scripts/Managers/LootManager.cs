@@ -10,6 +10,8 @@ public class LootManager : MonoBehaviour
 
     [SerializeField] private LootConfig[] lootConfigs;
 
+    [SerializeField] private List<LootBundle> lootBundles;
+
     public LootConfig GetLootConfig(string lootName)
     {
         foreach (var config in this.lootConfigs)
@@ -57,4 +59,13 @@ public class LootManager : MonoBehaviour
     }
 
     // public string GetLootSpriteName(string inDisplayName)
+}
+
+[Serializable]
+public class LootBundle
+{
+    public ELootType LootType;
+    public ETimeOfDay TimeOfDay;
+    public EDayOfWeek DayOfWeek;
+    public List<LootConfig> LootConfigs;
 }
