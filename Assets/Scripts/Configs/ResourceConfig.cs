@@ -1,4 +1,5 @@
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// ScriptableObject definition for resources

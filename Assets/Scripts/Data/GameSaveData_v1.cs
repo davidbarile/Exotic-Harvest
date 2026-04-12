@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Archive version of GameSaveData for loading older save files. Do not add new fields to this class. 

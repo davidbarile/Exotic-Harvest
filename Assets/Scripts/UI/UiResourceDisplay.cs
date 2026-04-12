@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static ColorPalette;
+using static GlobalEnums;
 
 /// <summary>
 /// UI component for displaying a single resource amount

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using static GlobalEnums;
 
 [RequireComponent(typeof(RectTransform))]
 public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler

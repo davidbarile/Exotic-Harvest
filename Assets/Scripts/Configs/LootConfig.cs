@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static LootData;
+using static GlobalEnums;
 
 [CreateAssetMenu(fileName = "LootConfig", menuName = "Exotic Harvest/LootConfig")]
 public class LootConfig : ScriptableObject

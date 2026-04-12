@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static InventoryManager;
+using static GlobalEnums;
 
 public class UiInventoryPanel : UIPanelBase
 {

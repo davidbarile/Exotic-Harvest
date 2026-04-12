@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Represents the cost of an item in multiple resources (Catan-style)

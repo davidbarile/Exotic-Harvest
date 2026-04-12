@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static LootData;
+using static GlobalEnums;
 
 //So far this is unused... but maybe when loot changes dynamically we can do it here, so don't delete
 public class LootManager : MonoBehaviour

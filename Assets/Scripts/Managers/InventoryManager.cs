@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using static GlobalEnums;
 
 public class InventoryManager : MonoBehaviour
 {

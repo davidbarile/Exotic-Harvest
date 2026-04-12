@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Decorations that passively generate resources over time

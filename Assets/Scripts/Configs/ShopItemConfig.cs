@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using System;
+using static GlobalEnums;
 
 /// <summary>
 /// ScriptableObject definition for shop items

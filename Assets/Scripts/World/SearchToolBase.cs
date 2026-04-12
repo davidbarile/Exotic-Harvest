@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System;
 
 //base for magnifying glass and telescope, mainly for shared functionality like search mode and lens effects. Also serves as a common type for the UI to reference without needing to know the specific decoration type
 public class SearchToolBase : DecorationBase

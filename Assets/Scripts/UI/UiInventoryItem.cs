@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using static GlobalEnums;
 
 public class UiInventoryItem : Draggable
 {

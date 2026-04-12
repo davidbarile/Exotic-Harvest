@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using static GlobalEnums;
 
 public class DecorationBase : Draggable
 {

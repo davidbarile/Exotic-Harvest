@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using static GlobalEnums;
 
 /// <summary>
 /// Manages weather effects and weather-based resource generation

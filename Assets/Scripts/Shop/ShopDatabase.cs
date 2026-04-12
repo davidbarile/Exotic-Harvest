@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Database of all shop item definitions

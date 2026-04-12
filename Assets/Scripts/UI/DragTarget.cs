@@ -1,4 +1,5 @@
 using UnityEngine;
+using static GlobalEnums;
 
 public class DragTarget : MonoBehaviour
 {

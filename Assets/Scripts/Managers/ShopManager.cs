@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Manages the shop system, items, and purchasing

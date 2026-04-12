@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using UnityEngine.UIElements;
+using Sirenix.OdinInspector;
+using static GlobalEnums;
 
 /// <summary>
 /// Manages active foraging - spawning collectables based on time/weather

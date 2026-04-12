@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Data structure for toast notifications

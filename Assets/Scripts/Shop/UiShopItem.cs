@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GlobalEnums;
 
 /// <summary>
 /// UI component for displaying shop items

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using DG.Tweening;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using TMPro;
+using static GlobalEnums;
 
 public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {

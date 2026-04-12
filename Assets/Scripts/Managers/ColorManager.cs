@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using static ColorPalette;
+using static GlobalEnums;
 
 public class ColorManager : MonoBehaviour
 {

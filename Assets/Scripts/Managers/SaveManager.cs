@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Leguar.TotalJSON;
+using static GlobalEnums;
 
 /// <summary>
 /// Manages saving and loading game data

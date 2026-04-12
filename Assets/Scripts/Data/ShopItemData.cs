@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using static ShopItemConfig;
+using static GlobalEnums;
 
 /// <summary>
 /// Represents an item that can be purchased in the shop

@@ -1,3 +1,5 @@
+using static GlobalEnums;
+
 public class MagnifyingGlass : PassiveHarvester
 {
     protected override void Start()

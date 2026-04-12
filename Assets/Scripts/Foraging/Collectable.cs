@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using static GlobalEnums;
 
 /// <summary>
 /// Base class for collectable objects that can be harvested by the player

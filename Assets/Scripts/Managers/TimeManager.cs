@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TMPro;
+using static GlobalEnums;
 
 /// <summary>
 /// Manages the day/night cycle and time-based events
@@ -8,17 +9,6 @@ using TMPro;
 public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
-
-    public enum EDayOfWeek
-    {
-        Sunday,
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday
-    }
 
     public bool UseRealTime => this.useRealTime;
     public bool FreezeTime => this.freezeTime;

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static GlobalEnums;
 
 /// <summary>
 /// Represents a resource with type and quantity (runtime data)
