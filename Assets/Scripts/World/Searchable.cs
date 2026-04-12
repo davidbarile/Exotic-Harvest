@@ -14,17 +14,21 @@ public class Searchable : Loot
         }
     }
 
+     public override void Configure(LootData inLootData)
+    {
+        base.Configure(inLootData);
+        this.SearchableName = inLootData.DisplayName;
+    }
+
     public override void Spawn()
     {
-        //this.resourceType = EResourceType.Dew;
-        //this.collectionType = ECollectionMethod.Click;
         this.amount = 1;
-        this.lifetime = 60f;
+        this.lifetime = 0;// 60f;
 
         //this.canvasGroup.alpha = 0f;
 
-        this.initScale = Random.Range(0.5f, 1f);
-        this.transform.localScale = 0.1f * this.initScale * Vector3.one;
+        this.initScale = .7f; //Random.Range(0.5f, 1f);
+        this.transform.localScale = this.initScale * Vector3.one;
 
         // KillTweens();
 

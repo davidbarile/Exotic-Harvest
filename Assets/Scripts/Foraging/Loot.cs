@@ -23,7 +23,7 @@ public class Loot : Collectable
         SetShadowActive(false);
     }
 
-    public void Configure(LootData inLootData)
+    public virtual void Configure(LootData inLootData)
     {
         this.LootData = inLootData;
         this.resourceType = inLootData.ResourceType;

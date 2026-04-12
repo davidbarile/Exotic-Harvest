@@ -19,52 +19,52 @@ MonoBehaviour:
     OverrideSpriteName: Icon_Ladybug
     ResourceType: 26
     ChanceToDrop:
+      MinQuantity: 100
+      MaxQuantity: 100
+      MinMaxWeightFactor: 1
+    QuantityToDrop:
       MinQuantity: 5
       MaxQuantity: 10
-      MinMaxWeightFactor: 0.5
-    QuantityToDrop:
-      MinQuantity: 1
-      MaxQuantity: 1
       MinMaxWeightFactor: 0
   - DisplayName: Cricket
     OverrideSpriteName: Icon_Cricket
     ResourceType: 24
     ChanceToDrop:
+      MinQuantity: 100
+      MaxQuantity: 100
+      MinMaxWeightFactor: 1
+    QuantityToDrop:
       MinQuantity: 5
       MaxQuantity: 10
       MinMaxWeightFactor: 0.3
-    QuantityToDrop:
-      MinQuantity: 1
-      MaxQuantity: 1
-      MinMaxWeightFactor: 0
   - DisplayName: Seeds
     OverrideSpriteName: Icon_Seeds
     ResourceType: 40
     ChanceToDrop:
+      MinQuantity: 100
+      MaxQuantity: 100
+      MinMaxWeightFactor: 1
+    QuantityToDrop:
       MinQuantity: 10
       MaxQuantity: 20
       MinMaxWeightFactor: 0.5
-    QuantityToDrop:
-      MinQuantity: 1
-      MaxQuantity: 1
-      MinMaxWeightFactor: 0
   - DisplayName: Gold Coin
     OverrideSpriteName: Icon_Gold
     ResourceType: 82
     ChanceToDrop:
-      MinQuantity: 0
-      MaxQuantity: 2
+      MinQuantity: 80
+      MaxQuantity: 100
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1
       MaxQuantity: 2
-      MinMaxWeightFactor: 0.1
+      MinMaxWeightFactor: 0.2
   - DisplayName: Ring
     OverrideSpriteName: Icon_Ring
     ResourceType: 83
     ChanceToDrop:
-      MinQuantity: 0
-      MaxQuantity: 1
+      MinQuantity: 50
+      MaxQuantity: 100
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1
@@ -74,21 +74,21 @@ MonoBehaviour:
     OverrideSpriteName: Icon_Clover
     ResourceType: 41
     ChanceToDrop:
+      MinQuantity: 100
+      MaxQuantity: 100
+      MinMaxWeightFactor: 1
+    QuantityToDrop:
       MinQuantity: 15
       MaxQuantity: 25
-      MinMaxWeightFactor: 0.5
-    QuantityToDrop:
-      MinQuantity: 1
-      MaxQuantity: 5
       MinMaxWeightFactor: 0.2
   - DisplayName: 4 Leaf Clover
     OverrideSpriteName: Icon_Clover-4Leaf
     ResourceType: 42
     ChanceToDrop:
-      MinQuantity: 0
-      MaxQuantity: 1
+      MinQuantity: 3
+      MaxQuantity: 5
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
       MinQuantity: 1
-      MaxQuantity: 1
-      MinMaxWeightFactor: 0.5
+      MaxQuantity: 2
+      MinMaxWeightFactor: 0.2

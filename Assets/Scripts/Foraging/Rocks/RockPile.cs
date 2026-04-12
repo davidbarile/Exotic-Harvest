@@ -9,8 +9,6 @@ public class RockPile : MonoBehaviour
     [Range(0f, 100f), SerializeField] private int spawnIterations = 1;
     [SerializeField] private Vector2 rockMinMaxScale = new Vector2(0.25f, 0.65f);
     [SerializeField] private Gradient rockColorGradient;
-    [SerializeField] private LootConfig afternoonLootConfig;
-    [SerializeField] private LootConfig eveningLootConfig;
 
     private List<Vector3> rockSpawnPositions = new();
     private List<Rock> activeRocks = new();
@@ -59,7 +57,6 @@ public class RockPile : MonoBehaviour
             newRock.transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
             newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
-            newRock.Configure(this.afternoonLootConfig, this.eveningLootConfig);
             this.activeRocks.Add(newRock);
         }
     }

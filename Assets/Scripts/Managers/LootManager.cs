@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GlobalEnums;
 
-//So far this is unused... but maybe when loot changes dynamically we can do it here, so don't delete
 public class LootManager : MonoBehaviour
 {
     public static LootManager IN;
 
-    [SerializeField] private LootConfig[] lootConfigs;
+    //[SerializeField] private LootConfig[] lootConfigs;
 
     [SerializeField] private List<LootBundle> lootBundles;
 
     public LootConfig GetLootConfig(string lootName)
     {
-        foreach (var config in this.lootConfigs)
+        foreach (var bundle in this.lootBundles)
         {
-            if (config.DisplayName == lootName)
+            foreach (var config in bundle.LootConfigs)
             {
-                return config;
+                if (config.DisplayName == lootName)
+                {
+                    return config;
+                }
             }
         }
 
@@ -26,32 +28,48 @@ public class LootManager : MonoBehaviour
         return null;
     }
 
-    public List<LootConfig> GetLootConfigsOfType(ELootType lootType)
+    public List<LootConfig> GetLootConfigsOfType(ELootType lootType, ETimeOfDay timeOfDay = ETimeOfDay.All, EDayOfWeek dayOfWeek = EDayOfWeek.All)
     {
         var lootConfigsOfType = new List<LootConfig>();
 
-        foreach (var config in this.lootConfigs)
+        foreach (var bundle in this.lootBundles)
         {
-            if (config.LootType == lootType)
+            if (bundle.LootType == lootType &&
+                (timeOfDay == ETimeOfDay.All || bundle.TimeOfDay.HasFlag(timeOfDay)) &&
+                (dayOfWeek == EDayOfWeek.All || bundle.DayOfWeek.HasFlag(dayOfWeek)))
             {
-                lootConfigsOfType.Add(config);
+                lootConfigsOfType.AddRange(bundle.LootConfigs);
             }
         }
         return lootConfigsOfType;
     }
 
+    public LootConfig GetRandomLootConfigOfType(ELootType lootType, ETimeOfDay timeOfDay = ETimeOfDay.All, EDayOfWeek dayOfWeek = EDayOfWeek.All)
+    {
+        var configs = GetLootConfigsOfType(lootType, timeOfDay, dayOfWeek);
+        if (configs.Count == 0)
+        {
+            Debug.LogWarning($"No LootConfigs found for type {lootType} at time {timeOfDay} and day {dayOfWeek}");
+            return null;
+        }
+        return configs[UnityEngine.Random.Range(0, configs.Count)];
+    }
+
     public List<LootData> GetLootDatas(EResourceType type, int maxLootTypes = 1)
     {
         var lootDataList = new List<LootData>();
-        foreach (var config in this.lootConfigs)
+        foreach (var bundle in this.lootBundles)
         {
-            foreach (var lootData in config.LootDatas)
+            foreach (var config in bundle.LootConfigs)
             {
-                if (lootData.ResourceType == type)
+                foreach (var lootData in config.LootDatas)
                 {
-                    lootDataList.Add(lootData);
-                    if (lootDataList.Count >= maxLootTypes)
-                        break;
+                    if (lootData.ResourceType == type)
+                    {
+                        lootDataList.Add(lootData);
+                        if (lootDataList.Count >= maxLootTypes)
+                            break;
+                    }
                 }
             }
         }

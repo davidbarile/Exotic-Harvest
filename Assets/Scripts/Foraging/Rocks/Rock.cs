@@ -17,9 +17,6 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     private Vector3 OffsetFromCursor;
 
-    private LootConfig afternoonLootConfig;
-    private LootConfig eveningLootConfig;
-
     private Transform originalParent;
     private int originalSiblingIndex;
     private bool isDragging = false;
@@ -27,19 +24,6 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private List<Loot> spawnedLoots = new();
 
     private bool hasBeenHarvested = false;
-
-    public void Configure(LootConfig inAfternoonLootConfig, LootConfig inEveningLootConfig)
-    {
-        this.afternoonLootConfig = inAfternoonLootConfig;
-        this.eveningLootConfig = inEveningLootConfig;
-
-        // if (this.rockImage != null)
-        // {
-        //     var sprite = SpriteManager.GetSprite(derp);
-        //     this.rockImage.sprite = sprite;
-        //     this.fillImage.sprite = sprite;
-        // }
-    }
 
     private void Awake()
     {
@@ -128,7 +112,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.hasBeenHarvested = true;
 
-        var lootConfig = TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) ? this.afternoonLootConfig : this.eveningLootConfig;
+        var lootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.RockPile, TimeManager.IN.CurrentTimeOfDay);
 
         var lootDatas = lootConfig.GetRandomLoot(false, 10, 3);
 

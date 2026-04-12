@@ -12,5 +12,6 @@ public class LootData
 
     [Header("x/100 chance to drop")]
     public WeightedRandom ChanceToDrop;
+    [Header("Amount under Rock, or # of spawns in Meadow")]
     public WeightedRandom QuantityToDrop;
 }

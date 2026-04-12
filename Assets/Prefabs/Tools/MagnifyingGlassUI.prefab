@@ -352,6 +352,8 @@ MonoBehaviour:
   highlightValidTargetsWhenDragged: 0
   isMenuPanel: 0
   targetRectTransform: {fileID: 6164997889196244783}
+  snapToCursor: 1
+  snapToCursorOffset: {x: -60, y: 65, z: 0}
   snapToCenterOffset: {x: 0, y: 110, z: 0}
   autoCalculateSnapToCenterOffset: 0
   dragEnabledDisplay: {fileID: 0}
@@ -391,7 +393,7 @@ MonoBehaviour:
   fillBarImage: {fileID: 3343849779043420167}
   scrollSpeed: 5
   lensTweenDuration: 0.3
-  timeToActivateHover: 3
+  timeToActivateHover: 1.5
   isMaskEnabled: 1
 --- !u!1 &5786276492627791151
 GameObject:

@@ -14,7 +14,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     [SerializeField] protected bool isDraggingPermanent;
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
-
     [SerializeField] protected bool shouldDetectDropTargets = true;
     public bool HighlightValidTargetsWhenDragged => this.highlightValidTargetsWhenDragged;
     [Header("This is overridden by DecorationData.HighlightValidTargetsWhenDragged if UiDecorationBase")]
@@ -23,7 +22,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     [Header("(Defaults to Object Root)")]
     [SerializeField] protected RectTransform targetRectTransform;
-    [Space, SerializeField] protected Vector3 snapToCenterOffset;
+
+    [Header("Drag Offset")]
+    [SerializeField] protected bool snapToCursor;
+    [SerializeField] protected Vector3 snapToCursorOffset;
+
+    [Header("Drop Offset")]
+    [SerializeField] protected Vector3 snapToCenterOffset;
     [SerializeField] private bool autoCalculateSnapToCenterOffset = true;
 
     [HideIf("IsDraggingPermanent"), Header("Optional outline to show when drag mode is enabled")]
@@ -160,7 +165,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out var cursorOffset);
 
-        this.offsetFromCursor = cursorOffset;
+        if(this.snapToCursor)
+            this.offsetFromCursor = this.snapToCursorOffset;
+        else
+            this.offsetFromCursor = cursorOffset;
 
         this.targetRectTransform.position = dragPos + this.offsetFromCursor;
 

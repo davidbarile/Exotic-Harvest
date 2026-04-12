@@ -33,7 +33,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     public Transform MeadowLootField => this.meadowLootField;
     [SerializeField] private RectTransform meadowSearchableParent; // UI container for meadow searchable positions
     [SerializeField] private float meadowGridSize = 20f; // Grid size for potential meadow searchable positions
-    [SerializeField] private float meadowSearchableSpawnChance = 0.1f; // Per second during morning
     [SerializeField] private bool debugSpawnAllMeadowSearchables; // For testing - force spawn meadow searchables on start
     private List<Searchable> activeMeadowSearchables = new();
     private List<Vector3> meadowSearchablePositions = new();
@@ -129,9 +128,11 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         if (this.debugSpawnRocks)
             DebugSpawnRocks();
-            
-        if(this.debugSpawnAllMeadowSearchables)
+
+        if (this.debugSpawnAllMeadowSearchables)
             DebugSpawnMeadowSearchables();
+        else
+            SpawnMeadowSearchables();//TODO: sync this with time of day/weather instead of spawning on start
     }
 
     private void OnDestroy()
@@ -374,33 +375,55 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Button(ButtonSizes.Large)]
     private void DebugSpawnMeadowSearchables()
     {
-        DeleteAllMeadowSearchables();
-
-        var originalSpawnChance = this.meadowSearchableSpawnChance;
-
-        this.meadowSearchableSpawnChance = 1f;
-        for (int i = 0; i < this.meadowSearchablePositions.Count; i++)
-        {
-            SpawnMeadowSearchables();
-        }
-
-        this.meadowSearchableSpawnChance = originalSpawnChance;
+        this.debugSpawnAllMeadowSearchables = true;
+        SpawnMeadowSearchables();
+        this.debugSpawnAllMeadowSearchables = false;
     }
     
-      private void SpawnMeadowSearchables()
+    private void SpawnMeadowSearchables()
     {
-        // if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= this.maxDewdrops)
-        //     return;
-
-        if (UnityEngine.Random.value < this.meadowSearchableSpawnChance)
+        var meadowLootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.Meadow);
+        if (meadowLootConfig == null)
         {
-            Vector3 spawnPos = this.meadowSearchablePositions[this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count]; // Cycle through predefined positions
-            var meadowSearchable = PrefabManager.IN.SpawnPrefab<Searchable>("MeadowSearchable", this.meadowSearchableParent);
-            meadowSearchable.name = $"MeadowSearchable_{this.activeMeadowSearchables.Count}";
-            meadowSearchable.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
-            meadowSearchable.transform.position = new Vector3(meadowSearchable.transform.position.x, meadowSearchable.transform.position.y, spawnPos.z); // Set Z based on collider
-            meadowSearchable.Spawn();
-            this.activeMeadowSearchables.Add(meadowSearchable);
+            Debug.Log("<color=red>No Meadow LootConfigs found. Cannot debug spawn meadow searchables.</color>");
+            return;
+        }
+
+        Debug.Log($"Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas");
+
+
+        this.meadowSearchablePositions.RandomizeList();
+
+        DeleteAllMeadowSearchables();
+
+        float rnd = 0;
+
+        foreach(var lootData in meadowLootConfig.LootDatas)
+        {
+            //possible number of this loot to drop based on the config settings
+            var quantity = lootData.QuantityToDrop.GetWeightedRandomQuantity();
+
+            if (this.debugSpawnAllMeadowSearchables)
+                quantity = lootData.QuantityToDrop.MaxQuantity;//force spawn max quantity for testing
+
+            for (int i = 0; i < quantity; i++)
+            {
+                //for each potential loot drop, roll to see if it actually drops based on the ChanceToDrop weight
+                var chance = lootData.ChanceToDrop.GetWeightedRandomQuantity();
+                rnd = UnityEngine.Random.value * 100f;
+                
+                if (rnd > chance && !this.debugSpawnAllMeadowSearchables)
+                    continue;
+
+                var meadowSearchable = PrefabManager.IN.SpawnPrefab<Searchable>("MeadowSearchable", this.meadowSearchableParent);
+                meadowSearchable.name = $"MeadowSearchable_{this.activeMeadowSearchables.Count}";
+
+                meadowSearchable.transform.localPosition = this.meadowSearchablePositions[this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count];
+                meadowSearchable.transform.position = new Vector3(meadowSearchable.transform.position.x, meadowSearchable.transform.position.y, 0f); // Set Z based on collider
+                meadowSearchable.Configure(lootData);
+                meadowSearchable.Spawn();
+                this.activeMeadowSearchables.Add(meadowSearchable);
+            }
         }
     }
 

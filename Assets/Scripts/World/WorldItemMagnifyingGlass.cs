@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(MagnifyingGlass))]
-public class WorldItemMagnifyingGlass : SearchToolBase
+public class WorldItemMagnifyingGlass : SearchToolBase //DecorationBase/Draggable
 {
     private MagnifyingGlass linkedMagnifyingGlass;
 

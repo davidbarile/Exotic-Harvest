@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 //base for magnifying glass and telescope, mainly for shared functionality like search mode and lens effects. Also serves as a common type for the UI to reference without needing to know the specific decoration type
-public class SearchToolBase : DecorationBase
+public class SearchToolBase : DecorationBase //Draggable
 {
     public bool IsInSearchMode { get; private set; }
 
@@ -125,7 +125,7 @@ public class SearchToolBase : DecorationBase
             {
                 this.startActiveObjectHoverTime = DateTime.Now;
                 SetFillBarActive(true);
-                this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchable.name}!");
+                this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchable.SearchableName}!");
             }
             else
             {
