@@ -27,6 +27,10 @@ public class ForagingManager : MonoBehaviour, ITickable
     private List<Dewdrop> activeDewdrops = new();
     private List<Vector3> dewSpawnPositions = new();
 
+    [Header("Meadow Settings --------------")]
+    [SerializeField] private Transform meadowLootField; // Parent transform for meadow collectables (e.g. mushrooms, flowers)
+    public Transform MeadowLootField => this.meadowLootField;
+
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
     [SerializeField] private float rockSpawnFrequency = 1f; // Rate to spawn rocks each hour in the Afternoon

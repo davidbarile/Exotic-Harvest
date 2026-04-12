@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f1e4b0e782b4d81802d870eeb14698, type: 3}
+  m_Name: Loot_Meadow_Morning
+  m_EditorClassIdentifier: Assembly-CSharp::LootConfig
+  DisplayName: Meadow_Morning
+  LootType: 1
+  LootDatas:
+  - DisplayName: Ladybug
+    OverrideSpriteName: Icon_Ladybug
+    ResourceType: 26
+    ChanceToDrop:
+      MinQuantity: 5
+      MaxQuantity: 10
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 1
+      MinMaxWeightFactor: 0
+  - DisplayName: Cricket
+    OverrideSpriteName: Icon_Cricket
+    ResourceType: 24
+    ChanceToDrop:
+      MinQuantity: 5
+      MaxQuantity: 10
+      MinMaxWeightFactor: 0.3
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 1
+      MinMaxWeightFactor: 0
+  - DisplayName: Seeds
+    OverrideSpriteName: Icon_Seeds
+    ResourceType: 40
+    ChanceToDrop:
+      MinQuantity: 10
+      MaxQuantity: 20
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 1
+      MinMaxWeightFactor: 0
+  - DisplayName: Gold Coin
+    OverrideSpriteName: Icon_Gold
+    ResourceType: 82
+    ChanceToDrop:
+      MinQuantity: 0
+      MaxQuantity: 2
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 2
+      MinMaxWeightFactor: 0.1
+  - DisplayName: Ring
+    OverrideSpriteName: Icon_Ring
+    ResourceType: 83
+    ChanceToDrop:
+      MinQuantity: 0
+      MaxQuantity: 1
+      MinMaxWeightFactor: 0.5
+    QuantityToDrop:
+      MinQuantity: 1
+      MaxQuantity: 1
+      MinMaxWeightFactor: 0

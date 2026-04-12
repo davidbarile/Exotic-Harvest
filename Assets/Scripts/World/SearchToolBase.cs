@@ -9,7 +9,6 @@ public class SearchToolBase : DecorationBase
     public bool IsInSearchMode { get; private set; }
 
     [Space, SerializeField] protected RectTransform innerWorld;
-    [SerializeField] protected Transform container;
     [Space, SerializeField] protected Transform rayCastOrigin;
     [Space, SerializeField] protected Mask lensMask;
     [SerializeField] protected CanvasGroup lensCanvasGroup;
@@ -34,6 +33,9 @@ public class SearchToolBase : DecorationBase
 
     private DateTime startActiveObjectHoverTime;
 
+    private Transform lootField;
+    private Transform originalLootFieldParent;
+
     protected override void OnValidate()
     {
         base.OnValidate();
@@ -50,7 +52,7 @@ public class SearchToolBase : DecorationBase
     {
         this.linkedPassiveHarvester = GetComponent<MagnifyingGlass>();
 
-        this.searchObjectLayerMask = LayerMask.GetMask("UI");
+        this.searchObjectLayerMask = LayerMask.GetMask("Default");
         //set this in override
         //this.searchAreaLayerMask = LayerMask.GetMask("Searchable");
     }
@@ -158,11 +160,43 @@ public class SearchToolBase : DecorationBase
 
         return null;
     }
-    
+
     protected override bool DoOnBeginDrag()
     {
+        //override in derived classes
+        //SetLootFieldParent(ForagingManager.IN.MeadowLootField);
+
         SetSearchMode(true);
         return true;
+    }
+
+    protected void SetLootFieldParent(Transform inLootField)
+    {
+        if (inLootField == this.innerWorld)
+            return;
+            
+        this.lootField = inLootField;
+        this.originalLootFieldParent = inLootField.parent;
+
+        inLootField.SetParent(this.innerWorld);
+        inLootField.localPosition = Vector3.zero;
+        inLootField.localScale = Vector3.one;
+        inLootField.localRotation = Quaternion.identity;
+    }
+    
+    private void ReturnLootFieldToOriginalParent()
+    {
+        if (this.IsInSearchMode)
+        {
+            CancelInvoke();
+            return;
+        }
+            
+        this.lootField.SetParent(this.originalLootFieldParent);
+        this.lootField.localPosition = Vector3.zero;
+        this.lootField.localScale = Vector3.one;
+        this.lootField.localRotation = Quaternion.identity;
+        this.lootField = null;
     }
 
     public override void OnDragUpdate()
@@ -190,5 +224,7 @@ public class SearchToolBase : DecorationBase
     protected override void DoOnEndDrag()
     {
         SetSearchMode(false, true);
+        CancelInvoke();
+        Invoke(nameof(ReturnLootFieldToOriginalParent), 2f);
     }
 }

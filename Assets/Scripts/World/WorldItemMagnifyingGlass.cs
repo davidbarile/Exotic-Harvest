@@ -11,4 +11,12 @@ public class WorldItemMagnifyingGlass : SearchToolBase
         this.linkedMagnifyingGlass = GetComponent<MagnifyingGlass>();
         this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchable");
     }
+
+    protected override bool DoOnBeginDrag()
+    {
+        SetLootFieldParent(ForagingManager.IN.MeadowLootField);
+
+        SetSearchMode(true);
+        return true;
+    }
 }
