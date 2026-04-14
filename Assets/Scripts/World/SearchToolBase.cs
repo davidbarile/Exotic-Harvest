@@ -31,7 +31,7 @@ public class SearchToolBase : DecorationBase //Draggable
 
     protected Searchable activeSearchable = null;
 
-    private DateTime startActiveObjectHoverTime;
+    private DateTime startActiveObjectHoverTime = DateTime.MinValue;
 
     private Transform lootField;
     private Transform originalLootFieldParent;
@@ -60,7 +60,7 @@ public class SearchToolBase : DecorationBase //Draggable
     protected override void Start()
     {
         base.Start();
-        SetFillBarActive(false);
+        SetFillAmount(0f);
         SetSearchMode(false, true);
     }
 
@@ -93,19 +93,11 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         if (this.fillBarDisplay)
         {
-            SetFillBarActive(true);
-            if (this.fillBarImage)
-            {
-                this.fillBarImage.fillAmount = fillAmount;
-            }
-        }
-    }
+            if (this.fillBarDisplay)
+            this.fillBarDisplay.SetActive(fillAmount > 0f);
 
-    public void SetFillBarActive(bool isActive)
-    {
-        if (this.fillBarDisplay)
-        {
-            this.fillBarDisplay.SetActive(isActive);
+            if (this.fillBarImage)
+                this.fillBarImage.fillAmount = fillAmount;
         }
     }
 
@@ -117,14 +109,17 @@ public class SearchToolBase : DecorationBase //Draggable
         this.innerWorld.localPosition = this.transform.localPosition * -1 * this.scrollSpeed;
 
         var wasSearchObjectNull = this.activeSearchable == null;
-
         this.activeSearchable = GetActiveSearchObject();
+
         if (this.activeSearchable != null)
         {
             if(wasSearchObjectNull)
             {
+                if (this.startActiveObjectHoverTime > DateTime.Now)
+                    return;
+
                 this.startActiveObjectHoverTime = DateTime.Now;
-                SetFillBarActive(true);
+                SetFillAmount(0f);
                 this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchable.SearchableName}!");
             }
             else
@@ -132,19 +127,19 @@ public class SearchToolBase : DecorationBase //Draggable
                 var hoverDuration = (DateTime.Now - this.startActiveObjectHoverTime).TotalSeconds;
                 var percent = Mathf.Clamp01((float)(hoverDuration / this.timeToActivateHover));
                 SetFillAmount(percent);
-
-                if (hoverDuration >= this.timeToActivateHover)
+                if (hoverDuration >= this.timeToActivateHover && this.activeSearchable != null)
                 {
                     this.activeSearchable.Collect();
                     this.activeSearchable = null;
-                    SetFillBarActive(false);
+                    SetFillAmount(0f);
+                    this.startActiveObjectHoverTime = DateTime.Now + TimeSpan.FromSeconds(1); //reset hover time to prevent immediate re-activation
                     this.linkedPassiveHarvester.SetText(string.Empty);
                 }
             }
         }
         else
         {
-            SetFillBarActive(false);
+            SetFillAmount(0f);
             this.linkedPassiveHarvester.SetText(string.Empty);
         }
     }

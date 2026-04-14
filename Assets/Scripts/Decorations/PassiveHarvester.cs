@@ -26,10 +26,12 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public EResourceType[] CollectableResourceTypes;
 
     [SerializeField] protected TextMeshProUGUI quantityText;
+    [SerializeField] protected bool showQuantityTextWhenEmpty;
 
     protected virtual void Start()
     {
-       TickManager.OnSecondTick += SecondTick;
+        TickManager.OnSecondTick += SecondTick;
+        SetText(string.Empty);
     }
 
     protected virtual void OnDestroy()
@@ -121,7 +123,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         if (this.DecorationData == null)
             return;
 
-        if (this.quantityText)
+        if (this.quantityText && (this.showQuantityTextWhenEmpty || !this.IsEmpty))
         {
             if (this.DecorationData.ConversionRatio != 1f)
             {
