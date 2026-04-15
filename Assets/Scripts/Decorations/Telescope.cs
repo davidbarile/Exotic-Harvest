@@ -1,6 +1,7 @@
+using UnityEngine;
 using static GlobalEnums;
 
-public class MagnifyingGlass : PassiveHarvester
+public class Telescope : PassiveHarvester
 {
     protected override void Start()
     {

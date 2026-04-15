@@ -124,12 +124,13 @@ public class GlobalEnums
         Jar = 1 << 11,
         Crystal = 1 << 12,
         Sponge = 1 << 13,
-        Planter = 1 << 14,
-        Stool = 1 << 15,
-        Sign = 1 << 16,
-        PetHome = 1 << 17,
-        Plant = 1 << 20,
-        Pet = 1 << 21,
+        Telescope = 1 << 14,
+        Planter = 1 << 15,
+        Stool = 1 << 16,
+        Sign = 1 << 17,
+        PetHome = 1 << 18,
+        Plant = 1 << 19,
+        Pet = 1 << 20,
         All = ~0
     }
 

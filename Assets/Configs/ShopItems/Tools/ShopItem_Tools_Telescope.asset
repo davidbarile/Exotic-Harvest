@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Tools_Sponge
+  m_Name: ShopItem_Tools_Telescope
   m_EditorClassIdentifier: 
-  ID: ShopItem_Sponge
-  DisplayName: Sponge
-  Description: 
-  Icon: {fileID: 21300000, guid: 1b1a5f302391d47f2812f28d6bd437b7, type: 3}
+  ID: ShopItem_Telescope
+  DisplayName: Telescope
+  Description: Use to explore the night sky
+  Icon: {fileID: 21300000, guid: 38f3cfab492ef4bef8a45d003c2167d1, type: 3}
   Scale: 1
   DecorationData:
-    PrefabName: Tool_Sponge
+    PrefabName: Tool_Telescope
     WorldPosition: {x: 0, y: 0, z: 0}
     ParentGuid: 0
     SiblingIndex: 0
-    DecorationType: 8193
-    HighlightValidTargetsWhenDragged: 0
-    GeneratedResource: 1
+    DecorationType: 16387
+    HighlightValidTargetsWhenDragged: 1
+    GeneratedResource: 0
     CurrentAmount: 0
-    MaxAmount: 1000
-    ConversionRatio: 0.01
+    MaxAmount: 100
+    ConversionRatio: 0.1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0
@@ -37,10 +37,14 @@ MonoBehaviour:
   ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 1
-      Amount: 50
+    - Type: 26
+      Amount: 10
     - Type: 82
-      Amount: 1
+      Amount: 20
+    - Type: 2
+      Amount: 100
+    - Type: 51
+      Amount: 12
   MaxPurchases: 1
   IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}

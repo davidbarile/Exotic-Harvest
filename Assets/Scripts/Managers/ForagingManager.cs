@@ -37,6 +37,15 @@ public class ForagingManager : MonoBehaviour, ITickable
     private List<Searchable> activeMeadowSearchables = new();
     private List<Vector3> meadowSearchablePositions = new();
 
+    [Header("Night Sky Settings --------------")]
+    [SerializeField] private Transform nightSkyLootField; // Parent transform for sky collectables (e.g. stars, constellations)
+    public Transform NightSkyLootField => this.nightSkyLootField;
+    [SerializeField] private RectTransform nightSkySearchableParent; // UI container for sky searchable positions
+    [SerializeField] private float nightSkyGridSize = 20f; // Grid size for potential sky searchable positions
+    [SerializeField] private bool debugSpawnAllNightSkySearchables; // For testing - force spawn sky searchables on start
+    private List<Searchable> activeNightSkySearchables = new();
+    private List<Vector3> nightSkySearchablePositions = new();
+
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
     [SerializeField] private float rockSpawnFrequency = 1f; // Rate to spawn rocks each hour in the Afternoon

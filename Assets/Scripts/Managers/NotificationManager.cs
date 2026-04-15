@@ -136,7 +136,7 @@ public class NotificationManager : MonoBehaviour
         }
         
         // Create notification UI
-        var notificationUI = PrefabManager.IN.SpawnPrefab<UiToastNotification>("ToastNotification", this.notificationParent);
+        var notificationUI = PrefabManager.IN.SpawnPrefab<UiToastNotification>("ToastNotificationUI", this.notificationParent);
         
         notificationUI.Initialize(notification, OnNotificationDismissedCallback);
         this.activeNotifications.Enqueue(notificationUI);
