@@ -131,6 +131,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         InitDewDropPositions();
         InitMeadowSearchablePositions();
+        InitNightSkySearchablePositions();
 
         if (this.debugSpawnAllDewdrops)
             DebugDewSpawn();
@@ -142,6 +143,11 @@ public class ForagingManager : MonoBehaviour, ITickable
             DebugSpawnMeadowSearchables();
         else
             SpawnMeadowSearchables();//TODO: sync this with time of day/weather instead of spawning on start
+
+        if(this.debugSpawnAllNightSkySearchables)
+            DebugSpawnNightSkySearchables();
+        else
+            SpawnNightSkySearchables();//TODO: sync this with time of day/weather instead of spawning on start
     }
 
     private void OnDestroy()
@@ -427,7 +433,12 @@ public class ForagingManager : MonoBehaviour, ITickable
                 var meadowSearchable = PrefabManager.IN.SpawnPrefab<Searchable>("MeadowSearchable", this.meadowSearchableParent);
                 meadowSearchable.name = $"MeadowSearchable_{this.activeMeadowSearchables.Count}";
 
-                meadowSearchable.transform.localPosition = this.meadowSearchablePositions[this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count];
+                var spawnPosIndex = 0;
+
+                if(this.activeNightSkySearchables.Count > 0)
+                    spawnPosIndex =this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count;
+
+                meadowSearchable.transform.localPosition = this.meadowSearchablePositions[spawnPosIndex];
                 meadowSearchable.transform.position = new Vector3(meadowSearchable.transform.position.x, meadowSearchable.transform.position.y, 0f); // Set Z based on collider
                 meadowSearchable.Configure(lootData);
                 meadowSearchable.Spawn();
@@ -444,6 +455,106 @@ public class ForagingManager : MonoBehaviour, ITickable
                 Destroy(meadowSearchable.gameObject);
         }
         this.activeMeadowSearchables.Clear();
+    }
+    #endregion
+
+    #region Night Sky Searchables
+    private void InitNightSkySearchablePositions()
+    {
+        // If no predefined positions, generate a grid of positions within the spawn area
+        this.nightSkySearchablePositions = GetRandomPositions(this.nightSkySearchableParent, inCount: -1, inGridSize: this.nightSkyGridSize, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+
+        var layerMask = LayerMask.GetMask("NightSkySearchables");
+
+        // Raycast to only show elements in colliders
+        for (int i = 0; i < this.nightSkySearchablePositions.Count; i++)
+        {
+            var screenPos = this.nightSkySearchablePositions[i];
+            var worldPos = this.nightSkySearchableParent.TransformPoint(screenPos);
+
+            Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
+
+            if (hitCollider == null)
+            {
+                // No collider at this position, remove it from the list
+                this.nightSkySearchablePositions.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                this.nightSkySearchablePositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
+            }
+        }
+    }
+
+    [Button(ButtonSizes.Large)]
+    private void DebugSpawnNightSkySearchables()
+    {
+        this.debugSpawnAllNightSkySearchables = true;
+        SpawnNightSkySearchables();
+        this.debugSpawnAllNightSkySearchables = false;
+    }
+    
+    private void SpawnNightSkySearchables()
+    {
+        var nightSkyLootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.NightSky);
+        if (nightSkyLootConfig == null)
+        {
+            Debug.Log("<color=red>No Night Sky LootConfigs found. Cannot debug spawn night sky searchables.</color>");
+            return;
+        }
+
+        Debug.Log($"Lootconfig chosen for night sky searchables: {nightSkyLootConfig.DisplayName} with {nightSkyLootConfig.LootDatas.Length} loot datas");
+
+
+        this.nightSkySearchablePositions.RandomizeList();
+
+        DeleteAllNightSkySearchables();
+
+        float rnd = 0;
+
+        foreach(var lootData in nightSkyLootConfig.LootDatas)
+        {
+            //possible number of this loot to drop based on the config settings
+            var quantity = lootData.QuantityToDrop.GetWeightedRandomQuantity();
+
+            if (this.debugSpawnAllNightSkySearchables)
+                quantity = lootData.QuantityToDrop.MaxQuantity;//force spawn max quantity for testing
+
+            for (int i = 0; i < quantity; i++)
+            {
+                //for each potential loot drop, roll to see if it actually drops based on the ChanceToDrop weight
+                var chance = lootData.ChanceToDrop.GetWeightedRandomQuantity();
+                rnd = UnityEngine.Random.value * 100f;
+                
+                if (rnd > chance && !this.debugSpawnAllNightSkySearchables)
+                    continue;
+
+                var nightSkySearchable = PrefabManager.IN.SpawnPrefab<Searchable>("NightSkySearchable", this.nightSkySearchableParent);
+                nightSkySearchable.name = $"NightSkySearchable_{this.activeNightSkySearchables.Count}";
+
+                var spawnPosIndex = 0;
+
+                if(this.activeNightSkySearchables.Count > 0)
+                    spawnPosIndex =this.activeNightSkySearchables.Count % this.nightSkySearchablePositions.Count;
+
+                nightSkySearchable.transform.localPosition = this.nightSkySearchablePositions[spawnPosIndex];
+                nightSkySearchable.transform.position = new Vector3(nightSkySearchable.transform.position.x, nightSkySearchable.transform.position.y, 0f); // Set Z based on collider
+                nightSkySearchable.Configure(lootData);
+                nightSkySearchable.Spawn();
+                this.activeNightSkySearchables.Add(nightSkySearchable);
+            }
+        }
+    }
+
+    private void DeleteAllNightSkySearchables()
+    {
+        foreach (var nightSkySearchable in this.activeNightSkySearchables)
+        {
+            if (nightSkySearchable != null)
+                Destroy(nightSkySearchable.gameObject);
+        }
+        this.activeNightSkySearchables.Clear();
     }
 
     #endregion

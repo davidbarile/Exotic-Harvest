@@ -187,7 +187,9 @@ public class GlobalEnums
         Comets = 62,
         FallingStars = 63,
         Planets = 64,
-        Lightning = 65,
+        Asteroids = 65,
+        Meteors = 66,
+        Lightning = 70,
 
         // Valuables
         Pearls = 80,
@@ -202,6 +204,6 @@ public class GlobalEnums
         Memories = 101,
         Dreams = 102,
 
-        HardCurrency = 200, // For premium currency if needed
+        GoldenApples = 200, // For premium currency if needed
     }
 }
