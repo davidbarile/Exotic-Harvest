@@ -18,6 +18,7 @@ public class UiManager : MonoBehaviour
     public UiResourcesPanel ResourcesPanel => this.resourcesPanel;
 
     public UiCompass Compass => this.compass;
+    public Transform Moon => this.moon;
 
     [Header("Cameras")]
     [SerializeField] private Camera worldCamera;
@@ -38,6 +39,7 @@ public class UiManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private UiCompass compass;
     [SerializeField] private TMP_Text debugText;
+    [SerializeField] private Transform moon;
 
     private void OnDrawGizmos()
     {
