@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     public Camera DragCamera => this.dragCamera;
 
     public RectTransform DragCanvas => this.dragCanvas;
+    public Canvas WorldCanvas => this.worldCanvas;
     public RectTransform WorldRectTrans => this.worldRectTrans;
 
     public UiSettingsPanel SettingsPanel => this.settingsPanel;
@@ -25,6 +26,7 @@ public class UiManager : MonoBehaviour
     [Header("Canvas RectTransforms")]
     [SerializeField] private RectTransform dragCanvas;
     [SerializeField] private RectTransform worldRectTrans;
+    [SerializeField] private Canvas worldCanvas;
     
     [Header("Panels")]
     [SerializeField] private UiSettingsPanel settingsPanel;

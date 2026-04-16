@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using static GlobalEnums;
 
 //base for magnifying glass and telescope, mainly for shared functionality like search mode and lens effects.
 //Also serves as a common type for the UI to reference without needing to know the specific decoration type
@@ -157,6 +158,12 @@ public class SearchToolBase : DecorationBase //Draggable
         return null;
     }
 
+    public override void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
+    {
+        base.ConfigureFromDrag(inItemData, inOffsetFromCursor);
+        DoOnBeginDrag();//calls SetLootFieldParent() in MagnifyingGlass and Telescope overrides
+    }
+
     protected override bool DoOnBeginDrag()
     {
         //override in derived classes
@@ -168,11 +175,14 @@ public class SearchToolBase : DecorationBase //Draggable
 
     protected void SetLootFieldParent(Transform inLootField)
     {
+        Debug.Log($"Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}");
         if (inLootField == this.innerWorld)
             return;
             
         this.lootField = inLootField;
         this.originalLootFieldParent = inLootField.parent;
+
+        Debug.Log($"SUCCESS. Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}. this.originalLootFieldParent = {this.originalLootFieldParent.name}");
 
         inLootField.SetParent(this.innerWorld);
         inLootField.localPosition = Vector3.zero;
@@ -187,6 +197,9 @@ public class SearchToolBase : DecorationBase //Draggable
             CancelInvoke();
             return;
         }
+
+        Debug.Log($"this.lootField = {this.lootField}");
+        Debug.Log($"this.originalLootFieldParent = {this.originalLootFieldParent}");
             
         this.lootField.SetParent(this.originalLootFieldParent);
         this.lootField.localPosition = Vector3.zero;
@@ -198,6 +211,9 @@ public class SearchToolBase : DecorationBase //Draggable
     public override void OnDragUpdate()
     {
         this.isOverSearchableArea = IsOverSearchableArea();
+
+        if(TimeManager.IN.CurrentTimeOfDay != ETimeOfDay.Night)
+            this.isOverSearchableArea = false;
 
         SetSearchMode(this.isOverSearchableArea);
 

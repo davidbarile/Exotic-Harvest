@@ -22,29 +22,16 @@ public class WorldItemTelescope : SearchToolBase //DecorationBase/Draggable
     protected override void Start()
     {
         base.Start();
-        SetAnimatorState("Decoration");
+        SetAnimatorState("Decoration", true);
     }
 
     protected override bool DoOnBeginDrag()
-    {   
+    {
         SetLootFieldParent(ForagingManager.IN.NightSkyLootField);
 
         SetAnimatorState("BeginDrag");
         return true;
     }
-
-    // public override void OnDragUpdate()
-    // {
-    //     base.OnDragUpdate();
-    //     this.isOverSearchableArea = IsOverSearchableArea();
-
-    //     SetSearchMode(this.isOverSearchableArea);
-
-    //     if(this.isOverSearchableArea || !this.isMaskEnabled)
-    //     {
-    //         ScrollInnerWorld();
-    //     }
-    // }
 
     protected override void DoOnEndDrag()
     {
@@ -75,17 +62,16 @@ public class WorldItemTelescope : SearchToolBase //DecorationBase/Draggable
         }
     }
 
-    private void SetAnimatorState(string stateName)
+    private void SetAnimatorState(string stateName, bool shouldForce = false)
     {
-        if (this.currentAnimationState == stateName)
+        if (this.currentAnimationState == stateName && !shouldForce)
             return;
-        
-        var info = this.animator.GetCurrentAnimatorStateInfo(0);
 
-        if(info.normalizedTime < 1f)
-            return;
-      
         this.currentAnimationState = stateName;
-        this.animator.CrossFade(stateName, 0.1f);
+        
+        if(shouldForce)
+            this.animator.Play(stateName, 0, 0f);
+        else
+            this.animator.CrossFade(stateName, 0.1f);
     }
 }

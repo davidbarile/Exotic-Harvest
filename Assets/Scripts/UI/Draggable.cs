@@ -234,6 +234,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             {
                 decorationType = decoration.ItemData.DecorationData.DecorationType;
             }
+
+            var canvasOffset = Vector3.zero;
+            Canvas parentCanvas = null;
         
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
@@ -242,10 +245,14 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;
 
+                    parentCanvas = dragTarget.transform.GetComponentInParent<Canvas>();
+                    if (parentCanvas == UiManager.IN.WorldCanvas)
+                        canvasOffset = DragManager.ScreenToWorldCameraDelta;
+
                     dragTarget.SetAsParent(this.targetRectTransform);
 
                     if (dragTarget.ShouldSnapToCenter)
-                        this.targetRectTransform.localPosition += this.snapToCenterOffset;
+                        this.targetRectTransform.localPosition += this.snapToCenterOffset - canvasOffset;
                         
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
