@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-//base for magnifying glass and telescope, mainly for shared functionality like search mode and lens effects. Also serves as a common type for the UI to reference without needing to know the specific decoration type
+//base for magnifying glass and telescope, mainly for shared functionality like search mode and lens effects.
+//Also serves as a common type for the UI to reference without needing to know the specific decoration type
 public class SearchToolBase : DecorationBase //Draggable
 {
-    public bool IsInSearchMode { get; private set; }
+    public bool IsInSearchMode { get; protected set; }
 
     [Space, SerializeField] protected RectTransform innerWorld;
     [Space, SerializeField] protected Transform rayCastOrigin;
@@ -50,7 +51,7 @@ public class SearchToolBase : DecorationBase //Draggable
     
     protected override void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<MagnifyingGlass>();
+        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
 
         this.searchObjectLayerMask = LayerMask.GetMask("Default");
         //set this in override
@@ -64,7 +65,7 @@ public class SearchToolBase : DecorationBase //Draggable
         SetSearchMode(false, true);
     }
 
-    public void SetSearchMode(bool inIsSearchMode, bool inShouldForce = false)
+    public virtual void SetSearchMode(bool inIsSearchMode, bool inShouldForce = false)
     {
         if (!this.isMaskEnabled)
             return;
