@@ -1,16 +1,26 @@
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager IN;
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
-     [SerializeField] private CanvasGroup worldCanvasGroup;
+    [SerializeField] private CanvasGroup worldCanvasGroup;
     [SerializeField] private CanvasGroup decorationsCanvasGroup;
     [SerializeField] private CanvasGroup bgCanvasGroup;
 
+    [Space, SerializeField] private CanvasGroup followMoonCanvasGroup;
+    [SerializeField] private CanvasGroup sunCanvasGroup;
+
+    [Space, SerializeField] private _2dxFX_Distortion[] worldDistortionEffects;
+    private List<Image> litShaderImages = new();
+
     [SerializeField] private GameObject maximizeButton;
+
+    [SerializeField] private Material litShaderMaterial;
 
     private bool isClickThrough;
     private bool appHasFocus = true;
@@ -28,6 +38,8 @@ public class ScreenManager : MonoBehaviour
 
     private void Start()
     {
+        GatherLitShaderImages();
+
         this.maximizeButton.SetActive(false);
         SwitchToMonitor(this.monitorIndex);
 
@@ -77,6 +89,46 @@ public class ScreenManager : MonoBehaviour
         // }
     }
 
+    public void SetWorldBgAlpha(float inAlpha)
+    {
+        this.bgCanvasGroup.alpha = inAlpha;
+        SetWordEffectsAlpha(inAlpha);
+    }
+
+    public void SetWordEffectsAlpha(float inAlpha)
+    {
+        foreach (var effect in this.worldDistortionEffects)
+        {
+            effect._Alpha = inAlpha;
+            effect.gameObject.SetActive(inAlpha > 0f);
+        }
+
+        this.sunCanvasGroup.alpha = inAlpha;
+        this.followMoonCanvasGroup.alpha = inAlpha;
+
+        foreach (var img in this.litShaderImages)
+        {
+            var color = img.color;
+            color.a = inAlpha;
+            img.color = color;
+        }
+    }
+
+    //call this when Settings menu is opened, to ensure we have the correct list of lit shader images in case something changed
+    public void GatherLitShaderImages()
+    {
+        var litImages = this.worldCanvasGroup.GetComponentsInChildren<Image>(true);
+        this.litShaderImages.Clear();
+
+        foreach (var img in litImages)
+        {
+            if (img.material == this.litShaderMaterial)
+            {
+                this.litShaderImages.Add(img);
+            }
+        }
+    }
+
     private void ToggleMonitor()
     {
         this.monitorIndex++;
@@ -102,6 +154,12 @@ public class ScreenManager : MonoBehaviour
 
         this.rootCanvasGroup.gameObject.SetActive(true);
 
+        var alpha = this.rootCanvasGroup.alpha;
+        DOVirtual.Float(alpha, 1f, 0.3f, value =>
+        {
+            SetWordEffectsAlpha(value);
+        });
+
         this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
@@ -116,8 +174,14 @@ public class ScreenManager : MonoBehaviour
     }
     
     public void FadeOutRoot()
-    {            
+    {
         this.maximizeButton.SetActive(true);
+        
+        var alpha = this.rootCanvasGroup.alpha;
+        DOVirtual.Float(alpha, 0f, 0.3f, value =>
+        {
+            SetWordEffectsAlpha(value);
+        });
 
         this.rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {

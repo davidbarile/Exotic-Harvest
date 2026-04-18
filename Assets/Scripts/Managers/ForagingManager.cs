@@ -506,10 +506,15 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         Debug.Log($"Lootconfig chosen for night sky searchables: {nightSkyLootConfig.DisplayName} with {nightSkyLootConfig.LootDatas.Length} loot datas");
 
+        DeleteAllNightSkySearchables();
+
+        if(  this.nightSkySearchablePositions.Count == 0)
+        {
+            Debug.Log("<color=red>No night sky searchable positions available. Cannot spawn night sky searchables.</color>");
+            return;
+        }
 
         this.nightSkySearchablePositions.RandomizeList();
-
-        DeleteAllNightSkySearchables();
 
         float rnd = 0;
 
