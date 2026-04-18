@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class DayNightCycleController : MonoBehaviour
 {
-    private static readonly WaitForSeconds _waitForSeconds0_05 = new(0.05f);
-    
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Animation dayNightCycleAnim;
     [SerializeField] private RectTransform timeOfDayRectTrans;
@@ -17,6 +14,10 @@ public class DayNightCycleController : MonoBehaviour
     private Vector3 initCameraPos;
 
     private DateTime lastTimeSliderMoved;
+    private float lastNormalizedTime;
+
+    private Tween cameraTween;
+    private Tween sliderTween;
     
     private void Start()
     {
@@ -29,10 +30,10 @@ public class DayNightCycleController : MonoBehaviour
         TimeManager.OnHourChanged -= HandleHourChanged;
     }
 
-    private void HandleHourChanged(float currentHour)
+    private void HandleHourChanged(float inCurrentHour)
     {
         // Handle the time of day change
-        var normalizedTime = currentHour / 24f; // Normalize to 0-1
+        var normalizedTime = inCurrentHour / 24f; // Normalize to 0-1
         var clipLength = this.dayNightCycleAnim.clip.length;
         var clipName = this.dayNightCycleAnim.clip.name;
         var frameNum = normalizedTime * clipLength;
@@ -53,59 +54,63 @@ public class DayNightCycleController : MonoBehaviour
         }
 
         SetCameraPosition(normalizedTime);
+        this.lastNormalizedTime = normalizedTime;
 
-        //Debug.Log($"currentHour: {currentHour} ({TimeManager.FormatFloatAsTime(currentHour)})   normalizedTime: {normalizedTime}   frame = {frameNum} / {clipLength}   anim speed = {this.dayNightCycleAnim[clipName].speed}");
+        //Debug.Log($"currentHour: {inCurrentHour} ({TimeManager.FormatFloatAsTime(inCurrentHour)})   normalizedTime: {normalizedTime}   frame = {frameNum} / {clipLength}   anim speed = {this.dayNightCycleAnim[clipName].speed}");
     }
 
     // This method can be called by a UI slider to allow the user to pan world rect trans
-    public void UserPanCamera(float normalizedValue)
+    public void UserPanCamera(float inNormalizedValue)
     {
         var rectWidth = this.timeOfDayRectTrans.rect.width;
-        var scrollValue = -1 * ((normalizedValue * rectWidth) + this.cameraOffset);
-        UiManager.IN.Compass.SetDirection(normalizedValue);
+        var scrollValue = -1 * ((inNormalizedValue * rectWidth) + this.cameraOffset);
+        UiManager.IN.Compass.SetDirection(inNormalizedValue);
         this.cameraTransform.localPosition = new Vector3(scrollValue, this.initCameraPos.y, this.initCameraPos.z);
 
         this.lastTimeSliderMoved = DateTime.Now;
     }
 
-    private void SetCameraPosition(float normalizedTime)
+    private void SetCameraPosition(float inNormalizedTime)
     {
         if (DateTime.Now - this.lastTimeSliderMoved < TimeSpan.FromSeconds(2))
             return; // Don't update the position if the user has recently moved the slider
 
-        UiManager.IN.Compass.SetDirection(normalizedTime);
+        UiManager.IN.Compass.SetDirection(inNormalizedTime);
 
         var rectWidth = this.timeOfDayRectTrans.rect.width;
-        var newPosition = new Vector3(-1 * ((normalizedTime * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
+        var newPosition = new Vector3(-1 * ((inNormalizedTime * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
 
         if (TimeManager.IN.UseRealTime || Time.frameCount < 100)
         {
             this.cameraTransform.localPosition = newPosition;
-            this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
+            this.worldPanSlider.SetValueWithoutNotify(inNormalizedTime);
             return;
         }
 
-        var delta = Math.Abs(this.cameraTransform.localPosition.x - newPosition.x);
-        if (delta > 1000f && this.cameraTransform.localPosition.x < rectWidth * 0.5f) // If the delta is large, jump to the new position without tweening
+        if (inNormalizedTime < this.lastNormalizedTime) // looped around to zero, jump to the new position without tweening
         {
-            var fakePosition = new Vector3(-1 * (((normalizedTime + 1) * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
+            if (this.cameraTween != null && this.cameraTween.IsActive())
+                this.cameraTween.Kill();
+
+            if(this.sliderTween != null && this.sliderTween.IsActive())
+                this.sliderTween.Kill();
+            
+            this.lastNormalizedTime = inNormalizedTime;
+            var fakePosition = new Vector3(-1 * (((inNormalizedTime + 1) * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
             var fakeDelta = Math.Abs(this.cameraTransform.localPosition.x - fakePosition.x);
 
-            this.cameraTransform.localPosition = new Vector3(newPosition.x - fakeDelta, this.cameraTransform.localPosition.y, this.cameraTransform.localPosition.z); // Move to the opposite side before tweening
-            StartCoroutine(DelayedSetTimeOfDayRectPosition(newPosition));
-            //this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
-            this.worldPanSlider.SetValueWithoutNotify(.5f);
+            this.cameraTransform.localPosition = new Vector3(newPosition.x + fakeDelta, this.cameraTransform.localPosition.y, this.cameraTransform.localPosition.z); // Move to the opposite side before tweening
+
+            this.cameraTween = this.cameraTransform.DOLocalMoveX(newPosition.x, 1f).SetEase(Ease.Linear);
+            this.worldPanSlider.SetValueWithoutNotify(inNormalizedTime);
             return;
         }
 
-        this.cameraTransform.DOLocalMoveX(newPosition.x, 1f).SetEase(Ease.Linear);
-        //this.worldPanSlider.SetValueWithoutNotify(normalizedTime);
-        this.worldPanSlider.SetValueWithoutNotify(.5f);
-    }
-    
-    private IEnumerator DelayedSetTimeOfDayRectPosition(Vector3 newPosition)
-    {
-        yield return _waitForSeconds0_05; // Wait a short time before tweening to the new position    
-        this.cameraTransform.DOLocalMoveX(newPosition.x, 0.95f).SetEase(Ease.Linear);
+        this.cameraTween = this.cameraTransform.DOLocalMoveX(newPosition.x, 1f).SetEase(Ease.Linear);
+        
+        this.sliderTween = DOVirtual.Float(this.worldPanSlider.value, inNormalizedTime, 1f, value =>
+        {
+            this.worldPanSlider.SetValueWithoutNotify(value);
+        }).SetEase(Ease.Linear);
     }
 }
