@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -11,11 +10,6 @@ using static GlobalEnums;
 [RequireComponent(typeof(CanvasGroup))]
 public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
-    // Events
-    public static Action<Collectable> OnCollectableSpawned;
-    public static Action<Collectable> OnCollectableCollected;
-    public static Action<Collectable> OnCollectableExpired;
-    
     public EResourceType ResourceType => resourceType;
     [SerializeField] protected EResourceType resourceType;
 
@@ -48,7 +42,6 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public virtual void Spawn()
     {            
         this.spawnTime = Time.time;
-        OnCollectableSpawned?.Invoke(this);
         
         if (this.lifetime > 0)
             Destroy(gameObject, this.lifetime);
@@ -56,8 +49,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     protected virtual void OnDestroy()
     {
-        if (!this.isCollected)
-            OnCollectableExpired?.Invoke(this);
+        // Cleanup if needed
     }
     
     public virtual bool CanBeCollected()
@@ -134,14 +126,8 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (inShouldAddResourceImmediately)
             ResourceManager.IN.AddResource(this.ResourceType, this.Amount);
 
-        DoCollect();
-
-        void DoCollect()
-        {
-            this.isCollected = true;
-            OnCollected();
-            OnCollectableCollected?.Invoke(this);
-        }
+        this.isCollected = true;
+        OnCollected();
     }
     
     protected virtual void OnCollected()

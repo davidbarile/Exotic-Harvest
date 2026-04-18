@@ -12,9 +12,6 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
 
-    // Events
-    public static Action<int> OnCollectableCountChanged;
-
     [Header("Raindrop Settings --------------")]
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     public RectTransform RainParent => this.rainParent;
@@ -52,7 +49,6 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Space, SerializeField] private bool debugSpawnRocks;
     
-    private List<Collectable> activeCollectables = new();
     private float nextRockSpawnTime = -1;
 
     [Header("Misc --------------")]
@@ -122,10 +118,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         TimeManager.OnHourChanged += OnHourChanged;
 
-        Collectable.OnCollectableSpawned += OnCollectableSpawned;
-        Collectable.OnCollectableCollected += OnCollectableCollected;
-        Collectable.OnCollectableExpired += OnCollectableExpired;
-
         // Listen to weather/time events
         WeatherManager.OnWeatherChanged += OnWeatherChanged;
         WeatherManager.OnRainStarted += OnRainStarted;
@@ -161,10 +153,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     private void OnDestroy()
     {
         TimeManager.OnHourChanged -= OnHourChanged;
-
-        Collectable.OnCollectableSpawned -= OnCollectableSpawned;
-        Collectable.OnCollectableCollected -= OnCollectableCollected;
-        Collectable.OnCollectableExpired -= OnCollectableExpired;
 
         WeatherManager.OnWeatherChanged -= OnWeatherChanged;
         WeatherManager.OnRainStarted -= OnRainStarted;
@@ -223,12 +211,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void OnTimeOfDayChanged(ETimeOfDay inNewTime)
     {
-        //DELETE probably
-        if (!inNewTime.HasFlag(ETimeOfDay.Morning))
-        {
-            // Clear existing dewdrops when morning ends
-            ClearCollectables(EResourceType.Dew, ECollectionMethod.Click);
-        }
+        // Could add special events or spawn/despawn certain collectables based on time of day
     }
 
     private void OnWeatherChanged(EWeatherType inNewWeather)
@@ -572,53 +555,5 @@ public class ForagingManager : MonoBehaviour, ITickable
         this.activeNightSkySearchables.Clear();
     }
 
-    #endregion
-    
-    #region Collectables
-    private int GetCollectableCount(EResourceType type, ECollectionMethod method)
-    {
-        int count = 0;
-        foreach (var collectable in this.activeCollectables)
-        {
-            if (collectable != null && collectable.ResourceType == type && collectable.CollectionMethod == method)
-                count++;
-        }
-        return count;
-    }
-    
-    private void OnCollectableSpawned(Collectable collectable)
-    {
-        this.activeCollectables.Add(collectable);
-        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
-    }
-    
-    private void OnCollectableCollected(Collectable collectable)
-    {
-        this.activeCollectables.Remove(collectable);
-        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
-    }
-    
-    private void OnCollectableExpired(Collectable collectable)
-    {
-        this.activeCollectables.Remove(collectable);
-        OnCollectableCountChanged?.Invoke(this.activeCollectables.Count);
-    }
-    
-    private void ClearCollectables(EResourceType type, ECollectionMethod method)
-    {
-        for (int i = this.activeCollectables.Count - 1; i >= 0; i--)
-        {
-            var collectable = this.activeCollectables[i];
-            if (collectable != null && collectable.ResourceType == type && collectable.CollectionMethod == method)
-            {
-                Destroy(collectable.gameObject);
-            }
-        }
-    }
-
-    public List<Collectable> GetActiveCollectables()
-    {
-        return new(this.activeCollectables);
-    }
     #endregion
 }
