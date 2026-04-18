@@ -29,7 +29,7 @@ public class Bucket : PassiveHarvester
     protected override bool CheckGenerationConditions()
     {
         // Only generate during rain
-        return WeatherManager.IN.IsRaining;
+        return WeatherManager.IsRaining;
     }
     
     protected override int GetGenerationAmount()
@@ -37,7 +37,7 @@ public class Bucket : PassiveHarvester
         if (WeatherManager.IN != null)
         {
             // More water during heavier rain
-            float intensity = WeatherManager.IN.WeatherIntensity;
+            float intensity = WeatherManager.WeatherIntensity;
             return Mathf.RoundToInt(1 + intensity); // 1-2 water per generation
         }
         return 1;

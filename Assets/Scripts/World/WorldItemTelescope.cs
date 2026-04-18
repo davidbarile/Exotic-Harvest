@@ -1,6 +1,4 @@
-using DG.Tweening;
 using UnityEngine;
-using static GlobalEnums;
 
 [RequireComponent(typeof(Telescope))]
 [RequireComponent(typeof(Animator))]
@@ -49,8 +47,6 @@ public class WorldItemTelescope : SearchToolBase //DecorationBase/Draggable
             return;
 
         this.IsInSearchMode = inIsSearchMode;
-
-        Debug.Log($"Telescope Search Mode: {this.IsInSearchMode}. frame: {Time.frameCount}");
 
         if (inIsSearchMode)
         {

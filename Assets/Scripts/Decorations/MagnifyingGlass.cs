@@ -11,6 +11,6 @@ public class MagnifyingGlass : PassiveHarvester
     protected override bool CheckGenerationConditions()
     {
         // Only generate when it is not raining and it is night
-        return !WeatherManager.IN.IsRaining && TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night);
+        return !WeatherManager.IsRaining && TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night);
     }
 }

@@ -10,6 +10,11 @@ public class TimeManager : MonoBehaviour, ITickable
 {
     public static TimeManager IN;
 
+    // Events
+    public static Action<ETimeOfDay> OnTimeOfDayChanged;
+    public static Action<float> OnHourChanged;
+    public static Action OnNewDay;
+
     public bool UseRealTime => this.useRealTime;
     public bool FreezeTime => this.freezeTime;
     public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
@@ -26,16 +31,12 @@ public class TimeManager : MonoBehaviour, ITickable
     [SerializeField] private TMP_Text timeScaleSliderText;
     
     public float TimeScale { get; private set; } = 1f; // Speed multiplier for time progression
-    
-    // Events
-    public static Action<ETimeOfDay> OnTimeOfDayChanged;
-    public static Action<float> OnHourChanged;
-    public static Action OnNewDay;
-    
+
     // Properties
-    public ETimeOfDay CurrentTimeOfDay => this.currentTimeOfDay;
-    public float CurrentHour => this.currentHour;
-    public float DayProgress => this.currentHour / 24f; // 0-1 progress through day
+    public static ETimeOfDay CurrentTimeOfDay => IN.currentTimeOfDay;
+    public static ETimeOfDay LastTimeOfDay { get; private set; }
+    public static float CurrentHour => IN.currentHour;
+    public static float DayProgress => IN.currentHour / 24f; // 0-1 progress through day
     
     private void Start() 
     {
@@ -88,6 +89,7 @@ public class TimeManager : MonoBehaviour, ITickable
         ETimeOfDay newTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
         if (newTimeOfDay != this.currentTimeOfDay)
         {
+            LastTimeOfDay = this.currentTimeOfDay;
             this.currentTimeOfDay = newTimeOfDay;
             OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
         }

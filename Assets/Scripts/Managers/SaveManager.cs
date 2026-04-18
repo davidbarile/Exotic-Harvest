@@ -247,10 +247,10 @@ public class SaveManager : MonoBehaviour, ITickable
         Data.ResourcesSaveDatas = ResourceManager.IN.GetSaveData();
         //Data.WorldItems = DecorationManager.IN.GetSaveData();
 
-        Data.CurrentGameHour = TimeManager.IN.CurrentHour;
+        Data.CurrentGameHour = TimeManager.CurrentHour;
 
-        Data.CurrentWeather = WeatherManager.IN.CurrentWeather;
-        Data.WeatherIntensity = WeatherManager.IN.WeatherIntensity;
+        Data.CurrentWeather = WeatherManager.CurrentWeather;
+        Data.WeatherIntensity = WeatherManager.WeatherIntensity;
 
         Data.PanelColor = ColorManager.IN.PanelColor;
         

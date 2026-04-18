@@ -16,6 +16,8 @@ public class WeatherManager : MonoBehaviour, ITickable
     public static Action<EWeatherType, float> OnWeatherIntensityChanged;
     public static Action OnRainStarted;
     public static Action OnRainStopped;
+    public static Action OnWindStarted;
+    public static Action OnWindStopped;
 
     [SerializeField] private TMP_Text weatherDisplayText;
 
@@ -26,11 +28,12 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private float weatherTimer;
     private float nextWeatherChange;
-    
+
     // Properties
-    public EWeatherType CurrentWeather => currentWeather;
-    public float WeatherIntensity => weatherIntensity;
-    public bool IsRaining => currentWeather.HasFlag(EWeatherType.Rain) || currentWeather.HasFlag(EWeatherType.Storm);
+    public static EWeatherType CurrentWeather => IN.currentWeather;
+    public static EWeatherType OldWeather { get; private set; }
+    public static float WeatherIntensity => IN.weatherIntensity;
+    public static bool IsRaining => IN.currentWeather.HasFlag(EWeatherType.Rain) || IN.currentWeather.HasFlag(EWeatherType.Storm);
     
     private IEnumerator Start()
     {
@@ -86,12 +89,18 @@ public class WeatherManager : MonoBehaviour, ITickable
         if (oldWeather != this.currentWeather)
         {
             OnWeatherChanged?.Invoke(this.currentWeather);
-            
+
             // Rain-specific events for resource generation
             if (!IsWeatherRain(oldWeather) && IsWeatherRain(this.currentWeather))
                 OnRainStarted?.Invoke();
             else if (IsWeatherRain(oldWeather) && !IsWeatherRain(this.currentWeather))
                 OnRainStopped?.Invoke();
+                
+            // Wind-specific events
+            if (!IsWeatherWind(oldWeather) && IsWeatherWind(this.currentWeather))
+                OnWindStarted?.Invoke();
+            else if (IsWeatherWind(oldWeather) && !IsWeatherWind(this.currentWeather))
+                OnWindStopped?.Invoke();
         }
         
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
@@ -129,10 +138,15 @@ public class WeatherManager : MonoBehaviour, ITickable
             default: return 0.5f;
         }
     }
-    
+
     private bool IsWeatherRain(EWeatherType weather)
     {
         return weather.HasFlag(EWeatherType.Rain) || weather.HasFlag(EWeatherType.Storm);
+    }
+    
+    private bool IsWeatherWind(EWeatherType weather)
+    {
+        return weather.HasFlag(EWeatherType.Wind);
     }
 
     public float GetResourceMultiplier(EResourceType resourceType)

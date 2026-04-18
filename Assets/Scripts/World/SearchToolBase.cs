@@ -212,7 +212,7 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         this.isOverSearchableArea = IsOverSearchableArea();
 
-        if(TimeManager.IN.CurrentTimeOfDay != ETimeOfDay.Night)
+        if(TimeManager.CurrentTimeOfDay != ETimeOfDay.Night)
             this.isOverSearchableArea = false;
 
         SetSearchMode(this.isOverSearchableArea);

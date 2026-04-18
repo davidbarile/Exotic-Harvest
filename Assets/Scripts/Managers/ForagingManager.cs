@@ -53,9 +53,10 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Space, SerializeField] private bool debugSpawnRocks;
     
     private List<Collectable> activeCollectables = new();
-    private float secondTimer = 0f;
     private float nextRockSpawnTime = -1;
-    private ETimeOfDay lastTimeOfDay = ETimeOfDay.Morning; // Track last time of day to detect changes
+
+    [Header("Misc --------------")]
+    [SerializeField] private GameObject lootContainersParent;
 
     #region Static Methods
     public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize,
@@ -116,18 +117,25 @@ public class ForagingManager : MonoBehaviour, ITickable
     }
     #endregion
 
+
     private void Start()
     {
-        TickManager.OnTick += Tick;
-        TickManager.OnSecondTick += SecondTick;
+        TimeManager.OnHourChanged += OnHourChanged;
+
         Collectable.OnCollectableSpawned += OnCollectableSpawned;
         Collectable.OnCollectableCollected += OnCollectableCollected;
         Collectable.OnCollectableExpired += OnCollectableExpired;
 
         // Listen to weather/time events
+        WeatherManager.OnWeatherChanged += OnWeatherChanged;
         WeatherManager.OnRainStarted += OnRainStarted;
         WeatherManager.OnRainStopped += OnRainStopped;
+        WeatherManager.OnWindStarted += OnWindStarted;
+        WeatherManager.OnWindStopped += OnWindStopped;
+
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
+
+        this.lootContainersParent.SetActive(false);
 
         InitDewDropPositions();
         InitMeadowSearchablePositions();
@@ -144,7 +152,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         else
             SpawnMeadowSearchables();//TODO: sync this with time of day/weather instead of spawning on start
 
-        if(this.debugSpawnAllNightSkySearchables)
+        if (this.debugSpawnAllNightSkySearchables)
             DebugSpawnNightSkySearchables();
         else
             SpawnNightSkySearchables();//TODO: sync this with time of day/weather instead of spawning on start
@@ -152,51 +160,57 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void OnDestroy()
     {
-        TickManager.OnTick -= Tick;
-        TickManager.OnSecondTick -= SecondTick;
+        TimeManager.OnHourChanged -= OnHourChanged;
+
         Collectable.OnCollectableSpawned -= OnCollectableSpawned;
         Collectable.OnCollectableCollected -= OnCollectableCollected;
         Collectable.OnCollectableExpired -= OnCollectableExpired;
 
+        WeatherManager.OnWeatherChanged -= OnWeatherChanged;
         WeatherManager.OnRainStarted -= OnRainStarted;
         WeatherManager.OnRainStopped -= OnRainStopped;
+        WeatherManager.OnWindStarted -= OnWindStarted;
+        WeatherManager.OnWindStopped -= OnWindStopped;
+
         TimeManager.OnTimeOfDayChanged -= OnTimeOfDayChanged;
     }
-    
+
     #region Timed Events
     public void Tick()
     {
         // Spawn raindrops during rain
-        if (WeatherManager.IN.IsRaining)
+        if (WeatherManager.IsRaining)
         {
             SpawnRaindrops();
         }
-    }
-
-    public void SecondTick()
-    {
-        secondTimer += 1f;
 
         // Spawn dewdrops during morning
-        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
-            (WeatherManager.IN.CurrentWeather == EWeatherType.Clear || WeatherManager.IN.CurrentWeather.HasFlag(EWeatherType.Foggy)))
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
+            (WeatherManager.CurrentWeather == EWeatherType.Clear || WeatherManager.CurrentWeather.HasFlag(EWeatherType.Foggy)))
         {
-            //TODO: clear dew if it rains
             SpawnDewdrops();
         }
+    }
+    
+    public void SecondTick()
+    {
+        // Do not use - we use OnHourChanged instead
+    }
 
-        if (TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
+    public void OnHourChanged(float inCurrentHour)
+    {
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
         {
-            if (this.lastTimeOfDay != ETimeOfDay.Afternoon)
+            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon)
                 this.rockPile.InitRockPositions();//do once when it turns afternoon
 
             //spawn rocks every hour in the Afternoon
-            if (TimeManager.IN.CurrentHour > this.nextRockSpawnTime)
+            if (TimeManager.CurrentHour > this.nextRockSpawnTime)
             {
                 if (this.rockSpawnFrequency == 1f)
-                    this.nextRockSpawnTime = Mathf.Floor(TimeManager.IN.CurrentHour) + 1f;//lock it to the hour
+                    this.nextRockSpawnTime = Mathf.Floor(TimeManager.CurrentHour) + 1f;//lock it to the hour
                 else
-                    this.nextRockSpawnTime = TimeManager.IN.CurrentHour + this.rockSpawnFrequency;
+                    this.nextRockSpawnTime = TimeManager.CurrentHour + this.rockSpawnFrequency;
 
                 this.rockPile.SpawnRocks();
             }
@@ -205,26 +219,30 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             this.nextRockSpawnTime = -1; // Reset to allow spawning when we enter the time window again
         }
-
-        this.lastTimeOfDay = TimeManager.IN.CurrentTimeOfDay;
     }
 
-    private void OnTimeOfDayChanged(ETimeOfDay newTime)
+    private void OnTimeOfDayChanged(ETimeOfDay inNewTime)
     {
-        // Adjust spawning based on time
-        if (!newTime.HasFlag(ETimeOfDay.Morning))
+        //DELETE probably
+        if (!inNewTime.HasFlag(ETimeOfDay.Morning))
         {
             // Clear existing dewdrops when morning ends
             ClearCollectables(EResourceType.Dew, ECollectionMethod.Click);
         }
     }
+
+    private void OnWeatherChanged(EWeatherType inNewWeather)
+    {
+        DeleteAllDewdrops();
+    }
     #endregion
+
 
     #region Raindrops
     private void SpawnRaindrops()
     {
         // Spawn based on rain intensity
-        float spawnChance = this.raindropSpawnRate * (WeatherManager.IN?.WeatherIntensity ?? 0.5f);
+        float spawnChance = this.raindropSpawnRate * WeatherManager.WeatherIntensity;
 
         if (UnityEngine.Random.value < spawnChance)
         {
@@ -256,27 +274,19 @@ public class ForagingManager : MonoBehaviour, ITickable
         // Stop rain effects
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetMouseButtonDown(0))
-    //     {
-    //         Vector3 mouseWorldPosition = Input.mousePosition + DragManager.ScreenToWorldCameraDelta;
-    //         Collider2D hitCollider = Physics2D.OverlapPoint(mouseWorldPosition, LayerMask.GetMask("DewSpawn")); // Assuming collectables are on a layer named "Collectable"
+    private void OnWindStarted()
+    {
+        // Could add special effects or increase spawn rates for certain collectables
+    }
 
-    //         if (hitCollider != null)
-    //         {
-    //             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
-    //             dewdrop.transform.position = mouseWorldPosition;
-    //             dewdrop.transform.localScale = Vector3.one * 2f;
-    //             dewdrop.name = $"Derp_{UnityEngine.Random.Range(0, 999)}";
-    //         }
-    //     }
-    // }
-
+    private void OnWindStopped()
+    {
+        // Stop wind effects
+    }
     #endregion
 
+
     #region Dewdrops
-    
     private void InitDewDropPositions()
     {
         // If no predefined positions, generate a grid of positions within the spawn area

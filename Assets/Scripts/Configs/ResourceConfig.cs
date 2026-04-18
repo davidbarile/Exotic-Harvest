@@ -77,10 +77,10 @@ public class ResourceConfig : ScriptableObject
 
     public bool IsCurrentlyAvailable()
     {
-        if (TimeManager.IN != null && !IsAvailableAtTime(TimeManager.IN.CurrentTimeOfDay))
+        if (TimeManager.IN != null && !IsAvailableAtTime(TimeManager.CurrentTimeOfDay))
             return false;
 
-        if (WeatherManager.IN != null && !IsAvailableInWeather(WeatherManager.IN.CurrentWeather))
+        if (WeatherManager.IN != null && !IsAvailableInWeather(WeatherManager.CurrentWeather))
             return false;
 
         return true;

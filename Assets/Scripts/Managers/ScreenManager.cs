@@ -60,13 +60,9 @@ public class ScreenManager : MonoBehaviour
     public void ToggleRootVisibility()
     {
         if (this.rootCanvasGroup.alpha > 0f)
-        {
             FadeOutRoot();
-        }
         else
-        {
             FadeInRoot();
-        }
     }
 
     private void ToggleBackgroundVisibility()
@@ -147,8 +143,16 @@ public class ScreenManager : MonoBehaviour
 
         FadeOutRoot();
     }
+
+    public void HandleMaximizeButtonClick()
+    {
+        if (DragManager.IsDragModeActivated)
+            return;
+            
+        FadeInRoot();
+    }
     
-    public void FadeInRoot()
+    private void FadeInRoot()
     {
         this.maximizeButton.SetActive(false);
 
@@ -173,7 +177,7 @@ public class ScreenManager : MonoBehaviour
         });
     }
     
-    public void FadeOutRoot()
+    private void FadeOutRoot()
     {
         this.maximizeButton.SetActive(true);
         

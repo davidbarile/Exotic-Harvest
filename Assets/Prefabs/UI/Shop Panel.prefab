@@ -195,7 +195,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -540}
-  m_SizeDelta: {x: 0, y: 266}
+  m_SizeDelta: {x: 0, y: 190}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4075094838872505599
 CanvasRenderer:
@@ -1977,6 +1977,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6426208664879488232}
     m_Modifications:
+    - target: {fileID: 1281192712547750135, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
+      propertyPath: m_Color.a
+      value: 0.9019608
+      objectReference: {fileID: 0}
     - target: {fileID: 2590917483654559234, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
       propertyPath: m_Name
       value: Dim Out
@@ -2016,6 +2020,18 @@ PrefabInstance:
     - target: {fileID: 8229505911760697136, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229505911760697136, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229505911760697136, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229505911760697136, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8229505911760697136, guid: bdad0d34a374c462c97fb99cd30a5b1a, type: 3}
       propertyPath: m_LocalPosition.x

@@ -104,7 +104,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (this.hasBeenHarvested)
             return;
 
-        if (!TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && !TimeManager.IN.CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening))
+        if (!TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && !TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening))
         {
             Debug.Log($"<color=yellow>Rock.TrySpawnLoot() It's not afternoon, skipping loot spawn {name}</color>");
             return;
@@ -112,7 +112,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.hasBeenHarvested = true;
 
-        var lootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.RockPile, TimeManager.IN.CurrentTimeOfDay);
+        var lootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.RockPile, TimeManager.CurrentTimeOfDay);
 
         var lootDatas = lootConfig.GetRandomLoot(false, 10, 3);
 
