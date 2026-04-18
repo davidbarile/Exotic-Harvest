@@ -16,6 +16,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     public RectTransform RainParent => this.rainParent;
     [SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
+    private int numActiveRaindrops = 0;
 
     [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
@@ -181,6 +182,10 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             SpawnRaindrops();
         }
+        else
+        {
+            this.numActiveRaindrops = 0;
+        }
 
         // Spawn dewdrops during morning
         if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
@@ -226,6 +231,8 @@ public class ForagingManager : MonoBehaviour, ITickable
             var raindrop = PrefabManager.IN.SpawnPrefab<Raindrop>("Raindrop", this.rainParent);
             raindrop.transform.localPosition = spawnPos;
             raindrop.Spawn();
+            this.numActiveRaindrops++;
+            raindrop.name = $"Raindrop_{this.numActiveRaindrops}";
         }
     }
 

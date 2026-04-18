@@ -21,7 +21,6 @@ public class Dewdrop : Collectable
         //this.resourceType = EResourceType.Dew;
         //this.collectionType = ECollectionMethod.Click;
         this.amount = 1;
-        this.lifetime = 60f;
 
         this.canvasGroup.alpha = 0f;
 

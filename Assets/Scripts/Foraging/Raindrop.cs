@@ -6,12 +6,13 @@ using UnityEngine.EventSystems;
 /// Raindrop collectable - appears during rain, collect by dragging bucket
 /// UI-based for desktop overlay gameplay
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class Raindrop : Collectable
 {
     [Header("Raindrop Animation")]
     [SerializeField] private float fallDuration = 5f; // Time to fall across screen
     [SerializeField] private float sideWave = 20f; // Horizontal movement
-    
+
     private bool isFalling = true;
     private Tweener fallTween;
     private Tweener waveTween;
@@ -32,7 +33,7 @@ public class Raindrop : Collectable
         float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f; // Below canvas
         
         Vector2 startPos = this.transform.localPosition;
-        
+
         // Falling animation
         this.fallTween = this.transform.DOLocalMoveY(groundY, this.fallDuration)
             .SetEase(Ease.Linear)
@@ -49,13 +50,16 @@ public class Raindrop : Collectable
         if (!this.isCollected)
         {
             this.isFalling = false;
+
+            this.fallTween?.Kill();
+            this.waveTween?.Kill();
             
             // Splash effect animation
             if (this.collectableImage != null)
             {
                 var splashSequence = DOTween.Sequence()
-                    .Append(this.transform.DOScale(1.3f, 0.1f))
-                    .Join(this.collectableImage.DOFade(0f, 0.2f))
+                    .Append(this.transform.DOScale(2f, 0.15f))
+                    .Join(this.collectableImage.DOFade(0f, 0.15f))
                     .OnComplete(() => Destroy(gameObject));
             }
             else
@@ -97,15 +101,9 @@ public class Raindrop : Collectable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"{name} OnTriggerEnter2D()  Raindrop collided with {collision.gameObject.name}");
         if (collision.CompareTag("Ground") && this.isFalling)
         {
             HitGround();
         }
-    }
-    
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-         Debug.Log($"{name} OnTriggerStay2D().  Raindrop collided with {collision.gameObject.name}");
     }
 }
