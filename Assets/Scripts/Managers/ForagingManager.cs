@@ -30,26 +30,34 @@ public class ForagingManager : MonoBehaviour, ITickable
     public Transform MeadowLootField => this.meadowLootField;
     [SerializeField] private RectTransform meadowSearchableParent; // UI container for meadow searchable positions
     [SerializeField] private float meadowGridSize = 20f; // Grid size for potential meadow searchable positions
+    [Tooltip("1 = spawn every hour, 0.5 = spawn every 1/2 hour, etc.")]
+    [SerializeField] private float meadowRefreshFrequency = 1f; // Rate to spawn meadow collectables
     [SerializeField] private bool debugSpawnAllMeadowSearchables; // For testing - force spawn meadow searchables on start
     private List<Searchable> activeMeadowSearchables = new();
     private List<Vector3> meadowSearchablePositions = new();
+
+    private float nextMeadowRefreshTime = -1;
 
     [Header("Night Sky Settings --------------")]
     [SerializeField] private Transform nightSkyLootField; // Parent transform for sky collectables (e.g. stars, constellations)
     public Transform NightSkyLootField => this.nightSkyLootField;
     [SerializeField] private RectTransform nightSkySearchableParent; // UI container for sky searchable positions
     [SerializeField] private float nightSkyGridSize = 20f; // Grid size for potential sky searchable positions
+    [Tooltip("1 = spawn every hour, 0.5 = spawn every 1/2 hour, etc.")]
+    [SerializeField] private float nightSkyRefreshFrequency = 1f; // Rate to spawn night sky collectables
     [SerializeField] private bool debugSpawnAllNightSkySearchables; // For testing - force spawn sky searchables on start
     private List<Searchable> activeNightSkySearchables = new();
     private List<Vector3> nightSkySearchablePositions = new();
 
+    private float nextNightSkyRefreshTime = -1;
+
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
-    [SerializeField] private float rockSpawnFrequency = 1f; // Rate to spawn rocks each hour in the Afternoon
+    [Tooltip("1 = spawn every hour, 0.5 = spawn every 1/2 hour, etc.")]
+    [SerializeField] private float rockRefreshFrequency = 1f; // Rate to spawn rocks
+    private float nextRockRefreshTime = -1;
 
     [Space, SerializeField] private bool debugSpawnRocks;
-    
-    private float nextRockSpawnTime = -1;
 
     [Header("Misc --------------")]
     [SerializeField] private GameObject lootContainersParent;
@@ -116,6 +124,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void Start()
     {
+        TickManager.OnTick += Tick;
         TimeManager.OnHourChanged += OnHourChanged;
 
         // Listen to weather/time events
@@ -152,6 +161,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void OnDestroy()
     {
+        TickManager.OnTick -= Tick;
         TimeManager.OnHourChanged -= OnHourChanged;
 
         WeatherManager.OnWeatherChanged -= OnWeatherChanged;
@@ -187,26 +197,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     public void OnHourChanged(float inCurrentHour)
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
-        {
-            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon)
-                this.rockPile.InitRockPositions();//do once when it turns afternoon
-
-            //spawn rocks every hour in the Afternoon
-            if (TimeManager.CurrentHour > this.nextRockSpawnTime)
-            {
-                if (this.rockSpawnFrequency == 1f)
-                    this.nextRockSpawnTime = Mathf.Floor(TimeManager.CurrentHour) + 1f;//lock it to the hour
-                else
-                    this.nextRockSpawnTime = TimeManager.CurrentHour + this.rockSpawnFrequency;
-
-                this.rockPile.SpawnRocks();
-            }
-        }
-        else
-        {
-            this.nextRockSpawnTime = -1; // Reset to allow spawning when we enter the time window again
-        }
+        RefreshRockPile();
+        RefreshMeadowSearchables();
+        RefreshNightSkySearchables();
     }
 
     private void OnTimeOfDayChanged(ETimeOfDay inNewTime)
@@ -300,8 +293,11 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void SpawnDewdrops()
     {
-        // if (GetCollectableCount(EResourceType.Dew, ECollectionMethod.Click) >= this.maxDewdrops)
-        //     return;
+        if (this.dewSpawnPositions.Count == 0)
+        {
+            Debug.Log("<color=red>No dewdrop spawn positions available. Cannot spawn dewdrops.</color>");
+            return;
+        }
 
         if (UnityEngine.Random.value < this.dewdropSpawnChance)
         {
@@ -349,6 +345,30 @@ public class ForagingManager : MonoBehaviour, ITickable
         this.rockPile.InitRockPositions();
         this.rockPile.SpawnRocks();
     }
+
+    private void RefreshRockPile()
+    {
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
+        {
+            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon)
+                this.rockPile.InitRockPositions();//do once when it turns afternoon
+
+            //spawn rocks every hour in the Afternoon
+            if (TimeManager.CurrentHour > this.nextRockRefreshTime)
+            {
+                if (this.rockRefreshFrequency == 1f)
+                    this.nextRockRefreshTime = Mathf.Floor(TimeManager.CurrentHour) + 1f;//lock it to the hour
+                else
+                    this.nextRockRefreshTime = TimeManager.CurrentHour + this.rockRefreshFrequency;
+
+                this.rockPile.SpawnRocks();
+            }
+        }
+        else
+        {
+            this.nextRockRefreshTime = -1; // Reset to allow spawning when we enter the time window again
+        }
+    }
     #endregion
 
     #region Meadow Searchables
@@ -387,6 +407,28 @@ public class ForagingManager : MonoBehaviour, ITickable
         SpawnMeadowSearchables();
         this.debugSpawnAllMeadowSearchables = false;
     }
+
+    private void RefreshMeadowSearchables()
+    {
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) || TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
+        {
+            //spawn meadow searchables every hour in the Morning/Afternoon
+            if (TimeManager.CurrentHour > this.nextMeadowRefreshTime)
+            {
+                if (this.meadowRefreshFrequency == 1f)
+                    this.nextMeadowRefreshTime = Mathf.Floor(TimeManager.CurrentHour) + 1f;//lock it to the hour
+                else
+                    this.nextMeadowRefreshTime = TimeManager.CurrentHour + this.meadowRefreshFrequency;
+
+                SpawnMeadowSearchables();
+            }
+        }
+        else
+        {
+            this.nextMeadowRefreshTime = -1; // Reset to allow spawning when we enter the time window again
+            DeleteAllMeadowSearchables();
+        }
+    }
     
     private void SpawnMeadowSearchables()
     {
@@ -397,12 +439,18 @@ public class ForagingManager : MonoBehaviour, ITickable
             return;
         }
 
-        Debug.Log($"Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas");
-
-
-        this.meadowSearchablePositions.RandomizeList();
 
         DeleteAllMeadowSearchables();
+
+        Debug.Log($"Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas");
+
+        if(this.meadowSearchablePositions.Count == 0)
+        {
+            Debug.Log("<color=red>No meadow searchable positions available. Cannot spawn meadow searchables.</color>");
+            return;
+        }
+
+        this.meadowSearchablePositions.RandomizeList();
 
         float rnd = 0;
 
@@ -486,6 +534,28 @@ public class ForagingManager : MonoBehaviour, ITickable
         this.debugSpawnAllNightSkySearchables = true;
         SpawnNightSkySearchables();
         this.debugSpawnAllNightSkySearchables = false;
+    }
+
+    private void RefreshNightSkySearchables()
+    {
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night))
+        {
+            //spawn night sky searchables every hour at night
+            if (TimeManager.CurrentHour > this.nextNightSkyRefreshTime)
+            {
+                if (this.nightSkyRefreshFrequency == 1f)
+                    this.nextNightSkyRefreshTime = Mathf.Floor(TimeManager.CurrentHour) + 1f;//lock it to the hour
+                else
+                    this.nextNightSkyRefreshTime = TimeManager.CurrentHour + this.nightSkyRefreshFrequency;
+
+                SpawnNightSkySearchables();
+            }
+        }
+        else
+        {
+            this.nextNightSkyRefreshTime = -1; // Reset to allow spawning when we enter the time window again
+            DeleteAllNightSkySearchables();
+        }
     }
     
     private void SpawnNightSkySearchables()

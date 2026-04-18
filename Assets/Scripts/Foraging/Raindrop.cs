@@ -29,13 +29,13 @@ public class Raindrop : Collectable
     private void StartFallingAnimation()
     {
         // Get canvas bounds for ground detection;
-        float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f - 50f; // Below canvas
+        float groundY = -ForagingManager.IN.RainParent.rect.height * 0.5f; // Below canvas
         
         Vector2 startPos = this.transform.localPosition;
         
         // Falling animation
         this.fallTween = this.transform.DOLocalMoveY(groundY, this.fallDuration)
-            .SetEase(Ease.InQuad)
+            .SetEase(Ease.Linear)
             .OnComplete(HitGround);
         
         // Subtle horizontal wave motion
@@ -86,12 +86,26 @@ public class Raindrop : Collectable
             .Append(this.transform.DOScale(0f, 0.05f))
             .OnComplete(() => base.OnCollected());
     }
-    
+
     protected override void OnDestroy()
     {
         this.fallTween?.Kill();
         this.waveTween?.Kill();
-        
+
         base.OnDestroy();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log($"{name} OnTriggerEnter2D()  Raindrop collided with {collision.gameObject.name}");
+        if (collision.CompareTag("Ground") && this.isFalling)
+        {
+            HitGround();
+        }
+    }
+    
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+         Debug.Log($"{name} OnTriggerStay2D().  Raindrop collided with {collision.gameObject.name}");
     }
 }

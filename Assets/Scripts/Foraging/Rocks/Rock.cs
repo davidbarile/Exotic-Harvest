@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using TMPro;
+using DG.Tweening;
 using static GlobalEnums;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] private Image rockImage;
@@ -14,6 +16,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     [SerializeField] private TMP_Text label;
 
     [SerializeField] protected RectTransform targetRectTransform;
+    protected CanvasGroup canvasGroup;
 
     private Vector3 OffsetFromCursor;
 
@@ -29,6 +32,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     {
         if (this.targetRectTransform == null)
             this.targetRectTransform = GetComponent<RectTransform>();
+
+        this.canvasGroup = GetComponent<CanvasGroup>();
 
         SetShadowActive(false);
     }
@@ -97,6 +102,10 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.position += DragManager.ScreenToWorldCameraDelta;
 
         SetShadowActive(false);
+
+        //fade out and destroy rock after dragging
+        this.canvasGroup.interactable = false;
+        this.canvasGroup.DOFade(0f, 0.75f).SetDelay(1f).OnComplete(() => Destroy(this.gameObject));
     }
 
     public void TrySpawnLoot()
@@ -124,7 +133,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.spawnedLoots.Clear();
 
-        for(int i = 0; i < lootDatas.Count; i++)
+        for (int i = 0; i < lootDatas.Count; i++)
         {
             var lootData = lootDatas[i];
             var loot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
@@ -132,7 +141,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             loot.transform.SetSiblingIndex(this.originalSiblingIndex + i);
             loot.transform.localScale = this.transform.localScale * .7f;
 
-            if(i > 0)
+            if (i > 0)
             {
                 // offset each loot spawn so they don't overlap exactly on top of each other
                 var distanceFromCenter = 25f * loot.transform.localScale.x;
