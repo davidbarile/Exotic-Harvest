@@ -63,6 +63,8 @@ public class PlatformBasedDisabler : MonoBehaviour
 
         var shouldShow = PlatformManager.IN.Matches(_enableOnPlatforms);
 
+        UiManager.IN.SetDebugText($"PlatformBasedDisabler on {name}: shouldShow={shouldShow}  Flags={_enableOnPlatforms})", true);
+
         if(_reverseLogic)
             shouldShow = !shouldShow;
 

@@ -127,7 +127,7 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleMonitor()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
         this.monitorIndex++;
         
         var monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
@@ -226,7 +226,7 @@ public class ScreenManager : MonoBehaviour
     
     public void SwitchToMonitor(int monitorIndex)
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
         // Get the UniWindowController instance
         var uniWin = Kirurobo.UniWindowController.current;
         if (uniWin != null)
@@ -248,7 +248,7 @@ public class ScreenManager : MonoBehaviour
 
     private void ShowMonitorInfo()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
         var uniWin = Kirurobo.UniWindowController.current;
         if (uniWin != null)
         {

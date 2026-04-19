@@ -279,7 +279,7 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void CollectSettingsData()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
         // Window settings (using UniWindowController)
         if (Kirurobo.UniWindowController.current != null)
         {
@@ -296,7 +296,7 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySettingsData()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE
         // Window settings
         if (Kirurobo.UniWindowController.current != null)
         {
