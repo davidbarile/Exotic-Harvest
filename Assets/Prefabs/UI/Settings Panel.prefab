@@ -1741,6 +1741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7818159658844365147}
   - component: {fileID: 5049600061632307773}
+  - component: {fileID: 8578628988138835895}
   m_Layer: 5
   m_Name: Content_Hotkeys
   m_TagString: Untagged
@@ -1776,6 +1777,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4512270492384298737}
   m_CullTransparentMesh: 1
+--- !u!114 &8578628988138835895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4512270492384298737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a12b1abb25b44439c19dfbae5a3729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedDisabler
+  _enableOnPlatforms: 2
+  _hideType: 1
+  _callType: 0
+  _reverseLogic: 0
 --- !u!1 &4540234075433426686
 GameObject:
   m_ObjectHideFlags: 0
@@ -3851,8 +3868,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2526552337113820775, guid: f817848be641943f0b85983d71a3c66d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4241857376546275603}
   m_SourcePrefab: {fileID: 100100000, guid: f817848be641943f0b85983d71a3c66d, type: 3}
+--- !u!1 &3947862237539262980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2526552337113820775, guid: f817848be641943f0b85983d71a3c66d, type: 3}
+  m_PrefabInstance: {fileID: 1574432752687565923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4241857376546275603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3947862237539262980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a12b1abb25b44439c19dfbae5a3729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedDisabler
+  _enableOnPlatforms: 2
+  _hideType: 1
+  _callType: 0
+  _reverseLogic: 0
 --- !u!224 &4439369685529465199 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2900965817442229516, guid: f817848be641943f0b85983d71a3c66d, type: 3}
@@ -7124,8 +7165,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6100479885572328955, guid: 7680d56dc60cb4d0d98893cbea7ecea1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6838258391392916632}
   m_SourcePrefab: {fileID: 100100000, guid: 7680d56dc60cb4d0d98893cbea7ecea1, type: 3}
+--- !u!1 &2632053405493613679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6100479885572328955, guid: 7680d56dc60cb4d0d98893cbea7ecea1, type: 3}
+  m_PrefabInstance: {fileID: 8083869534034434452}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6838258391392916632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2632053405493613679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a12b1abb25b44439c19dfbae5a3729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedDisabler
+  _enableOnPlatforms: 2
+  _hideType: 1
+  _callType: 0
+  _reverseLogic: 0
 --- !u!224 &7078549955744047813 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1302564128866614097, guid: 7680d56dc60cb4d0d98893cbea7ecea1, type: 3}

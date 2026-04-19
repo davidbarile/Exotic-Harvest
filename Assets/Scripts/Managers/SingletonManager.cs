@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(GameManager))]
+[RequireComponent(typeof(PlatformManager))]
 [RequireComponent(typeof(ScreenManager))]
 [RequireComponent(typeof(DragManager))]
 [RequireComponent(typeof(UiManager))]
@@ -26,6 +27,7 @@ public class SingletonManager : MonoBehaviour
     public void Init()
     {
         GameManager.IN = this.GetComponent<GameManager>();
+        PlatformManager.IN = this.GetComponent<PlatformManager>();
         ScreenManager.IN = this.GetComponent<ScreenManager>();
         DragManager.IN = this.GetComponent<DragManager>();
         UiManager.IN = this.GetComponent<UiManager>();
