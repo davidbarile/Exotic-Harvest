@@ -279,6 +279,7 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void CollectSettingsData()
     {
+#if UNITY_STANDALONE || UNITY_EDITOR
         // Window settings (using UniWindowController)
         if (Kirurobo.UniWindowController.current != null)
         {
@@ -286,14 +287,16 @@ public class SaveManager : MonoBehaviour, ITickable
             Data.SettingsData.WindowTransparency = controller.isTransparent ? 0.8f : 1f;
             Data.SettingsData.AlwaysOnTop = controller.isTopmost;
         }
-        
+
         // Audio settings (placeholder - implement when audio system is added)
         // Time scale
         Data.SettingsData.TimeScale = 1f; // Will be implemented
+#endif
     }
     
     private void ApplySettingsData()
     {
+#if UNITY_STANDALONE || UNITY_EDITOR
         // Window settings
         if (Kirurobo.UniWindowController.current != null)
         {
@@ -301,6 +304,7 @@ public class SaveManager : MonoBehaviour, ITickable
             controller.isTransparent = Data.SettingsData.WindowTransparency < 1f;
             controller.isTopmost = Data.SettingsData.AlwaysOnTop;
         }
+#endif
     }
 
     private void CollectStatsData()

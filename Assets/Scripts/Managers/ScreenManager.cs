@@ -127,13 +127,17 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleMonitor()
     {
+#if UNITY_STANDALONE || UNITY_EDITOR
         this.monitorIndex++;
-        int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+        
+        var monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
+
         if (this.monitorIndex >= monitorCount)
         {
             this.monitorIndex = 0;
         }
         SwitchToMonitor(this.monitorIndex);
+#endif
     }
 
     private void HandleEscapeKeyPress()
@@ -222,6 +226,7 @@ public class ScreenManager : MonoBehaviour
     
     public void SwitchToMonitor(int monitorIndex)
     {
+#if UNITY_STANDALONE || UNITY_EDITOR
         // Get the UniWindowController instance
         var uniWin = Kirurobo.UniWindowController.current;
         if (uniWin != null)
@@ -233,15 +238,17 @@ public class ScreenManager : MonoBehaviour
             int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
 
             uniWin.monitorToFit = monitorIndex < monitorCount ? monitorIndex : 0;
-            
+
             UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.", true);
-                
+
             uniWin.shouldFitMonitor = true;
         }
+#endif
     }
 
     private void ShowMonitorInfo()
     {
+#if UNITY_STANDALONE || UNITY_EDITOR
         var uniWin = Kirurobo.UniWindowController.current;
         if (uniWin != null)
         {
@@ -259,6 +266,7 @@ public class ScreenManager : MonoBehaviour
             UiManager.IN.SetDebugText(info, true);
             Debug.Log(info);
         }
+#endif
     }
 
     void OnApplicationFocus(bool hasFocus)
