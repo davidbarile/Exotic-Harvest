@@ -21,7 +21,7 @@ public class PlatformBasedDisabler : MonoBehaviour
 
     [SerializeField] private EHideType _hideType = EHideType.Destroy;
 
-    [SerializeField] private ECallType _callType = ECallType.Awake;
+    [SerializeField] private ECallType _callType = ECallType.Start;
 
     [Space, SerializeField] private bool _reverseLogic;
 
@@ -62,9 +62,7 @@ public class PlatformBasedDisabler : MonoBehaviour
         }
 
         var shouldShow = PlatformManager.IN.Matches(_enableOnPlatforms);
-
-        UiManager.IN.SetDebugText($"PlatformBasedDisabler on {name}: shouldShow={shouldShow}  Flags={_enableOnPlatforms})", true);
-
+        
         if(_reverseLogic)
             shouldShow = !shouldShow;
 

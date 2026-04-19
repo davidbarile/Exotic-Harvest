@@ -687,6 +687,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4036073783056003589, guid: 7af889095e31c47eba5bfd2a374de64a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4177320032257641371}
+    - targetCorrespondingSourceObject: {fileID: 4036073783056003589, guid: 7af889095e31c47eba5bfd2a374de64a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7893956480369475317}
   m_SourcePrefab: {fileID: 100100000, guid: 7af889095e31c47eba5bfd2a374de64a, type: 3}
 --- !u!1 &1267548777237610918 stripped
 GameObject:
@@ -713,6 +716,37 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7893956480369475317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267548777237610918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b99b38c55704a15b2b8450502dd79e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedUiAnchors
+  _callType: 1
+  _platformBasedAnchors:
+  - platform: 16
+    referenceRectTransform: {fileID: 0}
+    overrideAnchors: 0
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 0, y: 0}
+    overridePivot: 0
+    pivot: {x: 0, y: 0}
+    overrideAnchoredPosition: 0
+    anchoredPosition: {x: 0, y: 0}
+    overrideSizeDelta: 0
+    sizeDelta: {x: 0, y: 0}
+    overrideLocalPosition: 0
+    localPosition: {x: 0, y: 0, z: 0}
+    overrideRotation: 0
+    eulerAngles: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    localScale: {x: 1.5, y: 1.5, z: 1}
 --- !u!224 &8514959615511598016 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6899244127321776227, guid: 7af889095e31c47eba5bfd2a374de64a, type: 3}
