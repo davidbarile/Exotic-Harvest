@@ -16,10 +16,9 @@ public class TimeManager : MonoBehaviour, ITickable
     public static Action OnNewDay;
 
     public bool UseRealTime => this.useRealTime;
-    public bool FreezeTime => this.freezeTime;
     public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
     [SerializeField] private bool useRealTime; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
-    [SerializeField] private bool freezeTime;
+    public bool FreezeTime;
     [SerializeField] private EDayOfWeek currentDayOfWeek = EDayOfWeek.Sunday;
     [SerializeField] private float dayLengthInMinutes = 24f; // Real minutes for a full game day
     [SerializeField] private ETimeOfDay currentTimeOfDay = ETimeOfDay.Morning;
@@ -58,7 +57,7 @@ public class TimeManager : MonoBehaviour, ITickable
     
     public void SecondTick()
     {
-        if (this.freezeTime && Time.frameCount > 1) // Allow initial time setup but prevent progression
+        if (this.FreezeTime && Time.frameCount > 1) // Allow initial time setup but prevent progression
             return;
                 
         if (this.useRealTime)

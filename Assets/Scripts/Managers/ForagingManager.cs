@@ -12,6 +12,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
 
+    [SerializeField] private bool debugIgnoreTimeOfDayAndWeather; // For testing - ignore time/weather conditions and spawn all collectables
+
     [Header("Raindrop Settings --------------")]
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     public RectTransform RainParent => this.rainParent;
@@ -178,7 +180,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     public void Tick()
     {
         // Spawn raindrops during rain
-        if (WeatherManager.IsRaining)
+        if (WeatherManager.IsRaining || this.debugIgnoreTimeOfDayAndWeather)
         {
             SpawnRaindrops();
         }
@@ -189,7 +191,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         // Spawn dewdrops during morning
         if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
-            (WeatherManager.CurrentWeather == EWeatherType.Clear || WeatherManager.CurrentWeather.HasFlag(EWeatherType.Foggy)))
+            (WeatherManager.CurrentWeather == EWeatherType.Clear ||
+            WeatherManager.CurrentWeather.HasFlag(EWeatherType.Foggy)) ||
+            this.debugIgnoreTimeOfDayAndWeather)
         {
             SpawnDewdrops();
         }
@@ -355,9 +359,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void RefreshRockPile()
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) || this.debugIgnoreTimeOfDayAndWeather)
         {
-            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon)
+            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon || this.debugIgnoreTimeOfDayAndWeather)
                 this.rockPile.InitRockPositions();//do once when it turns afternoon
 
             //spawn rocks every hour in the Afternoon
@@ -417,7 +421,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void RefreshMeadowSearchables()
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) || TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon))
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) ||
+            TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) ||
+            this.debugIgnoreTimeOfDayAndWeather)
         {
             //spawn meadow searchables every hour in the Morning/Afternoon
             if (TimeManager.CurrentHour > this.nextMeadowRefreshTime)
@@ -545,7 +551,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void RefreshNightSkySearchables()
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night))
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night) || this.debugIgnoreTimeOfDayAndWeather)
         {
             //spawn night sky searchables every hour at night
             if (TimeManager.CurrentHour > this.nextNightSkyRefreshTime)

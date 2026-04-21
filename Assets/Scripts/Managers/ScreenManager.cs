@@ -18,9 +18,18 @@ public class ScreenManager : MonoBehaviour
     [Space, SerializeField] private _2dxFX_Distortion[] worldDistortionEffects;
     private List<Image> litShaderImages = new();
 
-    [SerializeField] private GameObject maximizeButton;
+    [SerializeField] private GameObject maximizePanel;
 
     [SerializeField] private Material litShaderMaterial;
+
+    [Header("Items to Hide on Minimize")]
+    [SerializeField] private GameObject timeAndWeatherPanel;
+    [SerializeField] private GameObject panelsButtons;
+    [SerializeField] private GameObject notifications;
+    [SerializeField] private GameObject decorationsPanel;
+    [SerializeField] private GameObject[] sunAndMoon;
+    [SerializeField] private GameObject[] clouds;
+    [SerializeField] private GameObject[] mountains;
 
     private bool isClickThrough;
     private bool appHasFocus = true;
@@ -40,7 +49,7 @@ public class ScreenManager : MonoBehaviour
     {
         GatherLitShaderImages();
 
-        this.maximizeButton.SetActive(false);
+        this.maximizePanel.SetActive(false);
         SwitchToMonitor(this.monitorIndex);
 
         InputManager.OnEscapePress += HandleEscapeKeyPress;
@@ -73,16 +82,30 @@ public class ScreenManager : MonoBehaviour
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
 
         UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
+    }
 
-        // if (isBgShowing)
-        // {
-        //     FadeOutBackground();
+    private void ToggleElementsVisibility(bool show)
+    {
+        //TODO: tell the canvas groups to fade in/out or not based on settings
+        this.timeAndWeatherPanel.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowTimeAndWeatherPanel);
+        this.notifications.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowNotifications);
+        this.panelsButtons.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowPanelsButtons);
+        this.decorationsPanel.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowDecorations);
 
-        // }
-        // else
-        // {
-        //     FadeInBackground();
-        // }
+        foreach (var item in this.sunAndMoon)
+        {
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowSunAndMoon);
+        }
+
+        foreach (var item in this.clouds)
+        {
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowClouds);
+        }
+
+        foreach (var item in this.mountains)
+        {
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowMountains);
+        }
     }
 
     public void SetWorldBgAlpha(float inAlpha)
@@ -158,7 +181,9 @@ public class ScreenManager : MonoBehaviour
     
     private void FadeInRoot()
     {
-        this.maximizeButton.SetActive(false);
+        this.maximizePanel.SetActive(false);
+
+        ToggleElementsVisibility(true);
 
         this.rootCanvasGroup.gameObject.SetActive(true);
 
@@ -168,11 +193,13 @@ public class ScreenManager : MonoBehaviour
             SetWordEffectsAlpha(value);
         });
 
+        //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
         this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
         });
         
+        //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
         this.worldCanvasGroup.gameObject.SetActive(true);
         
         this.worldCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
@@ -183,7 +210,9 @@ public class ScreenManager : MonoBehaviour
     
     private void FadeOutRoot()
     {
-        this.maximizeButton.SetActive(true);
+        this.maximizePanel.SetActive(true);
+
+        ToggleElementsVisibility(false);
         
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 0f, 0.3f, value =>
@@ -191,12 +220,14 @@ public class ScreenManager : MonoBehaviour
             SetWordEffectsAlpha(value);
         });
 
+        //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
         this.rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, false, 0f);
             this.rootCanvasGroup.gameObject.SetActive(false);
         });
 
+        //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
         this.worldCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.worldCanvasGroup, false, 0f);

@@ -722,6 +722,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!223 &5337335039774208503 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 6279911262812058476, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+  m_PrefabInstance: {fileID: 2104517988569809563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7010914385700575908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8971023710941370431, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
@@ -741,7 +746,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIConfirmPanel
   shouldFadeInOut: 0
   tweenDuration: 0.3
-  canvas: {fileID: 0}
+  canEscapeKeyClose: 0
+  canvas: {fileID: 5337335039774208503}
   titleText: {fileID: 4779359632259008767}
   messageText: {fileID: 430649004586097587}
   cancelButtonText: {fileID: 8283440581525290103}

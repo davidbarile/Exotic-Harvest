@@ -36,7 +36,7 @@ public class UiResourcesPanel : UIPanelBase
         this.showOnlyOwnedResources = !value;
         RefreshAllDisplays();
     }
-    
+
     private void CreateResourceDisplays()
     {
         // Get resources to display
@@ -65,12 +65,16 @@ public class UiResourcesPanel : UIPanelBase
             this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         }
 
-        if(ResourceManager.IN.DebugGrantAllResources)
+        if (ResourceManager.IN.DebugGrantAllResources)
+            GrantAllResources();
+    }
+    
+    public void GrantAllResources()
+    {
+        var resourcesToShow = GetResourcesToDisplay();
+        foreach (var resource in resourcesToShow)
         {
-            foreach (var resource in resourcesToShow)
-            {
-                ResourceManager.IN.AddResource(resource.ResourceType, ResourceManager.IN.DebugAddAmount);
-            }
+            ResourceManager.IN.AddResource(resource.ResourceType, ResourceManager.IN.DebugAddAmount);
         }
     }
     
