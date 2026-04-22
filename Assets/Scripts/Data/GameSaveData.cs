@@ -35,9 +35,14 @@ public class GameSaveData
     public float CurrentGameHour = 8f;
     public EWeatherType CurrentWeather = EWeatherType.Clear;
     public float WeatherIntensity = 0.5f;
-    
+
     [Header("Statistics")]
     public GameStatsData StatsData = new();
+
+    [Header("Audio")]
+    public float MusicVolume = 1f;
+    public float EffectsVolume = 1f;
+    public float AmbientVolume = 1f;
 
     public GameSaveData()
     {

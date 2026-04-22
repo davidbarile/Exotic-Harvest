@@ -16,6 +16,7 @@ public class UiManager : MonoBehaviour
     public UiShopPanel ShopPanel => this.shopPanel;
     public UiInventoryPanel InventoryPanel => this.inventoryPanel;
     public UiResourcesPanel ResourcesPanel => this.resourcesPanel;
+    public UiTimeWeatherPanel TimeWeatherPanel => this.timeWeatherPanel;
 
     public UiCompass Compass => this.compass;
     public Transform Moon => this.moon;
@@ -34,7 +35,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private UiShopPanel shopPanel;
     [SerializeField] private UiInventoryPanel inventoryPanel;
     [SerializeField] private UiResourcesPanel resourcesPanel;
-    [SerializeField] private UIPanelBase timeWeatherPanel;
+    [SerializeField] private UiTimeWeatherPanel timeWeatherPanel;
 
     [Header("Misc")]
     [SerializeField] private UiCompass compass;

@@ -16,8 +16,6 @@ public class UiResourceDisplay : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private bool isShopDisplay; // Set to false for static displays (e.g. shop costs)
     [Space, SerializeField] private TooltipTrigger tooltipTrigger;
-
-    [Space, Range(0, 2f), SerializeField] private float delayToTriggerLongHold = 1f;
     
     private EResourceType resourceType;
     private ResourceConfig resourceConfig;
@@ -135,16 +133,5 @@ public class UiResourceDisplay : MonoBehaviour
     public void HandleLeftClick()
     {
         Debug.Log($"You have  {ResourceManager.IN.GetResourceAmount(this.resourceType)} {this.resourceType}");
-    }
-
-    public void HandlePointerDown()
-    {
-        CancelInvoke();
-        Invoke(nameof(HandleRightClick), this.delayToTriggerLongHold);
-    }
-
-    public void HandlePointerUp()
-    {
-        CancelInvoke();
     }
 }

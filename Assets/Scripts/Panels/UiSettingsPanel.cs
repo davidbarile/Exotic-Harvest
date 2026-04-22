@@ -3,11 +3,17 @@ using UnityEngine.UI;
 
 public class UiSettingsPanel : UIPanelBase
 {
+    public Toggle[] CategoryTabs;
     [SerializeField] private GameObject[] contentDisplays;
 
     [SerializeField] private GameObject initContentDisplay;
 
     #region Settings
+    private void Start()
+    {
+        this.bgAlphaSlider.value = PlatformManager.IsMobile ? 1f : .5f;
+    }
+
     public override void Show()
     {
         base.Show();
@@ -31,42 +37,57 @@ public class UiSettingsPanel : UIPanelBase
     {
         HideAllContentDisplays();
         this.contentDisplays[0].SetActive(isOn);
+        this.CategoryTabs[0].SetIsOnWithoutNotify(isOn);
     }
 
     public void HandleToggleChanged_1(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[1].SetActive(isOn);
+        this.CategoryTabs[1].SetIsOnWithoutNotify(isOn);
     }
 
     public void HandleToggleChanged_2(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[2].SetActive(isOn);
+        this.CategoryTabs[2].SetIsOnWithoutNotify(isOn);
     }
 
     public void HandleToggleChanged_3(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[3].SetActive(isOn);
+        this.CategoryTabs[3].SetIsOnWithoutNotify(isOn);
     }
 
     public void HandleToggleChanged_4(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[4].SetActive(isOn);
+        this.CategoryTabs[4].SetIsOnWithoutNotify(isOn);
+
     }
 
     public void HandleToggleChanged_5(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[5].SetActive(isOn);
+        this.CategoryTabs[5].SetIsOnWithoutNotify(isOn);
     }
 
     public void HandleToggleChanged_6(bool isOn)
     {
         HideAllContentDisplays();
         this.contentDisplays[6].SetActive(isOn);
+        this.CategoryTabs[6].SetIsOnWithoutNotify(isOn);
+    }
+
+    public void HandleToggleChanged_7(bool isOn)
+    {
+        HideAllContentDisplays();
+        this.contentDisplays[7].SetActive(isOn);
+        this.CategoryTabs[7].SetIsOnWithoutNotify(isOn);
     }
     #endregion
 
@@ -80,21 +101,15 @@ public class UiSettingsPanel : UIPanelBase
     [Header("Screen ---------------")]
     [SerializeField] private Slider[] panelColorSliders; // 0-Red, 1-Green, 2-Blue, 3-Alpha
 
-    [Space, SerializeField] private Toggle showTimeWeatherPanelToggle;
-    [SerializeField] private Toggle showPanelsButtonsToggle;
-    [SerializeField] private Toggle showNotificationsToggle;
-    [SerializeField] private Toggle showDecorationsToggle;
-    [SerializeField] private Toggle showSunAndMoonToggle;
-    [SerializeField] private Toggle showCloudsToggle;
-    [SerializeField] private Toggle showMountainsToggle;
+    [Space] public Toggle ShowTimeWeatherPanelToggle;
+    public Toggle ShowPanelsButtonsToggle;
+    public Toggle ShowNotificationsToggle;
+    public Toggle ShowDecorationsToggle;
+    public Toggle ShowSunAndMoonToggle;
+    public Toggle ShowCloudsToggle;
+    public Toggle ShowMountainsToggle;
 
-    public bool ShouldShowTimeAndWeatherPanel => this.showTimeWeatherPanelToggle.isOn;
-    public bool ShouldShowPanelsButtons => this.showPanelsButtonsToggle.isOn;
-    public bool ShouldShowNotifications => this.showNotificationsToggle.isOn;
-    public bool ShouldShowDecorations => this.showDecorationsToggle.isOn;
-    public bool ShouldShowSunAndMoon => this.showSunAndMoonToggle.isOn;
-    public bool ShouldShowClouds => this.showCloudsToggle.isOn;
-    public bool ShouldShowMountains => this.showMountainsToggle.isOn;
+    [SerializeField] private Slider bgAlphaSlider;
 
     public void ApplySettingsDataToUI(Color inPanelColor)
     {
@@ -162,6 +177,18 @@ public class UiSettingsPanel : UIPanelBase
         ColorManager.IN.PanelColor = new Color(ColorManager.IN.PanelColor.r, ColorManager.IN.PanelColor.g, ColorManager.IN.PanelColor.b, value);
         ColorManager.OnPanelColorChanged?.Invoke(ColorManager.IN.PanelColor);
     }
+    #endregion
+
+    #region Audio
+    [Header("Audio ---------------")]
+    public Slider MusicVolumeSlider;
+    public Slider AmbientVolumeSlider;
+    public Slider EffectsVolumeSlider;
+    [Space]
+    public Slider MusicVolumeSlider_Minimized;
+    public Slider AmbientVolumeSlider_Minimized;
+    public Slider EffectsVolumeSlider_Minimized;
+
     #endregion
 
     #region Time & Weather

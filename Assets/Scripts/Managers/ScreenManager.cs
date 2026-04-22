@@ -30,6 +30,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject[] sunAndMoon;
     [SerializeField] private GameObject[] clouds;
     [SerializeField] private GameObject[] mountains;
+    [Space, SerializeField] private GameObject[] collidersToDisableOnMinimize;
 
     private bool isClickThrough;
     private bool appHasFocus = true;
@@ -48,6 +49,8 @@ public class ScreenManager : MonoBehaviour
     private void Start()
     {
         GatherLitShaderImages();
+
+        this.bgCanvasGroup.alpha = PlatformManager.IsMobile ? 1f : .5f;
 
         this.maximizePanel.SetActive(false);
         SwitchToMonitor(this.monitorIndex);
@@ -81,30 +84,40 @@ public class ScreenManager : MonoBehaviour
         SetCanvasGroupInteractable(this.bgCanvasGroup, !this.isClickThrough);
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
 
+        ToggleColliders(!this.isClickThrough);
+
         UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
+    }
+
+    private void ToggleColliders(bool enable)
+    {
+        foreach (var col in this.collidersToDisableOnMinimize)
+        {
+            col.SetActive(enable);
+        }
     }
 
     private void ToggleElementsVisibility(bool show)
     {
         //TODO: tell the canvas groups to fade in/out or not based on settings
-        this.timeAndWeatherPanel.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowTimeAndWeatherPanel);
-        this.notifications.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowNotifications);
-        this.panelsButtons.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowPanelsButtons);
-        this.decorationsPanel.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowDecorations);
+        this.timeAndWeatherPanel.SetActive(show || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
+        this.notifications.SetActive(show || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn);
+        this.panelsButtons.SetActive(show || UiManager.IN.SettingsPanel.ShowPanelsButtonsToggle.isOn);
+        this.decorationsPanel.SetActive(show || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
 
         foreach (var item in this.sunAndMoon)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowSunAndMoon);
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShowSunAndMoonToggle.isOn);
         }
 
         foreach (var item in this.clouds)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowClouds);
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShowCloudsToggle.isOn);
         }
 
         foreach (var item in this.mountains)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShouldShowMountains);
+            item.SetActive(show || UiManager.IN.SettingsPanel.ShowMountainsToggle.isOn);
         }
     }
 
@@ -184,9 +197,9 @@ public class ScreenManager : MonoBehaviour
         this.maximizePanel.SetActive(false);
 
         ToggleElementsVisibility(true);
+        ToggleColliders(true);
 
         this.rootCanvasGroup.gameObject.SetActive(true);
-
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 1f, 0.3f, value =>
         {
@@ -213,6 +226,8 @@ public class ScreenManager : MonoBehaviour
         this.maximizePanel.SetActive(true);
 
         ToggleElementsVisibility(false);
+        ToggleColliders(false);
+
         
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 0f, 0.3f, value =>
@@ -242,6 +257,7 @@ public class ScreenManager : MonoBehaviour
         this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
+            ToggleColliders(true);
         });
     }
 
@@ -252,6 +268,7 @@ public class ScreenManager : MonoBehaviour
         this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
+            ToggleColliders(false);
         });
     }
     

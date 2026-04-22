@@ -385,7 +385,7 @@ PrefabInstance:
     - target: {fileID: 7322520349486464244, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4320812292946514432}
+      objectReference: {fileID: 0}
     - target: {fileID: 7322520349486464244, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Hide
@@ -418,7 +418,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8971023710941370431, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4320812292946514432}
+      addedObject: {fileID: 3717463125172992535}
+    - targetCorrespondingSourceObject: {fileID: 8971023710941370431, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3186095470195026786}
   m_SourcePrefab: {fileID: 100100000, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
 --- !u!223 &1474803751889928307 stripped
 Canvas:
@@ -435,7 +438,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8971023710941370431, guid: 3cbf77b22ecdf4bc7828e7889f21ae00, type: 3}
   m_PrefabInstance: {fileID: 4850715687572943647}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4320812292946514432
+--- !u!114 &3717463125172992535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -444,10 +447,69 @@ MonoBehaviour:
   m_GameObject: {fileID: 4552662857215863584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6571482d31477461186ecfc0e06f34bd, type: 3}
+  m_Script: {fileID: 11500000, guid: fcfea2de276be4aae9b1a4aa48b97549, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIPanelBase
+  m_EditorClassIdentifier: Assembly-CSharp::UiTimeWeatherPanel
   shouldFadeInOut: 1
   tweenDuration: 0.3
   canEscapeKeyClose: 0
   canvas: {fileID: 1474803751889928307}
+--- !u!114 &3186095470195026786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4552662857215863584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb46045365fc748e1a33649bf242ff61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickableObject
+  OnLeftClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3717463125172992535}
+        m_TargetAssemblyTypeName: UiTimeWeatherPanel, Assembly-CSharp
+        m_MethodName: OpenTimeSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPointerDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongPressEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3717463125172992535}
+        m_TargetAssemblyTypeName: UiTimeWeatherPanel, Assembly-CSharp
+        m_MethodName: OpenTimeSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDoubleClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  longPressThreshold: 1
+  doubleClickThreshold: 0.2

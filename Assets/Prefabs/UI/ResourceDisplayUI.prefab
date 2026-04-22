@@ -59,7 +59,6 @@ MonoBehaviour:
   backgroundImage: {fileID: 8593373597283902767}
   isShopDisplay: 0
   tooltipTrigger: {fileID: 463727920880288472}
-  delayToTriggerLongHold: 1
 --- !u!222 &4518121589791246073
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -171,25 +170,16 @@ MonoBehaviour:
         m_CallState: 2
   OnPointerDownEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 574298216413674008}
-        m_TargetAssemblyTypeName: UiResourceDisplay, Assembly-CSharp
-        m_MethodName: HandlePointerDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnPointerUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongPressEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 574298216413674008}
         m_TargetAssemblyTypeName: UiResourceDisplay, Assembly-CSharp
-        m_MethodName: HandlePointerUp
+        m_MethodName: HandleRightClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -199,6 +189,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnDoubleClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  longPressThreshold: 1
 --- !u!1 &4188734161195034594
 GameObject:
   m_ObjectHideFlags: 0

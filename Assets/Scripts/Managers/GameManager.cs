@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
         var isNewGame = !SaveManager.IN.HasSaveFile;
         SaveManager.IN.Init();
         ShopManager.IN.Init();
+        AudioManager.IN.Init();
+        AudioManager.IN.SetAudioMode(false);
 
         if (isNewGame)
             InventoryManager.IN.AddDefaultItemsToInventory();

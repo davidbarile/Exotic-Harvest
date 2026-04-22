@@ -21,6 +21,7 @@ using UnityEngine;
 [RequireComponent(typeof(ColorManager))]
 [RequireComponent(typeof(PrefabManager))]
 [RequireComponent(typeof(LootManager))]
+[RequireComponent(typeof(AudioManager))]
 public class SingletonManager : MonoBehaviour
 {
     [SerializeField] private UIConfirmPanel confirmPanel;
@@ -47,6 +48,7 @@ public class SingletonManager : MonoBehaviour
         PrefabManager.IN = this.GetComponent<PrefabManager>();
         TooltipManager.IN = this.GetComponent<TooltipManager>();
         LootManager.IN = this.GetComponent<LootManager>();
+        AudioManager.IN = this.GetComponent<AudioManager>();
         UIConfirmPanel.IN = this.confirmPanel;
     }
 }
