@@ -39,13 +39,13 @@ public class NotificationManager : MonoBehaviour
             this.audioSource = GetComponent<AudioSource>();
     }
     
-    private void OnEnable()
+    private void Start()
     {
         // Listen to game events and show appropriate notifications
         SetupEventListeners();
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         RemoveEventListeners();
     }
