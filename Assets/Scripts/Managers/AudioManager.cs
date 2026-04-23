@@ -18,11 +18,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioConfig[] musicConfigs;
     [SerializeField] private AudioConfig[] ambientConfigs;
 
-    [Space, Range(0, 15), SerializeField] private float minutesBetweenMusicChanges = 5f;
+    [Space, SerializeField] private WeightedRandom minMaxMinutesBetweenMusicChanges;
     [Range(0f, 1f), SerializeField] private float musicChangeChance = 0.5f; // Chance to change music on time/weather change, for variety
 
-    [Space, Range(0, 15), SerializeField] private float minutesBetweenAmbientChanges = 10f;
-    [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.2f; // Chance to change ambient on time/weather change, for variety
+    [Space, SerializeField] private WeightedRandom minMaxSecondsBetweenAmbientChanges;
+    [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.1f; // Chance to change ambient on time/weather change, for variety
 
     [Header("Audio Settings -----------------")]
     [Range(0f, 3f), SerializeField] private float audioFadeDuration = 1;
@@ -55,6 +55,8 @@ public class AudioManager : MonoBehaviour
     private bool isMinimized;
 
     private float lastMusicChangeHour = -1;
+    private float minutesBetweenMusicChanges = 5f;
+    private float secondsBetweenAmbientChanges = 15f;
     private float lastAmbientChangeHour = -1;
 
     public void Init()
@@ -68,6 +70,9 @@ public class AudioManager : MonoBehaviour
         this.inactiveAmbientSource.volume = 0;
         this.activeAmbientSource.ignoreListenerVolume = true;
         this.inactiveAmbientSource.ignoreListenerVolume = true;
+
+        this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
+        this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
         SetAudioMode(false);
 
@@ -110,13 +115,17 @@ public class AudioManager : MonoBehaviour
         {
             this.lastMusicChangeHour = inHour;
 
+            this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
+
             if (UnityEngine.Random.value < this.musicChangeChance)
                 ChangeMusic(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather);
         }
 
-        if (inHour - this.lastAmbientChangeHour > this.minutesBetweenAmbientChanges / 60f)
+        if (inHour - this.lastAmbientChangeHour > this.secondsBetweenAmbientChanges / 3600f)
         {
             this.lastAmbientChangeHour = inHour;
+
+            this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
             if (UnityEngine.Random.value < this.ambientChangeChance)
                 ChangeAmbient(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather);
