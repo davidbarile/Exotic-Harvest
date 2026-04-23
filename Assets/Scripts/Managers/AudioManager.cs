@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using static GlobalEnums;
@@ -216,22 +215,18 @@ public class AudioManager : MonoBehaviour
 
         if (inIsMinimized)
         {
-            this.musicSources[0].Play();
-            this.ambientSources[0].Play();
-
-            this.musicTweens[0] = this.musicSources[0].DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+            this.musicTweens[0] = this.musicSources[0].DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
             this.musicTweens[1] = this.musicSources[1].DOFade(0, this.audioFadeDuration);
             this.musicTweens[1].onComplete = () => { this.musicSources[1].Pause(); };
 
-            this.ambientTweens[0] = this.ambientSources[0].DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+            this.ambientTweens[0] = this.ambientSources[0].DOFade(SaveManager.Data.AmbientVolume_Minimized, this.audioFadeDuration);
             this.ambientTweens[1] = this.ambientSources[1].DOFade(0, this.audioFadeDuration);
             this.ambientTweens[1].onComplete = () => { this.ambientSources[1].Pause(); };
+
+            AudioListener.volume = SaveManager.Data.EffectsVolume_Minimized;
         }
         else
         {
-            this.musicSources[1].Play();
-            this.ambientSources[1].Play();
-
             this.musicTweens[0] = this.musicSources[0].DOFade(0, this.audioFadeDuration);
             this.musicTweens[0].onComplete = () => { this.musicSources[0].Pause(); };
             this.musicTweens[1] = this.musicSources[1].DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
@@ -239,6 +234,8 @@ public class AudioManager : MonoBehaviour
             this.ambientTweens[0] = this.ambientSources[0].DOFade(0, this.audioFadeDuration);
             this.ambientTweens[0].onComplete = () => { this.ambientSources[0].Pause(); };
             this.ambientTweens[1] = this.ambientSources[1].DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+
+            AudioListener.volume = SaveManager.Data.EffectsVolume;
         }
     }
 
@@ -314,8 +311,6 @@ public class AudioManager : MonoBehaviour
                     this.audioSources.Add(audioSource);
 
                     this.audioSourceIndex = this.audioSources.Count - 1;//select it
-
-
                 }
 
                 PlayClip(inClip, inVolume, inPitch, inDelay);
@@ -340,55 +335,69 @@ public class AudioManager : MonoBehaviour
         PlayClip(this.KeyPressClickClip, this.keyPressVolume, this.keyPressPitch);
     }
 
-    public void PlayHoneyCombFullSound()
+    public void PlayErrorSound()
     {
-        var rndPitch = UnityEngine.Random.Range(1.07f, 1.1f);
-        PlayClip(this.ErrorSoundClip, 1, rndPitch);
-    }
-
-    public void PlayNoBeesSound()
-    {
-        var rndPitch = UnityEngine.Random.Range(1.17f, 1.2f);
+        var rndPitch = UnityEngine.Random.Range(.95f, 1.05f);
         PlayClip(this.ErrorSoundClip, 1, rndPitch);
     }
 
     public void SetEffectsVolume(float inValue)
     {
         SaveManager.Data.EffectsVolume = inValue;
-        AudioListener.volume = inValue;
+
+        if(!this.isMinimized)
+            AudioListener.volume = inValue;
     }
 
     public void SetMusicVolume(float inValue)
     {
         SaveManager.Data.MusicVolume = inValue;
-        this.musicSources[0].volume = inValue;
-        this.musicSources[1].volume = inValue;
+
+        if(!this.isMinimized)
+        {
+            this.musicSources[0].volume = inValue;
+            this.musicSources[1].volume = inValue;
+        }
     }
 
     public void SetAmbientVolume(float inValue)
     {
         SaveManager.Data.AmbientVolume = inValue;
-        this.ambientSources[0].volume = inValue;
-        this.ambientSources[1].volume = inValue;
+
+        if(!this.isMinimized)
+        {
+            this.ambientSources[0].volume = inValue;
+            this.ambientSources[1].volume = inValue;
+        }
     }
 
      public void SetEffectsVolume_Minimized(float inValue)
     {
-        SaveManager.Data.EffectsVolume = inValue;
-        AudioListener.volume = inValue;
+        SaveManager.Data.EffectsVolume_Minimized = inValue;
+
+        if(this.isMinimized)
+            AudioListener.volume = inValue;
     }
 
     public void SetMusicVolume_Minimized(float inValue)
     {
-        SaveManager.Data.MusicVolume = inValue;
-        this.musicSources[0].volume = inValue;
-        this.musicSources[1].volume = inValue;
+        SaveManager.Data.MusicVolume_Minimized = inValue;
+
+        if(this.isMinimized)
+        {
+            this.musicSources[0].volume = inValue;
+            this.musicSources[1].volume = inValue;
+        }
     }
 
     public void SetAmbientVolume_Minimized(float inValue)
     {
-        SaveManager.Data.AmbientVolume = inValue;
-        this.ambientSources[0].volume = inValue;
-        this.ambientSources[1].volume = inValue;
+        SaveManager.Data.AmbientVolume_Minimized = inValue;
+
+        if(this.isMinimized)
+        {
+            this.ambientSources[0].volume = inValue;
+            this.ambientSources[1].volume = inValue;
+        }
     }
 }
