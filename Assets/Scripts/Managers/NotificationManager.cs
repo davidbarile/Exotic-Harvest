@@ -53,73 +53,43 @@ public class NotificationManager : MonoBehaviour
     private void SetupEventListeners()
     {
         // ResourceData events
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceGained += OnResourceGained;
-            ResourceManager.OnInventoryFull += OnInventoryFull;
-        }
+        ResourceManager.OnResourceGained += OnResourceGained;
+        ResourceManager.OnInventoryFull += OnInventoryFull;
         
         // Weather events
-        if (WeatherManager.IN != null)
-        {
-            WeatherManager.OnWeatherChanged += OnWeatherChanged;
-        }
+        WeatherManager.OnWeatherChanged += OnWeatherChanged;
         
         // Time events
-        if (TimeManager.IN != null)
-        {
-            TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
-        }
+        TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
         
         // Shop events
-        if (ShopManager.IN != null)
-        {
-            ShopManager.OnItemPurchased += OnItemPurchased;
-            ShopManager.OnPurchaseFailed += OnPurchaseFailed;
-        }
+        ShopManager.OnItemPurchased += OnItemPurchased;
+        ShopManager.OnPurchaseFailed += OnPurchaseFailed;
         
         // Save events
-        if (SaveManager.IN != null)
-        {
-            SaveManager.OnGameSaved += OnGameSaved;
-            SaveManager.OnSaveError += OnSaveError;
-        }
+        SaveManager.OnGameSaved += OnGameSaved;
+        SaveManager.OnSaveError += OnSaveError;
     }
     
     private void RemoveEventListeners()
     {
-        // ResourceData events
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceGained -= OnResourceGained;
-            ResourceManager.OnInventoryFull -= OnInventoryFull;
-        }
+        // Resource events
+        ResourceManager.OnResourceGained -= OnResourceGained;
+        ResourceManager.OnInventoryFull -= OnInventoryFull;
         
         // Weather events
-        if (WeatherManager.IN != null)
-        {
-            WeatherManager.OnWeatherChanged -= OnWeatherChanged;
-        }
+        WeatherManager.OnWeatherChanged -= OnWeatherChanged;
         
         // Time events
-        if (TimeManager.IN != null)
-        {
-            TimeManager.OnTimeOfDayChanged -= OnTimeOfDayChanged;
-        }
+        TimeManager.OnTimeOfDayChanged -= OnTimeOfDayChanged;
         
         // Shop events
-        if (ShopManager.IN != null)
-        {
-            ShopManager.OnItemPurchased -= OnItemPurchased;
-            ShopManager.OnPurchaseFailed -= OnPurchaseFailed;
-        }
+        ShopManager.OnItemPurchased -= OnItemPurchased;
+        ShopManager.OnPurchaseFailed -= OnPurchaseFailed;
         
         // Save events
-        if (SaveManager.IN != null)
-        {
-            SaveManager.OnGameSaved -= OnGameSaved;
-            SaveManager.OnSaveError -= OnSaveError;
-        }
+        SaveManager.OnGameSaved -= OnGameSaved;
+        SaveManager.OnSaveError -= OnSaveError;
     }
     
     public void ShowNotification(ToastNotification notification)
