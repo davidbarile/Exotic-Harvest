@@ -11,15 +11,28 @@ public class AudioManager : MonoBehaviour
     public static AudioClip CurrentMusicClip { get; private set; }
     public static AudioClip CurrentAmbientClip { get; private set; }
 
-    [SerializeField] private AudioSource[] musicSources;
-    [SerializeField] private AudioSource[] ambientSources;
-    [SerializeField] private float audioFadeDuration = 1;
+    [SerializeField] private AudioSource activeMusicSource, inactiveMusicSource;
+    [SerializeField] private AudioSource activeAmbientSource, inactiveAmbientSource;
 
-    [Header("Audio Configs")]
+    [Header("Audio Configs -----------------")]
     [SerializeField] private AudioConfig[] musicConfigs;
     [SerializeField] private AudioConfig[] ambientConfigs;
 
-    [Header("Audio Clips")]
+    [Space, Range(0, 15), SerializeField] private float minutesBetweenMusicChanges = 5f;
+    [Range(0f, 1f), SerializeField] private float musicChangeChance = 0.5f; // Chance to change music on time/weather change, for variety
+
+    [Space, Range(0, 15), SerializeField] private float minutesBetweenAmbientChanges = 10f;
+    [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.2f; // Chance to change ambient on time/weather change, for variety
+
+    [Header("Audio Settings -----------------")]
+    [Range(0f, 3f), SerializeField] private float audioFadeDuration = 1;
+
+    [Space, Range(0f, 1f),SerializeField] private float buttonVolume = 1;
+    [Range(0f, 2f), SerializeField] private float buttonPitch = 1;
+    [Space, Range(0f, 1f),SerializeField] private float keyPressVolume = 1;
+    [Range(0f, 2f), SerializeField] private float keyPressPitch = 1;
+
+    [Header("Audio Clips -----------------")]
     public AudioClip ButtonClickClip;
     public AudioClip KeyPressClickClip;
     public AudioClip IncrementCounterClip;
@@ -31,27 +44,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip GrasshopperUseClip;
     public AudioClip GrasshopperJumpClip;
 
-    [Space()]
-    [SerializeField] private float buttonVolume = 1;
-    [SerializeField] private float buttonPitch = 1;
-    [Space()]
-    [SerializeField] private float keyPressVolume = 1;
-    [SerializeField] private float keyPressPitch = 1;
-
-    [Space, Range(0, 15), SerializeField] private float minutesBetweenMusicChanges = 5f;
-    [Range(0f, 1f), SerializeField] private float musicChangeChance = 0.5f; // Chance to change music on time/weather change, for variety
-
-    [Space, Range(0, 15), SerializeField] private float minutesBetweenAmbientChanges = 10f;
-    [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.2f; // Chance to change ambient on time/weather change, for variety
-
     private List<AudioSource> audioSources = new List<AudioSource>();
     private int audioSourceIndex, recursionCounter;
 
-    private AudioSource activeMusicSource, inactiveMusicSource;
-    private AudioSource activeAmbientSource, inactiveAmbientSource;
-
-    private Tween[] musicTweens = { null, null };
-    private Tween[] ambientTweens = { null, null };
+    private Tween activeMusicTween = null;
+    private Tween inactiveMusicTween = null;
+    private Tween activeAmbientTween = null;
+    private Tween inactiveAmbientTween = null;
 
     private bool isMinimized;
 
@@ -60,16 +59,10 @@ public class AudioManager : MonoBehaviour
 
     public void Init()
     {
-        this.activeMusicSource = this.musicSources[0];
-        this.inactiveMusicSource = this.musicSources[1];
-
         this.activeMusicSource.volume = SaveManager.Data.MusicVolume;
         this.inactiveMusicSource.volume = 0;
         this.activeMusicSource.ignoreListenerVolume = true;
         this.inactiveMusicSource.ignoreListenerVolume = true;
-
-        this.activeAmbientSource = this.ambientSources[0];
-        this.inactiveAmbientSource = this.ambientSources[1];
 
         this.activeAmbientSource.volume = SaveManager.Data.AmbientVolume;
         this.inactiveAmbientSource.volume = 0;
@@ -146,9 +139,9 @@ public class AudioManager : MonoBehaviour
             AudioManager.CurrentMusicClip = inNewClip;
             this.inactiveMusicSource.Play();
 
-            this.musicTweens[0] = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
-            this.musicTweens[0].onComplete = () => { this.activeMusicSource.Pause(); };
-            this.musicTweens[1] = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+            this.activeMusicTween = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
+            this.activeMusicTween.onComplete = () => { this.activeMusicSource.Pause(); };
+            this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
 
             //swap active/inactive
             var temp = this.activeMusicSource;
@@ -173,9 +166,9 @@ public class AudioManager : MonoBehaviour
             AudioManager.CurrentAmbientClip = inNewClip;
             this.inactiveAmbientSource.Play();
 
-            this.ambientTweens[0] = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
-            this.ambientTweens[0].onComplete = () => { this.activeAmbientSource.Pause(); };
-            this.ambientTweens[1] = this.inactiveAmbientSource.DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+            this.activeAmbientTween = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
+            this.activeAmbientTween.onComplete = () => { this.activeAmbientSource.Pause(); };
+            this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
 
             //swap active/inactive
             var temp = this.activeAmbientSource;
@@ -265,25 +258,29 @@ public class AudioManager : MonoBehaviour
 
         if (inIsMinimized)
         {
-            this.musicTweens[0] = this.musicSources[0].DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
-            this.musicTweens[1] = this.musicSources[1].DOFade(0, this.audioFadeDuration);
-            this.musicTweens[1].onComplete = () => { this.musicSources[1].Pause(); };
-
-            this.ambientTweens[0] = this.ambientSources[0].DOFade(SaveManager.Data.AmbientVolume_Minimized, this.audioFadeDuration);
-            this.ambientTweens[1] = this.ambientSources[1].DOFade(0, this.audioFadeDuration);
-            this.ambientTweens[1].onComplete = () => { this.ambientSources[1].Pause(); };
+            if (this.activeMusicSource.isPlaying)
+                this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
+            else
+                this.activeMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
+                
+            if(this.inactiveMusicSource.isPlaying)
+                this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
+            else
+                this.inactiveMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
 
             AudioListener.volume = SaveManager.Data.EffectsVolume_Minimized;
         }
         else
         {
-            this.musicTweens[0] = this.musicSources[0].DOFade(0, this.audioFadeDuration);
-            this.musicTweens[0].onComplete = () => { this.musicSources[0].Pause(); };
-            this.musicTweens[1] = this.musicSources[1].DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
-
-            this.ambientTweens[0] = this.ambientSources[0].DOFade(0, this.audioFadeDuration);
-            this.ambientTweens[0].onComplete = () => { this.ambientSources[0].Pause(); };
-            this.ambientTweens[1] = this.ambientSources[1].DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+            if (this.activeMusicSource.isPlaying)
+                this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+            else
+                this.activeMusicSource.volume = SaveManager.Data.MusicVolume;
+                
+            if(this.inactiveMusicSource.isPlaying)
+                this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+            else
+                this.inactiveMusicSource.volume = SaveManager.Data.MusicVolume;
 
             AudioListener.volume = SaveManager.Data.EffectsVolume;
         }
@@ -291,21 +288,21 @@ public class AudioManager : MonoBehaviour
 
     private void KillAudioTweens()
     {
-        this.musicTweens[0]?.Kill();
-        this.musicTweens[1]?.Kill();
-        this.ambientTweens[0]?.Kill();
-        this.ambientTweens[1]?.Kill();
+        this.activeMusicTween?.Kill();
+        this.inactiveMusicTween?.Kill();
+        this.activeAmbientTween?.Kill();
+        this.inactiveAmbientTween?.Kill();
     }
 
     public void StopMusicForQuit()
     {
         KillAudioTweens();
 
-        this.musicSources[0].volume = 0;
-        this.musicSources[1].volume = 0;
+        this.activeMusicSource.volume = 0;
+        this.inactiveMusicSource.volume = 0;
 
-        this.ambientSources[0].volume = 0;
-        this.ambientSources[1].volume = 0;
+        this.activeAmbientSource.volume = 0;
+        this.inactiveAmbientSource.volume = 0;
 
         AudioListener.volume = 0;
     }
@@ -406,8 +403,8 @@ public class AudioManager : MonoBehaviour
 
         if (!this.isMinimized)
         {
-            this.musicSources[0].volume = inValue;
-            this.musicSources[1].volume = inValue;
+            this.activeMusicSource.volume = inValue;
+            this.inactiveMusicSource.volume = inValue;
         }
     }
 
@@ -417,8 +414,8 @@ public class AudioManager : MonoBehaviour
 
         if(!this.isMinimized)
         {
-            this.ambientSources[0].volume = inValue;
-            this.ambientSources[1].volume = inValue;
+            this.activeAmbientSource.volume = inValue;
+            this.inactiveAmbientSource.volume = inValue;
         }
     }
 
@@ -436,8 +433,8 @@ public class AudioManager : MonoBehaviour
 
         if(this.isMinimized)
         {
-            this.musicSources[0].volume = inValue;
-            this.musicSources[1].volume = inValue;
+            this.activeMusicSource.volume = inValue;
+            this.inactiveMusicSource.volume = inValue;
         }
     }
 
@@ -447,8 +444,8 @@ public class AudioManager : MonoBehaviour
 
         if (this.isMinimized)
         {
-            this.ambientSources[0].volume = inValue;
-            this.ambientSources[1].volume = inValue;
+            this.activeAmbientSource.volume = inValue;
+            this.inactiveAmbientSource.volume = inValue;
         }
     }
 #endregion

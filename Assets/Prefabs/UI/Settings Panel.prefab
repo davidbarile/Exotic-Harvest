@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 3337822387145058702}
   - component: {fileID: 5033973068002985480}
   - component: {fileID: 6116440152396396012}
+  - component: {fileID: 3960539421921551797}
   m_Layer: 5
   m_Name: Panel_Show When Minimized
   m_TagString: Untagged
@@ -403,6 +404,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &3960539421921551797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798759064485329764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a12b1abb25b44439c19dfbae5a3729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedDisabler
+  _enableOnPlatforms: 2
+  _hideType: 0
+  _callType: 1
+  _reverseLogic: 0
 --- !u!1 &1250078877366991220
 GameObject:
   m_ObjectHideFlags: 0
@@ -3667,6 +3684,7 @@ GameObject:
   - component: {fileID: 7439016131300746411}
   - component: {fileID: 7987849932808931850}
   - component: {fileID: 5081276370304259112}
+  - component: {fileID: 7242982398456458045}
   m_Layer: 5
   m_Name: Panel_Minimized Volumes
   m_TagString: Untagged
@@ -3761,6 +3779,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7242982398456458045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8689132175607154312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a12b1abb25b44439c19dfbae5a3729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedDisabler
+  _enableOnPlatforms: 2
+  _hideType: 0
+  _callType: 1
+  _reverseLogic: 0
 --- !u!1 &9047481562944667143
 GameObject:
   m_ObjectHideFlags: 0
