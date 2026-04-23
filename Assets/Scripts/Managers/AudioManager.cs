@@ -45,8 +45,10 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.2f; // Chance to change ambient on time/weather change, for variety
 
     private List<AudioSource> audioSources = new List<AudioSource>();
-    private int audioSourceIndex;
-    private int recursionCounter;
+    private int audioSourceIndex, recursionCounter;
+
+    private AudioSource activeMusicSource, inactiveMusicSource;
+    private AudioSource activeAmbientSource, inactiveAmbientSource;
 
     private Tween[] musicTweens = { null, null };
     private Tween[] ambientTweens = { null, null };
@@ -58,15 +60,21 @@ public class AudioManager : MonoBehaviour
 
     public void Init()
     {
-        this.musicSources[0].volume = SaveManager.Data.MusicVolume;
-        this.musicSources[1].volume = 0;
-        this.musicSources[0].ignoreListenerVolume = true;
-        this.musicSources[1].ignoreListenerVolume = true;
+        this.activeMusicSource = this.musicSources[0];
+        this.inactiveMusicSource = this.musicSources[1];
 
-        this.ambientSources[0].volume = SaveManager.Data.AmbientVolume;
-        this.ambientSources[1].volume = 0;
-        this.ambientSources[0].ignoreListenerVolume = true;
-        this.ambientSources[1].ignoreListenerVolume = true;
+        this.activeMusicSource.volume = SaveManager.Data.MusicVolume;
+        this.inactiveMusicSource.volume = 0;
+        this.activeMusicSource.ignoreListenerVolume = true;
+        this.inactiveMusicSource.ignoreListenerVolume = true;
+
+        this.activeAmbientSource = this.ambientSources[0];
+        this.inactiveAmbientSource = this.ambientSources[1];
+
+        this.activeAmbientSource.volume = SaveManager.Data.AmbientVolume;
+        this.inactiveAmbientSource.volume = 0;
+        this.activeAmbientSource.ignoreListenerVolume = true;
+        this.inactiveAmbientSource.ignoreListenerVolume = true;
 
         SetAudioMode(false);
 
@@ -122,19 +130,67 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void PlayOrCrossfadeMusic(AudioClip inNewClip)
+    {
+        if (inNewClip != CurrentMusicClip)
+        {
+            if (!this.activeMusicSource.isPlaying)
+            {
+                this.activeMusicSource.clip = inNewClip;
+                AudioManager.CurrentMusicClip = inNewClip;
+                this.activeMusicSource.Play();
+                return;
+            }
+
+            this.inactiveMusicSource.clip = inNewClip;
+            AudioManager.CurrentMusicClip = inNewClip;
+            this.inactiveMusicSource.Play();
+
+            this.musicTweens[0] = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
+            this.musicTweens[0].onComplete = () => { this.activeMusicSource.Pause(); };
+            this.musicTweens[1] = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+
+            //swap active/inactive
+            var temp = this.activeMusicSource;
+            this.activeMusicSource = this.inactiveMusicSource;
+            this.inactiveMusicSource = temp;
+        }
+    }
+    
+    private void PlayOrCrossfadeAmbient(AudioClip inNewClip)
+    {
+        if (inNewClip != CurrentAmbientClip)
+        {
+            if (!this.activeAmbientSource.isPlaying)
+            {
+                this.activeAmbientSource.clip = inNewClip;
+                AudioManager.CurrentAmbientClip = inNewClip;
+                this.activeAmbientSource.Play();
+                return;
+            }
+
+            this.inactiveAmbientSource.clip = inNewClip;
+            AudioManager.CurrentAmbientClip = inNewClip;
+            this.inactiveAmbientSource.Play();
+
+            this.ambientTweens[0] = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
+            this.ambientTweens[0].onComplete = () => { this.activeAmbientSource.Pause(); };
+            this.ambientTweens[1] = this.inactiveAmbientSource.DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+
+            //swap active/inactive
+            var temp = this.activeAmbientSource;
+            this.activeAmbientSource = this.inactiveAmbientSource;
+            this.inactiveAmbientSource = temp;
+        }
+    }
+
     private void ChangeMusic(ETimeOfDay inTimeOfDay, EWeatherType inWeather)
     {
         var newClip = GetMusicClipForCurrentConditions(inTimeOfDay, inWeather);
 
         if (newClip != null)
         {
-            this.musicSources[1].clip = newClip;
-            AudioManager.CurrentMusicClip = newClip;
-            this.musicSources[1].Play();
-
-            this.musicTweens[0] = this.musicSources[0].DOFade(0, this.audioFadeDuration);
-            this.musicTweens[0].onComplete = () => { this.musicSources[0].Pause(); };
-            this.musicTweens[1] = this.musicSources[1].DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
+            PlayOrCrossfadeMusic(newClip);
         }
 
         AudioClip GetMusicClipForCurrentConditions(ETimeOfDay inTimeOfDay, EWeatherType inWeather)
@@ -169,13 +225,7 @@ public class AudioManager : MonoBehaviour
 
         if (newClip != null)
         {
-            this.ambientSources[1].clip = newClip;
-            AudioManager.CurrentAmbientClip = newClip;
-            this.ambientSources[1].Play();
-
-            this.ambientTweens[0] = this.ambientSources[0].DOFade(0, this.audioFadeDuration);
-            this.ambientTweens[0].onComplete = () => { this.ambientSources[0].Pause(); };
-            this.ambientTweens[1] = this.ambientSources[1].DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
+            PlayOrCrossfadeAmbient(newClip);
         }
 
         AudioClip GetAmbientClipForCurrentConditions(ETimeOfDay inTimeOfDay, EWeatherType inWeather)
@@ -239,7 +289,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void KillAudioTweens()
+    private void KillAudioTweens()
     {
         this.musicTweens[0]?.Kill();
         this.musicTweens[1]?.Kill();
@@ -349,11 +399,12 @@ public class AudioManager : MonoBehaviour
             AudioListener.volume = inValue;
     }
 
+#region Volume Setters
     public void SetMusicVolume(float inValue)
     {
         SaveManager.Data.MusicVolume = inValue;
 
-        if(!this.isMinimized)
+        if (!this.isMinimized)
         {
             this.musicSources[0].volume = inValue;
             this.musicSources[1].volume = inValue;
@@ -394,10 +445,11 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.AmbientVolume_Minimized = inValue;
 
-        if(this.isMinimized)
+        if (this.isMinimized)
         {
             this.ambientSources[0].volume = inValue;
             this.ambientSources[1].volume = inValue;
         }
     }
+#endregion
 }
