@@ -74,7 +74,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ToggleRootVisibility()
     {
-        HandleMinimizeButtonClick(this.rootCanvasGroup.alpha > 0f);
+        SetMinOrMaximized(this.rootCanvasGroup.alpha == 0f);
     }
 
     private void ToggleBackgroundVisibility()
@@ -181,7 +181,7 @@ public class ScreenManager : MonoBehaviour
         if (UIPanelBase.CurrentOpenPanel != null)
             return;
 
-        HandleMinimizeButtonClick(true);
+        SetMinOrMaximized(false);
     }
 
     public void HandleMaximizeButtonClick()
@@ -189,17 +189,17 @@ public class ScreenManager : MonoBehaviour
         if (DragManager.IsDragModeActivated)
             return;
 
-        HandleMinimizeButtonClick(false);
+        SetMinOrMaximized(true);
     }
     
-    public void HandleMinimizeButtonClick(bool isMinimized)
+    public void SetMinOrMaximized(bool inIsMaximized)
     {
-        if (isMinimized)
-            FadeOutRoot();
-        else
+        if (inIsMaximized)
             FadeInRoot();
+        else
+            FadeOutRoot();
 
-        OnMinimizeMaximizeToggled?.Invoke(isMinimized);
+        OnMinimizeMaximizeToggled?.Invoke(inIsMaximized);
     }
     
     private void FadeInRoot()

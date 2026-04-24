@@ -52,7 +52,7 @@ public class AudioManager : MonoBehaviour
     private Tween activeAmbientTween = null;
     private Tween inactiveAmbientTween = null;
 
-    private bool isMinimized;
+    private bool isMaximized;
 
     private float lastMusicChangeHour = -1;
     private float minutesBetweenMusicChanges = 5f;
@@ -259,30 +259,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void SetAudioMode(bool inIsMinimized)
+    public void SetAudioMode(bool inIsMaximized)
     {
-        if (inIsMinimized == this.isMinimized)
+        if (inIsMaximized == this.isMaximized)
             return;
 
-        this.isMinimized = inIsMinimized;
+        this.isMaximized = inIsMaximized;
 
         KillAudioTweens();
 
-        if (inIsMinimized)
-        {
-            if (this.activeMusicSource.isPlaying)
-                this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
-            else
-                this.activeMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
-                
-            if(this.inactiveMusicSource.isPlaying)
-                this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
-            else
-                this.inactiveMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
-
-            AudioListener.volume = SaveManager.Data.EffectsVolume_Minimized;
-        }
-        else
+        if (inIsMaximized)
         {
             if (this.activeMusicSource.isPlaying)
                 this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
@@ -295,6 +281,20 @@ public class AudioManager : MonoBehaviour
                 this.inactiveMusicSource.volume = SaveManager.Data.MusicVolume;
 
             AudioListener.volume = SaveManager.Data.EffectsVolume;
+        }
+        else
+        {
+            if (this.activeMusicSource.isPlaying)
+                this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
+            else
+                this.activeMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
+                
+            if(this.inactiveMusicSource.isPlaying)
+                this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume_Minimized, this.audioFadeDuration);
+            else
+                this.inactiveMusicSource.volume = SaveManager.Data.MusicVolume_Minimized;
+
+            AudioListener.volume = SaveManager.Data.EffectsVolume_Minimized;
         }
     }
 
@@ -404,7 +404,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.EffectsVolume = inValue;
 
-        if(!this.isMinimized)
+        if(this.isMaximized)
             AudioListener.volume = inValue;
     }
 
@@ -413,7 +413,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.MusicVolume = inValue;
 
-        if (!this.isMinimized)
+        if (this.isMaximized)
         {
             this.activeMusicSource.volume = inValue;
             this.inactiveMusicSource.volume = inValue;
@@ -424,7 +424,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.AmbientVolume = inValue;
 
-        if(!this.isMinimized)
+        if(this.isMaximized)
         {
             this.activeAmbientSource.volume = inValue;
             this.inactiveAmbientSource.volume = inValue;
@@ -435,7 +435,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.EffectsVolume_Minimized = inValue;
 
-        if(this.isMinimized)
+        if(!this.isMaximized)
             AudioListener.volume = inValue;
     }
 
@@ -443,7 +443,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.MusicVolume_Minimized = inValue;
 
-        if(this.isMinimized)
+        if(!this.isMaximized)
         {
             this.activeMusicSource.volume = inValue;
             this.inactiveMusicSource.volume = inValue;
@@ -454,7 +454,7 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.AmbientVolume_Minimized = inValue;
 
-        if (this.isMinimized)
+        if (!this.isMaximized)
         {
             this.activeAmbientSource.volume = inValue;
             this.inactiveAmbientSource.volume = inValue;
