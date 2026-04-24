@@ -273,6 +273,8 @@ public class SaveManager : MonoBehaviour, ITickable
         ColorManager.IN.PanelColor = Data.PanelColor;
         ColorManager.OnPanelColorChanged?.Invoke(Data.PanelColor);
         UiManager.IN.SettingsPanel.ApplySettingsDataToUI(Data.PanelColor);
+
+        AudioManager.IN.ApplyAudioSettingsFromSaveData();
         
         ApplySettingsData();
     }

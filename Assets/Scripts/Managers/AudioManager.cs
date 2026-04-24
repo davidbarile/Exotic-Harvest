@@ -11,6 +11,13 @@ public class AudioManager : MonoBehaviour
     public static AudioClip CurrentMusicClip { get; private set; }
     public static AudioClip CurrentAmbientClip { get; private set; }
 
+    private enum EConditionsChangeType
+    {
+        TimeOfDay,
+        Hour,
+        Weather
+    }
+
     [SerializeField] private AudioSource activeMusicSource, inactiveMusicSource;
     [SerializeField] private AudioSource activeAmbientSource, inactiveAmbientSource;
 
@@ -100,16 +107,34 @@ public class AudioManager : MonoBehaviour
         ScreenManager.OnMinimizeMaximizeToggled -= SetAudioMode;
     }
 
+    public void ApplyAudioSettingsFromSaveData()
+    {
+        SetMusicVolume(SaveManager.Data.MusicVolume);
+        SetAmbientVolume(SaveManager.Data.AmbientVolume);
+        SetEffectsVolume(SaveManager.Data.EffectsVolume);
+        SetMusicVolume_Minimized(SaveManager.Data.MusicVolume_Minimized);
+        SetAmbientVolume_Minimized(SaveManager.Data.AmbientVolume_Minimized);
+        SetEffectsVolume_Minimized(SaveManager.Data.EffectsVolume_Minimized);
+
+        UiManager.IN.SettingsPanel.MusicVolumeSlider.SetValueWithoutNotify(SaveManager.Data.MusicVolume);
+        UiManager.IN.SettingsPanel.AmbientVolumeSlider.SetValueWithoutNotify(SaveManager.Data.AmbientVolume);
+        UiManager.IN.SettingsPanel.EffectsVolumeSlider.SetValueWithoutNotify(SaveManager.Data.EffectsVolume);
+        UiManager.IN.SettingsPanel.MusicVolumeSlider_Minimized.SetValueWithoutNotify(SaveManager.Data.MusicVolume_Minimized);
+        UiManager.IN.SettingsPanel.AmbientVolumeSlider_Minimized.SetValueWithoutNotify(SaveManager.Data.AmbientVolume_Minimized);
+        UiManager.IN.SettingsPanel.EffectsVolumeSlider_Minimized.SetValueWithoutNotify(SaveManager.Data.EffectsVolume_Minimized);
+    }
+
     private void OnWeatherChanged(EWeatherType inWeather)
     {
-        ChangeMusic(TimeManager.CurrentTimeOfDay, inWeather);
-        ChangeAmbient(TimeManager.CurrentTimeOfDay, inWeather);
+        //TODO: throttle to min/max time delay.  Also make them weather have priortity over time of day changes
+        ChangeMusic(TimeManager.CurrentTimeOfDay, inWeather, EConditionsChangeType.Weather);
+        ChangeAmbient(TimeManager.CurrentTimeOfDay, inWeather, EConditionsChangeType.Weather);
     }
 
     private void OnTimeOfDayChanged(ETimeOfDay inTimeOfDay)
     {
-        ChangeMusic(inTimeOfDay, WeatherManager.CurrentWeather);
-        ChangeAmbient(inTimeOfDay, WeatherManager.CurrentWeather);
+        ChangeMusic(inTimeOfDay, WeatherManager.CurrentWeather, EConditionsChangeType.TimeOfDay);
+        ChangeAmbient(inTimeOfDay, WeatherManager.CurrentWeather, EConditionsChangeType.TimeOfDay);
     }
 
     private void OnHourChanged(float inHour)
@@ -121,7 +146,7 @@ public class AudioManager : MonoBehaviour
             this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
 
             if (UnityEngine.Random.value < this.musicChangeChance)
-                ChangeMusic(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather);
+                ChangeMusic(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather, EConditionsChangeType.Hour);
         }
 
         if (inHour - this.lastAmbientChangeHour > this.secondsBetweenAmbientChanges / 3600f)
@@ -131,12 +156,13 @@ public class AudioManager : MonoBehaviour
             this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
             if (UnityEngine.Random.value < this.ambientChangeChance)
-                ChangeAmbient(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather);
+                ChangeAmbient(TimeManager.CurrentTimeOfDay, WeatherManager.CurrentWeather, EConditionsChangeType.Hour);
         }
     }
 
     private void PlayOrCrossfadeMusic(AudioClip inNewClip)
     {
+        UiManager.IN.SetDebugText($"AudioManager.PlayOrCrossfadeMusic({inNewClip})   CurrentMusicClip: {CurrentMusicClip?.name}", true);
         if (inNewClip != CurrentMusicClip)
         {
             if (!this.activeMusicSource.isPlaying)
@@ -189,7 +215,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void ChangeMusic(ETimeOfDay inTimeOfDay, EWeatherType inWeather)
+    private void ChangeMusic(ETimeOfDay inTimeOfDay, EWeatherType inWeather, EConditionsChangeType conditionType)
     {
         var newClip = GetMusicClipForCurrentConditions(inTimeOfDay, inWeather);
 
@@ -224,9 +250,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void ChangeAmbient(ETimeOfDay inTimeOfDay, EWeatherType inWeather)
+    private void ChangeAmbient(ETimeOfDay inTimeOfDay, EWeatherType inWeather, EConditionsChangeType conditionType)
     {
         var newClip = GetAmbientClipForCurrentConditions(inTimeOfDay, inWeather);
+
+        UiManager.IN.SetDebugText($"AudioManager.ChangeAmbient({inTimeOfDay}, {inWeather})   NewAmbientClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -265,6 +293,8 @@ public class AudioManager : MonoBehaviour
             return;
 
         this.isMaximized = inIsMaximized;
+
+        UiManager.IN.SetDebugText($"AudioManager.SetAudioMode()   isMaximized: {this.isMaximized}", true);
 
         KillAudioTweens();
 
@@ -400,14 +430,6 @@ public class AudioManager : MonoBehaviour
         PlayClip(this.ErrorSoundClip, 1, rndPitch);
     }
 
-    public void SetEffectsVolume(float inValue)
-    {
-        SaveManager.Data.EffectsVolume = inValue;
-
-        if(this.isMaximized)
-            AudioListener.volume = inValue;
-    }
-
 #region Volume Setters
     public void SetMusicVolume(float inValue)
     {
@@ -424,11 +446,19 @@ public class AudioManager : MonoBehaviour
     {
         SaveManager.Data.AmbientVolume = inValue;
 
-        if(this.isMaximized)
+        if (this.isMaximized)
         {
             this.activeAmbientSource.volume = inValue;
             this.inactiveAmbientSource.volume = inValue;
         }
+    }
+    
+    public void SetEffectsVolume(float inValue)
+    {
+        SaveManager.Data.EffectsVolume = inValue;
+
+        if(this.isMaximized)
+            AudioListener.volume = inValue;
     }
 
      public void SetEffectsVolume_Minimized(float inValue)
