@@ -88,6 +88,8 @@ public class AudioManager : MonoBehaviour
         WeatherManager.OnWeatherChanged += OnWeatherChanged;
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
         TimeManager.OnHourChanged += OnHourChanged; //also update music on hour change for more variety
+
+        ScreenManager.OnMinimizeMaximizeToggled += SetAudioMode;
     }
 
     private void OnDestroy()
@@ -95,6 +97,7 @@ public class AudioManager : MonoBehaviour
         WeatherManager.OnWeatherChanged -= OnWeatherChanged;
         TimeManager.OnTimeOfDayChanged -= OnTimeOfDayChanged;
         TimeManager.OnHourChanged -= OnHourChanged;
+        ScreenManager.OnMinimizeMaximizeToggled -= SetAudioMode;
     }
 
     private void OnWeatherChanged(EWeatherType inWeather)

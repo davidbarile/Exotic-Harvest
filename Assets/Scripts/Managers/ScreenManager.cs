@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections.Generic;
+using System;
 
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager IN;
+
+    public static Action<bool> OnMinimizeMaximizeToggled;
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup worldCanvasGroup;
@@ -71,10 +74,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ToggleRootVisibility()
     {
-        if (this.rootCanvasGroup.alpha > 0f)
-            FadeOutRoot();
-        else
-            FadeInRoot();
+        HandleMinimizeButtonClick(this.rootCanvasGroup.alpha > 0f);
     }
 
     private void ToggleBackgroundVisibility()
@@ -181,15 +181,25 @@ public class ScreenManager : MonoBehaviour
         if (UIPanelBase.CurrentOpenPanel != null)
             return;
 
-        FadeOutRoot();
+        HandleMinimizeButtonClick(true);
     }
 
     public void HandleMaximizeButtonClick()
     {
         if (DragManager.IsDragModeActivated)
             return;
-            
-        FadeInRoot();
+
+        HandleMinimizeButtonClick(false);
+    }
+    
+    public void HandleMinimizeButtonClick(bool isMinimized)
+    {
+        if (isMinimized)
+            FadeOutRoot();
+        else
+            FadeInRoot();
+
+        OnMinimizeMaximizeToggled?.Invoke(isMinimized);
     }
     
     private void FadeInRoot()
@@ -227,7 +237,6 @@ public class ScreenManager : MonoBehaviour
 
         ToggleElementsVisibility(false);
         ToggleColliders(false);
-
         
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 0f, 0.3f, value =>
