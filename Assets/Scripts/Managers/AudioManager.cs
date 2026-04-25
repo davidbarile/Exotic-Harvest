@@ -129,7 +129,7 @@ public class AudioManager : MonoBehaviour
     {
         var musicMinutesElapsed = (DateTime.Now - this.lastMusicChangeHour).TotalMinutes;
         musicMinutesElapsed *= TimeManager.IN.TimeScale;
-        UiManager.IN.SetDebugText($" - musicMinutesElapsed: {musicMinutesElapsed} / {this.minutesBetweenMusicChanges}", true);
+        //UiManager.IN.SetDebugText($"OnHourChanged({inHour})  musicMinutesElapsed: {musicMinutesElapsed} / {this.minutesBetweenMusicChanges}", true);
         if (musicMinutesElapsed > this.minutesBetweenMusicChanges)
         {
             this.lastMusicChangeHour = DateTime.Now;
@@ -156,44 +156,40 @@ public class AudioManager : MonoBehaviour
 
     private void PlayOrCrossfadeMusic(AudioClip inNewClip)
     {
-        UiManager.IN.SetDebugText($"AudioManager.PlayOrCrossfadeMusic({inNewClip})   CurrentMusicClip: {CurrentMusicClip?.name}. Time = {TimeManager.CurrentTimeOfDay}", true);
+        //UiManager.IN.SetDebugText($"AudioManager.PlayOrCrossfadeMusic({inNewClip})   CurrentMusicClip: {CurrentMusicClip?.name}. Time = {TimeManager.CurrentTimeOfDay}", true);
 
         if (inNewClip == null || inNewClip == CurrentMusicClip)
             return;
 
         AudioManager.CurrentMusicClip = inNewClip;
 
+        //swap active/inactive
+        var temp = this.activeMusicSource;
+        this.activeMusicSource = this.inactiveMusicSource;
+        this.inactiveMusicSource = temp;
+
         var musicVolume = this.isMaximized ? SaveManager.Data.MusicVolume : SaveManager.Data.MusicVolume_Minimized;
 
-        if (!this.activeMusicSource.isPlaying)
+        if (!this.inactiveMusicSource.isPlaying)
         {
-            this.activeMusicSource.clip = inNewClip;
-            this.activeMusicSource.volume = musicVolume;
-            this.activeMusicSource.Play();
-            Debug.Log($"CUT.   new clip = {inNewClip?.name}, volume: {this.activeMusicSource.volume}");
+            this.inactiveMusicSource.clip = inNewClip;
+            this.inactiveMusicSource.volume = musicVolume;
+            this.inactiveMusicSource.Play();
             return;
         }
 
         KillMusicTweens();
 
         //fade out old
-        this.activeMusicTween = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
-        this.activeMusicTween.onComplete = () => { this.activeMusicSource.Pause(); };
+        this.inactiveMusicTween = this.inactiveMusicSource.DOFade(0, this.audioFadeDuration).OnComplete(() => { this.inactiveMusicSource.Pause(); });
 
         //fade in new
-        this.inactiveMusicSource.clip = inNewClip;
-        this.inactiveMusicSource.volume = 0;
-        this.inactiveMusicSource.Play();
+        this.activeMusicSource.clip = inNewClip;
+        this.activeMusicSource.volume = 0;
+        this.activeMusicSource.Play();
 
         if (musicVolume > 0)
-            this.inactiveMusicTween = this.inactiveMusicSource.DOFade(musicVolume, this.audioFadeDuration);
-            
-        Debug.Log($"FADE.   new clip = {inNewClip?.name}. old clip = {this.activeMusicSource.clip?.name}, in volume: {this.inactiveMusicSource.volume}. active vol = {    this.activeMusicSource.volume}, inactive vol = {this.inactiveMusicSource.volume}");
-
-        //swap active/inactive
-        var temp = this.activeMusicSource;
-        this.activeMusicSource = this.inactiveMusicSource;
-        this.inactiveMusicSource = temp;
+            this.activeMusicTween = this.activeMusicSource.DOFade(musicVolume, this.audioFadeDuration);
     }
     
     private void PlayOrCrossfadeAmbient(AudioClip inNewClip)
@@ -205,32 +201,31 @@ public class AudioManager : MonoBehaviour
 
         var ambientVolume = this.isMaximized ? SaveManager.Data.AmbientVolume : SaveManager.Data.AmbientVolume_Minimized;
 
-        if (!this.activeAmbientSource.isPlaying)
+        //swap active/inactive
+        var temp = this.activeAmbientSource;
+        this.activeAmbientSource = this.inactiveAmbientSource;
+        this.inactiveAmbientSource = temp;
+
+        if (!this.inactiveAmbientSource.isPlaying)
         {
-            this.activeAmbientSource.clip = inNewClip;
-            this.activeAmbientSource.volume = ambientVolume;
-            this.activeAmbientSource.Play();
+            this.inactiveAmbientSource.clip = inNewClip;
+            this.inactiveAmbientSource.volume = ambientVolume;
+            this.inactiveAmbientSource.Play();
             return;
         }
 
         KillAmbientTweens();
 
         //fade out old
-        this.activeAmbientTween = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
-        this.activeAmbientTween.onComplete = () => { this.activeAmbientSource.Pause(); };
+        this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(0, this.audioFadeDuration).OnComplete(() => { this.inactiveAmbientSource.Pause(); });
 
         //fade in new
-        this.inactiveAmbientSource.clip = inNewClip;
-        this.inactiveAmbientSource.volume = 0;
-        this.inactiveAmbientSource.Play();
+        this.activeAmbientSource.clip = inNewClip;
+        this.activeAmbientSource.volume = 0;
+        this.activeAmbientSource.Play();
 
         if(ambientVolume > 0)
-            this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(ambientVolume, this.audioFadeDuration);
-
-        //swap active/inactive
-        var temp = this.activeAmbientSource;
-        this.activeAmbientSource = this.inactiveAmbientSource;
-        this.inactiveAmbientSource = temp;
+            this.activeAmbientTween = this.activeAmbientSource.DOFade(ambientVolume, this.audioFadeDuration);
     }
 
     private void ChangeMusic()
@@ -240,7 +235,7 @@ public class AudioManager : MonoBehaviour
 
         var newClip = GetMusicClipForCurrentConditions();
 
-        UiManager.IN.SetDebugText($"AudioManager.ChangeMusic({timeOfDay}, {weather})   NewMusicClip: {newClip?.name}", true);
+        //UiManager.IN.SetDebugText($"AudioManager.ChangeMusic({timeOfDay}, {weather})   NewMusicClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -352,9 +347,9 @@ public class AudioManager : MonoBehaviour
 
         this.isMaximized = inIsMaximized;
 
-        UiManager.IN.SetDebugText($"<color=yellow>AudioManager.SetAudioMode()   isMaximized: {this.isMaximized}</color>", true);
+        //UiManager.IN.SetDebugText($"<color=yellow>AudioManager.SetAudioMode()   isMaximized: {this.isMaximized}</color>", true);
 
-        //KillAudioTweens();
+        KillAudioTweens();
 
         if (inIsMaximized)
         {
