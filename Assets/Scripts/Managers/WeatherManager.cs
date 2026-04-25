@@ -31,7 +31,7 @@ public class WeatherManager : MonoBehaviour, ITickable
 
     // Properties
     public static EWeatherType CurrentWeather => IN.currentWeather;
-    public static EWeatherType OldWeather { get; private set; }
+    public static EWeatherType LastWeather { get; private set; }
     public static float WeatherIntensity => IN.weatherIntensity;
     public static bool IsRaining => IN.currentWeather.HasFlag(EWeatherType.Rain) || IN.currentWeather.HasFlag(EWeatherType.Storm);
     

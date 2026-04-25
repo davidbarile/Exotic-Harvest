@@ -17,6 +17,7 @@ public class TimeManager : MonoBehaviour, ITickable
 
     public bool UseRealTime => this.useRealTime;
     public float HoursToSecondsRatio => 24f / this.dayLengthInMinutes;
+    public float GameTimeToRealTimeRatio => this.useRealTime ? 1 : this.dayLengthInMinutes * 60f * this.TimeScale;
     [SerializeField] private bool useRealTime; // If true, time advances based on real seconds, otherwise uses SecondTick for testing
     public bool FreezeTime;
     [SerializeField] private EDayOfWeek currentDayOfWeek = EDayOfWeek.Sunday;
