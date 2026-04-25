@@ -74,7 +74,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private void ChangeWeather()
     {
-        EWeatherType oldWeather = this.currentWeather;
+        LastWeather = this.currentWeather;
         
         // Simple weather transition logic
         EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
@@ -86,23 +86,23 @@ public class WeatherManager : MonoBehaviour, ITickable
         UpdateWeatherDisplay();
         
         // Fire events
-        if (oldWeather != this.currentWeather)
+        if (LastWeather != this.currentWeather)
         {
             OnWeatherChanged?.Invoke(this.currentWeather);
 
             // Rain-specific events for resource generation
-            if (!IsWeatherRain(oldWeather) && IsWeatherRain(this.currentWeather))
+            if (!IsWeatherRain(LastWeather) && IsWeatherRain(this.currentWeather))
                 OnRainStarted?.Invoke();
-            else if (IsWeatherRain(oldWeather) && !IsWeatherRain(this.currentWeather))
+            else if (IsWeatherRain(LastWeather) && !IsWeatherRain(this.currentWeather))
                 OnRainStopped?.Invoke();
                 
             // Wind-specific events
-            if (!IsWeatherWind(oldWeather) && IsWeatherWind(this.currentWeather))
+            if (!IsWeatherWind(LastWeather) && IsWeatherWind(this.currentWeather))
                 OnWindStarted?.Invoke();
-            else if (IsWeatherWind(oldWeather) && !IsWeatherWind(this.currentWeather))
+            else if (IsWeatherWind(LastWeather) && !IsWeatherWind(this.currentWeather))
                 OnWindStopped?.Invoke();
         }
-        
+
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
     }
     

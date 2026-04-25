@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
         SaveManager.IN.Init();
         ShopManager.IN.Init();
         AudioManager.IN.Init();
-        AudioManager.IN.SetAudioMode(false);
 
         if (isNewGame)
             InventoryManager.IN.AddDefaultItemsToInventory();

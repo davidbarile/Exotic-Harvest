@@ -127,6 +127,8 @@ public class UiManager : MonoBehaviour
             else
                 this.debugText.text = text;
         }
+
+        Debug.Log(text);
     }
 
     public void ClearDebugText()

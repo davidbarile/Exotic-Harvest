@@ -54,10 +54,11 @@ public class AudioManager : MonoBehaviour
 
     private bool isMaximized;
 
-    private float lastMusicChangeHour = -1;
-    private float minutesBetweenMusicChanges = 5f;
-    private float secondsBetweenAmbientChanges = 15f;
-    private float lastAmbientChangeHour = -1;
+    private float minutesBetweenMusicChanges = 5f;//gets set by weighted random on start and after each change
+    private float secondsBetweenAmbientChanges = 15f;//gets set by weighted random on start and after each change
+
+    private DateTime lastMusicChangeHour = DateTime.MinValue;
+    private DateTime lastAmbientChangeHour = DateTime.MinValue;
 
     public void Init()
     {
@@ -74,7 +75,7 @@ public class AudioManager : MonoBehaviour
         this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
         this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
-        SetAudioMode(false);
+        SetAudioMode(true);
 
         //dynamically create audio sources
         for (int i = 0; i < 8; ++i)
@@ -86,12 +87,14 @@ public class AudioManager : MonoBehaviour
         }
 
         TimeManager.OnHourChanged += OnHourChanged; //also update music on hour change for more variety
+        WeatherManager.OnWeatherChanged += OnWeatherChanged;
         ScreenManager.OnMinimizeMaximizeToggled += SetAudioMode;
     }
 
     private void OnDestroy()
     {
         TimeManager.OnHourChanged -= OnHourChanged;
+        WeatherManager.OnWeatherChanged -= OnWeatherChanged;
         ScreenManager.OnMinimizeMaximizeToggled -= SetAudioMode;
     }
 
@@ -112,20 +115,24 @@ public class AudioManager : MonoBehaviour
         UiManager.IN.SettingsPanel.EffectsVolumeSlider_Minimized.SetValueWithoutNotify(SaveManager.Data.EffectsVolume_Minimized);
     }
 
+    private void OnWeatherChanged(EWeatherType inWeather)
+    {
+        //only fire on change
+        if (WeatherManager.CurrentWeather == WeatherManager.LastWeather)
+            return;
+
+        ChangeMusic();
+        ChangeAmbient();
+    }
+
     private void OnHourChanged(float inHour)
     {
-        var hourInMinutes = inHour * TimeManager.IN.GameTimeToRealTimeRatio * 60f;
-        var hourInSeconds = inHour * TimeManager.IN.GameTimeToRealTimeRatio * 3600f;
-        var musicMinutesElapsed = (inHour - this.lastMusicChangeHour) * 60f;
-        var ambientSecondsElapsed = (inHour - this.lastAmbientChangeHour) * 3600f;
-
-        Debug.Log($"AudioManager.OnHourChanged()  GameTimeToRealTimeRatio = {TimeManager.IN.GameTimeToRealTimeRatio}  inHour: {inHour}   hourInMinutes: {hourInMinutes}   hourInSeconds: {hourInSeconds} \n|  musicMinutesElapsed: {musicMinutesElapsed} / {this.minutesBetweenMusicChanges}  \n ambientSecondsElapsed: {ambientSecondsElapsed} / {this.secondsBetweenAmbientChanges}");
-
+        var musicMinutesElapsed = (DateTime.Now - this.lastMusicChangeHour).TotalMinutes;
+        musicMinutesElapsed *= TimeManager.IN.TimeScale;
+        UiManager.IN.SetDebugText($" - musicMinutesElapsed: {musicMinutesElapsed} / {this.minutesBetweenMusicChanges}", true);
         if (musicMinutesElapsed > this.minutesBetweenMusicChanges)
         {
-            this.lastMusicChangeHour = inHour;
-
-            Debug.Log($"CHANGE MUSIC ");
+            this.lastMusicChangeHour = DateTime.Now;
 
             this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
 
@@ -133,11 +140,12 @@ public class AudioManager : MonoBehaviour
                 ChangeMusic();
         }
 
+        var ambientSecondsElapsed = (DateTime.Now - this.lastAmbientChangeHour).TotalSeconds;
+        ambientSecondsElapsed *= TimeManager.IN.TimeScale;
+        //UiManager.IN.SetDebugText($" - ambientSecondsElapsed: {ambientSecondsElapsed} / {this.secondsBetweenAmbientChanges}", true);
         if (ambientSecondsElapsed > this.secondsBetweenAmbientChanges)
         {
-            this.lastAmbientChangeHour = inHour;
-
-            Debug.Log($"CHANGE AMBUIENT");
+            this.lastAmbientChangeHour = DateTime.Now;
 
             this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
@@ -148,57 +156,81 @@ public class AudioManager : MonoBehaviour
 
     private void PlayOrCrossfadeMusic(AudioClip inNewClip)
     {
-        UiManager.IN.SetDebugText($"AudioManager.PlayOrCrossfadeMusic({inNewClip})   CurrentMusicClip: {CurrentMusicClip?.name}", true);
-        if (inNewClip != CurrentMusicClip)
+        UiManager.IN.SetDebugText($"AudioManager.PlayOrCrossfadeMusic({inNewClip})   CurrentMusicClip: {CurrentMusicClip?.name}. Time = {TimeManager.CurrentTimeOfDay}", true);
+
+        if (inNewClip == null || inNewClip == CurrentMusicClip)
+            return;
+
+        AudioManager.CurrentMusicClip = inNewClip;
+
+        var musicVolume = this.isMaximized ? SaveManager.Data.MusicVolume : SaveManager.Data.MusicVolume_Minimized;
+
+        if (!this.activeMusicSource.isPlaying)
         {
-            if (!this.activeMusicSource.isPlaying)
-            {
-                this.activeMusicSource.clip = inNewClip;
-                AudioManager.CurrentMusicClip = inNewClip;
-                this.activeMusicSource.Play();
-                return;
-            }
-
-            this.inactiveMusicSource.clip = inNewClip;
-            AudioManager.CurrentMusicClip = inNewClip;
-            this.inactiveMusicSource.Play();
-
-            this.activeMusicTween = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
-            this.activeMusicTween.onComplete = () => { this.activeMusicSource.Pause(); };
-            this.inactiveMusicTween = this.inactiveMusicSource.DOFade(SaveManager.Data.MusicVolume, this.audioFadeDuration);
-
-            //swap active/inactive
-            var temp = this.activeMusicSource;
-            this.activeMusicSource = this.inactiveMusicSource;
-            this.inactiveMusicSource = temp;
+            this.activeMusicSource.clip = inNewClip;
+            this.activeMusicSource.volume = musicVolume;
+            this.activeMusicSource.Play();
+            Debug.Log($"CUT.   new clip = {inNewClip?.name}, volume: {this.activeMusicSource.volume}");
+            return;
         }
+
+        KillMusicTweens();
+
+        //fade out old
+        this.activeMusicTween = this.activeMusicSource.DOFade(0, this.audioFadeDuration);
+        this.activeMusicTween.onComplete = () => { this.activeMusicSource.Pause(); };
+
+        //fade in new
+        this.inactiveMusicSource.clip = inNewClip;
+        this.inactiveMusicSource.volume = 0;
+        this.inactiveMusicSource.Play();
+
+        if (musicVolume > 0)
+            this.inactiveMusicTween = this.inactiveMusicSource.DOFade(musicVolume, this.audioFadeDuration);
+            
+        Debug.Log($"FADE.   new clip = {inNewClip?.name}. old clip = {this.activeMusicSource.clip?.name}, in volume: {this.inactiveMusicSource.volume}. active vol = {    this.activeMusicSource.volume}, inactive vol = {this.inactiveMusicSource.volume}");
+
+        //swap active/inactive
+        var temp = this.activeMusicSource;
+        this.activeMusicSource = this.inactiveMusicSource;
+        this.inactiveMusicSource = temp;
     }
     
     private void PlayOrCrossfadeAmbient(AudioClip inNewClip)
     {
-        if (inNewClip != CurrentAmbientClip)
+        if (inNewClip == null || inNewClip == CurrentAmbientClip)
+            return;
+
+        AudioManager.CurrentAmbientClip = inNewClip;
+
+        var ambientVolume = this.isMaximized ? SaveManager.Data.AmbientVolume : SaveManager.Data.AmbientVolume_Minimized;
+
+        if (!this.activeAmbientSource.isPlaying)
         {
-            if (!this.activeAmbientSource.isPlaying)
-            {
-                this.activeAmbientSource.clip = inNewClip;
-                AudioManager.CurrentAmbientClip = inNewClip;
-                this.activeAmbientSource.Play();
-                return;
-            }
-
-            this.inactiveAmbientSource.clip = inNewClip;
-            AudioManager.CurrentAmbientClip = inNewClip;
-            this.inactiveAmbientSource.Play();
-
-            this.activeAmbientTween = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
-            this.activeAmbientTween.onComplete = () => { this.activeAmbientSource.Pause(); };
-            this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(SaveManager.Data.AmbientVolume, this.audioFadeDuration);
-
-            //swap active/inactive
-            var temp = this.activeAmbientSource;
-            this.activeAmbientSource = this.inactiveAmbientSource;
-            this.inactiveAmbientSource = temp;
+            this.activeAmbientSource.clip = inNewClip;
+            this.activeAmbientSource.volume = ambientVolume;
+            this.activeAmbientSource.Play();
+            return;
         }
+
+        KillAmbientTweens();
+
+        //fade out old
+        this.activeAmbientTween = this.activeAmbientSource.DOFade(0, this.audioFadeDuration);
+        this.activeAmbientTween.onComplete = () => { this.activeAmbientSource.Pause(); };
+
+        //fade in new
+        this.inactiveAmbientSource.clip = inNewClip;
+        this.inactiveAmbientSource.volume = 0;
+        this.inactiveAmbientSource.Play();
+
+        if(ambientVolume > 0)
+            this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(ambientVolume, this.audioFadeDuration);
+
+        //swap active/inactive
+        var temp = this.activeAmbientSource;
+        this.activeAmbientSource = this.inactiveAmbientSource;
+        this.inactiveAmbientSource = temp;
     }
 
     private void ChangeMusic()
@@ -207,6 +239,8 @@ public class AudioManager : MonoBehaviour
         var weather = WeatherManager.CurrentWeather;
 
         var newClip = GetMusicClipForCurrentConditions();
+
+        UiManager.IN.SetDebugText($"AudioManager.ChangeMusic({timeOfDay}, {weather})   NewMusicClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -217,7 +251,18 @@ public class AudioManager : MonoBehaviour
         {
             var matchingClips = new List<AudioClip>();
 
-            if (weather != EWeatherType.Clear)
+            if (weather == EWeatherType.Clear)
+            {
+                //clear day
+                foreach (var audioConfig in this.musicConfigs)
+                {
+                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
+                    {
+                        matchingClips.AddRange(audioConfig.AudioClips);
+                    }
+                }
+            }
+            else
             {
                 //rain, storm, wind, snow, foggy
                 foreach (var audioConfig in this.musicConfigs)
@@ -228,19 +273,8 @@ public class AudioManager : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                //clear day
-                foreach (var audioConfig in this.musicConfigs)
-                {
-                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType.HasFlag(weather))
-                    {
-                        matchingClips.AddRange(audioConfig.AudioClips);
-                    }
-                }
-            }
 
-            if(CurrentMusicClip != null && matchingClips.Contains(CurrentMusicClip))
+            if(CurrentMusicClip != null && matchingClips.Contains(CurrentMusicClip) && matchingClips.Count > 1)
             {
                 matchingClips.Remove(CurrentMusicClip); // Don't pick the same clip again for variety
             }
@@ -262,7 +296,7 @@ public class AudioManager : MonoBehaviour
             
         var newClip = GetAmbientClipForCurrentConditions();
 
-        UiManager.IN.SetDebugText($"AudioManager.ChangeAmbient({timeOfDay}, {weather})   NewAmbientClip: {newClip?.name}", true);
+        //UiManager.IN.SetDebugText($"AudioManager.ChangeAmbient({timeOfDay}, {weather})   NewAmbientClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -273,7 +307,18 @@ public class AudioManager : MonoBehaviour
         {
             var matchingClips = new List<AudioClip>();
 
-            if (weather != EWeatherType.Clear)
+            if (weather == EWeatherType.Clear || weather == EWeatherType.Foggy)
+            {
+                //clear day
+                foreach (var audioConfig in this.ambientConfigs)
+                {
+                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
+                    {
+                        matchingClips.AddRange(audioConfig.AudioClips);
+                    }
+                }
+            }
+            else
             {
                 //rain, storm, wind, snow, foggy
                 foreach (var audioConfig in this.ambientConfigs)
@@ -284,19 +329,8 @@ public class AudioManager : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                //clear day
-                foreach (var audioConfig in this.ambientConfigs)
-                {
-                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType.HasFlag(weather))
-                    {
-                        matchingClips.AddRange(audioConfig.AudioClips);
-                    }
-                }
-            }
 
-            if(CurrentAmbientClip != null && matchingClips.Contains(CurrentAmbientClip))
+            if(CurrentAmbientClip != null && matchingClips.Contains(CurrentAmbientClip) && matchingClips.Count > 1)
             {
                 matchingClips.Remove(CurrentAmbientClip); // Don't pick the same clip again for variety
             }
@@ -318,9 +352,9 @@ public class AudioManager : MonoBehaviour
 
         this.isMaximized = inIsMaximized;
 
-        UiManager.IN.SetDebugText($"AudioManager.SetAudioMode()   isMaximized: {this.isMaximized}", true);
+        UiManager.IN.SetDebugText($"<color=yellow>AudioManager.SetAudioMode()   isMaximized: {this.isMaximized}</color>", true);
 
-        KillAudioTweens();
+        //KillAudioTweens();
 
         if (inIsMaximized)
         {
@@ -354,8 +388,18 @@ public class AudioManager : MonoBehaviour
 
     private void KillAudioTweens()
     {
+        KillMusicTweens();
+        KillAmbientTweens();
+    }
+
+    private void KillMusicTweens()
+    {
         this.activeMusicTween?.Kill();
         this.inactiveMusicTween?.Kill();
+    }
+
+    private void KillAmbientTweens()
+    {
         this.activeAmbientTween?.Kill();
         this.inactiveAmbientTween?.Kill();
     }
