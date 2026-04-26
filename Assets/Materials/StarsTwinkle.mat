@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StarsTwinkle
-  m_Shader: {fileID: -6465566751694194690, guid: 10f2950957511411ea8a267921403988, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 90f0a7d0e90a443b8b8f8a2731ee8997, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -70,6 +70,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
+    - _ColorMask: 15
     - _CrackAmount: 0.654
     - _Derp: 0
     - _EnableExternalAlpha: 0
@@ -83,8 +84,17 @@ Material:
     - _Speed: 1
     - _Speed1: 0.05
     - _Speed2: 0.15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UIMaskSoftnessX: 1
+    - _UIMaskSoftnessY: 1
+    - _UseUIAlphaClip: 0
     - _ZWrite: 0
     m_Colors:
+    - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CrackColor: {r: 0, g: 0, b: 0, a: 0.45490196}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
