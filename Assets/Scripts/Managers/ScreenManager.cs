@@ -208,6 +208,8 @@ public class ScreenManager : MonoBehaviour
         else
             FadeOutRoot();
 
+        ToggleElementsVisibility(inIsMaximized);
+
         OnMinimizeMaximizeToggled?.Invoke(inIsMaximized);
     }
     
@@ -215,7 +217,6 @@ public class ScreenManager : MonoBehaviour
     {
         this.maximizePanel.SetActive(false);
 
-        ToggleElementsVisibility(true);
         SetCollidersEnabled(true);
 
         this.rootCanvasGroup.gameObject.SetActive(true);
@@ -244,7 +245,6 @@ public class ScreenManager : MonoBehaviour
     {
         this.maximizePanel.SetActive(true);
 
-        ToggleElementsVisibility(false);
         SetCollidersEnabled(false);
         
         var alpha = this.rootCanvasGroup.alpha;
