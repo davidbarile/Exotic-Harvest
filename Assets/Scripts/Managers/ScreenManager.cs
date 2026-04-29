@@ -80,45 +80,53 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleBackgroundVisibility()
     {
-        this.isClickThrough = !this.isClickThrough;
-
-        SetCanvasGroupInteractable(this.bgCanvasGroup, !this.isClickThrough);
-        SetCanvasGroupInteractable(this.decorationsCanvasGroup, !this.isClickThrough);
-
-        ToggleColliders(!this.isClickThrough);
-
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
+        SetBgVisibility(this.isClickThrough);
     }
 
-    private void ToggleColliders(bool enable)
+    private void SetBgVisibility(bool inIsVisible)
     {
-        foreach (var col in this.collidersToDisableOnMinimize)
+        if (inIsVisible != this.isClickThrough)
+            return;
+
+        this.isClickThrough = !inIsVisible;
+
+        SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
+        SetCanvasGroupInteractable(this.decorationsCanvasGroup, inIsVisible);
+
+        SetCollidersEnabled(inIsVisible);
+
+        UiManager.IN.SetDebugText($"SetBgVis({inIsVisible}) App Focus: {this.appHasFocus}\nBg Click-thru: {this.isClickThrough}", true);
+    }
+
+    private void SetCollidersEnabled(bool inEnabled)
+    {
+        foreach (var colGO in this.collidersToDisableOnMinimize)
         {
-            col.SetActive(enable);
+            colGO.SetActive(inEnabled);
         }
     }
 
-    private void ToggleElementsVisibility(bool show)
+    private void ToggleElementsVisibility(bool inShouldShow)
     {
         //TODO: tell the canvas groups to fade in/out or not based on settings
-        this.timeAndWeatherPanel.SetActive(show || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
-        this.notifications.SetActive(show || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn);
-        this.panelsButtons.SetActive(show || UiManager.IN.SettingsPanel.ShowPanelsButtonsToggle.isOn);
-        this.decorationsPanel.SetActive(show || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
+        this.timeAndWeatherPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
+        this.notifications.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn);
+        this.panelsButtons.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowPanelsButtonsToggle.isOn);
+        this.decorationsPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
 
         foreach (var item in this.sunAndMoon)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShowSunAndMoonToggle.isOn);
+            item.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowSunAndMoonToggle.isOn);
         }
 
         foreach (var item in this.clouds)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShowCloudsToggle.isOn);
+            item.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowCloudsToggle.isOn);
         }
 
         foreach (var item in this.mountains)
         {
-            item.SetActive(show || UiManager.IN.SettingsPanel.ShowMountainsToggle.isOn);
+            item.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowMountainsToggle.isOn);
         }
     }
 
@@ -208,7 +216,7 @@ public class ScreenManager : MonoBehaviour
         this.maximizePanel.SetActive(false);
 
         ToggleElementsVisibility(true);
-        ToggleColliders(true);
+        SetCollidersEnabled(true);
 
         this.rootCanvasGroup.gameObject.SetActive(true);
         var alpha = this.rootCanvasGroup.alpha;
@@ -237,7 +245,7 @@ public class ScreenManager : MonoBehaviour
         this.maximizePanel.SetActive(true);
 
         ToggleElementsVisibility(false);
-        ToggleColliders(false);
+        SetCollidersEnabled(false);
         
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 0f, 0.3f, value =>
@@ -267,7 +275,7 @@ public class ScreenManager : MonoBehaviour
         this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
-            ToggleColliders(true);
+            SetCollidersEnabled(true);
         });
     }
 
@@ -278,7 +286,7 @@ public class ScreenManager : MonoBehaviour
         this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
-            ToggleColliders(false);
+            SetCollidersEnabled(false);
         });
     }
     
@@ -330,7 +338,8 @@ public class ScreenManager : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         this.appHasFocus = hasFocus;
-        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
+        UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBg Click-thru: {this.isClickThrough}", true);
+        SetBgVisibility(hasFocus);
         OnGameFocusChanged?.Invoke(hasFocus);
     }
 
