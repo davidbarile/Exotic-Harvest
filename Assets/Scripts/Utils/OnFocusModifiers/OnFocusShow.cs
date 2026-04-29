@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class OnFocusShow : OnFocusModifierBase
 {
     private enum EShowMode
     {
-        Enable,
+        SetActive,
+        EnableGraphic,
         Alpha,
         Fade
     }
@@ -16,21 +18,32 @@ public class OnFocusShow : OnFocusModifierBase
     [Range(0, 1f), SerializeField] private float maxAlpha = 1f;
 
     private CanvasGroup canvasGroupFade;
+    private Graphic graphicToEnable;
 
     private Tween fadeTween;
 
     protected override void Start()
     {
         this.canvasGroupFade = GetComponent<CanvasGroup>();
+        this.graphicToEnable = GetComponent<Graphic>();
         base.Start();
     }
     
     protected override void OnGameFocusChanged(bool hasFocus)
     {
+        base.OnGameFocusChanged(hasFocus);
+
         switch (showMode)
         {
-            case EShowMode.Enable:
+            case EShowMode.SetActive:
                 this.gameObject.SetActive(hasFocus);
+                break;
+
+            case EShowMode.EnableGraphic:
+                if (this.graphicToEnable != null)                
+                {
+                    this.graphicToEnable.enabled = hasFocus;
+                }
                 break;
 
             case EShowMode.Alpha:
