@@ -7,9 +7,14 @@ public class UiClock : MonoBehaviour
     [SerializeField] private Transform hourHand;
     [SerializeField] private bool doValidate;
 
-    private void OnValidate() 
+    private void OnValidate()
     {
-        var hour = this.name.Split("_")[1];
+        var splitName = this.name.Split("_");
+
+        if (splitName.Length < 2)
+            return;
+        
+        var hour = splitName[1];
         if (int.TryParse(hour, out var hourInt))
         {
             var rotation = Quaternion.Euler(0f, 0f, -hourInt * 30f);

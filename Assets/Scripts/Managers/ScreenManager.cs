@@ -9,6 +9,7 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager IN;
 
     public static Action<bool> OnMinimizeMaximizeToggled;
+    public static Action<bool> OnGameFocusChanged;
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup worldCanvasGroup;
@@ -330,6 +331,7 @@ public class ScreenManager : MonoBehaviour
     {
         this.appHasFocus = hasFocus;
         UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBackground Click-thru: {this.isClickThrough}", true);
+        OnGameFocusChanged?.Invoke(hasFocus);
     }
 
     void OnApplicationPause(bool pauseStatus)
