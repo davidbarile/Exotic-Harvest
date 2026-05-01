@@ -13,9 +13,10 @@ public class OnFocusShow : OnFocusModifierBase
     }
 
     [SerializeField] private EShowMode showMode = EShowMode.Alpha;
-    [Range(0, 2f), SerializeField] private float fadeDuration = 1f;
-    [Range(0, 1f), SerializeField] private float minAlpha = 0f;
-    [Range(0, 1f), SerializeField] private float maxAlpha = 1f;
+    [Space, SerializeField] private bool shouldModifyCanvasBlockRaycasts;
+    [Space, Range(0, 2f), SerializeField] private float fadeDuration = 1f;
+    [Space, Range(0, 1f)] public float MinAlpha = 0f;
+    [Range(0, 1f)] public float MaxAlpha = 1f;
 
     private CanvasGroup canvasGroupFade;
     private Graphic graphicToEnable;
@@ -49,9 +50,12 @@ public class OnFocusShow : OnFocusModifierBase
             case EShowMode.Alpha:
                 if (this.canvasGroupFade != null)
                 {
-                    this.canvasGroupFade.alpha = hasFocus ? this.maxAlpha : this.minAlpha;
-                    this.canvasGroupFade.interactable = hasFocus;
-                    this.canvasGroupFade.blocksRaycasts = hasFocus;
+                    this.canvasGroupFade.alpha = hasFocus ? this.MaxAlpha : this.MinAlpha;
+                    if(this.shouldModifyCanvasBlockRaycasts)
+                    {
+                        this.canvasGroupFade.interactable = hasFocus;
+                        this.canvasGroupFade.blocksRaycasts = hasFocus;
+                    }
                 }
                 break;
 
@@ -61,9 +65,12 @@ public class OnFocusShow : OnFocusModifierBase
                 {
                     this.fadeTween?.Kill();
 
-                    this.fadeTween = this.canvasGroupFade.DOFade(hasFocus ? this.maxAlpha : this.minAlpha, this.fadeDuration);
-                    this.canvasGroupFade.interactable = hasFocus;
-                    this.canvasGroupFade.blocksRaycasts = hasFocus;
+                    this.fadeTween = this.canvasGroupFade.DOFade(hasFocus ? this.MaxAlpha : this.MinAlpha, this.fadeDuration);
+                    if(this.shouldModifyCanvasBlockRaycasts)
+                    {
+                        this.canvasGroupFade.interactable = hasFocus;
+                        this.canvasGroupFade.blocksRaycasts = hasFocus;
+                    }
                 }
                 break;
         }

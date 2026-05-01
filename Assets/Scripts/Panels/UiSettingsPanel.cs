@@ -8,6 +8,8 @@ public class UiSettingsPanel : UIPanelBase
 
     [SerializeField] private GameObject initContentDisplay;
 
+    private bool isInitialized;
+
     #region Settings
     private void Start()
     {
@@ -18,8 +20,13 @@ public class UiSettingsPanel : UIPanelBase
     {
         base.Show();
 
-        HideAllContentDisplays();
-        this.initContentDisplay.SetActive(true);
+        if (!this.isInitialized)
+        {
+            HideAllContentDisplays();
+            this.initContentDisplay.SetActive(true);
+        }
+
+        this.isInitialized = true;
 
         this.useRealTimeToggle.isOn = TimeManager.IN.UseRealTime;
         SetTimeSlidersActive(TimeManager.IN.UseRealTime);

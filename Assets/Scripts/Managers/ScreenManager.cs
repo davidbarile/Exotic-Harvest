@@ -54,7 +54,8 @@ public class ScreenManager : MonoBehaviour
     {
         GatherLitShaderImages();
 
-        this.bgCanvasGroup.alpha = PlatformManager.IsMobile ? 1f : .5f;
+        var bgAlpha = PlatformManager.IsMobile ? 1f : .5f;
+        SetWorldBgAlpha(bgAlpha);
 
         this.maximizePanel.SetActive(false);
         SwitchToMonitor(this.monitorIndex);
@@ -90,7 +91,7 @@ public class ScreenManager : MonoBehaviour
 
         this.isClickThrough = !inIsVisible;
 
-        SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
+        //SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, inIsVisible);
 
         SetCollidersEnabled(inIsVisible);
@@ -130,10 +131,17 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    //called by slider in Settings menu
     public void SetWorldBgAlpha(float inAlpha)
     {
         this.bgCanvasGroup.alpha = inAlpha;
         SetWordEffectsAlpha(inAlpha);
+        var onFocusShow = this.bgCanvasGroup.GetComponent<OnFocusShow>();
+        if (onFocusShow != null)
+        {
+            //onFocusShow.MinAlpha = inAlpha;
+            onFocusShow.MaxAlpha = inAlpha;
+        }
     }
 
     public void SetWordEffectsAlpha(float inAlpha)
@@ -268,29 +276,29 @@ public class ScreenManager : MonoBehaviour
         });
     }
 
-    private void FadeInBackground()
-    {
-        this.isClickThrough = false;
+    // private void FadeInBackground()
+    // {
+    //     this.isClickThrough = false;
         
-        this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
-        {
-            SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
-            SetCollidersEnabled(true);
-        });
-    }
+    //     this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
+    //     {
+    //         SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
+    //         SetCollidersEnabled(true);
+    //     });
+    // }
 
-    private void FadeOutBackground()
-    {
-        this.isClickThrough = true;
+    // private void FadeOutBackground()
+    // {
+    //     this.isClickThrough = true;
 
-        this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
-        {
-            SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
-            SetCollidersEnabled(false);
-        });
-    }
+    //     this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
+    //     {
+    //         SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
+    //         SetCollidersEnabled(false);
+    //     });
+    // }
     
-    public void SwitchToMonitor(int monitorIndex)
+    public void SwitchToMonitor(int inMonitorIndex)
     {
 #if UNITY_STANDALONE
         // Get the UniWindowController instance
@@ -303,9 +311,9 @@ public class ScreenManager : MonoBehaviour
             // On macOS, monitor 0 might not be primary, so let's find the primary monitor
             int monitorCount = Kirurobo.UniWindowController.GetMonitorCount();
 
-            uniWin.monitorToFit = monitorIndex < monitorCount ? monitorIndex : 0;
+            uniWin.monitorToFit = inMonitorIndex < monitorCount ? inMonitorIndex : 0;
 
-            UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {monitorIndex} as primary.", true);
+            UiManager.IN.SetDebugText($"Found {monitorCount} monitors. Using monitor {inMonitorIndex} as primary.", true);
 
             uniWin.shouldFitMonitor = true;
         }
@@ -335,17 +343,17 @@ public class ScreenManager : MonoBehaviour
 #endif
     }
 
-    void OnApplicationFocus(bool hasFocus)
+    private void OnApplicationFocus(bool inHasFocus)
     {
-        this.appHasFocus = hasFocus;
+        this.appHasFocus = inHasFocus;
         UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBg Click-thru: {this.isClickThrough}", true);
-        SetBgVisibility(hasFocus);
-        OnGameFocusChanged?.Invoke(hasFocus);
+        SetBgVisibility(inHasFocus);
+        OnGameFocusChanged?.Invoke(inHasFocus);
     }
 
-    void OnApplicationPause(bool pauseStatus)
+    private void OnApplicationPause(bool inPauseStatus)
     {
-        UiManager.IN.SetDebugText($"App Paused: {pauseStatus}", true);
+        UiManager.IN.SetDebugText($"App Paused: {inPauseStatus}", true);
     }
 
     public void HandleQuitButtonClick()

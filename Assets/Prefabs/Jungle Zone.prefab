@@ -1632,6 +1632,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9037005329144101455}
   - component: {fileID: 5421233893140236943}
+  - component: {fileID: 4741216409073785693}
   m_Layer: 0
   m_Name: Jungle Zone
   m_TagString: Untagged
@@ -1668,6 +1669,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4548929236415506761}
   m_CullTransparentMesh: 1
+--- !u!114 &4741216409073785693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4548929236415506761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd37c7d0d2d7044ab9a6522ea4efa767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusUiAnchors
+  eventListenerType: 1
+  shouldAppendObjectName: 0
+  focusedAnchor:
+    CopyCurrentRectTransformProperties: 0
+    referenceRectTransform: {fileID: 0}
+    overrideAnchors: 0
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 0, y: 0}
+    overridePivot: 0
+    pivot: {x: 0, y: 0}
+    overrideAnchoredPosition: 0
+    anchoredPosition: {x: 0, y: 0}
+    overrideSizeDelta: 0
+    sizeDelta: {x: 0, y: 0}
+    overrideLocalPosition: 0
+    localPosition: {x: 0, y: 0, z: 0}
+    overrideRotation: 0
+    eulerAngles: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    localScale: {x: 1, y: 1, z: 1}
+  unFocusedAnchor:
+    CopyCurrentRectTransformProperties: 0
+    referenceRectTransform: {fileID: 0}
+    overrideAnchors: 0
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 0, y: 0}
+    overridePivot: 0
+    pivot: {x: 0, y: 0}
+    overrideAnchoredPosition: 0
+    anchoredPosition: {x: 0, y: 0}
+    overrideSizeDelta: 0
+    sizeDelta: {x: 0, y: 0}
+    overrideLocalPosition: 0
+    localPosition: {x: 0, y: 0, z: 0}
+    overrideRotation: 0
+    eulerAngles: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    localScale: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!1 &4570296232266558662
 GameObject:
   m_ObjectHideFlags: 0

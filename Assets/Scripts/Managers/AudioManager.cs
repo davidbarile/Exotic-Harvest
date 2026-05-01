@@ -11,6 +11,10 @@ public class AudioManager : MonoBehaviour
     public static AudioClip CurrentMusicClip { get; private set; }
     public static AudioClip CurrentAmbientClip { get; private set; }
 
+    [SerializeField] private bool isAudioEnabled = true;
+
+    [Space]
+
     [SerializeField] private AudioSource activeMusicSource, inactiveMusicSource;
     [SerializeField] private AudioSource activeAmbientSource, inactiveAmbientSource;
 
@@ -230,6 +234,9 @@ public class AudioManager : MonoBehaviour
 
     private void ChangeMusic()
     {
+        if (!this.isAudioEnabled)
+            return;
+
         var timeOfDay = TimeManager.CurrentTimeOfDay;
         var weather = WeatherManager.CurrentWeather;
 
@@ -286,6 +293,9 @@ public class AudioManager : MonoBehaviour
 
     private void ChangeAmbient()
     {
+        if (!this.isAudioEnabled)
+            return;
+
         var timeOfDay = TimeManager.CurrentTimeOfDay;
         var weather = WeatherManager.CurrentWeather;
             
@@ -342,6 +352,9 @@ public class AudioManager : MonoBehaviour
 
     public void SetAudioMode(bool inIsMaximized)
     {
+        if (!this.isAudioEnabled)
+            return;
+            
         if (inIsMaximized == this.isMaximized)
             return;
 
@@ -429,6 +442,9 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource PlayClip(AudioClip inClip, float inVolume, float inPitch, float inDelay)
     {
+        if (!this.isAudioEnabled)
+            return null;
+
         if (inClip != null)
         {
             AudioSource audioSource = this.audioSources[this.audioSourceIndex];
