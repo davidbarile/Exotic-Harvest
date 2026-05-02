@@ -2,6 +2,13 @@ using System;
 
 public class GlobalEnums
 {
+    public enum EListernerType
+    {
+        OnGameFocusChanged,
+        OnMinimizeMaximizeToggled,
+        Both
+    }
+    
     [Flags]
     public enum ETimeOfDay
     {

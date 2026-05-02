@@ -1,16 +1,13 @@
 using UnityEngine;
+using static GlobalEnums;
 
 [RequireComponent(typeof(RectTransform))]
-public class OnFocusModifierBase : MonoBehaviour
+public abstract class OnFocusModifierBase : MonoBehaviour
 {
-    private enum EListernerType
-    {
-        OnGameFocusChanged,
-        OnMinimizeMaximizeToggled,
-        Both
-    }
-
+    public EListernerType EventListenerType => this.eventListenerType;
     [SerializeField] private EListernerType eventListenerType;
+
+    [SerializeField] protected bool invertLogic;
 
     [SerializeField] private bool shouldAppendObjectName;
     private string originalName;

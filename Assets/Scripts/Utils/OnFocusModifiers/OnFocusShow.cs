@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -18,6 +19,8 @@ public class OnFocusShow : OnFocusModifierBase
     [Space, Range(0, 1f)] public float MinAlpha = 0f;
     [Range(0, 1f)] public float MaxAlpha = 1f;
 
+    private _2dxFX_Distortion[] worldDistortionEffects;
+
     private CanvasGroup canvasGroupFade;
     private Graphic graphicToEnable;
 
@@ -33,6 +36,11 @@ public class OnFocusShow : OnFocusModifierBase
     protected override void OnGameFocusChanged(bool hasFocus)
     {
         base.OnGameFocusChanged(hasFocus);
+
+        if (this.invertLogic)
+            hasFocus = !hasFocus;
+
+        var alphaValue = hasFocus ? this.MaxAlpha : this.MinAlpha;
 
         switch (showMode)
         {
@@ -50,27 +58,50 @@ public class OnFocusShow : OnFocusModifierBase
             case EShowMode.Alpha:
                 if (this.canvasGroupFade != null)
                 {
-                    this.canvasGroupFade.alpha = hasFocus ? this.MaxAlpha : this.MinAlpha;
-                    if(this.shouldModifyCanvasBlockRaycasts)
+                    this.canvasGroupFade.alpha = alphaValue;
+                    if (this.shouldModifyCanvasBlockRaycasts)
                     {
                         this.canvasGroupFade.interactable = hasFocus;
                         this.canvasGroupFade.blocksRaycasts = hasFocus;
                     }
                 }
+
+                this.worldDistortionEffects ??= GetComponentsInChildren<_2dxFX_Distortion>(true);
+                
+                foreach (var effect in this.worldDistortionEffects)
+                {
+                    effect._Alpha = alphaValue;
+                    effect.gameObject.SetActive(alphaValue > 0f);
+                }
                 break;
 
             case EShowMode.Fade:
-                
+
                 if (this.canvasGroupFade != null)
                 {
                     this.fadeTween?.Kill();
 
-                    this.fadeTween = this.canvasGroupFade.DOFade(hasFocus ? this.MaxAlpha : this.MinAlpha, this.fadeDuration);
-                    if(this.shouldModifyCanvasBlockRaycasts)
+                    this.fadeTween = this.canvasGroupFade.DOFade(alphaValue, this.fadeDuration);
+                    if (this.shouldModifyCanvasBlockRaycasts)
                     {
                         this.canvasGroupFade.interactable = hasFocus;
                         this.canvasGroupFade.blocksRaycasts = hasFocus;
                     }
+                }
+                
+                this.worldDistortionEffects ??= GetComponentsInChildren<_2dxFX_Distortion>(true);
+                
+                foreach (var effect in this.worldDistortionEffects)
+                {
+                    DOTween.To(() => effect._Alpha, x => effect._Alpha = x, alphaValue, this.fadeDuration).OnStart(() =>
+                    {
+                        if (alphaValue > 0f)
+                            effect.gameObject.SetActive(true);
+                    }).OnComplete(() =>
+                    {
+                        if (alphaValue <= 0f)
+                            effect.gameObject.SetActive(false);
+                    });
                 }
                 break;
         }

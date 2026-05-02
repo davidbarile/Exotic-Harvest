@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlatformBasedModifierBase : MonoBehaviour
+public abstract class PlatformBasedModifierBase : MonoBehaviour
     {
         protected enum ECallType
         {
