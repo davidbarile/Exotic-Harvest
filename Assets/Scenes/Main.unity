@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.8509804}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.74509805}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1215,6 +1215,11 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6164997889196244783, guid: da0ebcbf61e7846c89872414e71cbd6b, type: 3}
   m_PrefabInstance: {fileID: 1595215822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &84794843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6722656631756754781, guid: 765c4737c6dbd43c683dc40ca7daeed3, type: 3}
+  m_PrefabInstance: {fileID: 129844505287452440}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &101524549
 PrefabInstance:
@@ -4294,7 +4299,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4548929236415506761, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 408814380}
   m_SourcePrefab: {fileID: 100100000, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
 --- !u!224 &299222293 stripped
 RectTransform:
@@ -4317,6 +4325,7 @@ GameObject:
   - component: {fileID: 308471513}
   - component: {fileID: 308471514}
   - component: {fileID: 308471515}
+  - component: {fileID: 308471516}
   m_Layer: 0
   m_Name: Meadow --------
   m_TagString: Untagged
@@ -4366,7 +4375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd37c7d0d2d7044ab9a6522ea4efa767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnFocusUiAnchors
-  eventListenerType: 1
+  eventListenerType: 0
+  invertLogic: 0
   shouldAppendObjectName: 0
   focusedAnchor:
     CopyCurrentRectTransformProperties: 0
@@ -4404,6 +4414,26 @@ MonoBehaviour:
     eulerAngles: {x: 0, y: 0, z: 0}
     overrideScale: 1
     localScale: {x: 0.5, y: 0.5, z: 0.5}
+--- !u!114 &308471516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308471512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &310586941
 GameObject:
   m_ObjectHideFlags: 0
@@ -4415,6 +4445,7 @@ GameObject:
   - component: {fileID: 310586942}
   - component: {fileID: 310586943}
   - component: {fileID: 310586944}
+  - component: {fileID: 310586945}
   m_Layer: 0
   m_Name: Beach --------
   m_TagString: Untagged
@@ -4463,7 +4494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd37c7d0d2d7044ab9a6522ea4efa767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnFocusUiAnchors
-  eventListenerType: 1
+  eventListenerType: 0
+  invertLogic: 0
   shouldAppendObjectName: 0
   focusedAnchor:
     CopyCurrentRectTransformProperties: 0
@@ -4501,6 +4533,26 @@ MonoBehaviour:
     eulerAngles: {x: 0, y: 0, z: 0}
     overrideScale: 1
     localScale: {x: 0.5, y: 0.5, z: 0.5}
+--- !u!114 &310586945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310586941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &328139441
 GameObject:
   m_ObjectHideFlags: 0
@@ -4744,7 +4796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &341083976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6050,6 +6102,31 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9002296622951132387, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
   m_PrefabInstance: {fileID: 31799396}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &408814377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4548929236415506761, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
+  m_PrefabInstance: {fileID: 299222292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &408814380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408814377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &423916580
 GameObject:
   m_ObjectHideFlags: 0
@@ -6211,6 +6288,7 @@ GameObject:
   - component: {fileID: 427284655}
   - component: {fileID: 427284657}
   - component: {fileID: 427284656}
+  - component: {fileID: 427284658}
   m_Layer: 10
   m_Name: Night Sky Search Area (Telescope)
   m_TagString: Untagged
@@ -6297,6 +6375,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427284654}
   m_CullTransparentMesh: 1
+--- !u!114 &427284658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427284654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &432278402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6811,6 +6909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465700225}
   - component: {fileID: 465700226}
+  - component: {fileID: 465700227}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -6847,6 +6946,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465700224}
   m_CullTransparentMesh: 1
+--- !u!114 &465700227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465700224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 0
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 1
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 0.5
 --- !u!1001 &470907057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12382,6 +12501,7 @@ GameObject:
   - component: {fileID: 562911834}
   - component: {fileID: 562911835}
   - component: {fileID: 562911836}
+  - component: {fileID: 562911837}
   m_Layer: 5
   m_Name: Maximize Panel
   m_TagString: Untagged
@@ -12434,6 +12554,26 @@ MonoBehaviour:
   _hideType: 1
   _callType: 1
   _reverseLogic: 0
+--- !u!114 &562911837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562911833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 1
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &567015229
 GameObject:
   m_ObjectHideFlags: 0
@@ -12682,12 +12822,32 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8871104254807713160, guid: 765c4737c6dbd43c683dc40ca7daeed3, type: 3}
   m_PrefabInstance: {fileID: 129844505287452440}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 84794843}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+--- !u!114 &602457241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84794843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &602627520
 GameObject:
   m_ObjectHideFlags: 0
@@ -13127,6 +13287,7 @@ GameObject:
   - component: {fileID: 620321883}
   - component: {fileID: 620321885}
   - component: {fileID: 620321884}
+  - component: {fileID: 620321886}
   m_Layer: 0
   m_Name: Clocks
   m_TagString: Untagged
@@ -13218,6 +13379,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620321882}
   m_CullTransparentMesh: 1
+--- !u!114 &620321886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620321882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &623559875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13837,52 +14018,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!21 &677270217
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.005
-    - _DistanceY: 0.005
-    - _OffsetX: 10
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 2.0115628
-    - _WaveTimeY: 2.0115628
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &680101484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14031,6 +14166,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695710654}
   m_CullTransparentMesh: 1
+--- !u!21 &708636434
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.01
+    - _DistanceY: 0
+    - _OffsetX: 60
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 0
+    - _WaveTimeY: 0.12
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &716945322
 GameObject:
   m_ObjectHideFlags: 0
@@ -14482,7 +14663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.8509804}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -14518,6 +14699,7 @@ GameObject:
   m_Component:
   - component: {fileID: 745700618}
   - component: {fileID: 745700619}
+  - component: {fileID: 745700620}
   m_Layer: 5
   m_Name: Panels
   m_TagString: Untagged
@@ -14557,6 +14739,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745700617}
   m_CullTransparentMesh: 1
+--- !u!114 &745700620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745700617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &747597514
 GameObject:
   m_ObjectHideFlags: 0
@@ -15213,6 +15415,7 @@ GameObject:
   - component: {fileID: 801699085}
   - component: {fileID: 801699086}
   - component: {fileID: 801699087}
+  - component: {fileID: 801699088}
   m_Layer: 0
   m_Name: Ocean --------
   m_TagString: Untagged
@@ -15261,7 +15464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd37c7d0d2d7044ab9a6522ea4efa767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnFocusUiAnchors
-  eventListenerType: 1
+  eventListenerType: 0
+  invertLogic: 0
   shouldAppendObjectName: 0
   focusedAnchor:
     CopyCurrentRectTransformProperties: 0
@@ -15299,6 +15503,26 @@ MonoBehaviour:
     eulerAngles: {x: 0, y: 0, z: 0}
     overrideScale: 1
     localScale: {x: 0.5, y: 0.5, z: 0.5}
+--- !u!114 &801699088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801699084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &803714394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15674,6 +15898,7 @@ GameObject:
   - component: {fileID: 834134352}
   - component: {fileID: 834134351}
   - component: {fileID: 834134355}
+  - component: {fileID: 834134356}
   m_Layer: 0
   m_Name: Rays
   m_TagString: Untagged
@@ -15733,8 +15958,8 @@ MonoBehaviour:
   _OffsetY: 10
   _DistanceX: 0.005
   _DistanceY: 0.005
-  _WaveTimeX: 2.1328478
-  _WaveTimeY: 2.1328478
+  _WaveTimeX: 0.06286207
+  _WaveTimeY: 0.06286207
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 5
   AutoPlayWaveY: 1
@@ -15755,7 +15980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 677270217}
+  m_Material: {fileID: 858039177}
   m_Color: {r: 1, g: 0.97524023, b: 0.48584908, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -15793,6 +16018,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &834134356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834134349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!224 &835013834 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9037005329144101455, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
@@ -15952,6 +16197,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!21 &858039177
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.005
+    - _DistanceY: 0.005
+    - _OffsetX: 10
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 0
+    - _WaveTimeY: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &861149491
 GameObject:
   m_ObjectHideFlags: 0
@@ -17923,7 +18214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -19158,7 +19449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.8509804}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -20410,6 +20701,7 @@ GameObject:
   - component: {fileID: 1195347945}
   - component: {fileID: 1195347947}
   - component: {fileID: 1195347946}
+  - component: {fileID: 1195347948}
   m_Layer: 5
   m_Name: Notifications Canvas
   m_TagString: Untagged
@@ -20478,6 +20770,26 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1195347948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195347944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &1195431149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21834,7 +22146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.74509805}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -22528,7 +22840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -23252,7 +23564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -24559,7 +24871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15070.564, y: -4171}
+  m_AnchoredPosition: {x: 15496.4795, y: -4171}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1532866612
@@ -25528,6 +25840,7 @@ GameObject:
   - component: {fileID: 1596819490}
   - component: {fileID: 1596819489}
   - component: {fileID: 1596819492}
+  - component: {fileID: 1596819493}
   m_Layer: 5
   m_Name: Buttons_Show/Hide Panels
   m_TagString: Untagged
@@ -25640,6 +25953,26 @@ MonoBehaviour:
     eulerAngles: {x: 0, y: 0, z: 0}
     overrideScale: 1
     localScale: {x: 2, y: 2, z: 1}
+--- !u!114 &1596819493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596819487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &1603679873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26646,7 +26979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.74509805}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -26721,7 +27054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -27579,6 +27912,7 @@ MonoBehaviour:
   - {fileID: 834134352}
   - {fileID: 1866932730}
   maximizePanel: {fileID: 562911833}
+  defaultSpriteMaterial: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   litShaderMaterial: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
   timeAndWeatherPanel: {fileID: 888046066}
   panelsButtons: {fileID: 1596819487}
@@ -29137,7 +29471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -29419,6 +29753,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777070539}
   m_CullTransparentMesh: 1
+--- !u!21 &1786150947
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.015
+    - _DistanceY: 0.01
+    - _OffsetX: 10
+    - _OffsetY: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 4.1697426
+    - _WaveTimeY: 4.9632955
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1788022270
 GameObject:
   m_ObjectHideFlags: 0
@@ -29589,7 +29969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.74509805}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -29664,7 +30044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: e46762a2ce789413592583c07b1a5b9f, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.8509804}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -30031,8 +30411,8 @@ MonoBehaviour:
   _OffsetY: 1
   _DistanceX: 0.015
   _DistanceY: 0.01
-  _WaveTimeX: 3.8777158
-  _WaveTimeY: 2.0899568
+  _WaveTimeX: 4.20746
+  _WaveTimeY: 4.9884405
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 3
   AutoPlayWaveY: 1
@@ -30053,7 +30433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 2124432120}
+  m_Material: {fileID: 1786150947}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -30497,6 +30877,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1924561701}
   - component: {fileID: 1924561702}
+  - component: {fileID: 1924561703}
+  - component: {fileID: 1924561704}
+  - component: {fileID: 1924561705}
   m_Layer: 0
   m_Name: Rain Parent
   m_TagString: Untagged
@@ -30532,6 +30915,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924561700}
   m_CullTransparentMesh: 1
+--- !u!225 &1924561703
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924561700}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1924561704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924561700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 0
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 3
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 0.5
+  MinAlpha: 0.01
+  MaxAlpha: 1
+--- !u!114 &1924561705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924561700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &1928624120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31114,6 +31549,31 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3224604542237942958, guid: b043506608d3741febebc4f27c793d43, type: 3}
   m_PrefabInstance: {fileID: 1954603256}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1956352963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4548929236415506761, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
+  m_PrefabInstance: {fileID: 4335202653316627422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1956352966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956352963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1958703081
 GameObject:
   m_ObjectHideFlags: 0
@@ -31928,52 +32388,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3224604542237942958, guid: b043506608d3741febebc4f27c793d43, type: 3}
   m_PrefabInstance: {fileID: 470907057}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &2062846604
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.01
-    - _DistanceY: 0
-    - _OffsetX: 60
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 2.0115628
-    - _WaveTimeY: 0.12
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &2068229388
 GameObject:
   m_ObjectHideFlags: 0
@@ -32217,6 +32631,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2093845107}
   - component: {fileID: 2093845108}
+  - component: {fileID: 2093845109}
+  - component: {fileID: 2093845110}
   m_Layer: 5
   m_Name: StarDust
   m_TagString: Untagged
@@ -32252,6 +32668,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093845106}
   m_CullTransparentMesh: 1
+--- !u!114 &2093845109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093845106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 0
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 1
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 0.5
+--- !u!114 &2093845110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093845106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &2100942422
 GameObject:
   m_ObjectHideFlags: 0
@@ -32265,6 +32721,7 @@ GameObject:
   - component: {fileID: 2100942427}
   - component: {fileID: 2100942428}
   - component: {fileID: 2100942429}
+  - component: {fileID: 2100942430}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -32311,7 +32768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 2062846604}
+  m_Material: {fileID: 708636434}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -32348,7 +32805,7 @@ MonoBehaviour:
   _OffsetY: 10
   _DistanceX: 0.01
   _DistanceY: 0
-  _WaveTimeX: 2.1328478
+  _WaveTimeX: 0.06286207
   _WaveTimeY: 0.12
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 5
@@ -32370,6 +32827,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &2100942430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100942422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &2116852277
 GameObject:
   m_ObjectHideFlags: 0
@@ -32634,52 +33111,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2749251519718306862, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
   m_PrefabInstance: {fileID: 2119050536}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &2124432120
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.015
-    - _DistanceY: 0.01
-    - _OffsetX: 10
-    - _OffsetY: 1
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 3.8049448
-    - _WaveTimeY: 2.0414429
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &2127364336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32895,6 +33326,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2139499901}
   - component: {fileID: 2139499902}
+  - component: {fileID: 2139499903}
+  - component: {fileID: 2139499904}
   m_Layer: 0
   m_Name: Moon
   m_TagString: Untagged
@@ -32930,6 +33363,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139499900}
   m_CullTransparentMesh: 1
+--- !u!114 &2139499903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139499900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 0
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 1
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 0.5
+--- !u!114 &2139499904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139499900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &2139969572
 GameObject:
   m_ObjectHideFlags: 0
@@ -33079,11 +33552,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
   eventListenerType: 2
+  invertLogic: 0
   shouldAppendObjectName: 0
-  showMode: 3
+  showMode: 0
   shouldModifyCanvasBlockRaycasts: 1
   fadeDuration: 1
-  MinAlpha: 0
+  MinAlpha: 0.02
   MaxAlpha: 0.5
 --- !u!1001 &129844505287452440
 PrefabInstance:
@@ -33316,7 +33790,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6722656631756754781, guid: 765c4737c6dbd43c683dc40ca7daeed3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 602457241}
   m_SourcePrefab: {fileID: 100100000, guid: 765c4737c6dbd43c683dc40ca7daeed3, type: 3}
 --- !u!1 &416155549291091963
 GameObject:
@@ -34936,7 +35413,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4548929236415506761, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1956352966}
   m_SourcePrefab: {fileID: 100100000, guid: 53a8365d531fc4e8f8b21493553475f7, type: 3}
 --- !u!1 &4335202653316627423 stripped
 GameObject:
@@ -35898,6 +36378,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6511144734426984694}
+    - targetCorrespondingSourceObject: {fileID: 525216206286645974, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6511144734426984697}
   m_SourcePrefab: {fileID: 100100000, guid: 9989559dc46e64ac28f701dfe984597a, type: 3}
 --- !u!224 &6511144734426984687 stripped
 RectTransform:
@@ -35931,7 +36414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
-  eventListenerType: 2
+  eventListenerType: 0
+  invertLogic: 0
   shouldAppendObjectName: 0
   showMode: 3
   shouldModifyCanvasBlockRaycasts: 0
@@ -35950,6 +36434,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &6511144734426984697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6511144734426984690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1001 &6526947365210157335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35958,9 +36462,105 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1116631535}
     m_Modifications:
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 968247995273246728, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373045628030530325, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373045628030530325, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373045628030530325, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373045628030530325, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373045628030530325, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441827384206084344, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834106457941944632, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7010914385700575908, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
       propertyPath: m_Name
       value: Confirm Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7010914385700575908, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9045518505723671347, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
       propertyPath: m_Pivot.x
@@ -35992,7 +36592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9045518505723671347, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9045518505723671347, guid: 246b36591313e4b9d97539ad03fb8dcd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36295,7 +36895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3423075210695195004, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.9215164
+      value: -33.741974
       objectReference: {fileID: 0}
     - target: {fileID: 8305641842401051103, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_fontColor32.rgba

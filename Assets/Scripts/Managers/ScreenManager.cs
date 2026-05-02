@@ -24,6 +24,9 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private GameObject maximizePanel;
 
+    public Material DefaultSpriteMaterial => this.defaultSpriteMaterial;
+    [SerializeField] private Material defaultSpriteMaterial;
+    public Material LitShaderMaterial => this.litShaderMaterial;
     [SerializeField] private Material litShaderMaterial;
 
     [Header("Items to Hide on Minimize")]
@@ -229,13 +232,13 @@ public class ScreenManager : MonoBehaviour
 
         this.rootCanvasGroup.gameObject.SetActive(true);
         var alpha = this.rootCanvasGroup.alpha;
-        DOVirtual.Float(alpha, 1f, 0.3f, value =>
+        DOVirtual.Float(alpha, 1f, 0.5f, value =>
         {
             SetWordEffectsAlpha(value);
         });
 
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
-        this.rootCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        this.rootCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, true, 1f);
         });
@@ -243,7 +246,7 @@ public class ScreenManager : MonoBehaviour
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
         this.worldCanvasGroup.gameObject.SetActive(true);
         
-        this.worldCanvasGroup.DOFade(1f, 0.3f).OnComplete(() =>
+        this.worldCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.worldCanvasGroup, true, 1f);
         });
@@ -256,20 +259,20 @@ public class ScreenManager : MonoBehaviour
         SetCollidersEnabled(false);
         
         var alpha = this.rootCanvasGroup.alpha;
-        DOVirtual.Float(alpha, 0f, 0.3f, value =>
+        DOVirtual.Float(alpha, 0f, 0.5f, value =>
         {
             SetWordEffectsAlpha(value);
         });
 
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
-        this.rootCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
+        this.rootCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.rootCanvasGroup, false, 0f);
             this.rootCanvasGroup.gameObject.SetActive(false);
         });
 
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
-        this.worldCanvasGroup.DOFade(0f, 0.3f).OnComplete(() =>
+        this.worldCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
         {
             SetCanvasGroupInteractable(this.worldCanvasGroup, false, 0f);
             this.worldCanvasGroup.gameObject.SetActive(false);
