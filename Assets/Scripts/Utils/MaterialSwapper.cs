@@ -37,23 +37,23 @@ public class MaterialSwapper : MonoBehaviour
         ScreenManager.OnMinimizeMaximizeToggled -= OnMinimizeMaximizeToggled;
     }
 
-    private void OnMinimizeMaximizeToggled(bool isMinimized)
+    private void OnMinimizeMaximizeToggled(bool inIsMaximized)
     {
         if (ScreenManager.IN == null)
         {
             Debug.Log($"[{this.name}] ScreenManager instance is null. Cannot swap materials.", this.gameObject);
             return;
         }
-        
-        if (isMinimized)
+
+        if (inIsMaximized)
         {
-            // Swap to the minimized material
-            this.image.material = ScreenManager.IN.DefaultSpriteMaterial;
+            // Swap to the original material
+            this.image.material = ScreenManager.IN.LitShaderMaterial;
         }
         else
         {
-            // Swap back to the original material
-            this.image.material = ScreenManager.IN.LitShaderMaterial;
+            // Swap to the minimized material
+            this.image.material = ScreenManager.IN.DefaultSpriteMaterial;
         }
     }
 }
