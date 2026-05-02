@@ -19,8 +19,6 @@ public class Raindrop : Collectable
     
     public override void Spawn()
     {
-        //this.resourceType = EResourceType.Rain;
-        // this.collectionType = ECollectionMethod.DragCollector;
         this.amount = 1;
 
         base.Spawn();

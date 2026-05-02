@@ -14,7 +14,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private bool isAudioEnabled = true;
 
     [Space]
-
     [SerializeField] private AudioSource activeMusicSource, inactiveMusicSource;
     [SerializeField] private AudioSource activeAmbientSource, inactiveAmbientSource;
 
@@ -63,6 +62,8 @@ public class AudioManager : MonoBehaviour
 
     private DateTime lastMusicChangeHour = DateTime.MinValue;
     private DateTime lastAmbientChangeHour = DateTime.MinValue;
+
+    private ETimeOfDay lastTimeOfDay;
 
     public void Init()
     {
@@ -125,23 +126,29 @@ public class AudioManager : MonoBehaviour
         if (WeatherManager.CurrentWeather == WeatherManager.LastWeather)
             return;
 
-        ChangeMusic();
-        ChangeAmbient();
+        ChangeMusic(true);
+        ChangeAmbient(true);
     }
 
     private void OnHourChanged(float inHour)
     {
         var musicMinutesElapsed = (DateTime.Now - this.lastMusicChangeHour).TotalMinutes;
         musicMinutesElapsed *= TimeManager.IN.TimeScale;
+
+        //if time of day or weather changed, force new music to play
+        var isNewTimeOfDay = TimeManager.CurrentTimeOfDay != this.lastTimeOfDay;
+        var forceChange = isNewTimeOfDay && WeatherManager.IsClear;
+
+        //UiManager.IN.SetDebugText($"AudioManager.OnHourChanged()   CurrentTimeOfDay: {TimeManager.CurrentTimeOfDay},  LastTimeOfDay: {this.lastTimeOfDay},  CurrentWeather: {WeatherManager.CurrentWeather},  LastWeather: {WeatherManager.LastWeather}", true);
         //UiManager.IN.SetDebugText($"OnHourChanged({inHour})  musicMinutesElapsed: {musicMinutesElapsed} / {this.minutesBetweenMusicChanges}", true);
-        if (musicMinutesElapsed > this.minutesBetweenMusicChanges)
+        if (forceChange || musicMinutesElapsed > this.minutesBetweenMusicChanges)
         {
             this.lastMusicChangeHour = DateTime.Now;
 
             this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
 
-            if (UnityEngine.Random.value < this.musicChangeChance)
-                ChangeMusic();
+            if (forceChange || UnityEngine.Random.value < this.musicChangeChance)
+                ChangeMusic(false);
         }
 
         var ambientSecondsElapsed = (DateTime.Now - this.lastAmbientChangeHour).TotalSeconds;
@@ -156,6 +163,8 @@ public class AudioManager : MonoBehaviour
             if (UnityEngine.Random.value < this.ambientChangeChance)
                 ChangeAmbient();
         }
+
+        this.lastTimeOfDay = TimeManager.CurrentTimeOfDay;
     }
 
     private void PlayOrCrossfadeMusic(AudioClip inNewClip)
@@ -174,11 +183,12 @@ public class AudioManager : MonoBehaviour
 
         var musicVolume = this.isMaximized ? SaveManager.Data.MusicVolume : SaveManager.Data.MusicVolume_Minimized;
 
+        //if nothing is playing, just play new clip without fading
         if (!this.inactiveMusicSource.isPlaying)
         {
-            this.inactiveMusicSource.clip = inNewClip;
-            this.inactiveMusicSource.volume = musicVolume;
-            this.inactiveMusicSource.Play();
+            this.activeMusicSource.clip = inNewClip;
+            this.activeMusicSource.volume = musicVolume;
+            this.activeMusicSource.Play();
             return;
         }
 
@@ -188,6 +198,7 @@ public class AudioManager : MonoBehaviour
         this.inactiveMusicTween = this.inactiveMusicSource.DOFade(0, this.audioFadeDuration).OnComplete(() => { this.inactiveMusicSource.Pause(); });
 
         //fade in new
+        this.activeMusicSource.Stop();//just in case
         this.activeMusicSource.clip = inNewClip;
         this.activeMusicSource.volume = 0;
         this.activeMusicSource.Play();
@@ -210,11 +221,12 @@ public class AudioManager : MonoBehaviour
         this.activeAmbientSource = this.inactiveAmbientSource;
         this.inactiveAmbientSource = temp;
 
+        //if nothing is playing, just play new clip without fading
         if (!this.inactiveAmbientSource.isPlaying)
         {
-            this.inactiveAmbientSource.clip = inNewClip;
-            this.inactiveAmbientSource.volume = ambientVolume;
-            this.inactiveAmbientSource.Play();
+            this.activeAmbientSource.clip = inNewClip;
+            this.activeAmbientSource.volume = ambientVolume;
+            this.activeAmbientSource.Play();
             return;
         }
 
@@ -224,6 +236,7 @@ public class AudioManager : MonoBehaviour
         this.inactiveAmbientTween = this.inactiveAmbientSource.DOFade(0, this.audioFadeDuration).OnComplete(() => { this.inactiveAmbientSource.Pause(); });
 
         //fade in new
+        this.activeAmbientSource.Stop();//just in case
         this.activeAmbientSource.clip = inNewClip;
         this.activeAmbientSource.volume = 0;
         this.activeAmbientSource.Play();
@@ -232,17 +245,14 @@ public class AudioManager : MonoBehaviour
             this.activeAmbientTween = this.activeAmbientSource.DOFade(ambientVolume, this.audioFadeDuration);
     }
 
-    private void ChangeMusic()
+    private void ChangeMusic(bool isWeatherChange = false)
     {
         if (!this.isAudioEnabled)
             return;
 
-        var timeOfDay = TimeManager.CurrentTimeOfDay;
-        var weather = WeatherManager.CurrentWeather;
-
         var newClip = GetMusicClipForCurrentConditions();
 
-        //UiManager.IN.SetDebugText($"AudioManager.ChangeMusic({timeOfDay}, {weather})   NewMusicClip: {newClip?.name}", true);
+        UiManager.IN.SetDebugText($"AudioManager.ChangeMusic({TimeManager.CurrentTimeOfDay}, {WeatherManager.CurrentWeather})   NewMusicClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -253,12 +263,12 @@ public class AudioManager : MonoBehaviour
         {
             var matchingClips = new List<AudioClip>();
 
-            if (weather == EWeatherType.Clear)
+            if (WeatherManager.IsClear)
             {
                 //clear day
                 foreach (var audioConfig in this.musicConfigs)
                 {
-                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
+                    if (audioConfig.TimeOfDay.HasFlag(TimeManager.CurrentTimeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
                     {
                         matchingClips.AddRange(audioConfig.AudioClips);
                     }
@@ -269,7 +279,7 @@ public class AudioManager : MonoBehaviour
                 //rain, storm, wind, snow, foggy
                 foreach (var audioConfig in this.musicConfigs)
                 {
-                    if (audioConfig.WeatherType.HasFlag(weather))
+                    if (audioConfig.WeatherType.HasFlag(WeatherManager.CurrentWeather))
                     {
                         matchingClips.AddRange(audioConfig.AudioClips);
                     }
@@ -286,22 +296,19 @@ public class AudioManager : MonoBehaviour
                 return matchingClips[UnityEngine.Random.Range(0, matchingClips.Count)];
             }
 
-            Debug.Log($"<color=red>AudioManager.GetMusicClipForCurrentConditions()   No matching AudioConfig found for {timeOfDay} and {weather}! Returning null.</color>");
+            Debug.Log($"<color=red>AudioManager.GetMusicClipForCurrentConditions()   No matching AudioConfig found for {TimeManager.CurrentTimeOfDay} and {WeatherManager.CurrentWeather}! Returning null.</color>");
             return null;
         }
     }
 
-    private void ChangeAmbient()
+    private void ChangeAmbient(bool isWeatherChange = false)
     {
         if (!this.isAudioEnabled)
             return;
-
-        var timeOfDay = TimeManager.CurrentTimeOfDay;
-        var weather = WeatherManager.CurrentWeather;
             
         var newClip = GetAmbientClipForCurrentConditions();
 
-        //UiManager.IN.SetDebugText($"AudioManager.ChangeAmbient({timeOfDay}, {weather})   NewAmbientClip: {newClip?.name}", true);
+        //UiManager.IN.SetDebugText($"AudioManager.ChangeAmbient({TimeManager.CurrentTimeOfDay}, {WeatherManager.CurrentWeather})   NewAmbientClip: {newClip?.name}", true);
 
         if (newClip != null)
         {
@@ -312,12 +319,12 @@ public class AudioManager : MonoBehaviour
         {
             var matchingClips = new List<AudioClip>();
 
-            if (weather == EWeatherType.Clear || weather == EWeatherType.Foggy)
+            if (WeatherManager.IsClear || WeatherManager.IsFoggy)
             {
                 //clear day
                 foreach (var audioConfig in this.ambientConfigs)
                 {
-                    if (audioConfig.TimeOfDay.HasFlag(timeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
+                    if (audioConfig.TimeOfDay.HasFlag(TimeManager.CurrentTimeOfDay) && audioConfig.WeatherType == EWeatherType.Clear)
                     {
                         matchingClips.AddRange(audioConfig.AudioClips);
                     }
@@ -328,7 +335,7 @@ public class AudioManager : MonoBehaviour
                 //rain, storm, wind, snow, foggy
                 foreach (var audioConfig in this.ambientConfigs)
                 {
-                    if (audioConfig.WeatherType.HasFlag(weather))
+                    if (audioConfig.WeatherType.HasFlag(WeatherManager.CurrentWeather))
                     {
                         matchingClips.AddRange(audioConfig.AudioClips);
                     }
@@ -345,7 +352,7 @@ public class AudioManager : MonoBehaviour
                 return matchingClips[UnityEngine.Random.Range(0, matchingClips.Count)];
             }
 
-            Debug.Log($"<color=red>AudioManager.GetAmbientClipForCurrentConditions()   No matching AudioConfig found for {timeOfDay} and {weather}! Returning null.</color>");
+            Debug.Log($"<color=red>AudioManager.GetAmbientClipForCurrentConditions()   No matching AudioConfig found for {TimeManager.CurrentTimeOfDay} and {WeatherManager.CurrentWeather}! Returning null.</color>");
             return null;
         }
     }

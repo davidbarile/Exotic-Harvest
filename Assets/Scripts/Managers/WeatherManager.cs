@@ -34,6 +34,9 @@ public class WeatherManager : MonoBehaviour, ITickable
     public static EWeatherType LastWeather { get; private set; }
     public static float WeatherIntensity => IN.weatherIntensity;
     public static bool IsRaining => IN.currentWeather.HasFlag(EWeatherType.Rain) || IN.currentWeather.HasFlag(EWeatherType.Storm);
+    public static bool IsWindy => IN.currentWeather.HasFlag(EWeatherType.Wind);
+    public static bool IsFoggy => IN.currentWeather.HasFlag(EWeatherType.Foggy);
+    public static bool IsClear => IN.currentWeather == EWeatherType.Clear;
     
     private IEnumerator Start()
     {
@@ -74,8 +77,6 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private void ChangeWeather()
     {
-        LastWeather = this.currentWeather;
-        
         // Simple weather transition logic
         EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
         this.currentWeather = possibleWeathers[UnityEngine.Random.Range(0, possibleWeathers.Length)];
@@ -104,6 +105,7 @@ public class WeatherManager : MonoBehaviour, ITickable
         }
 
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
+        LastWeather = this.currentWeather;
     }
     
     private EWeatherType[] GetPossibleWeathers(EWeatherType current)

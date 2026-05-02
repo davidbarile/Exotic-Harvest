@@ -34,7 +34,8 @@ public class TimeManager : MonoBehaviour, ITickable
 
     // Properties
     public static ETimeOfDay CurrentTimeOfDay => IN.currentTimeOfDay;
-    public static ETimeOfDay LastTimeOfDay { get; private set; }
+    public static ETimeOfDay LastTimeOfDay => IN.lastTimeOfDay;
+    private ETimeOfDay lastTimeOfDay = ETimeOfDay.Morning;
     public static float CurrentHour => IN.currentHour;
     public static float DayProgress => IN.currentHour / 24f; // 0-1 progress through day
     
@@ -89,7 +90,7 @@ public class TimeManager : MonoBehaviour, ITickable
         ETimeOfDay newTimeOfDay = GetTimeOfDayFromHour(this.currentHour);
         if (newTimeOfDay != this.currentTimeOfDay)
         {
-            LastTimeOfDay = this.currentTimeOfDay;
+            this.lastTimeOfDay = this.currentTimeOfDay;
             this.currentTimeOfDay = newTimeOfDay;
             OnTimeOfDayChanged?.Invoke(this.currentTimeOfDay);
         }
@@ -100,11 +101,11 @@ public class TimeManager : MonoBehaviour, ITickable
     
     private ETimeOfDay GetTimeOfDayFromHour(float hour)
     {
-        if (hour >= 6f && hour < 12f)
+        if (hour >= 5f && hour < 12f)
             return ETimeOfDay.Morning;
         else if (hour >= 12f && hour < 16f)
             return ETimeOfDay.Afternoon;
-        else if (hour >= 16f && hour < 20f)
+        else if (hour >= 16f && hour < 19f)
             return ETimeOfDay.Evening;
         else
             return ETimeOfDay.Night;

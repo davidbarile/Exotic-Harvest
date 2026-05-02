@@ -18,8 +18,7 @@ public class Dewdrop : Collectable
 
     public override void Spawn()
     {
-        //this.resourceType = EResourceType.Dew;
-        //this.collectionType = ECollectionMethod.Click;
+        base.Spawn();
         this.amount = 1;
 
         this.canvasGroup.alpha = 0f;
@@ -36,8 +35,6 @@ public class Dewdrop : Collectable
             .Append(this.transform.DOScale(this.initScale * 0.1f, this.lifetime * 0.5f))
             .Append(this.canvasGroup.DOFade(0f, 5f))
             .OnComplete(() => base.OnCollected());
-
-        base.Spawn();
     }
 
     protected override void OnCollected()

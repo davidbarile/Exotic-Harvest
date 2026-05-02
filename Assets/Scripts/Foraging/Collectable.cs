@@ -33,14 +33,17 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
 
     protected virtual void Awake()
     {
-        if (this.collectableImage == null)
+        if (!this.collectableImage)
             this.collectableImage = GetComponent<Image>();
 
         this.canvasGroup = GetComponent<CanvasGroup>();
     }
     
     public virtual void Spawn()
-    {            
+    {
+        if (!this.canvasGroup)
+            this.canvasGroup = GetComponent<CanvasGroup>();
+         
         this.spawnTime = Time.time;
         
         if (this.lifetime > 0)

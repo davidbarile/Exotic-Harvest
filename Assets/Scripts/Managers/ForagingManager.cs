@@ -366,7 +366,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon || this.debugIgnoreTimeOfDayAndWeather)
                 this.rockPile.InitRockPositions();//do once when it turns afternoon
 
-            //spawn rocks every hour in the Afternoon
+            //refresh rocks every hour in the Afternoon
             if (TimeManager.CurrentHour > this.nextRockRefreshTime)
             {
                 if (this.rockRefreshFrequency == 1f)
