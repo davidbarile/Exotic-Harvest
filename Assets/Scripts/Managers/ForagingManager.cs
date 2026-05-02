@@ -150,6 +150,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         if (this.debugSpawnRocks)
             DebugSpawnRocks();
+        else
+            this.rockPile.InitRockPositions();//do once when it turns afternoon
 
         if (this.debugSpawnAllMeadowSearchables)
             DebugSpawnMeadowSearchables();
@@ -372,7 +374,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 else
                     this.nextRockRefreshTime = TimeManager.CurrentHour + this.rockRefreshFrequency;
 
-                this.rockPile.SpawnRocks();
+                this.rockPile.ResetRocks();
             }
         }
         else

@@ -41,6 +41,21 @@ public class RockPile : MonoBehaviour
         }
     }
 
+    public void ResetRocks()
+    {
+        if (this.activeRocks.Count == 0)
+        {
+            SpawnRocks();
+            return;
+        }
+        
+        foreach (var rock in this.activeRocks)
+        {
+            if (rock != null)
+                rock.Reset();
+        }
+    }
+
     public void SpawnRocks()
     {
         ClearRocks(); 
@@ -49,13 +64,11 @@ public class RockPile : MonoBehaviour
         {
             var newRock = PrefabManager.IN.SpawnPrefab<Rock>($"Rock", this.rockSpawnArea);
             newRock.name = $"Rock_{i}";
-            newRock.gameObject.SetActive(true);
 
             //set rocks to grid with random offset, rotation, scale and color variation
-            newRock.transform.localPosition = this.rockSpawnPositions[i];
-
-            newRock.transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
+            newRock.SetPosition(this.rockSpawnPositions[i]);
             newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
+
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
             this.activeRocks.Add(newRock);
         }

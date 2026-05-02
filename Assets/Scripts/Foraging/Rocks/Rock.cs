@@ -16,9 +16,10 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     [SerializeField] private TMP_Text label;
 
     [SerializeField] protected RectTransform targetRectTransform;
-    protected CanvasGroup canvasGroup;
 
-    private Vector3 OffsetFromCursor;
+    protected CanvasGroup canvasGroup;
+    private Vector3 originalPosition;
+    private Vector3 offsetFromCursor;
 
     private Transform originalParent;
     private int originalSiblingIndex;
@@ -27,6 +28,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private List<Loot> spawnedLoots = new();
 
     private bool hasBeenHarvested = false;
+
+    private Tween fadeTween;
 
     private void Awake()
     {
@@ -66,6 +69,51 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             this.shadow.gameObject.SetActive(isActive);
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        this.originalPosition = position;
+        this.targetRectTransform.localPosition = position;
+        this.targetRectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
+            
+        this.gameObject.SetActive(true);
+    }
+
+    public void Reset()
+    {
+        this.hasBeenHarvested = false;
+
+        for (int i = 0; i < this.spawnedLoots.Count; i++)
+        {
+            var loot = this.spawnedLoots[i];
+            if (loot != null)
+                Destroy(loot.gameObject);
+        }
+
+        this.spawnedLoots.Clear();
+
+        if(this.originalParent != null)
+        {
+            this.targetRectTransform.SetParent(this.originalParent, true);
+            this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+        }
+
+        // this.targetRectTransform.SetAsLastSibling();
+        // this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.targetRectTransform.localPosition = this.originalPosition;
+        
+        this.fadeTween?.Kill();
+
+        if (!this.gameObject.activeSelf)
+            this.fadeTween = this.canvasGroup.DOFade(1f, 0.3f).OnComplete(() => this.canvasGroup.interactable = true);
+        else
+        {
+            this.canvasGroup.interactable = true;
+            this.canvasGroup.alpha = 1f;
+        }
+         
+        this.gameObject.SetActive(true);
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         this.isDragging = true;
@@ -77,7 +125,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         TrySpawnLoot();
 
-        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.OffsetFromCursor);
+        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.offsetFromCursor);
         this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
 
         this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
@@ -103,9 +151,11 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         SetShadowActive(false);
 
-        //fade out and destroy rock after dragging
+        //fade out and hide rock after dragging
         this.canvasGroup.interactable = false;
-        this.canvasGroup.DOFade(0f, 0.75f).SetDelay(1f).OnComplete(() => Destroy(this.gameObject));
+
+        this.fadeTween?.Kill();
+        this.fadeTween = this.canvasGroup.DOFade(0f, 0.75f).SetDelay(1f).OnComplete(() => this.gameObject.SetActive(false));
     }
 
     public void TrySpawnLoot()
