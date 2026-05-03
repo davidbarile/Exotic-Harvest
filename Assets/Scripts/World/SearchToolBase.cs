@@ -158,9 +158,9 @@ public class SearchToolBase : DecorationBase //Draggable
         return null;
     }
 
-    public override void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
+    public override void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor, Transform inOriginalParent, int inOriginalSiblingIndex)
     {
-        base.ConfigureFromDrag(inItemData, inOffsetFromCursor);
+        base.ConfigureFromDrag(inItemData, inOffsetFromCursor, inOriginalParent, inOriginalSiblingIndex);
         DoOnBeginDrag();//calls SetLootFieldParent() in MagnifyingGlass and Telescope overrides
     }
 

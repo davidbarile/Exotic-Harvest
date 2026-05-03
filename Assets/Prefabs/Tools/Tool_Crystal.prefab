@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8776988387856860576}
   - component: {fileID: 6769618328763659009}
   - component: {fileID: 1826616977222817347}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Tool_Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 299443244843381461}
   - component: {fileID: 655218947045088202}
   - component: {fileID: 1627848786645917381}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 7733198439197344044}
   - component: {fileID: 6737390488923994892}
   - component: {fileID: 8098834855979571109}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 4681535256830346884}
   - component: {fileID: 2788261919811694844}
   - component: {fileID: 8528135043831553738}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 983323766394712642}
   - component: {fileID: 7223344194635555025}
   - component: {fileID: 642577225819594244}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: World Proxy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,17 +745,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8481164858323049445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2349e56a0c144d62ab4d3ee987fddb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attractor
-  IsActive: 1
+  IsActive: 0
   strength: 65
   maxDistance: 300
   collisionRadius: 54.9
   attractableLayer:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 63
   tagToAttract: Attractable
   linkedPassiveHarvester: {fileID: 0}

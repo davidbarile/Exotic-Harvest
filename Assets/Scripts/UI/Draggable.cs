@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,6 +10,8 @@ using static GlobalEnums;
 public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public static HashSet<DragTarget> CurrentHighlightedTargets = new();
+
+    public Action OnWorldDropFailed;
 
     [Header("Can drag when Drag Mode is Off")]
     [SerializeField] protected bool isDraggingPermanent;
@@ -281,7 +284,16 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         // If not detecting drop targets, just reparent to original parent
         if(!foundTarget)
+        {
+            if (this.OnWorldDropFailed != null)
+            {
+                this.OnWorldDropFailed.Invoke();
+                this.OnWorldDropFailed = null;
+                return false;
+            }
+
             this.targetRectTransform.SetParent(DragManager.IN.WorldDecorationsContainer, true);
+        }
 
         this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
         this.targetRectTransform.SetAsLastSibling();
@@ -294,7 +306,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     }
 
     protected virtual void DoSnapBack()
-    {
+    {        
         if (this.originalParent == null || !this.onlyDragToTargets)
             return;
 

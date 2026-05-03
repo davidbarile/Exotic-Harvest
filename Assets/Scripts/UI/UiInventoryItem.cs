@@ -84,7 +84,7 @@ public class UiInventoryItem : Draggable
                         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
 
                         // Initialize the world item with drag state
-                        worldItem.ConfigureFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor);
+                        worldItem.ConfigureFromDrag(this.ItemData, DragManager.IN.OffsetFromCursor, this.originalParent, this.originalSiblingIndex);
 
                         // Swap the dragged object to the new world item
                         DragManager.IN.SwapDraggedObject(worldItemRect);

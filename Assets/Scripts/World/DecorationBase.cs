@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -97,8 +98,6 @@ public class DecorationBase : Draggable
     public override void OnEndDrag(PointerEventData eventData)
     {
         //detect if Inventory is open and we're over it, if so, add the item back to the inventory and destroy this world item
-        //maybe do it on base
-        base.OnEndDrag(eventData);
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
 
         var parentCanvas = this.GetComponentInParent<Canvas>();
@@ -122,7 +121,7 @@ public class DecorationBase : Draggable
                     {
                         harvester.CollectAll();
                     }
-                    
+
                     //if cell empty, add item to that cell
                     inventoryPanel.SpawnInventoryItemInCell(this.ItemData, cell.CellIndex);
                     SaveManager.Data.InventoryItems[cell.CellIndex] = InventoryItemData.Copy(this.ItemData);
@@ -187,6 +186,11 @@ public class DecorationBase : Draggable
             SaveManager.Data.WorldItems.Remove(this.ItemData);
             Destroy(this.gameObject);
         }
+        else
+        {
+            //maybe do it on base
+            base.OnEndDrag(eventData);
+        }
     }
 
     private void SnapBackToWorldFromInventoryFail()
@@ -198,6 +202,22 @@ public class DecorationBase : Draggable
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
             SaveItemPosition();
+        });
+    }
+
+    private void SnapBackToInventoryFromWorldFail()
+    {
+        UiManager.IN.InventoryPanel.Show();
+
+        var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
+        
+        this.transform.SetParent(UiManager.IN.DragCanvas, true);
+
+        //snap back to original position
+        this.transform.DOMove(origCell.transform.position, 0.2f).OnComplete(() =>
+        {
+            UiManager.IN.InventoryPanel.SpawnInventoryItemInCell(this.ItemData, origCell.CellIndex);
+            Destroy(this.gameObject);
         });
     }
 
@@ -232,7 +252,7 @@ public class DecorationBase : Draggable
         return null;
     }
 
-    public virtual void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor)
+    public virtual void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor, Transform inOriginalParent = null, int inOriginalSiblingIndex = -1)
     {
         Configure(inItemData);
 
@@ -249,8 +269,10 @@ public class DecorationBase : Draggable
         this.offsetFromCursor = inOffsetFromCursor;
         this.originalWorldPosition = this.targetRectTransform.position;
         // this.originalSiblingIndex = 0;
-        this.originalParent = this.targetRectTransform.parent;
-        this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.originalParent = inOriginalParent != null ? inOriginalParent : this.targetRectTransform.parent;
+        this.originalSiblingIndex = inOriginalSiblingIndex != -1 ? inOriginalSiblingIndex : this.targetRectTransform.GetSiblingIndex();
+
+        this.OnWorldDropFailed = SnapBackToInventoryFromWorldFail;
 
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);
     }
