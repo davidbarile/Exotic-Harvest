@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,13 @@ public class UiSettingsPanel : UIPanelBase
     private bool isInitialized;
 
     #region Settings
-    private void Start()
+    private IEnumerator Start()
     {
         if (PlatformManager.IsMobile)
             this.BgAlphaSlider.value = 1f;
+
+        while (SaveManager.Data == null)
+            yield return null;
             
         SaveManager.Data.BgAlpha = this.BgAlphaSlider.value;
     }

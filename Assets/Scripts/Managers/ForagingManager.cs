@@ -56,8 +56,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Header("Moonbeam Settings --------------")]
     [SerializeField] private MoonbeamGenerator moonbeamGenerator;
-
-    private float nextMoonbeamRefreshTime = -1;
+    [SerializeField] private WeightedRandom minMaxTimeBetweenMoonbeamSpawns; // Chance to spawn moonbeam each hour during clear nights
+    private DateTime lastMoonbeamsSpawnHour = DateTime.MinValue;
+    private float secondsUntilNextMoonbeamSpawn = 5f;//gets set by weighted random on start and after each change
 
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
@@ -216,6 +217,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         RefreshRockPile();
         RefreshMeadowSearchables();
         RefreshNightSkySearchables();
+        RefreshMoonbeamGenerator();
     }
 
     private void OnTimeOfDayChanged(ETimeOfDay inNewTime)
@@ -648,17 +650,22 @@ public class ForagingManager : MonoBehaviour, ITickable
     #endregion
 
     #region Moonbeams
-    public void TryActivateMoonbeamGenerator()
+    private void RefreshMoonbeamGenerator()
     {
-        if (this.moonbeamGenerator.gameObject.activeInHierarchy && (WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+        if (!this.moonbeamGenerator.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+            return;
+
+        var secondsElapsed = (DateTime.Now - this.lastMoonbeamsSpawnHour).TotalSeconds;
+        secondsElapsed *= TimeManager.IN.TimeScale;
+
+        if (secondsElapsed > this.secondsUntilNextMoonbeamSpawn)
         {
-            
+            this.lastMoonbeamsSpawnHour = DateTime.Now;
+
+            this.secondsUntilNextMoonbeamSpawn = this.minMaxTimeBetweenMoonbeamSpawns.GetWeightedRandomQuantity();
+
+            this.moonbeamGenerator.SpawnMoonbeams();
         }
-    }
-
-    public void DeactivateMoonbeamGenerator()
-    {
-
     }
     #endregion
 }

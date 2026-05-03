@@ -7,8 +7,10 @@ public class Moonbeam : Collectable
     public override void Spawn()
     {
         base.Spawn();
-        
-        if (!this.anim.isPlaying)
-            this.anim.Play();
+
+        this.gameObject.SetActive(true);
+
+        this.anim.Rewind();
+        this.anim.Play();
     }
 }
