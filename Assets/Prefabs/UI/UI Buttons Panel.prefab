@@ -2182,6 +2182,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3690837010071043856}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1887806410153341045}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!224 &2050524267081651701 stripped
 RectTransform:
@@ -2209,3 +2212,23 @@ MonoBehaviour:
   _hideType: 1
   _callType: 1
   _reverseLogic: 0
+--- !u!114 &1887806410153341045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800597559280786049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
