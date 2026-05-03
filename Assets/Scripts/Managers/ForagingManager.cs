@@ -54,6 +54,11 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private float nextNightSkyRefreshTime = -1;
 
+    [Header("Moonbeam Settings --------------")]
+    [SerializeField] private MoonbeamGenerator moonbeamGenerator;
+
+    private float nextMoonbeamRefreshTime = -1;
+
     [Header("Rock Pile Settings --------------")]
     [SerializeField] private RockPile rockPile; // Reference to rock pile for spawning rocks
     [Tooltip("1 = spawn every hour, 0.5 = spawn every 1/2 hour, etc.")]
@@ -640,5 +645,20 @@ public class ForagingManager : MonoBehaviour, ITickable
         this.activeNightSkySearchables.Clear();
     }
 
+    #endregion
+
+    #region Moonbeams
+    public void TryActivateMoonbeamGenerator()
+    {
+        if (this.moonbeamGenerator.gameObject.activeInHierarchy && (WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+        {
+            
+        }
+    }
+
+    public void DeactivateMoonbeamGenerator()
+    {
+
+    }
     #endregion
 }
