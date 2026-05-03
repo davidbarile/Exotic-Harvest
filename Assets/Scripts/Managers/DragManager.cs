@@ -34,7 +34,7 @@ public class DragManager : MonoBehaviour
 
     private void Start()
     {
-        InputManager.OnDragPress += HandleDragModeChanged;
+        InputManager.OnDragPress += OnToggleDragMode;
         OnDragOverInventoryZoneActiveChanged += SetDragOverInventoryZoneActive;
         SetDragOverInventoryZoneActive(false);
     }
@@ -59,7 +59,7 @@ public class DragManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.OnDragPress -= HandleDragModeChanged;
+        InputManager.OnDragPress -= OnToggleDragMode;
         OnDragOverInventoryZoneActiveChanged -= SetDragOverInventoryZoneActive;
     }
 
@@ -69,7 +69,8 @@ public class DragManager : MonoBehaviour
             this.inventoryOpenTrigger.SetActive(isActive);
     }
 
-    private void HandleDragModeChanged()
+    //called from Drag UI Button and also Tab hotkey
+    public void OnToggleDragMode()
     {
         IsDragModeActivated = !IsDragModeActivated;
         OnDragModeChanged?.Invoke(IsDragModeActivated);

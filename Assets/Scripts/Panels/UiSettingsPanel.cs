@@ -13,7 +13,10 @@ public class UiSettingsPanel : UIPanelBase
     #region Settings
     private void Start()
     {
-        this.bgAlphaSlider.value = PlatformManager.IsMobile ? 1f : .5f;
+        if (PlatformManager.IsMobile)
+            this.BgAlphaSlider.value = 1f;
+            
+        SaveManager.Data.BgAlpha = this.BgAlphaSlider.value;
     }
 
     public override void Show()
@@ -28,7 +31,7 @@ public class UiSettingsPanel : UIPanelBase
 
         this.isInitialized = true;
 
-        this.useRealTimeToggle.isOn = TimeManager.IN.UseRealTime;
+        this.UseRealTimeToggle.isOn = TimeManager.IN.UseRealTime;
         SetTimeSlidersActive(TimeManager.IN.UseRealTime);
     }
 
@@ -109,16 +112,16 @@ public class UiSettingsPanel : UIPanelBase
     [SerializeField] private Slider[] panelColorSliders; // 0-Red, 1-Green, 2-Blue, 3-Alpha
 
     [Space] public Toggle ShowTimeWeatherPanelToggle;
-    public Toggle ShowPanelsButtonsToggle;
+    public Toggle ShowUiButtonsToggle;
     public Toggle ShowNotificationsToggle;
     public Toggle ShowDecorationsToggle;
     public Toggle ShowSunAndMoonToggle;
     public Toggle ShowCloudsToggle;
     public Toggle ShowMountainsToggle;
+    [Space]
+    public Slider BgAlphaSlider;
 
-    [SerializeField] private Slider bgAlphaSlider;
-
-    public void ApplySettingsDataToUI(Color inPanelColor)
+    public void ApplySavedColorsToMenus(Color inPanelColor)
     {
         this.panelColorSliders[0].value = inPanelColor.r;
         this.panelColorSliders[1].value = inPanelColor.g;
@@ -126,39 +129,67 @@ public class UiSettingsPanel : UIPanelBase
         this.panelColorSliders[3].value = inPanelColor.a;
     }
 
-    public void HandleShowTimeWeatherPanelToggle(bool active)
+    public void ApplySaveDataToUI()
     {
-        //UiManager.IN.panel
+        this.ShowTimeWeatherPanelToggle.isOn = SaveManager.Data.ShowTimeWeatherPanel;
+        this.ShowUiButtonsToggle.isOn = SaveManager.Data.ShowPanelsButtons;
+        this.ShowNotificationsToggle.isOn = SaveManager.Data.ShowNotifications;
+        this.ShowDecorationsToggle.isOn = SaveManager.Data.ShowDecorations;
+        this.ShowSunAndMoonToggle.isOn = SaveManager.Data.ShowSunAndMoon;
+        this.ShowCloudsToggle.isOn = SaveManager.Data.ShowClouds;
+        this.ShowMountainsToggle.isOn = SaveManager.Data.ShowMountains;
+        this.BgAlphaSlider.value = SaveManager.Data.BgAlpha;
+
+        Debug.Log($"Applied saved screen settings to UI: TimeWeatherPanel={SaveManager.Data.ShowTimeWeatherPanel}, PanelsButtons={SaveManager.Data.ShowPanelsButtons}, Notifications={SaveManager.Data.ShowNotifications}, Decorations={SaveManager.Data.ShowDecorations}, SunAndMoon={SaveManager.Data.ShowSunAndMoon}, Clouds={SaveManager.Data.ShowClouds}, Mountains={SaveManager.Data.ShowMountains}, BgAlpha={SaveManager.Data.BgAlpha}");
+
+        this.TimeOfDaySlider.value = TimeManager.CurrentHour;
+        this.TimeScaleSlider.value = TimeManager.IN.TimeScale;
+
+        this.GrantAllResourcesToggle.isOn = SaveManager.Data.DebugGrantAllResources;
+        this.FreezeTimeToggle.isOn = SaveManager.Data.FreezeTime;
+    }
+
+    // the application of these values are all handled in ScreenManager.ToggleElementsVisibility
+    // (it doesn't need to change now, because it only applies on minimize)
+    public void HandleShowTimeWeatherPanelToggle(bool active)
+    {            
+        SaveManager.Data.ShowTimeWeatherPanel = active;
     }
 
     public void HandleShowPanelsButtonsToggle(bool active)
     {
-        //UiManager.IN.ToggleAllPanelButtons(active);
+        SaveManager.Data.ShowPanelsButtons = active;
     }
 
     public void HandleShowNotificationsToggle(bool active)
     {
-
+        SaveManager.Data.ShowNotifications = active;
     }
 
     public void HandleShowDecorationsToggle(bool active)
     {
-
+        SaveManager.Data.ShowDecorations = active;
     }
 
     public void HandleShowSunAndMoonToggle(bool active)
     {
-
+        SaveManager.Data.ShowSunAndMoon = active;
     }
 
     public void HandleShowCloudsToggle(bool active)
     {
-
+        SaveManager.Data.ShowClouds = active;
     }
-    
+
     public void HandleShowMountainsToggle(bool active)
     {
-        
+        SaveManager.Data.ShowMountains = active;
+    }
+    
+    public void HandleBgAlphaValueChanged(float value)
+    {
+        ScreenManager.IN.SetWorldBgAlpha(value);
+        SaveManager.Data.BgAlpha = value;
     }
 
     public void HandlePanelColorSliderChanged_Red(float value)
@@ -200,36 +231,40 @@ public class UiSettingsPanel : UIPanelBase
 
     #region Time & Weather
     [Header("Time & Weather ---------------")]
-    [SerializeField] private GameObject timeOfDaySlider;
-    [SerializeField] private GameObject timeScaleSlider;
-    [Space, SerializeField] private Toggle useRealTimeToggle;
+    public Toggle UseRealTimeToggle;
+    [Space] public Slider TimeOfDaySlider;
+    public Slider TimeScaleSlider;
 
     public void SetTimeSlidersActive(bool active)
     {
         //reversed to work with Toggle
-        this.timeOfDaySlider.SetActive(!active);
-        this.timeScaleSlider.SetActive(!active);
+        this.TimeOfDaySlider.gameObject.SetActive(!active);
+        this.TimeScaleSlider.gameObject.SetActive(!active);
 
         TimeManager.IN.ToggleRealTime(active);
+        SaveManager.Data.UseRealTime = active;
     }
     #endregion
 
     #region Debug
     [Header("Debug ---------------")]
-    [SerializeField] private Toggle grantAllResourcesToggle;
-    [SerializeField] private Toggle freezeTimeToggle;
+    public Toggle GrantAllResourcesToggle;
+    public Toggle FreezeTimeToggle;
 
     public void HandleGrantAllResourcesToggle(bool active)
     {
         ResourceManager.IN.DebugGrantAllResources = active;
 
-        if(active)
+        if (active)
             UiManager.IN.ResourcesPanel.GrantAllResources();
+            
+        SaveManager.Data.DebugGrantAllResources = active;
     }
 
     public void HandleFreezeTimeToggle(bool active)
     {
         TimeManager.IN.FreezeTime = active;
+        SaveManager.Data.FreezeTime = active;
     }
 
     #endregion

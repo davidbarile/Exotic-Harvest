@@ -36,9 +36,33 @@ public class GameSaveData_v1
     public float CurrentGameHour = 8f;
     public EWeatherType CurrentWeather = EWeatherType.Clear;
     public float WeatherIntensity = 0.5f;
-    
+
     [Header("Statistics")]
     public GameStatsData StatsData = new();
+    
+    [Header("Audio")]
+    public float MusicVolume = 1f;
+    public float EffectsVolume = 1f;
+    public float AmbientVolume = 1f;
+
+    [Space]
+    public float MusicVolume_Minimized = 0.1f;
+    public float AmbientVolume_Minimized = 0.1f;
+    public float EffectsVolume_Minimized = 0.1f;
+
+    [Header("Screen")]
+    public bool ShowTimeWeatherPanel;
+    public bool ShowPanelsButtons;
+    public bool ShowNotifications;
+    public bool ShowDecorations;
+    public bool ShowSunAndMoon;
+    public bool ShowClouds;
+    public bool ShowMountains;
+    public float BgAlpha;
+
+    [Header("Debug")]
+    public bool DebugGrantAllResources;
+    public bool FreezeTime;
 
     public GameSaveData_v1()
     {

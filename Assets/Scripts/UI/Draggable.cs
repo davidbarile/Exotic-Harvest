@@ -223,6 +223,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
+            ClampToScreenBounds();
+
             SaveItemPosition();
             return false;
         }
@@ -290,7 +292,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         if (this.originalParent == null || !this.onlyDragToTargets)
             return;
-        
+
         //snap back to original position
         transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
         {
@@ -300,4 +302,16 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             SaveItemPosition();//delete?
         });
     }
+    
+    private void ClampToScreenBounds()
+    {
+        var itemRect = this.targetRectTransform.rect;
+
+        var clampedPosition = this.targetRectTransform.position;
+
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + itemRect.width * 0.5f, Screen.width - itemRect.width * 0.5f);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + itemRect.height * 0.5f, Screen.height - itemRect.height * 0.5f);
+
+        this.targetRectTransform.position = clampedPosition;
+    }   
 }

@@ -139,6 +139,8 @@ public class TimeManager : MonoBehaviour, ITickable
 
         if (this.timeScaleSliderText)
             this.timeScaleSliderText.text = $"Time Scale: {this.TimeScale:0.0}x";
+
+        SaveManager.Data.TimeScale = this.TimeScale;
     }
 
     public void SetTime(Single hour)
@@ -151,8 +153,10 @@ public class TimeManager : MonoBehaviour, ITickable
         if (this.timeSliderText)
             this.timeSliderText.text = $"Time: {FormatFloatAsTime(this.currentHour)} <i>({this.currentTimeOfDay})</i>";
 
-        if(this.timeDisplayText)
+        if (this.timeDisplayText)
             this.timeDisplayText.text = $"{FormatFloatAsTime(this.currentHour)}\n<size=80%>{this.currentDayOfWeek} {this.currentTimeOfDay}</size>";
+            
+        SaveManager.Data.CurrentGameHour = this.currentHour;
     }
 
     public void ToggleRealTime(bool useReal)

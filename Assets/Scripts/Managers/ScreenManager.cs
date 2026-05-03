@@ -30,10 +30,6 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Material litShaderMaterial;
 
     [Header("Items to Hide on Minimize")]
-    [SerializeField] private GameObject timeAndWeatherPanel;
-    [SerializeField] private GameObject panelsButtons;
-    [SerializeField] private GameObject notifications;
-    [SerializeField] private GameObject decorationsPanel;
     [SerializeField] private GameObject[] sunAndMoon;
     [SerializeField] private GameObject[] clouds;
     [SerializeField] private GameObject[] mountains;
@@ -87,7 +83,7 @@ public class ScreenManager : MonoBehaviour
         SetBgVisibility(this.isClickThrough);
     }
 
-    private void SetBgVisibility(bool inIsVisible)
+    public void SetBgVisibility(bool inIsVisible)
     {
         if (inIsVisible != this.isClickThrough)
             return;
@@ -113,10 +109,10 @@ public class ScreenManager : MonoBehaviour
     private void ToggleElementsVisibility(bool inShouldShow)
     {
         //TODO: tell the canvas groups to fade in/out or not based on settings
-        this.timeAndWeatherPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
-        this.notifications.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn);
-        this.panelsButtons.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowPanelsButtonsToggle.isOn);
-        this.decorationsPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
+        UiManager.IN.TimeWeatherPanel.gameObject.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
+        UiManager.IN.NotificationsCanvas.enabled = inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn;
+        UiManager.IN.UiButtonsPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowUiButtonsToggle.isOn);
+        UiManager.IN.DecorationsContainer.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
 
         foreach (var item in this.sunAndMoon)
         {
@@ -202,14 +198,6 @@ public class ScreenManager : MonoBehaviour
             return;
 
         SetMinOrMaximized(false);
-    }
-
-    public void HandleMaximizeButtonClick()
-    {
-        if (DragManager.IsDragModeActivated)
-            return;
-
-        SetMinOrMaximized(true);
     }
     
     public void SetMinOrMaximized(bool inIsMaximized)

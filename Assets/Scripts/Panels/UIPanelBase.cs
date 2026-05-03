@@ -4,6 +4,13 @@ using DG.Tweening;
 [RequireComponent(typeof(CanvasGroup))]
 public class UIPanelBase : MonoBehaviour
 {
+    public enum EToggleType
+    {
+        Toggle,
+        Show,
+        Hide
+    }
+
     public static UIPanelBase CurrentOpenPanel;
     public bool IsShowing { get; private set; }
 
@@ -61,12 +68,23 @@ public class UIPanelBase : MonoBehaviour
         SetVisible(false);
     }
     
-    public virtual void Toggle()
+    public virtual void Toggle(EToggleType inToggleType = EToggleType.Toggle)
     {
-        if(this.IsShowing)
-            Hide();
-        else
+        if (inToggleType == EToggleType.Show)
+        {
             Show();
+        }
+        else if (inToggleType == EToggleType.Hide)
+        {
+            Hide();
+        }
+        else
+        {
+            if(this.IsShowing)
+                Hide();
+            else
+                Show();
+        }
     }
 
     protected virtual void RegisterEvents() {}

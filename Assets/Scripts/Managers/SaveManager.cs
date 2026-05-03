@@ -268,11 +268,16 @@ public class SaveManager : MonoBehaviour, ITickable
         DecorationManager.IN.LoadFromSaveData(Data.WorldItems);
 
         TimeManager.IN.SetTime(Data.CurrentGameHour);
+        TimeManager.IN.ToggleRealTime(Data.UseRealTime);
+        TimeManager.IN.SetTimeScale(Data.TimeScale);
+
         WeatherManager.IN.ForceWeather(Data.CurrentWeather);
 
         ColorManager.IN.PanelColor = Data.PanelColor;
         ColorManager.OnPanelColorChanged?.Invoke(Data.PanelColor);
-        UiManager.IN.SettingsPanel.ApplySettingsDataToUI(Data.PanelColor);
+
+        UiManager.IN.SettingsPanel.ApplySavedColorsToMenus(Data.PanelColor);
+        UiManager.IN.SettingsPanel.ApplySaveDataToUI();
 
         AudioManager.IN.ApplyAudioSettingsFromSaveData();
         
