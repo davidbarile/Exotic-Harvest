@@ -19,6 +19,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     [Header("This is overridden by DecorationData.HighlightValidTargetsWhenDragged if UiDecorationBase")]
     [SerializeField] protected bool highlightValidTargetsWhenDragged;
     [SerializeField] protected bool isMenuPanel;
+    [Space, Range(0,50f), SerializeField] protected float padding = 10f;
 
     [Header("(Defaults to Object Root)")]
     [SerializeField] protected RectTransform targetRectTransform;
@@ -260,6 +261,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     dragTarget.SetHighlight(false);
                     this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
 
+                    ClampToScreenBounds();
+
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
@@ -282,6 +285,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
         this.targetRectTransform.SetAsLastSibling();
+
+        ClampToScreenBounds();
 
         SaveItemPosition();
             
@@ -308,9 +313,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         var itemRect = this.targetRectTransform.rect;
 
         var clampedPosition = this.targetRectTransform.position;
-
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + itemRect.width * 0.5f, Screen.width - itemRect.width * 0.5f);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + itemRect.height * 0.5f, Screen.height - itemRect.height * 0.5f);
+        
+        // Calculate offset based on pivot (0 = left/bottom edge, 0.5 = center, 1 = right/top edge)
+        var pivotOffsetX = itemRect.width * this.targetRectTransform.pivot.x;
+        var pivotOffsetY = itemRect.height * this.targetRectTransform.pivot.y;
+        
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + pivotOffsetX + this.padding, Screen.width - (itemRect.width - pivotOffsetX) - this.padding);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + this.padding, Screen.height - (itemRect.height - pivotOffsetY) - this.padding);
 
         this.targetRectTransform.position = clampedPosition;
     }   

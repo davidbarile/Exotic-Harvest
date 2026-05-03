@@ -108,10 +108,10 @@ public class ScreenManager : MonoBehaviour
 
     private void ToggleElementsVisibility(bool inShouldShow)
     {
-        //TODO: tell the canvas groups to fade in/out or not based on settings
+        //TODO: refactor to enable/disable OnFocusShow components 
         UiManager.IN.TimeWeatherPanel.gameObject.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
-        UiManager.IN.NotificationsCanvas.enabled = inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn;
         UiManager.IN.UiButtonsPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowUiButtonsToggle.isOn);
+        UiManager.IN.NotificationsCanvas.enabled = inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn;
         UiManager.IN.DecorationsContainer.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
 
         foreach (var item in this.sunAndMoon)
