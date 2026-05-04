@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(RectTransform))]
 public class PlatformBasedUiAnchors : PlatformBasedModifierBase
@@ -14,33 +15,47 @@ public class PlatformBasedUiAnchors : PlatformBasedModifierBase
         [Header("Reference RectTransform (copies all anchoring settings from this)")]
         public RectTransform referenceRectTransform;
 
-        [Header("Anchoring Overrides (ignored if Reference RectTransform is set)")]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideAnchors;
+        [HideIf("@referenceRectTransform != null || !overrideAnchors")]
         public Vector2 anchorMin;
+        [HideIf("@referenceRectTransform != null || !overrideAnchors")]
         public Vector2 anchorMax;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overridePivot;
+        [HideIf("@referenceRectTransform != null || !overridePivot")]
         public Vector2 pivot;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideAnchoredPosition;
+        [HideIf("@referenceRectTransform != null || !overrideAnchoredPosition")]
         public Vector2 anchoredPosition;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideSizeDelta;
+        [HideIf("@referenceRectTransform != null || !overrideSizeDelta")]
         public Vector2 sizeDelta;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideLocalPosition;
+        [HideIf("@referenceRectTransform != null || !overrideLocalPosition")]
         public Vector3 localPosition;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideRotation;
+        [HideIf("@referenceRectTransform != null || !overrideRotation")]
         public Vector3 eulerAngles;
 
         [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideScale;
+        [HideIf("@referenceRectTransform != null || !overrideScale")]
         public Vector3 localScale;
     }
 
@@ -76,7 +91,7 @@ public class PlatformBasedUiAnchors : PlatformBasedModifierBase
             {
                 if (platformBasedUiAnchor.referenceRectTransform != null)
                 {
-                    RectTransformExtensions.CopyRectTransform(platformBasedUiAnchor.referenceRectTransform, rectTransform);
+                    RectTransformExtensions.CopyRectTransform(rectTransform, platformBasedUiAnchor.referenceRectTransform);
                     break;
                 }
 

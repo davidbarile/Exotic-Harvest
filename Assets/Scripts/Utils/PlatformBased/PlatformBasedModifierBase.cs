@@ -10,7 +10,7 @@ public abstract class PlatformBasedModifierBase : MonoBehaviour
             Update
         }
 
-        [SerializeField] private ECallType _callType = ECallType.Awake;
+        [SerializeField] private ECallType _callType = ECallType.Start;
 
         private bool _isComplete;
 
