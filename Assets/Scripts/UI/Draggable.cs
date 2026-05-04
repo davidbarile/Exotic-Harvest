@@ -155,6 +155,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
+        this.OnWorldDropFailed = null;
+
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
 
@@ -264,54 +266,79 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     dragTarget.SetHighlight(false);
                     this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
 
-                    ClampToScreenBounds();
-
                     SaveItemPosition();
                     return false;//found drag target, reparent and exit
                 }
             }
         }
 
-        var foundTarget = false;
+        GameObject foundtarget = null;
         foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
         {
             if (!possibleTarget.transform.IsChildOf(this.targetRectTransform))
             {
-                foundTarget = true;
+                foundtarget = possibleTarget;
                 break;
             }
         }
 
         // If not detecting drop targets, just reparent to original parent
-        if(!foundTarget)
+        if (foundtarget == null)
         {
             if (this.OnWorldDropFailed != null)
             {
                 this.OnWorldDropFailed.Invoke();
-                this.OnWorldDropFailed = null;
                 return false;
             }
 
+            if (this.originalParent == null)
+            {
+                Debug.Log($"<color=red>WARNING: {this.name}  this.originalParent is NULL</color>");
+                this.originalParent = DragManager.IN.WorldDecorationsContainer;
+            }
+            DoSnapBack(true);
+
+            return false;
+        }
+
+        //do we want to parent to non drop targets? 
+        //this.targetRectTransform.SetParent(foundtarget.transform, true);
+
+        if (foundtarget.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        {
             this.targetRectTransform.SetParent(DragManager.IN.WorldDecorationsContainer, true);
+        }
+        else if (foundtarget.transform.IsChildOf(UiManager.IN.UICanvas.transform))
+        {
+            this.targetRectTransform.SetParent(UiManager.IN.DecorationsContainer.transform, true);
+        }
+        else
+        {
+            this.targetRectTransform.SetParent(this.originalParent, true);
         }
 
         this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+ 
         this.targetRectTransform.SetAsLastSibling();
-
-        ClampToScreenBounds();
 
         SaveItemPosition();
             
         return true;
     }
 
-    protected virtual void DoSnapBack()
+    protected virtual void DoSnapBack(bool inForce = false)
     {        
-        if (this.originalParent == null || !this.onlyDragToTargets)
+        if (this.originalParent == null || (!this.onlyDragToTargets && !inForce))
             return;
 
+        var destPosition = this.originalWorldPosition;
+        if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        {
+            destPosition -= DragManager.ScreenToWorldCameraDelta;
+        }
+
         //snap back to original position
-        transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+        this.targetRectTransform.DOMove(destPosition, .2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
@@ -334,5 +361,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + this.padding, Screen.height - (itemRect.height - pivotOffsetY) - this.padding);
 
         this.targetRectTransform.position = clampedPosition;
+        SaveItemPosition();
     }   
 }

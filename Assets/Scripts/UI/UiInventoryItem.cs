@@ -122,14 +122,21 @@ public class UiInventoryItem : Draggable
         }
     }
 
-    protected override void DoSnapBack()
+    protected override void DoSnapBack(bool inForce = false)
     {
         if (this.originalParent != null)
         {
             if (this.onlyDragToTargets)
             {
+                var destPosition = this.originalWorldPosition;
+                //nots sure
+                // if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
+                // {
+                //     destPosition -= DragManager.ScreenToWorldCameraDelta;
+                // }
+        
                 //snap back to original position
-                transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+                this.targetRectTransform.DOMove(destPosition, 0.2f).OnComplete(() =>
                 {
                     this.targetRectTransform.SetParent(this.originalParent, true);
                     this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
