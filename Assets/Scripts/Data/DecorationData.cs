@@ -6,13 +6,16 @@ using static GlobalEnums;
 public class DecorationData
 {
     public string PrefabName = "DefaultItemUI";
-    public Vector3 WorldPosition;
-    public int ParentGuid;
-    public int SiblingIndex;
+
+    public WorldSaveData WorldSaveData;
 
     [Space, Header("Drag Zone Flags")]
     public EDecorationType DecorationType;
     public bool HighlightValidTargetsWhenDragged;
+
+    [Space, Header("Decoration Holder Settings")]
+    public bool IsDragZone;
+    public int Guid { get; set; } = -1;
 
     // For passive harvesters
     [Header("Resource Generation")]
@@ -26,15 +29,15 @@ public class DecorationData
     public bool IsActive = true;
 
     public static DecorationData Copy(DecorationData decorationData)
-    {
+    {        
         return new DecorationData
         {
             PrefabName = decorationData.PrefabName,
-            WorldPosition = decorationData.WorldPosition,
-            ParentGuid = decorationData.ParentGuid,
-            SiblingIndex = decorationData.SiblingIndex,
+            WorldSaveData = decorationData.WorldSaveData,
             DecorationType = decorationData.DecorationType,
             HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
+            IsDragZone = decorationData.IsDragZone,
+            Guid = decorationData.Guid, // Only generate new guid if original is -1, otherwise copy existing guid (used for saving/loading)
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,
@@ -45,4 +48,12 @@ public class DecorationData
             IsActive = decorationData.IsActive
         };
     }
+}
+
+[Serializable]
+public class WorldSaveData
+{
+    public Vector3 WorldPosition;
+    public int ParentGuid;
+    public int SiblingIndex;
 }

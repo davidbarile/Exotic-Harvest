@@ -56,7 +56,6 @@ public class ShopItemConfig : ScriptableObject
 #endif
     }
 
-
     public static ShopItemData CreateShopItemDataFromConfig(ShopItemConfig inConfig)
     {
         var shopItem = new ShopItemData(inConfig.ID, inConfig.DisplayName, inConfig.Category)

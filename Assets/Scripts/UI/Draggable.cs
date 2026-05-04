@@ -230,8 +230,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
             ClampToScreenBounds();
-
-            SaveItemPosition();
+            
             return false;
         }
         

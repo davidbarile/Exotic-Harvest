@@ -96,7 +96,7 @@ public class UiInventoryItem : Draggable
 
                         if (this.ItemData.Quantity > 1)
                         {
-                            var newItemData = InventoryItemData.Copy(this.ItemData);
+                            var newItemData = this.ItemData; //InventoryItemData.Copy(this.ItemData);
                             newItemData.Quantity = 1;
                             this.ItemData.Quantity -= 1;
                             SaveManager.Data.WorldItems.Add(newItemData);

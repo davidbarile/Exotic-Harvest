@@ -182,7 +182,7 @@ public class InventoryManager : MonoBehaviour
         return itemsOfCategory;
     }
 
-    public void LoadAllInventory(InventoryItemData[] saveData)
+    public void ApplyAllInventory(InventoryItemData[] saveData)
     {
         OnInventoryRefreshed?.Invoke();
     }

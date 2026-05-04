@@ -18,6 +18,8 @@ public class WorldItemCrystal : DecorationBase
         //         if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(collectible.ResourceType))
         //             return;
 
+        //this.startActiveObjectHoverTime = DateTime.Now;
+
         //         var success = this.linkedPassiveHarvester.AddAmount(collectible.Amount);
 
         //         if (success)

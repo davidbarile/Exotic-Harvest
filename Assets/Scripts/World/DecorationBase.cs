@@ -84,9 +84,9 @@ public class DecorationBase : Draggable
     {
         OnValidate(); // Ensure ItemData and DecorationData are set up based on initItemData
 
-        this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
-        this.ItemData.DecorationData.ParentGuid = this.transform.parent.GetInstanceID();
-        this.ItemData.DecorationData.SiblingIndex = this.transform.GetSiblingIndex();
+        this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
+        this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.transform.parent.GetInstanceID();
+        this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.transform.GetSiblingIndex();
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -279,9 +279,20 @@ public class DecorationBase : Draggable
 
     protected override void SaveItemPosition()
     {
-        this.ItemData.DecorationData.WorldPosition = this.transform.localPosition;
-        this.ItemData.DecorationData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
-        this.ItemData.DecorationData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
+        this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
+        this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
+
+        //in case of stools and benches and such, we store a unique Guid
+        if(this.targetRectTransform.parent.parent.TryGetComponent<DecorationBase>(out var decorationBase))
+        {
+            if(decorationBase.ItemData.DecorationData.IsDragZone)
+            {
+                this.ItemData.DecorationData.WorldSaveData.ParentGuid = decorationBase.ItemData.DecorationData.Guid;
+            }
+        }
+
+        Debug.Log($"Saving position for {this.ItemData.DisplayName} at {this.ItemData.DecorationData.WorldSaveData.WorldPosition}. ParentGuid: {this.ItemData.DecorationData.WorldSaveData.ParentGuid}, SiblingIndex: {this.ItemData.DecorationData.WorldSaveData.SiblingIndex}");
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)

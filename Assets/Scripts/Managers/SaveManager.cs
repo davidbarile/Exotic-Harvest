@@ -263,9 +263,9 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySaveDataToGame()
     {
-        InventoryManager.IN.LoadAllInventory(Data.InventoryItems);
-        ResourceManager.IN.LoadFromSaveData(Data.ResourcesSaveDatas);
-        DecorationManager.IN.LoadFromSaveData(Data.WorldItems);
+        InventoryManager.IN.ApplyAllInventory(Data.InventoryItems);
+        ResourceManager.IN.ApplyFromSaveData(Data.ResourcesSaveDatas);
+        DecorationManager.IN.ApplyFromSaveData(Data.WorldItems);
 
         TimeManager.IN.SetTime(Data.CurrentGameHour);
         TimeManager.IN.ToggleRealTime(Data.UseRealTime);
