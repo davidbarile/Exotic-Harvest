@@ -13,7 +13,8 @@ public enum PlatformFlags
     Android = 1 << 2,
     iOS = 1 << 3,
     Mobile = 1 << 4,
-    IsTablet = 1 << 5
+    IsTablet = 1 << 5,
+    IsPhone = 1 << 6
 }
 
 public class PlatformManager : MonoBehaviour
@@ -22,6 +23,11 @@ public class PlatformManager : MonoBehaviour
 
     public static bool IsDesktop => IN.PlatformFlags.HasFlag(PlatformFlags.Desktop);
     public static bool IsMobile => IN.PlatformFlags.HasFlag(PlatformFlags.Mobile);
+#if UNITY_EDITOR
+    public static bool IsPhone => IN.PlatformFlags.HasFlag(PlatformFlags.IsPhone);
+#else
+    public static bool IsPhone => IN.PlatformFlags.HasFlag(PlatformFlags.IsPhone) || (IN.PlatformFlags.HasFlag(PlatformFlags.Mobile) && !IsMostLikelyTablet());
+#endif
     public static bool IsTablet => IN.PlatformFlags.HasFlag(PlatformFlags.IsTablet);
     public static bool IsTouchInput => IN?.PlatformFlags.HasFlag(PlatformFlags.Mobile) == false;
 
@@ -61,12 +67,15 @@ public class PlatformManager : MonoBehaviour
         {
             _platformFlags |= PlatformFlags.Mobile;
 
-            if(IsMostLikelyTablet())
+            if (IsMostLikelyTablet())
             {
                 _platformFlags |= PlatformFlags.IsTablet;
             }
+            else
+            {
+                _platformFlags |= PlatformFlags.IsPhone;
+            }
         }
-
     }
 
     private static bool IsMostLikelyTablet()
