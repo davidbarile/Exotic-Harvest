@@ -95,7 +95,6 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         if (this.fillBarDisplay)
         {
-            if (this.fillBarDisplay)
             this.fillBarDisplay.SetActive(fillAmount > 0f);
 
             if (this.fillBarImage)

@@ -299,7 +299,7 @@ public class DecorationBase : Draggable
     {
         if (collision != null)
         {
-            if(collision.TryGetComponent<Collectable>(out var collectible))
+            if (collision.TryGetComponent<Collectable>(out var collectible))
             {
                 if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(collectible.ResourceType))
                     return;
