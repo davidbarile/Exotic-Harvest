@@ -91,7 +91,7 @@ public class UiInventoryItem : Draggable
 
                         Debug.Log($"Spawned world item [{worldItem.name}] from inventory item [{name}] at position {worldItem.transform.position}", worldItem);
 
-                        // Mark as not dragging so OnEndDrag doesn't process
+                        // Mark as not dragging so OnDrag doesn't process
                         this.isDragging = false;
 
                         if (this.ItemData.Quantity > 1)
@@ -108,7 +108,7 @@ public class UiInventoryItem : Draggable
                             var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
                             SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
                         }
-                        
+                                                
                         // Destroy the inventory item
                         Delete();
                         return;
@@ -161,7 +161,7 @@ public class UiInventoryItem : Draggable
         base.OnEndDrag(eventData);
     }
 
-    protected override bool TryToParentToDropTarget()
+    protected override bool TryParenToDropTarget()
     {
         if (this.shouldDetectDropTargets)
         {
@@ -175,18 +175,18 @@ public class UiInventoryItem : Draggable
                         dragTarget.SetAsParent(this.targetRectTransform);
                         this.targetRectTransform.SetAsLastSibling();
                         dragTarget.SetHighlight(false);
-                        return false;//found drag target, reparent and exit
+                        return true;//found drag target, reparent and exit
                     }
                     else
-                        return true;//bounce back
+                        return false;//bounce back
                 }
             }
         }
 
-        return true;
+        return false;
     }
     
-    protected override bool DoNoDropTargetFound()
+    protected override bool TryInventoryCellDrop()
     {
         UiInventoryPanel.OnDragOutOfInventoryZoneActiveChanged?.Invoke(false);
 

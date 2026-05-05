@@ -23,9 +23,8 @@ public class WorldItemCrystal : DecorationBase
     protected override void Start()
     {
         base.Start();
-        
-        this.fillBarDisplay.SetActive(false);
-        SetFillAmount(0f);
+
+        HideFillBar();
     }
 
     public void SetFillAmount(float fillAmount)
@@ -44,10 +43,10 @@ public class WorldItemCrystal : DecorationBase
         if (inCollider == null)
             return;
 
-        if(inCollider.CompareTag("Moonbeam"))
+        if (inCollider.CompareTag("Moonbeam"))
         {
             var moonbeam = inCollider.GetComponentInParent<Moonbeam>();
-            if(moonbeam != null)
+            if (moonbeam != null)
             {
                 if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(moonbeam.ResourceType))
                     return;
@@ -60,14 +59,13 @@ public class WorldItemCrystal : DecorationBase
         }
     }
 
-    private void OnTriggerStay2D(Collider2D inCollider)
+    private void Update()
     {
-        //temp
-        if (!this.isDragging)
+        if (this.activeMoonbeam == null)
+        {
+            HideFillBar();
             return;
-
-        if (inCollider == null)
-            return;
+        }
 
         var hoverDuration = (DateTime.Now - this.startActiveObjectHoverTime).TotalSeconds;
 
@@ -78,12 +76,8 @@ public class WorldItemCrystal : DecorationBase
             if (success)
                 this.activeMoonbeam.Collect(false);
 
-            //dunno - hide?
-            this.activeMoonbeam = null;
-
             this.startActiveObjectHoverTime = DateTime.Now + TimeSpan.FromSeconds(1); //reset hover time to prevent immediate re-activation
-            this.fillBarDisplay.SetActive(false);
-            SetFillAmount(0f);
+            HideFillBar();
         }
         else
         {
@@ -91,19 +85,16 @@ public class WorldItemCrystal : DecorationBase
             SetFillAmount(percent);
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D inCollider)
     {
-        //test & fix
-        if (inCollider == null)
-            return;
-
-        if(inCollider.CompareTag("Moonbeam"))
-        {
-            //stop timer and fillbar
-            this.fillBarDisplay.SetActive(false);
-            SetFillAmount(0f);
-            this.activeMoonbeam = null;
-        }
+        HideFillBar();
+    }
+    
+    private void HideFillBar()
+    {
+        this.fillBarDisplay.SetActive(false);
+        SetFillAmount(0f);
+        this.activeMoonbeam = null;
     }
 }

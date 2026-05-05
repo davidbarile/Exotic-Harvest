@@ -16,15 +16,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        var isNewGame = !SaveManager.IN.HasSaveFile;
         SaveManager.IN.Init();
         ShopManager.IN.Init();
         AudioManager.IN.Init();
 
+        var isNewGame = !SaveManager.IN.HasSaveFile;
+
         if (isNewGame)
             InventoryManager.IN.AddDefaultItemsToInventory();
         else
-            InventoryManager.IN.AddSavedItemsToInventory(SaveManager.Data.InventoryItems);
+            InventoryManager.IN.AddSavedItemsToInventory();
     
         UiManager.IN.ResourcesPanel.Init();
     }

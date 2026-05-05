@@ -62,14 +62,14 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        //Debug.Log($"AddDefaultItemsToInventory() Total items added: {sortedInitItemsList.Count}. Total inventory slots: {NumInventorySlots}");
+
         OnInventoryRefreshed?.Invoke();
     }
 
-    public void AddSavedItemsToInventory(InventoryItemData[] savedAllInventoryItems)
+    public void AddSavedItemsToInventory()
     {
-        SaveManager.Data.InventoryItems = new InventoryItemData[NumInventorySlots];
-        Array.Copy(savedAllInventoryItems, SaveManager.Data.InventoryItems, NumInventorySlots);
-
+        //Debug.Log($"AddSavedItemsToInventory() Total items added: {SaveManager.Data.InventoryItems.Length}. Total inventory slots: {NumInventorySlots}");
         OnInventoryRefreshed?.Invoke();
     }
 

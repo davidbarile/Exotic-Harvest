@@ -10,7 +10,7 @@ public class Bucket : PassiveHarvester
 {
     [Header("Bucket UI Components")]
     [SerializeField] private Image fillImage;
-    [SerializeField] private float fillAnimationDuration = 0.5f;
+    [Range(0, 2),SerializeField] private float fillAnimationDuration = 0.5f;
     
     private float targetFillAmount;
 

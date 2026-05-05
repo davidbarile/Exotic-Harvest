@@ -14,6 +14,8 @@ public class SaveManager : MonoBehaviour, ITickable
 
     public static GameSaveData Data;
 
+    private static readonly string PLAYER_DATA_VERSION = "PlayerDataVersion";
+
     // Events
     public static Action OnGameSaved;
     public static Action OnGameLoaded;
@@ -34,7 +36,7 @@ public class SaveManager : MonoBehaviour, ITickable
     private float autoSaveTimer = 0f;
     private float sessionStartTime;
     private bool isDeletingSave;
-    
+
     // Properties
     public bool HasSaveFile => File.Exists(savePath);
 
@@ -42,13 +44,13 @@ public class SaveManager : MonoBehaviour, ITickable
     {
         var saveFolder = Application.persistentDataPath;
 
-        Debug.Log($"Save folder path: {saveFolder}");
-
 #if UNITY_EDITOR
         saveFolder = "Assets/PlayerData";
 #endif
 
         this.savePath = Path.Combine(saveFolder, this.saveFileName);
+        //Debug.Log($"Save folder path: {savePath}");
+
         this.sessionStartTime = Time.time;
 
         if(this.nukeDataOnStart)
@@ -56,7 +58,7 @@ public class SaveManager : MonoBehaviour, ITickable
 
         var isNewGame = !this.HasSaveFile || this.nukeDataOnStart;
 
-        var gamePlayerDataVersion = PlayerPrefs.GetInt("PlayerDataVersion", 0);
+        var gamePlayerDataVersion = PlayerPrefs.GetInt(PLAYER_DATA_VERSION, 0);
 
         if (gamePlayerDataVersion == 0)
         {
@@ -69,7 +71,7 @@ public class SaveManager : MonoBehaviour, ITickable
             LoadGame();
         }
 
-        PlayerPrefs.SetInt("PlayerDataVersion", this.currentPlayerDataVersion);
+        PlayerPrefs.SetInt(PLAYER_DATA_VERSION, this.currentPlayerDataVersion);
 
         TickManager.OnSecondTick += SecondTick;
     }
@@ -169,7 +171,7 @@ public class SaveManager : MonoBehaviour, ITickable
             }
             else
             {
-                var gamePlayerDataVersion = PlayerPrefs.GetInt("PlayerDataVersion", 0);
+                var gamePlayerDataVersion = PlayerPrefs.GetInt(PLAYER_DATA_VERSION, 0);
                 isGameDataOutOfDate = gamePlayerDataVersion < this.currentPlayerDataVersion;
             }
 

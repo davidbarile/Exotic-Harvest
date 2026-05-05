@@ -204,7 +204,7 @@ public class DragManager : MonoBehaviour
         this.currentDragSource = null;
         this.currentDragProxy = null;
         this.hasBrokenFreeOfClamp = false;
-        OnDragEnded?.Invoke();
+        OnDragEnded?.Invoke();//unhighlight all drag targets
     }
 
     private void TriggerEndDragOnCurrentObject()
