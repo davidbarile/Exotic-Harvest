@@ -211,15 +211,16 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             return;
         }
 
-        var success = TryParenToDropTarget();
+        var foundValidTarget = TryParentToTarget(out bool foundDragTarget);
 
-        if (success)
+        if (foundDragTarget)
         {
             TryInventoryCellDrop();//inventory cell is a DropTarget
         }
         else
         {
-            DoSnapBack();
+            if ((!foundValidTarget || this.onlyDragToTargets) && this.originalParent != null)
+                DoSnapBack();
         }      
 
         DoOnEndDrag(); 
@@ -230,8 +231,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         //implement in subclasses
     }
 
-    protected virtual bool TryParenToDropTarget()
+    protected virtual bool TryParentToTarget(out bool foundDragTarget)
     {
+        foundDragTarget = false;
         if (this.shouldDetectDropTargets)
         {
             EDecorationType decorationType = EDecorationType.All;
@@ -241,7 +243,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             }
 
             var canvasOffset = Vector3.zero;
-            Canvas parentCanvas = null;
 
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
@@ -250,8 +251,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;
 
-                    parentCanvas = dragTarget.transform.GetComponentInParent<Canvas>();
-                    if (parentCanvas == UiManager.IN.WorldCanvas)
+                    if (dragTarget.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
                         canvasOffset = DragManager.ScreenToWorldCameraDelta;
 
                     dragTarget.SetAsParent(this.targetRectTransform);
@@ -264,6 +264,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
 
                     SaveItemPosition();
+                    foundDragTarget = true;
                     return true;//found drag target, reparent and exit
                 }
             }
@@ -295,7 +296,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 Debug.Log($"<color=red>WARNING: {this.name}  this.originalParent is NULL</color>");
                 this.originalParent = DragManager.IN.WorldDecorationsContainer;
             }
-            DoSnapBack(true);
+
+            DoSnapBack();
             return false;
         }
 
@@ -320,29 +322,28 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         this.targetRectTransform.SetAsLastSibling();
 
         SaveItemPosition();
-        return false;
+        return true;
     }
 
-    protected virtual void DoSnapBack(bool inForce = false)
-    {
-        if (this.originalParent == null || (!this.onlyDragToTargets && !inForce))
-            return;
-            
-        //Debug.Log($"Snapping back {this.name} to original parent {this.originalParent.name} at position {this.originalWorldPosition}");
+    protected virtual void DoSnapBack()
+    {    
+        var isChildOfWorldCanvas = this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform);
 
         var destPosition = this.originalWorldPosition;
-        if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
-        {
+
+        if (isChildOfWorldCanvas)
             destPosition -= DragManager.ScreenToWorldCameraDelta;
-        }
+
+        Debug.Log($"<color=white>[{this.name}] DoSnapBack() to original parent {this.originalParent.name} at position {this.originalWorldPosition}.  isChildOfWorldCanvas = {isChildOfWorldCanvas}. destPosition after screen to world adjustment = {destPosition}</color>");
 
         //snap back to original position
         this.targetRectTransform.DOMove(destPosition, .2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+            this.targetRectTransform.position = this.originalWorldPosition;
 
-            SaveItemPosition();//delete?
+            SaveItemPosition();
         });
     }
     

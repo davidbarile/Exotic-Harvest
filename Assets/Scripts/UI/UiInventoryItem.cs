@@ -108,7 +108,7 @@ public class UiInventoryItem : Draggable
                             var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
                             SaveManager.Data.InventoryItems[origCell.CellIndex] = null;
                         }
-                                                
+
                         // Destroy the inventory item
                         Delete();
                         return;
@@ -122,7 +122,7 @@ public class UiInventoryItem : Draggable
         }
     }
 
-    protected override void DoSnapBack(bool inForce = false)
+    protected override void DoSnapBack()
     {
         if (this.originalParent != null)
         {
@@ -161,8 +161,9 @@ public class UiInventoryItem : Draggable
         base.OnEndDrag(eventData);
     }
 
-    protected override bool TryParenToDropTarget()
+    protected override bool TryParentToTarget(out bool foundDragTarget)
     {
+        foundDragTarget = false;
         if (this.shouldDetectDropTargets)
         {
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
@@ -175,6 +176,7 @@ public class UiInventoryItem : Draggable
                         dragTarget.SetAsParent(this.targetRectTransform);
                         this.targetRectTransform.SetAsLastSibling();
                         dragTarget.SetHighlight(false);
+                        foundDragTarget = true;
                         return true;//found drag target, reparent and exit
                     }
                     else
