@@ -193,7 +193,9 @@ public class UiSettingsPanel : UIPanelBase
     public void HandleBgAlphaValueChanged(float value)
     {
         ScreenManager.IN.SetWorldBgAlpha(value);
-        SaveManager.Data.BgAlpha = value;
+        
+        if(SaveManager.Data != null)
+            SaveManager.Data.BgAlpha = value;
     }
 
     public void HandlePanelColorSliderChanged_Red(float value)
