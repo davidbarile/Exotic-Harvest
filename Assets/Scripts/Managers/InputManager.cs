@@ -67,10 +67,6 @@ public class InputManager : MonoBehaviour
 
     private bool IsMouseOverUI()
     {
-#if !UNITY_EDITOR && !UNITY_STANDALONE && !UNITY_WEBGL
-        return false;
-#endif
-
         var eventDataCurrentPosition = new PointerEventData(EventSystem.current)
         {
             position = new Vector2(Input.mousePosition.x, Input.mousePosition.y)
