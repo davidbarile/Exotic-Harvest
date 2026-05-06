@@ -122,10 +122,6 @@ public class AudioManager : MonoBehaviour
 
     private void OnWeatherChanged(EWeatherType inWeather)
     {
-        //only fire on change
-        if (WeatherManager.CurrentWeather == WeatherManager.LastWeather)
-            return;
-
         ChangeMusic(true);
         ChangeAmbient(true);
     }

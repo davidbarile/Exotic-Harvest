@@ -17,6 +17,7 @@ public class DecorationBase : Draggable
     [SerializeField] protected Image worldProxy;
 
     protected PassiveHarvester linkedPassiveHarvester;
+    protected Attractor attractor;
 
     public InventoryItemData ItemData { get; private set; }
 
@@ -26,6 +27,9 @@ public class DecorationBase : Draggable
     protected virtual void Awake()
     {
         this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
+
+        if(this.worldProxy)
+            this.attractor = this.worldProxy.GetComponent<Attractor>();
     }
 
     protected override void OnValidate()

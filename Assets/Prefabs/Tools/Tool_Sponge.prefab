@@ -104,9 +104,9 @@ MonoBehaviour:
     DecorationData:
       PrefabName: Tool_Sponge
       WorldSaveData:
-        WorldPosition: {x: 0, y: 0, z: 0}
-        ParentGuid: 0
-        SiblingIndex: 0
+        WorldPosition: {x: 893.301, y: -294, z: 0}
+        ParentGuid: 77226
+        SiblingIndex: 2
       DecorationType: 8193
       HighlightValidTargetsWhenDragged: 0
       IsDragZone: 0
@@ -730,10 +730,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attractor
   IsActive: 1
   strength: 65
-  maxDistance: 300
+  maxDistance: 200
   collisionRadius: 75
   attractableLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 128
   tagToAttract: Attractable
   linkedPassiveHarvester: {fileID: 8782783504301656957}

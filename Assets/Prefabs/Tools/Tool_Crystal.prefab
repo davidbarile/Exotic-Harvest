@@ -878,7 +878,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8481164858323049445}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2349e56a0c144d62ab4d3ee987fddb1, type: 3}
   m_Name: 
@@ -886,10 +886,10 @@ MonoBehaviour:
   IsActive: 0
   strength: 65
   maxDistance: 300
-  collisionRadius: 54.9
+  collisionRadius: 65
   attractableLayer:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 4096
   tagToAttract: Attractable
   linkedPassiveHarvester: {fileID: 0}
 --- !u!1 &8894769567148654801
