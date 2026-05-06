@@ -4,6 +4,7 @@ public class FollowObject : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private bool shouldOffsetForWorldCanvas;
+    [SerializeField] private bool shouldForceZeroDepth;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float followSpeed = -1f;
 
@@ -39,6 +40,9 @@ public class FollowObject : MonoBehaviour
 
             if(this.shouldOffsetForWorldCanvas)
                 this.transform.localPosition -= DragManager.ScreenToWorldCameraDelta;
+
+            if (this.shouldForceZeroDepth)
+                this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0f);
 
             if (this.shouldScaleWithTarget)
                 this.transform.localScale = this.target.localScale * this.scaleMultiplier;
