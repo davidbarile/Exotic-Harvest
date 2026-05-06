@@ -26,7 +26,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     [SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
     [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
     private List<Dewdrop> activeDewdrops = new();
-    private List<Vector3> dewSpawnPositions = new();
+    [SerializeField] private List<Vector3> dewSpawnPositions = new();
 
     [Header("Meadow Settings --------------")]
     [SerializeField] private Transform meadowLootField; // Parent transform for meadow collectables (e.g. mushrooms, flowers)
@@ -227,6 +227,12 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void OnWeatherChanged(EWeatherType inNewWeather)
     {
+        if (this.debugSpawnAllDewdrops || this.debugIgnoreTimeOfDayAndWeather)
+            return;
+
+        if(WeatherManager.IsClear || WeatherManager.IsFoggy || WeatherManager.IsWindy)
+            return;
+            
         DeleteAllDewdrops();
     }
     #endregion
@@ -309,6 +315,8 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.dewSpawnPositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
             }
         }
+
+        //Debug.Log($"<color=yellow>InitDewDropPositions(). this.dewSpawnPositions = {this.dewSpawnPositions.Count}</color>");
     }
 
     private void SpawnDewdrops()
@@ -319,15 +327,21 @@ public class ForagingManager : MonoBehaviour, ITickable
             return;
         }
 
+        if(this.activeDewdrops.Count >= this.dewSpawnPositions.Count)
+            return;
+
         if (UnityEngine.Random.value < this.dewdropSpawnChance)
         {
-            Vector3 spawnPos = this.dewSpawnPositions[this.activeDewdrops.Count % this.dewSpawnPositions.Count]; // Cycle through predefined positions
+            var index = this.activeDewdrops.Count % this.dewSpawnPositions.Count; // Cycle through positions based on current active count
+            Vector3 spawnPos = this.dewSpawnPositions[index]; // Cycle through predefined positions
+
             var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
             dewdrop.name = $"Dewdrop_{this.activeDewdrops.Count}";
             dewdrop.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
             dewdrop.transform.position = new Vector3(dewdrop.transform.position.x, dewdrop.transform.position.y, spawnPos.z); // Set Z based on collider
             dewdrop.Spawn();
             this.activeDewdrops.Add(dewdrop);
+            //Debug.Log($"Spawn {dewdrop.name} [{index}] at position {spawnPos}. localPos = {dewdrop.transform.localPosition}   count: {this.activeDewdrops.Count} / {this.dewSpawnPositions.Count}.  frame = {Time.frameCount}", dewdrop.gameObject);
         }
     }
 
@@ -349,6 +363,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void DeleteAllDewdrops()
     {
+        //Debug.Log($"<color=red>DeleteAllDewdrops().  this.activeDewdrops = {this.activeDewdrops.Count}  frame = {Time.frameCount}</color>");
         foreach (var dewdrop in this.activeDewdrops)
         {
             if (dewdrop != null)
