@@ -197,7 +197,7 @@ public class ScreenManager : MonoBehaviour
         if (UIPanelBase.CurrentOpenPanel != null)
             return;
 
-        SetMinOrMaximized(false);
+        UiManager.IN.MinimizePanel.HandleSelectedButtonPress();
     }
     
     public void SetMinOrMaximized(bool inIsMaximized)
