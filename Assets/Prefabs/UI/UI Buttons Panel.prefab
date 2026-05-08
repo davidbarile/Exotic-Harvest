@@ -2395,6 +2395,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4782382682193861445}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4225946247359254269}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!1 &3703446791680261101 stripped
 GameObject:
@@ -2437,6 +2440,21 @@ MonoBehaviour:
   fadeDuration: 1
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!114 &4225946247359254269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3703446791680261101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: -110, z: 0}
+  tailDirection: 0
+  TooltipText: Quit Game
 --- !u!224 &8174374971770991769 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8697382042116484799, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
@@ -2798,6 +2816,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3331325554875856357}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2600861710155945912}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!1 &2525145688540275948 stripped
 GameObject:
@@ -2840,6 +2861,23 @@ MonoBehaviour:
   fadeDuration: 1
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!114 &2600861710155945912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525145688540275948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: -150, z: 0}
+  tailDirection: 0
+  TooltipText: 'Clickthru
+
+    Sky'
 --- !u!224 &6998419109723827096 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8697382042116484799, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
@@ -3504,6 +3542,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3554514724715992255}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7110038284858155691}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!224 &3533629114483003408 stripped
 RectTransform:
@@ -3551,6 +3592,23 @@ MonoBehaviour:
   fadeDuration: 1
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!114 &7110038284858155691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294935017538543460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: -150, z: 0}
+  tailDirection: 0
+  TooltipText: 'Transparent
+
+    Sky'
 --- !u!1001 &7261951139909647178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3702,6 +3760,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1887806410153341045}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3831770215675400447}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!224 &2050524267081651701 stripped
 RectTransform:
@@ -3733,6 +3794,23 @@ MonoBehaviour:
   fadeDuration: 1
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!114 &3831770215675400447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800597559280786049}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: -150, z: 0}
+  tailDirection: 0
+  TooltipText: 'Hide
+
+    All'
 --- !u!1001 &9006547837138905925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3915,6 +3993,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6565482056186335037}
+    - targetCorrespondingSourceObject: {fileID: 4226401084700058059, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2596486537029916462}
   m_SourcePrefab: {fileID: 100100000, guid: a82373ef96e1943f18c92b987e528ce2, type: 3}
 --- !u!224 &310433265373464058 stripped
 RectTransform:
@@ -3962,3 +4043,20 @@ MonoBehaviour:
   fadeDuration: 1
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!114 &2596486537029916462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5069539079472106126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2754f28f81144009b84ee1c7130d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipOffset: {x: 0, y: -150, z: 0}
+  tailDirection: 0
+  TooltipText: 'Hide w/ Only
+
+    Decorations'

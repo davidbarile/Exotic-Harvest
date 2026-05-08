@@ -11,7 +11,7 @@ public class TooltipManager : MonoBehaviour
         HideTooltip();
     }
 
-    public void ShowTooltip(string inText, Vector3 inPosition, UiTooltip.TailDirection inTailDirection = UiTooltip.TailDirection.Down)
+    public void ShowTooltip(string inText, Vector3 inPosition, UiTooltip.ETailDirection inTailDirection = UiTooltip.ETailDirection.Down)
     {
         this.tooltip.Show(inText, inPosition, inTailDirection);
     }

@@ -34,8 +34,14 @@ public class UiMinimizePanel : UIPanelBase
 
         for (int i = 0; i < this.minimizeButtons.Length; i++)
         {
+            var isSelectedButton = i == this.selectedButtonIndex;
+
             var button = this.minimizeButtons[i];
-            if (i == this.selectedButtonIndex)
+
+            var tooltipTrigger = button.GetComponent<TooltipTrigger>();
+            tooltipTrigger.enabled = !isSelectedButton;
+            
+            if (isSelectedButton)
             {
                 // Highlight the selected button
                 button.transform.SetParent(this.selectedButtonParent, false);
@@ -69,12 +75,10 @@ public class UiMinimizePanel : UIPanelBase
         {
             case 0:
                 // Handle first button action
-                Debug.Log("First button pressed!");
                 ScreenManager.IN.SetMinOrMaximized(false);
                 break;
             case 1:
                 // Handle second button action
-                Debug.Log("Second button pressed!");
                 ScreenManager.IN.SetBgVisibility(false);
                 break;
             case 2:

@@ -4,7 +4,7 @@ using TMPro;
 
 public class UiTooltip : MonoBehaviour
 {
-    public enum TailDirection
+    public enum ETailDirection
     {
         Up,
         Down,
@@ -16,7 +16,7 @@ public class UiTooltip : MonoBehaviour
     [SerializeField] private Graphic background;
     [SerializeField] private Graphic[] tails;
 
-    public void Show(string inText, Vector3 inPosition, TailDirection inTailDirection = TailDirection.Down)
+    public void Show(string inText, Vector3 inPosition, ETailDirection inTailDirection = ETailDirection.Down)
     {
         this.tooltipText.text = inText;
         this.transform.position = inPosition;
@@ -31,7 +31,7 @@ public class UiTooltip : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    private void SetTailDirection(TailDirection inTailDirection)
+    private void SetTailDirection(ETailDirection inTailDirection)
     {
         for (int i = 0; i < this.tails.Length; i++)
         {
