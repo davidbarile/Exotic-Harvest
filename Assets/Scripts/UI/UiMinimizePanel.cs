@@ -59,7 +59,7 @@ public class UiMinimizePanel : UIPanelBase
 
     public void HandleSelectedButtonPress()
     {
-        if(this.selectedButtonIndex < this.buttonActions.Length)
+        if (this.selectedButtonIndex < this.buttonActions.Length)
         {
             var buttonEvent = this.buttonActions[this.selectedButtonIndex];
             buttonEvent?.Invoke();
@@ -90,9 +90,9 @@ public class UiMinimizePanel : UIPanelBase
                 UIConfirmPanel.IN.Show("Quit Game", "Are you sure you want to quit the game?", () =>
                 {
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+                    Application.Quit();
 #endif  
                 });
                 break;
@@ -100,5 +100,14 @@ public class UiMinimizePanel : UIPanelBase
 
         this.menuHideTrigger.SetActive(true);
         Hide();
+    }
+    
+    public void HandleMenuRollover()
+    {
+        var scale = Vector3.one;
+        if (this.transform.position.x > Screen.width - 300f)
+            scale.x = -1f;
+
+        this.transform.localScale = scale;
     }
 }
