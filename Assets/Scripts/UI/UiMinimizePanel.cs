@@ -9,6 +9,7 @@ public class UiMinimizePanel : UIPanelBase
     [SerializeField] private Transform buttonMenuParent;
     [SerializeField] private GameObject menuHideTrigger;
 
+    [Space]
     [SerializeField] private UnityEvent[] buttonActions;
 
     private int selectedButtonIndex = 0;
@@ -113,5 +114,10 @@ public class UiMinimizePanel : UIPanelBase
             scale.x = -1f;
 
         this.transform.localScale = scale;
+
+        foreach (var button in this.minimizeButtons)
+        {
+            button.transform.localScale = scale;
+        }
     }
 }
