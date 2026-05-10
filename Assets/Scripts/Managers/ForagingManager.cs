@@ -53,14 +53,12 @@ public class ForagingManager : MonoBehaviour, ITickable
     private float nextNightSkyRefreshTime = -1;
 
     [Header("Stardust Settings --------------")]
-     [SerializeField] private Transform stardustLootField; // Parent transform for stardust collectables (e.g. stars, constellations)
-    public Transform StardustLootField => this.stardustLootField;
     [SerializeField] private RectTransform stardustSearchableParent; // UI container for stardust searchable positions
     [SerializeField] private float stardustGridSize = 100f; // Grid size for potential stardust searchable positions
     [Tooltip("1 = spawn every hour, 0.5 = spawn every 1/2 hour, etc.")]
     [SerializeField] private float stardustRefreshFrequency = 1f; // Rate to spawn stardust collectables
     [SerializeField] private bool debugSpawnAllStardustSearchables; // For testing - force spawn stardust searchables on start
-    private List<Dewdrop> activeStardusts = new();
+    private List<Stardust> activeStardusts = new();
     private List<Vector3> stardustSpawnPositions = new();
     private float nextStardustRefreshTime = -1;
 
