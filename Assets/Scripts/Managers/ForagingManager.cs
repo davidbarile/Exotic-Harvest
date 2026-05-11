@@ -671,7 +671,94 @@ public class ForagingManager : MonoBehaviour, ITickable
         }
         this.activeNightSkySearchables.Clear();
     }
+    #endregion
 
+    #region Stardust Searchables
+    private void InitStardustPositions()
+    {
+        // If no predefined positions, generate a grid of positions within the spawn area
+        this.stardustSpawnPositions = GetRandomPositions(this.stardustSearchableParent, inCount: -1, inGridSize: this.stardustGridSize, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+
+        var layerMask = LayerMask.GetMask("StardustSpawn");
+
+        // Raycast to only show elements in colliders
+        for (int i = 0; i < this.stardustSpawnPositions.Count; i++)
+        {
+            var screenPos = this.stardustSpawnPositions[i];
+            var worldPos = this.stardustSearchableParent.TransformPoint(screenPos);
+
+            Collider2D hitCollider = Physics2D.OverlapPoint(worldPos, layerMask);
+
+            if (hitCollider == null)
+            {
+                // No collider at this position, remove it from the list
+                this.stardustSpawnPositions.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                this.stardustSpawnPositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
+            }
+        }
+
+        this.stardustSpawnPositions.RandomizeList();
+
+        //Debug.Log($"<color=yellow>InitStardustPositions(). this.stardustSpawnPositions = {this.stardustSpawnPositions.Count}</color>");
+    }
+
+    private void SpawnStardust()
+    {
+        if (this.stardustSpawnPositions.Count == 0)
+        {
+            Debug.Log("<color=red>No stardust spawn positions available. Cannot spawn stardust.</color>");
+            return;
+        }
+
+        if(this.activeStardusts.Count >= this.stardustSpawnPositions.Count)
+            return;
+
+        if (UnityEngine.Random.value < this.stardustRefreshFrequency)
+        {
+            var index = this.activeStardusts.Count % this.stardustSpawnPositions.Count; // Cycle through positions based on current active count
+            Vector3 spawnPos = this.stardustSpawnPositions[index]; // Cycle through predefined positions
+
+            var stardust = PrefabManager.IN.SpawnPrefab<Stardust>("Stardust", this.stardustSearchableParent);
+            stardust.name = $"Stardust_{this.activeStardusts.Count}";
+            stardust.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
+            var rndDepth = UnityEngine.Random.Range(0f, 50f);
+            stardust.transform.position = new Vector3(stardust.transform.position.x, stardust.transform.position.y, spawnPos.z + rndDepth); // Set Z based on collider
+            stardust.Spawn();
+            this.activeStardusts.Add(stardust);
+            //Debug.Log($"Spawn {stardust.name} [{index}] at position {spawnPos}. localPos = {stardust.transform.localPosition}   count: {this.activeStardusts.Count} / {this.stardustSpawnPositions.Count}.  frame = {Time.frameCount}", stardust.gameObject);
+        }
+    }
+
+    [Button(ButtonSizes.Large)]
+    private void DebugStardustSpawn()
+    {
+        DeleteAllStardusts();
+
+        var originalSpawnChance = this.stardustRefreshFrequency;
+
+        this.stardustRefreshFrequency = 1f;
+        for (int i = 0; i < this.stardustSpawnPositions.Count; i++)
+        {
+            SpawnStardust();
+        }
+
+        this.stardustRefreshFrequency = originalSpawnChance;
+    }
+
+    private void DeleteAllStardusts()
+    {
+        //Debug.Log($"<color=red>DeleteAllStardusts().  this.activeStardusts = {this.activeStardusts.Count}  frame = {Time.frameCount}</color>");
+        foreach (var stardust in this.activeStardusts)
+        {
+            if (stardust != null)
+                Destroy(stardust.gameObject);
+        }
+        this.activeStardusts.Clear();
+    }
     #endregion
 
     #region Moonbeams
