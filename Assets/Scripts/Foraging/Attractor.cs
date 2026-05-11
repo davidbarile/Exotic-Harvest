@@ -48,7 +48,7 @@ public class Attractor : MonoBehaviour
                     if(this.linkedPassiveHarvester != null)
                     {
                         this.linkedPassiveHarvester.AddAmount(collectable.Amount);
-                        Destroy(collectable.gameObject);
+                        collectable.OnAttracted();
                     }
                     else
                     {

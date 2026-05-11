@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4182108186755052581}
   - component: {fileID: 4908164429975544502}
   - component: {fileID: 1671675229495365020}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Trail Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 7689123285914080443}
   - component: {fileID: 5859782929327623493}
   - component: {fileID: 6560166384084304199}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Swirl_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 7837514840757050068}
   - component: {fileID: 815230998230232861}
   - component: {fileID: 4934962168776542227}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Swirl_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,9 +358,10 @@ GameObject:
   - component: {fileID: 5913523410657671519}
   - component: {fileID: 8185493256377399083}
   - component: {fileID: 6991643650690051007}
-  m_Layer: 0
+  - component: {fileID: 6299747393022386267}
+  m_Layer: 12
   m_Name: Stardust
-  m_TagString: Untagged
+  m_TagString: Attractable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,8 +411,13 @@ MonoBehaviour:
   resourceType: 61
   amount: 1
   collectionType: 64
-  lifetime: -1
+  lifetimeMinMax:
+    MinQuantity: 3
+    MaxQuantity: 8
+    MinMaxWeightFactor: 0.5
   collectableImage: {fileID: 0}
+  tweenDuration: 2.5
+  starParticles: {fileID: 3872017821838019031}
 --- !u!111 &5913523410657671519
 Animation:
   m_ObjectHideFlags: 0
@@ -471,12 +477,39 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 150
+--- !u!50 &6299747393022386267
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193859504091026788}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.01
+  m_LinearDamping: 5
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &6593306754869544353
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +522,7 @@ GameObject:
   - component: {fileID: 3689790245501013159}
   - component: {fileID: 5496225892466108735}
   - component: {fileID: 2322611150988647709}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,8 +613,8 @@ GameObject:
   - component: {fileID: 794466735101127802}
   - component: {fileID: 3872017821838019031}
   - component: {fileID: 972997427469539127}
-  m_Layer: 0
-  m_Name: Particle
+  m_Layer: 12
+  m_Name: Star Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +655,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7949859398428272938}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -630,7 +663,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -697,7 +730,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
+      scalar: 2.5
       minScalar: 1.5
       maxCurve:
         serializedVersion: 2

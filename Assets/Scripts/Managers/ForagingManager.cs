@@ -686,8 +686,6 @@ public class ForagingManager : MonoBehaviour, ITickable
             this.lastStardustSpawnHour = DateTime.Now;
             this.secondsUntilNextStardustSpawn = this.minMaxTimeBetweenStardustSpawns.GetWeightedRandomQuantity();
 
-            Debug.Log($"RefreshStardustGenerator triggered. secondsElapsed = {secondsElapsed}, secondsUntilNextStardustSpawn = {this.secondsUntilNextStardustSpawn}, lastStardustSpawnHour = {this.lastStardustSpawnHour}");
-
             SpawnStardust();
         }
     }

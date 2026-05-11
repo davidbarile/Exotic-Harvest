@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static GlobalEnums;
+using System;
 
 /// <summary>
 /// Base class for collectable objects that can be harvested by the player
@@ -19,14 +20,15 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public ECollectionMethod CollectionMethod => this.collectionType;
     [SerializeField] protected ECollectionMethod collectionType = ECollectionMethod.Click;
 
-    [Tooltip("-1 for infinite, otherwise seconds to destroy")]
-    [SerializeField] protected float lifetime = -1; // Seconds before disappearing
+    [Tooltip("0 for infinite, otherwise seconds to destroy")]
+    [SerializeField] private WeightedRandom lifetimeMinMax;
+    protected float lifetime = 0; // Seconds before disappearing
 
     [Header("UI Components")]
     [SerializeField] protected Image collectableImage;
     protected CanvasGroup canvasGroup;
 
-    protected float spawnTime;
+    protected DateTime spawnTime;
     protected float initScale = 1f;
     protected bool isCollected = false;
     protected bool isDragging = false;
@@ -38,16 +40,27 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
 
         this.canvasGroup = GetComponent<CanvasGroup>();
     }
-    
+
     public virtual void Spawn()
     {
         if (!this.canvasGroup)
             this.canvasGroup = GetComponent<CanvasGroup>();
-         
-        this.spawnTime = Time.time;
-        
+
+        this.spawnTime = DateTime.Now;
+
+        this.lifetime = this.lifetimeMinMax.GetWeightedRandomQuantity();
+
         if (this.lifetime > 0)
-            Destroy(gameObject, this.lifetime);
+        {
+            CancelInvoke();
+            Invoke(nameof(Expire), this.lifetime);
+        } 
+    }
+    
+    public virtual void Expire()
+    {
+        // Optional: Add lifetime-based fading or other time-based effects here
+        Destroy(gameObject, this.lifetime);
     }
     
     protected virtual void OnDestroy()
@@ -145,10 +158,16 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (this.collectionType.HasFlag(ECollectionMethod.Swipe))
             Collect();
     }
-    
+
     public virtual void OnHold()
     {
         if (this.collectionType.HasFlag(ECollectionMethod.Hold))
             Collect();
+    }
+    
+    public virtual void OnAttracted()
+    {
+        Debug.Log("Collectable attracted!");
+        Destroy(this.gameObject);
     }
 }
