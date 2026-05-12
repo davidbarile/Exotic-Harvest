@@ -87,7 +87,7 @@ public class DayNightCycleController : MonoBehaviour
             return;
         }
 
-        if (inNormalizedTime < this.lastNormalizedTime) // looped around to zero, jump to the new position without tweening
+        if (inNormalizedTime < this.lastNormalizedTime && this.lastNormalizedTime - inNormalizedTime > 0.5f) // looped around to zero, jump to the new position without tweening
         {
             if (this.cameraTween != null && this.cameraTween.IsActive())
                 this.cameraTween.Kill();
