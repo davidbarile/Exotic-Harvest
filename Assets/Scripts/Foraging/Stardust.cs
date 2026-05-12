@@ -5,7 +5,7 @@ public class Stardust : Collectable
 {
     [Range(0, 5), SerializeField] private float tweenDuration = 1f;
     
-    [SerializeField] private ParticleSystem starParticles;
+    [SerializeField] private ParticleSystem[] starParticles;
     private float initAlpha = -1f;
 
     private Tween fadeTween;
@@ -23,7 +23,10 @@ public class Stardust : Collectable
 
         this.fadeTween?.Kill();
         this.fadeTween = this.canvasGroup.DOFade(this.initAlpha, this.tweenDuration).SetEase(Ease.InOutSine);
-         this.starParticles.Play();
+        foreach (var particle in this.starParticles)
+        {
+            particle.Play();
+        }
     }
 
     public void Reset()
@@ -35,7 +38,10 @@ public class Stardust : Collectable
     {
         this.fadeTween?.Kill();
         this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => this.gameObject.SetActive(false));
-        this.starParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        foreach (var particle in this.starParticles)
+        {
+            particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
     }
 
      public override void Collect(bool inShouldAddResourceImmediately = true)
