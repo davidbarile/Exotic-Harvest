@@ -259,7 +259,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     dragTarget.SetAsParent(this.targetRectTransform);
 
                     if (dragTarget.ShouldSnapToCenter)
-                        this.targetRectTransform.localPosition += this.snapToCenterOffset - canvasOffset;
+                        this.targetRectTransform.localPosition += (this.snapToCenterOffset * this.transform.localScale.y) - canvasOffset;
 
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
