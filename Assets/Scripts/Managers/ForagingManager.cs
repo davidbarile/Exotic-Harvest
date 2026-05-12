@@ -53,12 +53,14 @@ public class ForagingManager : MonoBehaviour, ITickable
     private float nextNightSkyRefreshTime = -1;
 
     [Header("Stardust Settings --------------")]
-    [SerializeField] private RectTransform stardustSearchableParent; // UI container for stardust searchable positions
+    [SerializeField] private RectTransform stardustSpawnRect; // UI container for stardust searchable positions
+    [SerializeField] private RectTransform stardustSpawnParent; // UI container for stardust searchable positions
     [SerializeField] private Stardust[] stardustPrefabs; // Different stardust variants to spawn
     [SerializeField] private float stardustGridSize = 100f; // Grid size for potential stardust searchable positions
     [SerializeField] private WeightedRandom minMaxTimeBetweenStardustSpawns; // Chance to spawn stardust each hour during clear nights
     private DateTime lastStardustSpawnHour = DateTime.MinValue;
     private float secondsUntilNextStardustSpawn = 5f;//gets set by weighted random on start and after each change
+    private List<Stardust> activeStardusts = new();
 
     [Header("Moonbeam Settings --------------")]
     [SerializeField] private MoonbeamGenerator moonbeamGenerator;
@@ -675,7 +677,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Stardust Searchables
      private void RefreshStardustGenerator()
     {
-        if (!this.stardustSearchableParent.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+        if (!this.stardustSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
             return;
 
         var secondsElapsed = (DateTime.Now - this.lastStardustSpawnHour).TotalSeconds;
@@ -693,15 +695,19 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         ResetStardusts();
 
-        var stardust = this.stardustPrefabs[UnityEngine.Random.Range(0, this.stardustPrefabs.Length)];//random stardust variant
+        var stardustPrefab = this.stardustPrefabs[UnityEngine.Random.Range(0, this.stardustPrefabs.Length)];//random stardust variant
+        var stardust = Instantiate(stardustPrefab, this.stardustSpawnRect);
         stardust.transform.localPosition = GetRandomStardustSpawnPosition();
+        stardust.transform.SetParent(this.stardustSpawnParent, true);// Move to spawn parent while keeping local position
+        stardust.transform.SetAsLastSibling(); // Ensure stardust appears above other elements
         stardust.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.2f); // Randomize size for visual variety
         stardust.Spawn();
+        this.activeStardusts.Add(stardust);
 
         Vector3 GetRandomStardustSpawnPosition()
         {
-            var xPos = UnityEngine.Random.Range(this.stardustSearchableParent.rect.xMin, this.stardustSearchableParent.rect.xMax);
-            var yPos = UnityEngine.Random.Range(this.stardustSearchableParent.rect.yMin, this.stardustSearchableParent.rect.yMax);
+            var xPos = UnityEngine.Random.Range(this.stardustSpawnRect.rect.xMin, this.stardustSpawnRect.rect.xMax);
+            var yPos = UnityEngine.Random.Range(this.stardustSpawnRect.rect.yMin, this.stardustSpawnRect.rect.yMax);
 
             xPos = Mathf.Round(xPos / this.stardustGridSize) * this.stardustGridSize;
             yPos = Mathf.Round(yPos / this.stardustGridSize) * this.stardustGridSize;
@@ -711,10 +717,12 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void ResetStardusts()
     {
-        foreach (var sd in this.stardustPrefabs)
+        foreach (var sd in this.activeStardusts)
         {
-            sd.Reset();
+            if (sd != null)
+                sd.Expire();
         }
+        this.activeStardusts.Clear();
     }
     #endregion
 

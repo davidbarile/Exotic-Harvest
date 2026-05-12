@@ -29,15 +29,10 @@ public class Stardust : Collectable
         }
     }
 
-    public void Reset()
-    {
-        this.gameObject.SetActive(false);
-    }
-
     public override void Expire()
     {
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => this.gameObject.SetActive(false));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
         foreach (var particle in this.starParticles)
         {
             particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -65,6 +60,6 @@ public class Stardust : Collectable
     {
         Debug.Log("Stardust attracted!");
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => this.gameObject.SetActive(false));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
     }
 }
