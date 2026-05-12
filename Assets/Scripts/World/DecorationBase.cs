@@ -101,6 +101,11 @@ public class DecorationBase : Draggable
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (!this.isDragging)
+            return;
+
+        this.isDragging = false;//this is a hack to prevent double-firing from DragManager.TriggerEndDragOnCurrentObject
+
         //detect if Inventory is open and we're over it, if so, add the item back to the inventory and destroy this world item
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(false);
 

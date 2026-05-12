@@ -29,7 +29,7 @@ public class Attractor : MonoBehaviour
             Vector2 direction = (Vector2)this.transform.position - (Vector2)attractable.transform.position;
             float distance = direction.magnitude;
 
-            Debug.Log($"Attracting {attractable.gameObject.name} at distance {distance}");
+            //Debug.Log($"Attracting {attractable.gameObject.name} at distance {distance}");
 
             if (distance > this.collisionRadius)
             {

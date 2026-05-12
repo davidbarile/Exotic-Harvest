@@ -194,7 +194,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     public void Tick()
     {
         // Spawn raindrops during rain
-        if (WeatherManager.IsRaining || this.debugIgnoreTimeOfDayAndWeather)
+        if (WeatherManager.IsRaining)
         {
             SpawnRaindrops();
         }
