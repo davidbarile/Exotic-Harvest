@@ -33,7 +33,12 @@ public class DecorationData
         return new DecorationData
         {
             PrefabName = decorationData.PrefabName,
-            WorldSaveData = decorationData.WorldSaveData,
+            WorldSaveData = new WorldSaveData
+            {
+                WorldPosition = decorationData.WorldSaveData.WorldPosition,
+                ParentGuid = decorationData.WorldSaveData.ParentGuid,
+                SiblingIndex = decorationData.WorldSaveData.SiblingIndex
+            },
             DecorationType = decorationData.DecorationType,
             HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
             IsDragZone = decorationData.IsDragZone,
