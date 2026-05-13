@@ -33,13 +33,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 4126533651346338521}
   - {fileID: 4681535256830346884}
   - {fileID: 111268007146042686}
   - {fileID: 7733198439197344044}
   - {fileID: 299443244843381461}
   - {fileID: 2990821984318997513}
   - {fileID: 1927962182464305959}
+  - {fileID: 4126533651346338521}
   - {fileID: 1759616914457663365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -69,12 +69,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crystal
   CollectableResourceTypes: 3c0000003d000000
-  quantityText: {fileID: 2746075342888448478}
-  showQuantityTextWhenEmpty: 0
-  activeResourceDisplay: {fileID: 711195490522673549}
-  activeResourceIcon: {fileID: 3352107955717152371}
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
+  quantityText: {fileID: 2746075342888448478}
+  showQuantityTextWhenEmpty: 0
+  activeResourceDisplay: {fileID: 5783205142412124359}
 --- !u!114 &8776988387856860576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4126533651346338521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -314,7 +313,7 @@ RectTransform:
   m_GameObject: {fileID: 827362832143641583}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.21499999, y: 0.21499999, z: 0.21499999}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6295877531508029755}
@@ -323,7 +322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -22.9, y: -38.7}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5335173472976917948
@@ -638,7 +637,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '0/20
 
-    <size=80%><i>(0/100)</i></size>'
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -1063,11 +1062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1099,11 +1098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 40
+      value: -22.9
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -38.7
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1122,24 +1121,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
---- !u!1 &711195490522673549 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5292571056091165568, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
-  m_PrefabInstance: {fileID: 4660189677891174925}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1759616914457663365 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
   m_PrefabInstance: {fileID: 4660189677891174925}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3352107955717152371 stripped
+--- !u!114 &5783205142412124359 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7937952503481326718, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1219987032119091914, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
   m_PrefabInstance: {fileID: 4660189677891174925}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: beefe8b4c8ea14df7bd331c2000e5359, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveResourceDisplay
