@@ -43,19 +43,13 @@ public class WorldItemCrystal : DecorationBase
         if (inCollider == null)
             return;
 
-        print($"WorldItemCrystal '{this.gameObject.name}' detected trigger enter with collider: {inCollider.gameObject.name}");
-
         if (inCollider.CompareTag("Moonbeam"))
         {
-            print($"2.  WorldItemCrystal '{this.gameObject.name}' detected trigger enter with collider: {inCollider.gameObject.name}");
             var moonbeam = inCollider.GetComponentInParent<Moonbeam>();
             if (moonbeam != null)
             {
-                print($"3.  WorldItemCrystal '{this.gameObject.name}' detected trigger enter with collider: {inCollider.gameObject.name}");
                 if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(moonbeam.ResourceType))
                     return;
-
-                print($"4.  WorldItemCrystal '{this.gameObject.name}' detected trigger enter with collider: {inCollider.gameObject.name}");
 
                 //start timer and fillbar
                 this.activeMoonbeam = moonbeam;
