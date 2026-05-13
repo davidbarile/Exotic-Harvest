@@ -63,9 +63,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db33a74756ea7468086e386f55c0b06f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sponge
-  CollectableResourceTypes: 
+  CollectableResourceTypes: 01000000
   quantityText: {fileID: 2746075342888448478}
   showQuantityTextWhenEmpty: 0
+  activeResourceDisplay: {fileID: 0}
+  activeResourceIcon: {fileID: 0}
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
 --- !u!114 &2431263926754673148
@@ -104,9 +106,9 @@ MonoBehaviour:
     DecorationData:
       PrefabName: Tool_Sponge
       WorldSaveData:
-        WorldPosition: {x: -663, y: -436.00027, z: 0}
-        ParentGuid: 37892
-        SiblingIndex: 5
+        WorldPosition: {x: 0, y: 0, z: 0}
+        ParentGuid: 0
+        SiblingIndex: 0
       DecorationType: 8193
       HighlightValidTargetsWhenDragged: 0
       IsDragZone: 0

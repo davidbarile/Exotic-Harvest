@@ -1,5 +1,7 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static GlobalEnums;
 
 /// <summary>
@@ -23,15 +25,23 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public bool IsEmpty => this.CurrentAmount <= 0;
     public float CapacityPercent => (float)this.CurrentAmount / this.MaxCapacity;
 
+    public EResourceType ActiveResourceType { get; protected set; } = EResourceType.None;
+
     public EResourceType[] CollectableResourceTypes;
 
     [SerializeField] protected TextMeshProUGUI quantityText;
     [SerializeField] protected bool showQuantityTextWhenEmpty;
 
+    [Space, SerializeField] protected GameObject activeResourceDisplay;
+    [SerializeField] protected Image activeResourceIcon;
+
     protected virtual void Start()
     {
         TickManager.OnSecondTick += SecondTick;
         SetText(string.Empty);
+
+        if(this.activeResourceDisplay != null)
+            this.activeResourceDisplay.SetActive(false);
     }
 
     protected virtual void OnDestroy()
@@ -97,13 +107,26 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         }
     }
 
-    public bool AddAmount(int inAmount)
+    public bool TryAddAmount(int inAmount, EResourceType inResourceType)
     {
         if (this.DecorationData == null)
             return false;
-            
+
         if (inAmount <= 0)
             return false;
+
+        if(this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
+        {
+            if (!this.CollectableResourceTypes.Contains(inResourceType))
+                return false;
+
+            SetActiveResourceType(inResourceType);
+        }
+        else if (inResourceType != EResourceType.None && inResourceType != this.ActiveResourceType)
+        {
+            // Can't add different resource type
+            return false;
+        }
 
         int actualAmount = Mathf.Min(inAmount, this.MaxCapacity - this.CurrentAmount);
         this.DecorationData.CurrentAmount += actualAmount;
@@ -151,7 +174,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     {
         // Override for generation effects
     }
-    
+
     public virtual bool CollectAll()
     {
         if (this.DecorationData == null || this.IsEmpty)
@@ -163,11 +186,25 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
         int collectedAmount = amountToCollect;
         this.DecorationData.CurrentAmount = 0;
+        SetActiveResourceType(EResourceType.None);
         ResourceManager.OnResourceGained?.Invoke(this.GeneratedResource, collectedAmount);
         OnCollected(collectedAmount);
         RefreshQuantityDisplay();
-        
+
         return true;
+    }
+    
+    private void SetActiveResourceType(EResourceType inResourceType)
+    {
+        this.ActiveResourceType = inResourceType;
+
+        if (this.activeResourceDisplay != null)
+        {
+            this.activeResourceDisplay.SetActive(inResourceType != EResourceType.None);
+
+            if (this.activeResourceIcon != null)
+                this.activeResourceIcon.sprite = ResourceManager.IN.GetResourceSprite(inResourceType);
+        }
     }
     
     protected virtual void OnCollected(int amount)

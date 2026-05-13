@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static GlobalEnums;
 
 public class Attractor : MonoBehaviour
 {
@@ -42,12 +43,11 @@ public class Attractor : MonoBehaviour
             }
             else
             {
-                var collectable = attractable.GetComponent<Collectable>();
-                if(collectable != null)
+                if(attractable.TryGetComponent<Collectable>(out var collectable))
                 {
                     if(this.linkedPassiveHarvester != null)
                     {
-                        this.linkedPassiveHarvester.AddAmount(collectable.Amount);
+                        this.linkedPassiveHarvester.TryAddAmount(collectable.Amount, collectable.ResourceType);
                         collectable.OnAttracted();
                     }
                     else

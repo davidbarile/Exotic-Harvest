@@ -29,7 +29,7 @@ public class ResourceManager : MonoBehaviour
     {
         InitializeInventory();
     }
-    
+
     private void InitializeInventory()
     {
         // Initialize with 0 of each resource type
@@ -37,6 +37,11 @@ public class ResourceManager : MonoBehaviour
         {
             this.resourcesDict[type] = new ResourceData(type, 0);
         }
+    }
+    
+    public Sprite GetResourceSprite(EResourceType type)
+    {
+        return this.resourceDatabase.GetResource(type)?.Icon;
     }
     
     public bool HasResource(EResourceType type, int amount)
