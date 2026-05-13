@@ -17,13 +17,13 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Raindrop Settings --------------")]
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
     public RectTransform RainParent => this.rainParent;
-    [Range(0,10), SerializeField] private float raindropSpawnRate = 2f; // Per second during rain
+    [Range(0,10), SerializeField] private float raindropSpawnRate = 5f;// 
     private int numActiveRaindrops = 0;
 
     [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private float dewGridSize = 20f; // Grid size for potential dewdrop spawn positions
-    [Range(0,1), SerializeField] private float dewdropSpawnChance = 0.1f; // Per second during morning
+    [Range(0,1), SerializeField] private float dewdropSpawnChance = 0.1f; //during morning
     [SerializeField] private bool debugSpawnAllDewdrops; // For testing - force spawn dewdrops on start
     private List<Dewdrop> activeDewdrops = new();
     private List<Vector3> dewSpawnPositions = new();
@@ -250,17 +250,20 @@ public class ForagingManager : MonoBehaviour, ITickable
     private void SpawnRaindrops()
     {
         // Spawn based on rain intensity
-        float spawnChance = this.raindropSpawnRate * WeatherManager.WeatherIntensity;
+        float numSpawns = this.raindropSpawnRate * WeatherManager.WeatherIntensity;
 
-        if (UnityEngine.Random.value < spawnChance)
+        for(int i = 0; i < Mathf.Round(numSpawns); i++)
         {
-            Vector2 spawnPos = GetRaindropSpawnPosition();
-            var raindrop = PrefabManager.IN.SpawnPrefab<Raindrop>("Raindrop", this.rainParent);
-            raindrop.transform.localPosition = spawnPos;
-            raindrop.Spawn();
-            this.numActiveRaindrops++;
-            raindrop.name = $"Raindrop_{this.numActiveRaindrops}";
-        }
+            if (UnityEngine.Random.value < numSpawns)
+            {
+                Vector2 spawnPos = GetRaindropSpawnPosition();
+                var raindrop = PrefabManager.IN.SpawnPrefab<Raindrop>("Raindrop", this.rainParent);
+                raindrop.transform.localPosition = spawnPos;
+                raindrop.Spawn();
+                this.numActiveRaindrops++;
+                raindrop.name = $"Raindrop_{this.numActiveRaindrops}";
+            }
+        }        
     }
 
     private Vector2 GetRaindropSpawnPosition()

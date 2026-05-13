@@ -5769,9 +5769,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7082554963533767303}
     m_Modifications:
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2094696052160195789}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleForceWeatherDropdownChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UiSettingsPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2729329171967616500, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
       propertyPath: m_Name
-      value: Dropdown
+      value: Force Weather Dropdown
       objectReference: {fileID: 0}
     - target: {fileID: 3157496917036546719, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
       propertyPath: m_Pivot.x
@@ -5866,6 +5894,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+--- !u!114 &3686449236044630788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2699605095075798601, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
+  m_PrefabInstance: {fileID: 1611737311062562125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_Dropdown
 --- !u!224 &4435944735831109586 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3157496917036546719, guid: 5e91417ce23f042a5aa9187cddb59a16, type: 3}
@@ -9581,6 +9620,7 @@ MonoBehaviour:
   UseRealTimeToggle: {fileID: 8023026673635406452}
   TimeOfDaySlider: {fileID: 1604483954117959574}
   TimeScaleSlider: {fileID: 1126344874459567842}
+  ForceWeatherDropdown: {fileID: 3686449236044630788}
   GrantAllResourcesToggle: {fileID: 2604728288023075267}
   FreezeTimeToggle: {fileID: 8183718590962756836}
 --- !u!224 &3642361351828926370 stripped

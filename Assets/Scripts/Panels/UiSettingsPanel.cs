@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GlobalEnums;
 
 public class UiSettingsPanel : UIPanelBase
 {
@@ -240,6 +242,7 @@ public class UiSettingsPanel : UIPanelBase
     public Toggle UseRealTimeToggle;
     [Space] public Slider TimeOfDaySlider;
     public Slider TimeScaleSlider;
+    [Space] public TMP_Dropdown ForceWeatherDropdown;
 
     public void SetTimeSlidersActive(bool active)
     {
@@ -249,6 +252,31 @@ public class UiSettingsPanel : UIPanelBase
 
         TimeManager.IN.ToggleRealTime(active);
         SaveManager.Data.UseRealTime = active;
+    }
+
+    public void HandleForceWeatherDropdownChanged(int index)
+    {
+        switch (index)
+        {
+            case 1:
+                WeatherManager.IN.ForceWeather(EWeatherType.Clear);
+                break;
+            case 2:
+                WeatherManager.IN.ForceWeather(EWeatherType.Rain);
+                break;
+            case 3:
+                WeatherManager.IN.ForceWeather(EWeatherType.Storm);
+                break;
+            case 4:
+                WeatherManager.IN.ForceWeather(EWeatherType.Wind);
+                break;
+            case 5:
+                WeatherManager.IN.ForceWeather(EWeatherType.Foggy);
+                break;
+            default:
+                WeatherManager.IN.ChangeWeather();
+                break;
+        }
     }
     #endregion
 

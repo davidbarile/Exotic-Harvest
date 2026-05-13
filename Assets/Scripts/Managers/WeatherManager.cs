@@ -76,7 +76,7 @@ public class WeatherManager : MonoBehaviour, ITickable
         }
     }
     
-    private void ChangeWeather()
+    public void ChangeWeather()
     {
         // Simple weather transition logic
         EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
@@ -132,8 +132,8 @@ public class WeatherManager : MonoBehaviour, ITickable
     {
         switch (weather)
         {
-            case EWeatherType.Clear: return 0.2f;
-            case EWeatherType.Rain: return UnityEngine.Random.Range(0.4f, 0.8f);
+            case EWeatherType.Clear: return 0f;
+            case EWeatherType.Rain: return UnityEngine.Random.Range(0.05f, 0.3f);
             case EWeatherType.Storm: return UnityEngine.Random.Range(0.8f, 1f);
             case EWeatherType.Wind: return UnityEngine.Random.Range(0.3f, 0.6f);
             case EWeatherType.Snow: return UnityEngine.Random.Range(0.4f, 0.7f);
