@@ -49,7 +49,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     public bool IsFull => this.CurrentAmount >= this.MaxCapacity;
     public bool IsEmpty => this.CurrentAmount + this.leftoverFractionAmount <= 0;
-    public float CapacityPercent => ((float)this.CurrentAmount + this.leftoverFractionAmount) / this.MaxCapacity;
+    public float CapacityPercent => Mathf.Clamp01(((float)this.CurrentAmount + this.leftoverFractionAmount) / this.MaxCapacity);
 
     public CollectableResourceData ActiveResourceData { get; protected set; }
 
@@ -152,7 +152,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         else
             this.leftoverFractionAmount = 0;
 
-        Debug.Log($"Trying to add {inAmount} of {inResourceType} to {this.gameObject.name}. Amount to add: {amountToAdd}, Leftover fraction: {this.leftoverFractionAmount}. isEmpty = {this.IsEmpty}");
+        //Debug.Log($"Trying to add {inAmount} of {inResourceType} to {this.gameObject.name}. Amount to add: {amountToAdd}, Leftover fraction: {this.leftoverFractionAmount}. isEmpty = {this.IsEmpty}");
 
         if (this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
         {

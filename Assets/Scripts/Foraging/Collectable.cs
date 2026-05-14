@@ -167,7 +167,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     public virtual void OnAttracted()
     {
-        Debug.Log("Collectable attracted!");
+        //Debug.Log("Collectable attracted!");
         Destroy(this.gameObject);
     }
 }

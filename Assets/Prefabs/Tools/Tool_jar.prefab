@@ -95,6 +95,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb6d642de4d741568ee65f160975b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jar
+  DecorationData:
+    PrefabName: Tool_Jar
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
+    DecorationType: 2051
+    HighlightValidTargetsWhenDragged: 1
+    IsDragZone: 0
+    ActiveResourceType: 0
+    GeneratedResource: 25
+    CurrentAmount: 0
+    MaxAmount: 100
+    GenerationInterval: 0
+    RequiresSpecificConditions: 0
+    IsActive: 0
   collectableResources:
   - ResourceType: 61
     ConversionRatio: 0.1
@@ -153,6 +169,7 @@ MonoBehaviour:
       DecorationType: 2051
       HighlightValidTargetsWhenDragged: 1
       IsDragZone: 0
+      ActiveResourceType: 0
       GeneratedResource: 25
       CurrentAmount: 0
       MaxAmount: 100

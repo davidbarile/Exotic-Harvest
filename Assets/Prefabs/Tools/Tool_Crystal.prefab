@@ -68,6 +68,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aa7ddb1de964df7bacf77c43e5e291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crystal
+  DecorationData:
+    PrefabName: DefaultItemUI
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
+    DecorationType: 0
+    HighlightValidTargetsWhenDragged: 0
+    IsDragZone: 0
+    ActiveResourceType: 0
+    GeneratedResource: 0
+    CurrentAmount: 0
+    MaxAmount: 0
+    GenerationInterval: 0
+    RequiresSpecificConditions: 0
+    IsActive: 1
   collectableResources:
   - ResourceType: 60
     ConversionRatio: 1
@@ -123,6 +139,7 @@ MonoBehaviour:
       DecorationType: 0
       HighlightValidTargetsWhenDragged: 0
       IsDragZone: 0
+      ActiveResourceType: 0
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 0
