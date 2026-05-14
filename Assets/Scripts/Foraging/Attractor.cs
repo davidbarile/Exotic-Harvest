@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using static GlobalEnums;
 
-public class Attractor : MonoBehaviour
+public class Attractor : MonoBehaviour, ITickable
 {
     public bool IsActive = true;
     [Range(0f, 100f),SerializeField] private float strength = 1f;
@@ -13,48 +12,60 @@ public class Attractor : MonoBehaviour
 
     [SerializeField] private PassiveHarvester linkedPassiveHarvester;
 
+    private Collider2D[] attractables = new Collider2D[10];
+    private Collectable currentCollectable;
+    private Collider2D currentAttractable;
+
+    public void Tick()
+    {
+        // Attractor logic is handled in FixedUpdate for consistent physics interactions
+    }
+
+    public void SecondTick()
+    {
+        // No second tick logic needed for this class
+    }
+
     private void FixedUpdate()
     {
         if (!IsActive) return;
 
-        if(this.linkedPassiveHarvester != null && this.linkedPassiveHarvester.IsFull)
+        if(this.linkedPassiveHarvester == null || this.linkedPassiveHarvester.IsFull)
             return;
+
+        var count = Physics2D.OverlapCircleNonAlloc(this.transform.position, this.maxDistance, this.attractables, this.attractableLayer);
         
-        Collider2D[] attractables = new Collider2D[10];
-        int count = Physics2D.OverlapCircleNonAlloc(this.transform.position, this.maxDistance, attractables, this.attractableLayer);
         for (int i = 0; i < count; i++)
         {
-            Collider2D attractable = attractables[i];
-            if (!attractable.CompareTag(this.tagToAttract)) continue;
+            this.currentAttractable = this.attractables[i];
+            if (!this.currentAttractable.CompareTag(this.tagToAttract)) continue;
 
-            Vector2 direction = (Vector2)this.transform.position - (Vector2)attractable.transform.position;
-            float distance = direction.magnitude;
+            if(this.currentAttractable.TryGetComponent(out this.currentCollectable))
+            {
+                if(!this.linkedPassiveHarvester.ShouldAttract(this.currentCollectable.ResourceType))
+                    continue;
+            }
+            else
+                continue;
 
-            //Debug.Log($"Attracting {attractable.gameObject.name} at distance {distance}");
+            var direction = (Vector2)this.transform.position - (Vector2)this.currentAttractable.transform.position;
+            var distance = direction.magnitude;
+
+            //Debug.Log($"Attracting {this.currentAttractable.gameObject.name} at distance {distance}");
 
             if (distance > this.collisionRadius)
             {
-                Rigidbody2D rb = attractable.attachedRigidbody;
-                if (rb != null)
+                if (this.currentAttractable.attachedRigidbody != null)
                 {
-                    Vector2 force = direction.normalized * this.strength * 100f / distance;
-                    rb.AddForce(force);
+                    Vector2 force = 100f * this.strength * direction.normalized / distance;
+                    this.currentAttractable.attachedRigidbody.AddForce(force);
                 }
             }
             else
             {
-                if(attractable.TryGetComponent<Collectable>(out var collectable))
-                {
-                    if(this.linkedPassiveHarvester != null)
-                    {
-                        this.linkedPassiveHarvester.TryAddAmount(collectable.Amount, collectable.ResourceType);
-                        collectable.OnAttracted();
-                    }
-                    else
-                    {
-                        collectable.Collect();
-                    }
-                }
+                this.linkedPassiveHarvester.TryAddAmount(this.currentCollectable.Amount, this.currentCollectable.ResourceType);
+                this.currentCollectable.OnAttracted();
+                this.currentCollectable = null; // Clear reference after attraction
             }
         }
     }

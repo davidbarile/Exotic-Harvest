@@ -283,7 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04ef35c0cfbac455f85f6149e6430706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bucket
-  CollectableResourceTypes: 02000000
+  collectableResources:
+  - ResourceType: 2
+    ConversionRatio: 0.2
+    MaxAmount: 0
   fillImage: {fileID: 7496987049457471739}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 3574800819758532373}
@@ -336,7 +339,6 @@ MonoBehaviour:
       GeneratedResource: 2
       CurrentAmount: 0
       MaxAmount: 500
-      ConversionRatio: 0.2
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0

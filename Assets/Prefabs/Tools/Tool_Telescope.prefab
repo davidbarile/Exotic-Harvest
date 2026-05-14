@@ -722,7 +722,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04eaaf1e716d4b3c903052bd519e139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Telescope
-  CollectableResourceTypes: 
+  collectableResources:
+  - ResourceType: 64
+    ConversionRatio: 1
+    MaxAmount: 0
+  - ResourceType: 65
+    ConversionRatio: 1
+    MaxAmount: 0
+  - ResourceType: 66
+    ConversionRatio: 1
+    MaxAmount: 0
+  - ResourceType: 62
+    ConversionRatio: 1
+    MaxAmount: 0
   fillImage: {fileID: 0}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 3574800819758532373}
@@ -773,7 +785,6 @@ MonoBehaviour:
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 0
-      ConversionRatio: 1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1

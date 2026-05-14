@@ -48,7 +48,7 @@ public class WorldItemCrystal : DecorationBase
             var moonbeam = inCollider.GetComponentInParent<Moonbeam>();
             if (moonbeam != null)
             {
-                if (!this.linkedPassiveHarvester.CollectableResourceTypes.Contains(moonbeam.ResourceType))
+                if (!this.linkedPassiveHarvester.CanCollectResourceType(moonbeam.ResourceType))
                     return;
 
                 //start timer and fillbar

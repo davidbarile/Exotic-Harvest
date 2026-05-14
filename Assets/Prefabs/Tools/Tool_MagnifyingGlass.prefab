@@ -331,7 +331,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4087cc249d4d24a76bad332eb8fbd69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagnifyingGlass
-  CollectableResourceTypes: 14000000180000001a0000001b00000028000000290000002a00000053000000
+  collectableResources:
+  - ResourceType: 20
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 24
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 26
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 27
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 40
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 41
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 42
+    ConversionRatio: 1
+    MaxAmount: 100
+  - ResourceType: 83
+    ConversionRatio: 1
+    MaxAmount: 100
   fillImage: {fileID: 0}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 3574800819758532373}
@@ -384,7 +408,6 @@ MonoBehaviour:
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 100
-      ConversionRatio: 1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0

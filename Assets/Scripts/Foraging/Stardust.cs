@@ -58,7 +58,6 @@ public class Stardust : Collectable
     
     public override void OnAttracted()
     {
-        Debug.Log("Stardust attracted!");
         this.fadeTween?.Kill();
         this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
     }

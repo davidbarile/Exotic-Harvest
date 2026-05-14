@@ -64,7 +64,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db33a74756ea7468086e386f55c0b06f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sponge
-  CollectableResourceTypes: 01000000
+  collectableResources:
+  - ResourceType: 1
+    ConversionRatio: 0.01
+    MaxAmount: 1000
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 2746075342888448478}
@@ -115,7 +118,6 @@ MonoBehaviour:
       GeneratedResource: 1
       CurrentAmount: 0
       MaxAmount: 1000
-      ConversionRatio: 0.01
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0

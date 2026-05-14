@@ -68,7 +68,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aa7ddb1de964df7bacf77c43e5e291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crystal
-  CollectableResourceTypes: 3c0000003d000000
+  collectableResources:
+  - ResourceType: 60
+    ConversionRatio: 1
+    MaxAmount: 10
+  - ResourceType: 61
+    ConversionRatio: 1
+    MaxAmount: 50
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 2746075342888448478}
@@ -119,7 +125,6 @@ MonoBehaviour:
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 0
-      ConversionRatio: 1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 1
@@ -342,8 +347,8 @@ CanvasGroup:
   m_GameObject: {fileID: 827362832143641583}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &2005213628548387117
 GameObject:

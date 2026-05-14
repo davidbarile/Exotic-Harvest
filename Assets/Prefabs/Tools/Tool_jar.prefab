@@ -95,7 +95,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb6d642de4d741568ee65f160975b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jar
-  CollectableResourceTypes: 1900000041000000
+  collectableResources:
+  - ResourceType: 61
+    ConversionRatio: 0.1
+    MaxAmount: 50
+  - ResourceType: 25
+    ConversionRatio: 0.1
+    MaxAmount: 100
+  - ResourceType: 70
+    ConversionRatio: 1
+    MaxAmount: 10
   fillImage: {fileID: 0}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 2746075342888448478}
@@ -146,7 +155,6 @@ MonoBehaviour:
       GeneratedResource: 25
       CurrentAmount: 0
       MaxAmount: 100
-      ConversionRatio: 0.1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0

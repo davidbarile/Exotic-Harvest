@@ -22,7 +22,6 @@ public class DecorationData
     public EResourceType GeneratedResource;
     public int CurrentAmount;
     public int MaxAmount;
-    public float ConversionRatio = 1f;
     public float GenerationInterval;// Seconds between generation
     public bool RequiresSpecificConditions;
     public float LastGenerationTime {get; set;}
@@ -46,7 +45,6 @@ public class DecorationData
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,
-            ConversionRatio = decorationData.ConversionRatio,
             GenerationInterval = decorationData.GenerationInterval,
             RequiresSpecificConditions = decorationData.RequiresSpecificConditions,
             LastGenerationTime = decorationData.LastGenerationTime,
