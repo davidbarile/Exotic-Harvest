@@ -62,8 +62,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     [SerializeField] protected bool showQuantityTextWhenEmpty;
 
     [Space, SerializeField] protected ActiveResourceDisplay activeResourceDisplay;
-  
+
     protected float targetFillAmount;
+    protected float leftoverFractionAmount;
 
     protected virtual void Start()
     {
@@ -139,13 +140,21 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         }
     }
 
-    public bool TryAddAmount(int inAmount, EResourceType inResourceType)
+    public bool TryAddAmount(float inAmount, EResourceType inResourceType)
     {
         if (this.DecorationData == null)
             return false;
 
         if (inAmount <= 0)
             return false;
+
+        this.leftoverFractionAmount += inAmount;
+        int amountToAdd = Mathf.FloorToInt(this.leftoverFractionAmount);
+
+        if (amountToAdd < this.MaxCapacity)
+            this.leftoverFractionAmount -= amountToAdd;
+        else
+            this.leftoverFractionAmount = 0;
 
         if(this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
         {
@@ -160,7 +169,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
             return false;
         }
 
-        int actualAmount = Mathf.Min(inAmount, this.MaxCapacity - this.CurrentAmount);
+        int actualAmount = Mathf.Min(amountToAdd, this.MaxCapacity - this.CurrentAmount);
         this.DecorationData.CurrentAmount += actualAmount;
 
         if (actualAmount > 0)
@@ -175,20 +184,23 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     protected virtual void RefreshQuantityDisplay()
     {
-        if (this.DecorationData == null || this.ActiveResourceData == null)
+        if (this.DecorationData == null)
             return;
 
         if (this.quantityText && (this.showQuantityTextWhenEmpty || !this.IsEmpty))
         {
             if (this.activeResourceDisplay != null)
             {
-                int amountCollected = Mathf.FloorToInt((float)this.CurrentAmount * this.ActiveResourceData.ConversionRatio);
-                int total = Mathf.FloorToInt((float)this.MaxCapacity * this.ActiveResourceData.ConversionRatio);
+                if (this.ActiveResourceData != null)
+                {
+                    int amountCollected = Mathf.FloorToInt((float)this.CurrentAmount * this.ActiveResourceData.ConversionRatio);
+                    //int total = Mathf.FloorToInt((float)this.MaxCapacity * this.ActiveResourceData.ConversionRatio);
 
-                this.activeResourceDisplay.SetValue(amountCollected, total);
+                    this.activeResourceDisplay.SetValue(amountCollected, this.MaxCapacity);
+                }
             }
-            
-            this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";    
+
+            this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";
         }
 
         UpdateFillMeter(false);
@@ -223,6 +235,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         ResourceManager.IN.AddResource(resourceType, amountToCollect);
 
         int collectedAmount = amountToCollect;
+        this.leftoverFractionAmount = 0f;
         this.DecorationData.CurrentAmount = 0;
         
         SetActiveResourceData(null);

@@ -16,9 +16,22 @@ public class Attractor : MonoBehaviour, ITickable
     private Collectable currentCollectable;
     private Collider2D currentAttractable;
 
+    private bool tickHasHappened;
+
+    private void Start()
+    {
+        TickManager.OnTick += Tick;
+    }
+
+    private void OnDestroy()
+    {
+        TickManager.OnTick -= Tick;
+    }
+
     public void Tick()
     {
         // Attractor logic is handled in FixedUpdate for consistent physics interactions
+        this.tickHasHappened = true;
     }
 
     public void SecondTick()
@@ -34,15 +47,15 @@ public class Attractor : MonoBehaviour, ITickable
             return;
 
         var count = Physics2D.OverlapCircleNonAlloc(this.transform.position, this.maxDistance, this.attractables, this.attractableLayer);
-        
+
         for (int i = 0; i < count; i++)
         {
             this.currentAttractable = this.attractables[i];
             if (!this.currentAttractable.CompareTag(this.tagToAttract)) continue;
 
-            if(this.currentAttractable.TryGetComponent(out this.currentCollectable))
+            if (this.currentAttractable.TryGetComponent(out this.currentCollectable))
             {
-                if(!this.linkedPassiveHarvester.ShouldAttract(this.currentCollectable.ResourceType))
+                if (!this.linkedPassiveHarvester.ShouldAttract(this.currentCollectable.ResourceType))
                     continue;
             }
             else
@@ -63,11 +76,20 @@ public class Attractor : MonoBehaviour, ITickable
             }
             else
             {
-                this.linkedPassiveHarvester.TryAddAmount(this.currentCollectable.Amount, this.currentCollectable.ResourceType);
+                if (!this.tickHasHappened)
+                    return;
+
+                float amountToAdd = this.currentCollectable.Amount;//this is wrong, TryAddAmount is required to get fraction
+                if (this.linkedPassiveHarvester.ActiveResourceData != null)
+                    amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
+  
+                this.linkedPassiveHarvester.TryAddAmount(amountToAdd, this.currentCollectable.ResourceType);
                 this.currentCollectable.OnAttracted();
                 this.currentCollectable = null; // Clear reference after attraction
             }
         }
+
+        this.tickHasHappened = false;
     }
 
     private void OnDrawGizmosSelected()
