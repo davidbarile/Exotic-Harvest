@@ -79,7 +79,9 @@ public class Attractor : MonoBehaviour, ITickable
                 if (!this.tickHasHappened)
                     return;
 
-                float amountToAdd = this.currentCollectable.Amount;//this is wrong, TryAddAmount is required to get fraction
+                this.linkedPassiveHarvester.TrySetActiveResourceType(this.currentCollectable.ResourceType);
+
+                float amountToAdd = this.currentCollectable.Amount;
                 if (this.linkedPassiveHarvester.ActiveResourceData != null)
                     amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
   

@@ -19,6 +19,7 @@ public class DecorationData
 
     // For passive harvesters
     [Header("Resource Generation")]
+    [HideInInspector] public EResourceType ActiveResourceType;
     public EResourceType GeneratedResource;
     public int CurrentAmount;
     public int MaxAmount;
@@ -42,6 +43,7 @@ public class DecorationData
             HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
             IsDragZone = decorationData.IsDragZone,
             Guid = decorationData.Guid, // Only generate new guid if original is -1, otherwise copy existing guid (used for saving/loading)
+            ActiveResourceType = decorationData.ActiveResourceType,
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,

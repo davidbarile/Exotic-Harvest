@@ -101,14 +101,15 @@ MonoBehaviour:
     MaxAmount: 50
   - ResourceType: 25
     ConversionRatio: 0.1
-    MaxAmount: 100
+    MaxAmount: 25
   - ResourceType: 70
     ConversionRatio: 1
-    MaxAmount: 10
+    MaxAmount: 5
   fillImage: {fileID: 0}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 2746075342888448478}
   showQuantityTextWhenEmpty: 0
+  showQuantityTextAsPercent: 0
   activeResourceDisplay: {fileID: 3396691221820233403}
 --- !u!114 &8160949974879223126
 MonoBehaviour:
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0/100
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -757,9 +758,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4234567890123457}
     m_Modifications:
+    - target: {fileID: 3276764321264678100, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5292571056091165568, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_Name
       value: Active Resource Display
+      objectReference: {fileID: 0}
+    - target: {fileID: 5292571056091165568, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_Pivot.x
@@ -839,6 +848,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106098928928868547, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_text
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

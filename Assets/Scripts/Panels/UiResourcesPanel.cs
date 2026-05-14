@@ -9,7 +9,7 @@ public class UiResourcesPanel : UIPanelBase
     [Header("UI Settings")]
     [SerializeField] private GridLayoutGroup grid;
     [SerializeField] private EResourceCategory categoriesToShow;
-    [SerializeField] private bool showOnlyOwnedResources = true;
+    [SerializeField] private bool showAllResources;
 
     [SerializeField] private int maxItemsPerRow = 15;
 
@@ -33,7 +33,7 @@ public class UiResourcesPanel : UIPanelBase
     
     public void HandleShowAllToggleChanged(bool value)
     {
-        this.showOnlyOwnedResources = !value;
+        this.showAllResources = value;
         RefreshAllDisplays();
     }
 
@@ -47,7 +47,7 @@ public class UiResourcesPanel : UIPanelBase
             CreateResourceDisplay(resourceConfig);
         }
 
-        var visibleResources = resourcesToShow.Where(r => ResourceManager.IN.GetResourceAmount(r.ResourceType) > 0 || !this.showOnlyOwnedResources).ToArray();
+        var visibleResources = resourcesToShow.Where(r => ResourceManager.IN.GetResourceAmount(r.ResourceType) > 0 || this.showAllResources).ToArray();
 
         this.grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
 
@@ -99,8 +99,7 @@ public class UiResourcesPanel : UIPanelBase
     private void OnResourceChanged(EResourceType type, int newAmount)
     {            
         if (this.activeDisplaysDict.TryGetValue(type, out UiResourceDisplay display))
-            display.gameObject.SetActive(newAmount > 0 || !this.showOnlyOwnedResources);
-      
+            display.gameObject.SetActive(newAmount > 0 || this.showAllResources);
     }
     
     public void RefreshAllDisplays()

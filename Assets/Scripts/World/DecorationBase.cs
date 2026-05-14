@@ -310,10 +310,16 @@ public class DecorationBase : Draggable
         {
             if (collision.TryGetComponent<Collectable>(out var collectible))
             {
-                if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
-                    return;
+                // if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
+                //     return;
+                    
+                this.linkedPassiveHarvester.TrySetActiveResourceType(collectible.ResourceType);
 
-                var success = this.linkedPassiveHarvester.TryAddAmount(collectible.Amount, collectible.ResourceType);
+                float amountToAdd = collectible.Amount;
+                if (this.linkedPassiveHarvester.ActiveResourceData != null)
+                    amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
+
+                var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, collectible.ResourceType);
 
                 if (success)
                     collectible.Collect(false);

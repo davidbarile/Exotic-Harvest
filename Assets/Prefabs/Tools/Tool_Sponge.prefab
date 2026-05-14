@@ -67,12 +67,13 @@ MonoBehaviour:
   collectableResources:
   - ResourceType: 1
     ConversionRatio: 0.01
-    MaxAmount: 1000
+    MaxAmount: 50
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
   quantityText: {fileID: 2746075342888448478}
   showQuantityTextWhenEmpty: 0
-  activeResourceDisplay: {fileID: 0}
+  showQuantityTextAsPercent: 1
+  activeResourceDisplay: {fileID: 7998059997996393817}
 --- !u!114 &2431263926754673148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ MonoBehaviour:
       IsDragZone: 0
       GeneratedResource: 1
       CurrentAmount: 0
-      MaxAmount: 1000
+      MaxAmount: 50
       GenerationInterval: 0
       RequiresSpecificConditions: 0
       IsActive: 0
@@ -397,7 +398,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0/10
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 4d5af028edcb84f2988937bf97a22062, type: 2}
@@ -747,9 +748,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4234567890123457}
     m_Modifications:
+    - target: {fileID: 3276764321264678100, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5292571056091165568, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_Name
       value: Active Resource Display
+      objectReference: {fileID: 0}
+    - target: {fileID: 5292571056091165568, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
       propertyPath: m_Pivot.x
@@ -831,6 +840,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7106098928928868547, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -841,3 +854,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6397147287639938440, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
   m_PrefabInstance: {fileID: 9083921581098174355}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7998059997996393817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1219987032119091914, guid: ffeb7f27773cd4e2485339f36ed818b7, type: 3}
+  m_PrefabInstance: {fileID: 9083921581098174355}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beefe8b4c8ea14df7bd331c2000e5359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveResourceDisplay

@@ -60,9 +60,9 @@ public class DecorationManager : MonoBehaviour
         if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
             return null;
 
-        print($"Spawning item in world: {itemData.DisplayName} at position {spawnPosition} with parent {(parent != null ? parent.name : "null")}");
-
         var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.WorldDecorationsContainer);
+        Debug.Log($"Spawning item in world: {itemData.DisplayName} at position {spawnPosition} with parent {(parent != null ? parent.name : "null")}", worldItem.gameObject);
+
         worldItem.transform.localPosition = spawnPosition;
         worldItem.transform.localScale = Vector3.one;
         worldItem.name = $"Decoration_{itemData.DisplayName}";

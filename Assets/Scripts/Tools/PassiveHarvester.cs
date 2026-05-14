@@ -22,7 +22,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         public int MaxAmount = 0;
     }
 
-    public DecorationData DecorationData { get; protected set; }
+    public DecorationData DecorationData;// { get; protected set; }
 
     public EResourceType GeneratedResource => this.DecorationData != null ? this.DecorationData.GeneratedResource : EResourceType.None;
 
@@ -48,8 +48,8 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public bool IsActive => this.DecorationData != null ? this.DecorationData.IsActive : true;
 
     public bool IsFull => this.CurrentAmount >= this.MaxCapacity;
-    public bool IsEmpty => this.CurrentAmount <= 0;
-    public float CapacityPercent => (float)this.CurrentAmount / this.MaxCapacity;
+    public bool IsEmpty => this.CurrentAmount + this.leftoverFractionAmount <= 0;
+    public float CapacityPercent => ((float)this.CurrentAmount + this.leftoverFractionAmount) / this.MaxCapacity;
 
     public CollectableResourceData ActiveResourceData { get; protected set; }
 
@@ -60,6 +60,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
 
     [SerializeField] protected TextMeshProUGUI quantityText;
     [SerializeField] protected bool showQuantityTextWhenEmpty;
+    [SerializeField] protected bool showQuantityTextAsPercent;
 
     [Space, SerializeField] protected ActiveResourceDisplay activeResourceDisplay;
 
@@ -69,12 +70,6 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     protected virtual void Start()
     {
         TickManager.OnSecondTick += SecondTick;
-        SetText(string.Empty);
-
-        RefreshQuantityDisplay();
-
-        if(this.activeResourceDisplay != null)
-            this.activeResourceDisplay.gameObject.SetActive(false);
     }
 
     protected virtual void OnDestroy()
@@ -96,6 +91,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     public virtual void SetDecorationData(DecorationData inDecorationData)
     {
         this.DecorationData = inDecorationData;
+        SetActiveResourceData(GetResourceDataOfType(this.DecorationData.ActiveResourceType));
         RefreshQuantityDisplay();
     }
     
@@ -156,7 +152,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         else
             this.leftoverFractionAmount = 0;
 
-        if(this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
+        Debug.Log($"Trying to add {inAmount} of {inResourceType} to {this.gameObject.name}. Amount to add: {amountToAdd}, Leftover fraction: {this.leftoverFractionAmount}. isEmpty = {this.IsEmpty}");
+
+        if (this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
         {
             if (!CanCollectResourceType(inResourceType))
                 return false;
@@ -176,31 +174,43 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         {
             ResourceManager.OnResourceGained?.Invoke(this.ActiveResourceData.ResourceType, actualAmount);
             OnGenerated(actualAmount);
-            RefreshQuantityDisplay();
         }
 
+        RefreshQuantityDisplay();
+
         return actualAmount > 0;
+    }
+    
+    //kinda hack function to be called from Attractor before TryAddAmount()
+    public bool TrySetActiveResourceType(EResourceType inResourceType)
+    {
+        if (this.DecorationData.CurrentAmount == 0 && inResourceType == EResourceType.None || CanCollectResourceType(inResourceType))
+        {
+            SetActiveResourceData(GetResourceDataOfType(inResourceType));
+            return true;
+        }
+        return false;
     }
 
     protected virtual void RefreshQuantityDisplay()
     {
-        if (this.DecorationData == null)
-            return;
+        // if (this.DecorationData == null)
+        //     return;
 
-        if (this.quantityText && (this.showQuantityTextWhenEmpty || !this.IsEmpty))
+        if (this.showQuantityTextWhenEmpty || !this.IsEmpty)
         {
-            if (this.activeResourceDisplay != null)
-            {
-                if (this.ActiveResourceData != null)
-                {
-                    int amountCollected = Mathf.FloorToInt((float)this.CurrentAmount * this.ActiveResourceData.ConversionRatio);
-                    //int total = Mathf.FloorToInt((float)this.MaxCapacity * this.ActiveResourceData.ConversionRatio);
-
-                    this.activeResourceDisplay.SetValue(amountCollected, this.MaxCapacity);
-                }
-            }
-
-            this.quantityText.text = $"{this.CurrentAmount}/{this.MaxCapacity}";
+            if (this.showQuantityTextAsPercent)
+                SetText($"{this.CapacityPercent:P1}");
+            else
+                SetText($"{this.CurrentAmount}/{this.MaxCapacity}");
+        }
+        else
+            SetText(string.Empty);
+            
+        if (this.activeResourceDisplay != null)
+        {
+            this.activeResourceDisplay.SetValue(this.CurrentAmount, this.MaxCapacity);
+            this.activeResourceDisplay.gameObject.SetActive(this.showQuantityTextWhenEmpty || !this.IsEmpty);
         }
 
         UpdateFillMeter(false);
@@ -228,19 +238,16 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
             || this.ActiveResourceData == null || this.ActiveResourceData.ResourceType == EResourceType.None)
             return false;
 
-        int amountToCollect = Mathf.FloorToInt((float)this.DecorationData.CurrentAmount * this.ActiveResourceData.ConversionRatio);
-
         var resourceType = this.ActiveResourceData.ResourceType;
 
-        ResourceManager.IN.AddResource(resourceType, amountToCollect);
+        ResourceManager.IN.AddResource(resourceType, this.DecorationData.CurrentAmount);
 
-        int collectedAmount = amountToCollect;
         this.leftoverFractionAmount = 0f;
         this.DecorationData.CurrentAmount = 0;
         
         SetActiveResourceData(null);
-        ResourceManager.OnResourceGained?.Invoke(resourceType, collectedAmount);
-        OnCollected(collectedAmount);
+        ResourceManager.OnResourceGained?.Invoke(resourceType, this.DecorationData.CurrentAmount);
+        OnCollected(this.DecorationData.CurrentAmount);
         RefreshQuantityDisplay();
 
         return true;
@@ -249,11 +256,12 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     protected virtual void SetActiveResourceData(CollectableResourceData inResourceData)
     {
         this.ActiveResourceData = inResourceData;
+        this.DecorationData.ActiveResourceType = inResourceData != null ? inResourceData.ResourceType : EResourceType.None;
+
+        //Debug.Log($"<color=yellow>Set active resource type to {this.DecorationData.ActiveResourceType} for {this.gameObject.name}</color>", this.gameObject);
 
         if (this.activeResourceDisplay != null)
         {
-            this.activeResourceDisplay.gameObject.SetActive(inResourceData != null && inResourceData.ResourceType != EResourceType.None);
-
             if (inResourceData != null)
                 this.activeResourceDisplay.SetIcon(ResourceManager.IN.GetResourceSprite(inResourceData.ResourceType));
         }
