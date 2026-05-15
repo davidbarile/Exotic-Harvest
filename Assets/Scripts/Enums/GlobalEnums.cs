@@ -138,6 +138,10 @@ public class GlobalEnums
         PetHome = 1 << 18,
         Plant = 1 << 19,
         Pet = 1 << 20,
+        HangingTop = 1 << 21,
+        FloorMount = 1 << 22,
+        SideMountLeft = 1 << 23,
+        SideMountRight = 1 << 24,
         All = ~0
     }
 
