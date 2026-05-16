@@ -8,10 +8,17 @@ public class UiShopItemIconDisplay : MonoBehaviour
     [SerializeField] private TMP_Text quantityText;
     [SerializeField] private TooltipTrigger tooltipTrigger;
 
+    private Vector2 originalIconSize = Vector2.zero;
+
     private static readonly int desaturateID = Shader.PropertyToID("_DesaturateStrength");
 
     public void Configure(Sprite inIconSprite, int inQuantity, Color iconColor, string tooltipText = "")
     {
+        if (this.originalIconSize == Vector2.zero)
+            this.originalIconSize = this.itemIcon.rectTransform.sizeDelta;
+
+        this.itemIcon.rectTransform.sizeDelta = this.originalIconSize;
+            
         SpriteManager.SetImageSprite(this.itemIcon, inIconSprite);
         this.itemIcon.color = iconColor;
         this.quantityText.text = inQuantity > 1 ? $"x{inQuantity}" : string.Empty;

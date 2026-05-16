@@ -142,6 +142,8 @@ public class GlobalEnums
         FloorMount = 1 << 22,
         SideMountLeft = 1 << 23,
         SideMountRight = 1 << 24,
+        ScreenSpace = 1 << 25, 
+        WorldSpace = 1 << 26,
         All = ~0
     }
 

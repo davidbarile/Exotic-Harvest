@@ -16,18 +16,21 @@ MonoBehaviour:
   DisplayName: Cactus
   Description: 
   Icon: {fileID: 21300000, guid: cd353147bc7ca451a94c8adf4c186bcb, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 1
   DecorationData:
     PrefabName: Decoration_General
-    WorldPosition: {x: 0, y: 0, z: 0}
-    ParentGuid: 0
-    SiblingIndex: 0
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
     DecorationType: 524292
     HighlightValidTargetsWhenDragged: 0
+    IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 1
     MaxAmount: 10
-    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 1
@@ -42,6 +45,6 @@ MonoBehaviour:
     - Type: 1
       Amount: 10
   MaxPurchases: -1
-  IconColor: {r: 0.5981356, g: 0.764151, b: 0.06127627, a: 1}
+  IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1

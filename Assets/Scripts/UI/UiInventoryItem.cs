@@ -15,6 +15,8 @@ public class UiInventoryItem : Draggable
 
     public InventoryItemData ItemData { get; private set; }
 
+    private Vector2 originalIconSize = Vector2.zero;
+
     public void Configure(InventoryItemData inItemData)
     {
         this.ItemData = inItemData;
@@ -23,10 +25,14 @@ public class UiInventoryItem : Draggable
 
         if (this.itemIcon)
         {
+            if (this.originalIconSize == Vector2.zero)
+                this.originalIconSize = this.itemIcon.rectTransform.sizeDelta;
+            
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
-            this.itemIcon.sprite = sprite;
+            SpriteManager.SetImageSprite(this.itemIcon, sprite);
             this.itemIcon.color = inItemData.IconColor;
-            this.shadow.sprite = sprite;
+
+            SpriteManager.SetImageSprite(this.shadow, sprite);
         }
 
         if (this.itemQuantityText)

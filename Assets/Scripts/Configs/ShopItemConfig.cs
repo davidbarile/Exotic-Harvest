@@ -14,6 +14,7 @@ public class ShopItemConfig : ScriptableObject
     [TextArea(1, 4)] public string DisplayName;
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
+    public Sprite WorldSprite;
     public float Scale = 1f;
 
     [Header("Decoration Data")]

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Decorations_Bush1
+  m_Name: ShopItem_Decorations_FlowerPot2
   m_EditorClassIdentifier: 
-  ID: ShopItem_Bush1
-  DisplayName: Bush 1
+  ID: ShopItem_FlowerPot2
+  DisplayName: Flower Pot 2
   Description: 
-  Icon: {fileID: 21300000, guid: 010e39ad91bc3459294c957500cb31e9, type: 3}
+  Icon: {fileID: 21300000, guid: bf84a8f58617d4443806f4545802b03b, type: 3}
   WorldSprite: {fileID: 0}
   Scale: 1
   DecorationData:
@@ -24,7 +24,7 @@ MonoBehaviour:
       WorldPosition: {x: 0, y: 0, z: 0}
       ParentGuid: 0
       SiblingIndex: 0
-    DecorationType: 524292
+    DecorationType: 29392900
     HighlightValidTargetsWhenDragged: 0
     IsDragZone: 0
     ActiveResourceType: 0
@@ -40,8 +40,10 @@ MonoBehaviour:
   ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 2
-      Amount: 25
+    - Type: 40
+      Amount: 8
+    - Type: 24
+      Amount: 5
   MaxPurchases: -1
   IconColor: {r: 1, g: 1, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}

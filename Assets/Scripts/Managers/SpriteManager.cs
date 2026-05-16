@@ -16,7 +16,7 @@ public class SpriteManager : MonoBehaviour
         return sprite;
     }
 
-     public static void SetImageSprite(Image inImage, Sprite inSprite, bool shouldFitInRect = true)
+    public static void SetImageSprite(Image inImage, Sprite inSprite, bool shouldFitInRect = true)
     {
         inImage.sprite = inSprite;
 

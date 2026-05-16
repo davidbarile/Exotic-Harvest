@@ -10,34 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Decorations_General
+  m_Name: ShopItem_Decorations_Plant1
   m_EditorClassIdentifier: 
-  ID: ShopItem_General
-  DisplayName: General
-  Description: Description Here
-  Icon: {fileID: 21300000, guid: 510b3dec3be0e4bd2a51dd2fed654bcc, type: 3}
+  ID: ShopItem_Plant1
+  DisplayName: Plant 1
+  Description: 
+  Icon: {fileID: 21300000, guid: c869b5db368b842a7acf153fb61971cc, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 1
-  CanDragToWorld: 1
   DecorationData:
     PrefabName: Decoration_General
-    WorldPosition: {x: 0, y: 0, z: 0}
-    ParentGuid: 0
-    SiblingIndex: 0
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
+    DecorationType: 31981572
+    HighlightValidTargetsWhenDragged: 0
+    IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 1
-    MaxAmount: 1
-    ConversionRatio: 1
+    MaxAmount: 10
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 1
   Quanity: 1
-  MaxStack: 1
+  MaxStack: 10
   Category: 1
   ResourceItems: []
   Cost:
     requiredResources:
     - Type: 2
-      Amount: 1
+      Amount: 12
+    - Type: 1
+      Amount: 12
   MaxPurchases: -1
-  SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+  IconColor: {r: 1, g: 1, b: 1, a: 1}
+  BgColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1
