@@ -84,8 +84,10 @@ public class UiInventoryItem : Draggable
 
                 if(!string.IsNullOrEmpty(this.ItemData.DecorationData.PrefabName))
                 {
+                    var wData = this.ItemData.DecorationData.WorldSaveData;
+                        
                     // Spawn world item at current position
-                    var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
+                    var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position, wData.Scale, wData.Rotation);
                     
                     if(worldItem.TryGetComponent<RectTransform>(out var worldItemRect))
                     {
@@ -226,7 +228,7 @@ public class UiInventoryItem : Draggable
                     // Dropped back on original cell, do nothing
                     return true;
                 }
-                else if (item.ItemData.IconSpriteName != this.ItemData.IconSpriteName)
+                else if (item.ItemData.Id != this.ItemData.Id)
                 {
                     //swap items
                     cell.SwapItems(origCell, this);

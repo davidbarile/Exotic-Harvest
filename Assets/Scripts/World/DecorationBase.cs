@@ -62,7 +62,7 @@ public class DecorationBase : Draggable
     {
         this.ItemData = inItemData;
 
-        this.transform.localScale = Vector3.one * inItemData.Scale;
+        this.transform.localScale = Vector3.one * inItemData.Scale * inItemData.DecorationData.WorldSaveData.Scale;
 
         if (this.itemIcon)
         {
@@ -108,6 +108,8 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.transform.parent.GetInstanceID();
         this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.transform.GetSiblingIndex();
+        this.ItemData.DecorationData.WorldSaveData.Scale = this.transform.localScale.x;
+        this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -308,6 +310,8 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
         this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
+        this.ItemData.DecorationData.WorldSaveData.Scale = this.transform.localScale.x;
+        this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
 
         //in case of stools and benches and such, we store a unique Guid
         if(this.targetRectTransform.parent.parent.TryGetComponent<DecorationBase>(out var decorationBase))

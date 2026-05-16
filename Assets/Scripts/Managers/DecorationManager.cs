@@ -55,19 +55,19 @@ public class DecorationManager : MonoBehaviour
             this.initDecorations = new List<DecorationBase>();
     }
 
-    public DecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, float scale = 1f, float rotation = 0f, Transform parent = null)
+    public DecorationBase SpawnItemInWorld(InventoryItemData inItemData, Vector3 inSpawnPosition, float inScale = 1f, float inRotation = 0f, Transform inParent = null)
     {
-        if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
+        if (inItemData == null || string.IsNullOrEmpty(inItemData.DecorationData.PrefabName))
             return null;
 
-        var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(itemData.DecorationData.PrefabName, parent ?? DragManager.IN.WorldDecorationsContainer);
-        Debug.Log($"Spawning item in world: {itemData.DisplayName} at position {spawnPosition} with parent {(parent != null ? parent.name : "null")}", worldItem.gameObject);
+        var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(inItemData.DecorationData.PrefabName, inParent ?? DragManager.IN.WorldDecorationsContainer);
+        Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition} scale: {inScale} rot: {inRotation} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
 
-        worldItem.transform.localPosition = spawnPosition;
-        worldItem.transform.localScale = Vector3.one * scale;
-        worldItem.transform.localRotation = Quaternion.Euler(0f, 0f, rotation);
-        worldItem.name = $"Decoration_{itemData.DisplayName}";
-        worldItem.ConfigureFromDrag(itemData, Vector2.zero);
+        worldItem.transform.localPosition = inSpawnPosition;
+        worldItem.transform.localScale = Vector3.one * inScale;
+        worldItem.transform.localRotation = Quaternion.Euler(0f, 0f, inRotation);
+        worldItem.name = $"Decoration_{inItemData.DisplayName}";
+        worldItem.ConfigureFromDrag(inItemData, Vector2.zero);
 
         if(worldItem.ItemData.DecorationData.IsDragZone && worldItem.ItemData.DecorationData.Guid == -1)
         {
@@ -113,10 +113,11 @@ public class DecorationManager : MonoBehaviour
         // Recreate decorations from save data
         foreach (var data in savedWorldItems)
         {
-            if (this.decorationParents.TryGetValue(data.DecorationData.WorldSaveData.ParentGuid, out var foundParent))
+            var wData = data.DecorationData.WorldSaveData;
+            if (this.decorationParents.TryGetValue(wData.ParentGuid, out var foundParent))
             {
-                var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, data.DecorationData.WorldSaveData.Scale, data.DecorationData.WorldSaveData.Rotation, foundParent);
-                decoration.transform.SetSiblingIndex(data.DecorationData.WorldSaveData.SiblingIndex);
+                var decoration = SpawnItemInWorld(data, wData.WorldPosition, wData.Scale, wData.Rotation, foundParent);
+                decoration.transform.SetSiblingIndex(wData.SiblingIndex);
                 this.PlacedDecorations.Add(decoration);
 
                 if (decoration.ItemData.DecorationData.IsDragZone)
@@ -133,8 +134,9 @@ public class DecorationManager : MonoBehaviour
         //with remaining items, loop thru spawned decorations and see if any match as a parent, then spawn remaining items
         foreach (var data in this.itemsWithoutParents)
         {
+            var wData = data.DecorationData.WorldSaveData;
             Transform parentTrans = null;
-            if (this.stoolsAndBenches.TryGetValue(data.DecorationData.WorldSaveData.ParentGuid, out var foundParent))
+            if (this.stoolsAndBenches.TryGetValue(wData.ParentGuid, out var foundParent))
             {
                 var childDragTarget = foundParent.GetComponentInChildren<DragTarget>();
                 if (childDragTarget != null)
@@ -143,12 +145,12 @@ public class DecorationManager : MonoBehaviour
 
             if (parentTrans == null)
             {
-                Debug.Log($"<color=red>No parent found for {data.DisplayName} with ParentGuid {data.DecorationData.WorldSaveData.ParentGuid}. Spawning under worldDecorationCanvas.</color>");
+                Debug.Log($"<color=red>No parent found for {data.DisplayName} with ParentGuid {wData.ParentGuid}. Spawning under worldDecorationCanvas.</color>");
                 parentTrans = this.worldDecorationCanvas.transform;
             }
                 
-            var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, data.DecorationData.WorldSaveData.Scale, data.DecorationData.WorldSaveData.Rotation, parentTrans);
-            decoration.transform.SetSiblingIndex(data.DecorationData.WorldSaveData.SiblingIndex);
+            var decoration = SpawnItemInWorld(data, wData.WorldPosition, wData.Scale, wData.Rotation, parentTrans);
+            decoration.transform.SetSiblingIndex(wData.SiblingIndex);
             this.PlacedDecorations.Add(decoration);
         }
     }

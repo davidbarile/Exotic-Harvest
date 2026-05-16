@@ -77,6 +77,7 @@ public class ShopItemData
 
         var inventoryItemData = new InventoryItemData
         {
+            Id = shopItemData.Id,
             DisplayName = shopItemData.DisplayName,
             Category = shopItemData.Category,
             Quantity = shopItemData.Quanity,

@@ -12,21 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: ShopItem_Resources_GoldenApples_x5
   m_EditorClassIdentifier: 
-  ID: ShopItem_GoldenApples_5
+  ID: Resources_GoldenApples_x5
   DisplayName: Golden Apple
   Description: This can be used to time travel, and buy premium decorations and tools.
   Icon: {fileID: 21300000, guid: 047a5b9e26fb7469e893e4965fd2df1e, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 1
-  CanDragToWorld: 0
   DecorationData:
     PrefabName: DefaultItemUI
-    WorldPosition: {x: 0, y: 0, z: 0}
-    ParentGuid: 0
-    SiblingIndex: 0
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      Scale: 1
+      Rotation: 0
+      ParentGuid: 0
+      SiblingIndex: 0
+    DecorationType: 0
+    HighlightValidTargetsWhenDragged: 0
+    IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 0
     MaxAmount: 0
-    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0

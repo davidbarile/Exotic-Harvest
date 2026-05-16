@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: ShopItem_Decorations_Stool
   m_EditorClassIdentifier: 
-  ID: ShopItem_Stool
+  ID: Decorations_Stool
   DisplayName: Stool
   Description: Place in the world and set Buckets and Crystals on them to collect
     passively.
@@ -23,6 +23,8 @@ MonoBehaviour:
     PrefabName: Decoration_Stool
     WorldSaveData:
       WorldPosition: {x: 0, y: 95, z: 0}
+      Scale: 1
+      Rotation: 0
       ParentGuid: 38310
       SiblingIndex: 2
     DecorationType: 65540

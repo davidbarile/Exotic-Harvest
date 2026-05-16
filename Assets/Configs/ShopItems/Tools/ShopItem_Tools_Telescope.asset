@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: ShopItem_Tools_Telescope
   m_EditorClassIdentifier: 
-  ID: ShopItem_Telescope
+  ID: Tools_Telescope
   DisplayName: Telescope
   Description: Use to explore the night sky
   Icon: {fileID: 21300000, guid: 38f3cfab492ef4bef8a45d003c2167d1, type: 3}
@@ -22,6 +22,8 @@ MonoBehaviour:
     PrefabName: Tool_Telescope
     WorldSaveData:
       WorldPosition: {x: 0, y: 0, z: 0}
+      Scale: 1
+      Rotation: 0
       ParentGuid: 0
       SiblingIndex: 0
     DecorationType: 16387

@@ -50,8 +50,10 @@ public class ShopItemConfig : ScriptableObject
         if (!string.IsNullOrEmpty(this.ID))
             return;
 
-        this.ID = this.name;
-        //this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
+        //this.ID = this.name;
+        
+        //remove "ShopItem_" prefix from ID if it exists
+        this.ID = this.name.Substring(this.name.IndexOf("_") + 1, this.name.Length - this.name.IndexOf("_") - 1).Trim();
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
 #endif

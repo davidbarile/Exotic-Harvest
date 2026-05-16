@@ -12,24 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: ShopItem_Tools_Jar_Small
   m_EditorClassIdentifier: 
-  ID: ShopItem_Jar_Small
+  ID: Tools_Jar_Small
   DisplayName: Small Jar
   Description: 
   Icon: {fileID: 21300000, guid: a5c8de94c0f4e459ca6dfb1b34a7ed55, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 0.7
   DecorationData:
     PrefabName: Tool_Jar
     WorldSaveData:
       WorldPosition: {x: 0, y: 0, z: 0}
+      Scale: 1
+      Rotation: 0
       ParentGuid: 0
       SiblingIndex: 0
     DecorationType: 2051
     HighlightValidTargetsWhenDragged: 1
     IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 25
     CurrentAmount: 0
     MaxAmount: 25
-    ConversionRatio: 0.03
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0

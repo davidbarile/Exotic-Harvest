@@ -12,24 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
   m_Name: ShopItem_Tools_MagnifyingGlass
   m_EditorClassIdentifier: 
-  ID: ShopItem_MagnifyingGlass
+  ID: Tools_MagnifyingGlass
   DisplayName: 'Magnifying
 
     Glass'
   Description: Search the Meadow for bugs, seeds and clovers.
   Icon: {fileID: 21300000, guid: a9d58a97b067e471d8c4d99e40c393eb, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 1
   DecorationData:
     PrefabName: Tool_MagnifyingGlass
-    WorldPosition: {x: 0, y: 0, z: 0}
-    ParentGuid: 0
-    SiblingIndex: 0
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      Scale: 1
+      Rotation: 0
+      ParentGuid: 0
+      SiblingIndex: 0
     DecorationType: 1
     HighlightValidTargetsWhenDragged: 0
+    IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 0
     MaxAmount: 100
-    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 0

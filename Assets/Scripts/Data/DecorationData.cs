@@ -61,7 +61,7 @@ public class DecorationData
 public class WorldSaveData
 {
     public Vector3 WorldPosition;
-    public float Scale;
+    public float Scale = 1f;
     public float Rotation;
     public int ParentGuid;
     public int SiblingIndex;

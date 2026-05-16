@@ -6,6 +6,7 @@ using static GlobalEnums;
 public class InventoryItemData
 {
     [TextArea(1, 4)] public string DisplayName;
+    [HideInInspector] public string Id;
     public int Quantity;
     public int MaxStack;
     public int SpaceAvailableInStack => MaxStack - Quantity;
