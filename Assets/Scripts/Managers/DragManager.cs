@@ -8,18 +8,19 @@ public class DragManager : MonoBehaviour
     public static Vector3 ScreenToWorldCameraDelta { get; private set; }
     public static Vector3 CameraDelta = Vector3.zero;
 
-    public static Action<bool> OnDragOverInventoryZoneActiveChanged;
-
-    public static Action<EDecorationType> OnDragStartedWithDecorationType;
-    public static Action OnDragEnded;
-
     public static bool IsDragModeActivated = false;
 
+    //Events
+    public static Action<bool> OnDragOverInventoryZoneActiveChanged;
+    public static Action<EDecorationType> OnDragStartedWithDecorationType;
+    public static Action OnDragEnded;
     public static Action<bool> OnDragModeChanged;
 
     [Space] public Transform WorldDecorationsContainer;
 
     [SerializeField] private GameObject inventoryOpenTrigger;
+
+    [Space] public Material DragEnabledMaterial;
 
     // Drag Proxy State
     public RectTransform CurrentDraggedTransform { get; private set; }
