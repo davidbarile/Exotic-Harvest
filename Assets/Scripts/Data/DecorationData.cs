@@ -36,6 +36,8 @@ public class DecorationData
             WorldSaveData = new WorldSaveData
             {
                 WorldPosition = decorationData.WorldSaveData.WorldPosition,
+                Scale = decorationData.WorldSaveData.Scale,
+                Rotation = decorationData.WorldSaveData.Rotation,
                 ParentGuid = decorationData.WorldSaveData.ParentGuid,
                 SiblingIndex = decorationData.WorldSaveData.SiblingIndex
             },
@@ -59,6 +61,8 @@ public class DecorationData
 public class WorldSaveData
 {
     public Vector3 WorldPosition;
+    public float Scale;
+    public float Rotation;
     public int ParentGuid;
     public int SiblingIndex;
 }

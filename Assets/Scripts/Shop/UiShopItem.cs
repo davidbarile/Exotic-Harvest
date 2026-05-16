@@ -11,6 +11,7 @@ public class UiShopItem : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] private Button itemButton;
+     [SerializeField] private GameObject itemIconDisplayParent;
     [SerializeField] private GameObject[] itemIconDisplayObjects;
     [SerializeField] private UiShopItemIconDisplay[] itemIconDisplays;
     [SerializeField] private TMP_Text itemNameText;
@@ -33,18 +34,12 @@ public class UiShopItem : MonoBehaviour
         UpdateDisplay();
         
         // Subscribe to relevant events
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceChanged += OnResourceChanged;
-        }
+        ResourceManager.OnResourceChanged += OnResourceChanged;
     }
     
     private void OnDestroy()
     {
-        if (ResourceManager.IN != null)
-        {
-            ResourceManager.OnResourceChanged -= OnResourceChanged;
-        }
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
     }
     
     private void OnResourceChanged(EResourceType type, int newAmount)
@@ -65,6 +60,8 @@ public class UiShopItem : MonoBehaviour
         {
             iconDisplayObject.SetActive(false);
         }
+
+        this.itemIconDisplayParent.transform.localScale = Vector3.one * this.shopItemData.Scale;
 
         //show icons and quantity based on number of resources if it's a resource item, otherwise show single icon
         if(this.shopItemData.IsResource)

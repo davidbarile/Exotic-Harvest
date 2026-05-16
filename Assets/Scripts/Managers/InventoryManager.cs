@@ -22,6 +22,7 @@ public class InventoryManager : MonoBehaviour
                 itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
                 itemData.Category = itemData.ShopItemConfig.Category;
                 itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
+                itemData.WorldIconSpriteName = itemData.ShopItemConfig.WorldSprite != null ? itemData.ShopItemConfig.WorldSprite.name : string.Empty;
                 itemData.Scale = itemData.ShopItemConfig.Scale;
                 //itemData.Quantity = itemData.ShopItemConfig.Quanity;
                 itemData.MaxStack = itemData.ShopItemConfig.MaxStack;
@@ -50,6 +51,7 @@ public class InventoryManager : MonoBehaviour
             itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
             itemData.Category = itemData.ShopItemConfig.Category;
             itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
+            itemData.WorldIconSpriteName = itemData.ShopItemConfig.WorldSprite != null ? itemData.ShopItemConfig.WorldSprite.name : string.Empty;
             itemData.DecorationData = DecorationData.Copy(itemData.ShopItemConfig.DecorationData);
         }
 

@@ -42,6 +42,7 @@ public class DecorationBase : Draggable
         this.initItemData.DisplayName = this.initItemData.ShopItemConfig.DisplayName;
         this.initItemData.Category = this.initItemData.ShopItemConfig.Category;
         this.initItemData.IconSpriteName = this.initItemData.ShopItemConfig.Icon != null ? this.initItemData.ShopItemConfig.Icon.name : string.Empty;
+        this.initItemData.WorldIconSpriteName = this.initItemData.ShopItemConfig.WorldSprite != null ? this.initItemData.ShopItemConfig.WorldSprite.name : string.Empty;
         this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
         this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
 
@@ -77,10 +78,14 @@ public class DecorationBase : Draggable
                 this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
                 
             Debug.Log($"Configuring {gameObject.name} originalIconSize is {this.originalIconSize}");
-        
+
             this.itemIcon.color = inItemData.IconColor;
+
+            var worldSprite = inItemData.IconSpriteName;//default to using the regular icon if no world icon specified
+            if(!string.IsNullOrEmpty(inItemData.WorldIconSpriteName))
+                worldSprite = inItemData.WorldIconSpriteName;
             
-            var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
+            var sprite = SpriteManager.GetSprite(worldSprite);
 
             SpriteManager.SetImageSprite(this.itemIcon, sprite);
             SpriteManager.SetImageSprite(this.shadow, sprite);

@@ -55,7 +55,7 @@ public class DecorationManager : MonoBehaviour
             this.initDecorations = new List<DecorationBase>();
     }
 
-    public DecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, Transform parent = null)
+    public DecorationBase SpawnItemInWorld(InventoryItemData itemData, Vector3 spawnPosition, float scale = 1f, float rotation = 0f, Transform parent = null)
     {
         if (itemData == null || string.IsNullOrEmpty(itemData.DecorationData.PrefabName))
             return null;
@@ -64,7 +64,8 @@ public class DecorationManager : MonoBehaviour
         Debug.Log($"Spawning item in world: {itemData.DisplayName} at position {spawnPosition} with parent {(parent != null ? parent.name : "null")}", worldItem.gameObject);
 
         worldItem.transform.localPosition = spawnPosition;
-        worldItem.transform.localScale = Vector3.one;
+        worldItem.transform.localScale = Vector3.one * scale;
+        worldItem.transform.localRotation = Quaternion.Euler(0f, 0f, rotation);
         worldItem.name = $"Decoration_{itemData.DisplayName}";
         worldItem.ConfigureFromDrag(itemData, Vector2.zero);
 
@@ -114,7 +115,7 @@ public class DecorationManager : MonoBehaviour
         {
             if (this.decorationParents.TryGetValue(data.DecorationData.WorldSaveData.ParentGuid, out var foundParent))
             {
-                var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, foundParent);
+                var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, data.DecorationData.WorldSaveData.Scale, data.DecorationData.WorldSaveData.Rotation, foundParent);
                 decoration.transform.SetSiblingIndex(data.DecorationData.WorldSaveData.SiblingIndex);
                 this.PlacedDecorations.Add(decoration);
 
@@ -146,7 +147,7 @@ public class DecorationManager : MonoBehaviour
                 parentTrans = this.worldDecorationCanvas.transform;
             }
                 
-            var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, parentTrans);
+            var decoration = SpawnItemInWorld(data, data.DecorationData.WorldSaveData.WorldPosition, data.DecorationData.WorldSaveData.Scale, data.DecorationData.WorldSaveData.Rotation, parentTrans);
             decoration.transform.SetSiblingIndex(data.DecorationData.WorldSaveData.SiblingIndex);
             this.PlacedDecorations.Add(decoration);
         }

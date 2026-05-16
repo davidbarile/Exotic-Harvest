@@ -18,6 +18,7 @@ public class InventoryItemData
 
     public float Scale = 1f;
     public string IconSpriteName;
+    public string WorldIconSpriteName;
     public Color IconColor = Color.white;
 
     public static InventoryItemData Copy(InventoryItemData cloneTarget)
@@ -30,6 +31,7 @@ public class InventoryItemData
             Category = cloneTarget.Category,
             Scale = cloneTarget.Scale,
             IconSpriteName = cloneTarget.IconSpriteName,
+            WorldIconSpriteName = cloneTarget.WorldIconSpriteName,
             IconColor = cloneTarget.IconColor,
             DecorationData = DecorationData.Copy(cloneTarget.DecorationData),
         };
@@ -45,6 +47,7 @@ public class InventoryItemData
             Category = shopConfig.Category,
             Scale = shopConfig.Scale,
             IconSpriteName = shopConfig.Icon != null ? shopConfig.Icon.name : string.Empty,
+            WorldIconSpriteName = shopConfig.WorldSprite != null ? shopConfig.WorldSprite.name : string.Empty,
             IconColor = shopConfig.IconColor,
             DecorationData = DecorationData.Copy(shopConfig.DecorationData)
         };

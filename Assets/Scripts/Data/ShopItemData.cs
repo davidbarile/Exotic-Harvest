@@ -15,6 +15,7 @@ public class ShopItemData
     public string DisplayName;
     [TextArea(2, 4)] public string Description;
     public Sprite Icon;
+    public float Scale = 1f;
     
     [Header("Item Properties")]
     public EShopCategory Category;
@@ -79,6 +80,7 @@ public class ShopItemData
             DisplayName = shopItemData.DisplayName,
             Category = shopItemData.Category,
             Quantity = shopItemData.Quanity,
+            Scale = shopItemData.Scale,
             MaxStack = shopItemData.IsResource ? 100 : shopItemData.MaxStack,
             IconSpriteName = shopItemData.Icon != null ? shopItemData.Icon.name : string.Empty,
             IconColor = shopItemData.IconColor,

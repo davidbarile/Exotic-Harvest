@@ -68,6 +68,7 @@ public class ShopItemConfig : ScriptableObject
             MaxPurchases = inConfig.MaxPurchases,
             ResourceItems = inConfig.ResourceItems,
             Icon = inConfig.Icon,
+            Scale = inConfig.Scale,
             IconColor = inConfig.IconColor,
             BgColor = inConfig.BgColor,
             DecorationData = DecorationData.Copy(inConfig.DecorationData)

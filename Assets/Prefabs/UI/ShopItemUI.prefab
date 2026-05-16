@@ -34,6 +34,7 @@ RectTransform:
   m_Children:
   - {fileID: 7782004431648783727}
   - {fileID: 5813921905633657759}
+  - {fileID: 3284352042885140968}
   - {fileID: 6442676422311575315}
   - {fileID: 2220199798530120715}
   m_Father: {fileID: 0}
@@ -56,6 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemUI
   itemButton: {fileID: 2234567890123459}
+  itemIconDisplayParent: {fileID: 1016238645736072894}
   itemIconDisplayObjects:
   - {fileID: 8796690578928982928}
   - {fileID: 614863112964477316}
@@ -1001,12 +1003,12 @@ RectTransform:
   m_Children:
   - {fileID: 8441182982997494738}
   - {fileID: 1295341363936010815}
-  m_Father: {fileID: 7782004431648783727}
+  m_Father: {fileID: 2234567890123457}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -164}
-  m_SizeDelta: {x: 24, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5051821272985004343
 CanvasRenderer:
@@ -2127,6 +2129,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1460302990126534071, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1644726107479040912, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}
       propertyPath: m_Material
       value: 
@@ -2137,10 +2143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1460302990126534071, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3284352042885140968}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}
 --- !u!1 &614863112964477316 stripped
@@ -2159,6 +2162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c94157b70c64051af9603b0ef7033e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemIconDisplayUI
+--- !u!1 &1016238645736072894 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8187919813482468966, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}
+  m_PrefabInstance: {fileID: 9204005349137199320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2293620048564060924 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6948950121845240356, guid: 98c23d7bf10f74da1b40583abc160bc2, type: 3}

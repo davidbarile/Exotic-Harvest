@@ -11,9 +11,10 @@ public class UiShopPanel : UIPanelBase
     [SerializeField] private Toggle[] categoryTabs;
     [Header("Add Categories Here")]
     [SerializeField] private EShopCategory[] categoryTabMapping; // Maps toggle index to shop category
-    
+
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
+    [SerializeField] private GameObject itemDetailDisplaysParent;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
     [SerializeField] private TMP_Text ownedText;
@@ -173,6 +174,8 @@ public class UiShopPanel : UIPanelBase
             HideItemDetail();
             return;
         }
+
+        this.itemDetailDisplaysParent.transform.localScale = Vector3.one * this.selectedItemData.Scale;
 
         bool hasInventorySpace = InventoryManager.TryAddItemToInventory(ShopItemData.ToInventoryItemData(this.selectedItemData), true);
         bool canPurchase = hasInventorySpace && this.selectedItemData.CanPurchase && (this.selectedItemData.Cost?.CanAfford() ?? false);
