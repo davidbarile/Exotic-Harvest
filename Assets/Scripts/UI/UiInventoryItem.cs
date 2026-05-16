@@ -27,6 +27,8 @@ public class UiInventoryItem : Draggable
         {
             if (this.originalIconSize == Vector2.zero)
                 this.originalIconSize = this.itemIcon.rectTransform.sizeDelta;
+
+            this.itemIcon.rectTransform.sizeDelta = this.originalIconSize;
             
             var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
             SpriteManager.SetImageSprite(this.itemIcon, sprite);

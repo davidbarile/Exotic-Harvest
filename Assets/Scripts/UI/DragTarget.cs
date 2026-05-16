@@ -63,7 +63,7 @@ public class DragTarget : MonoBehaviour
 
     public void SetIsValidHighlight(bool isHighlighted)
     {
-        Debug.Log($"Setting valid highlight to {isHighlighted} for {gameObject.name}");
+        // Debug.Log($"Setting valid highlight to {isHighlighted} for {gameObject.name}");
         if (this.isValidHighlight)
             this.isValidHighlight.SetActive(isHighlighted);
     }

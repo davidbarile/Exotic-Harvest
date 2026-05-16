@@ -17,6 +17,8 @@ public class DecorationBase : Draggable
     protected PassiveHarvester linkedPassiveHarvester;
     protected Attractor attractor;
 
+    private Vector2 originalIconSize = Vector2.zero;
+
     public InventoryItemData ItemData { get; private set; }
 
     [Header("Initialization Config - for setting up default decorations in the world")]
@@ -51,7 +53,8 @@ public class DecorationBase : Draggable
         if (this.initItemData.MaxStack <= 0)
             this.initItemData.MaxStack = 1;
 
-        Configure(this.initItemData);
+        if(Application.isPlaying)
+            Configure(this.initItemData);
     }
 
     public virtual void Configure(InventoryItemData inItemData)
@@ -62,22 +65,33 @@ public class DecorationBase : Draggable
 
         if (this.itemIcon)
         {
-            var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
-            this.itemIcon.sprite = sprite;
-            this.itemIcon.color = inItemData.IconColor;
+            if (this.originalIconSize == Vector2.zero)
+                this.originalIconSize = this.itemIcon.rectTransform.sizeDelta;
+
+            this.itemIcon.rectTransform.sizeDelta = this.originalIconSize;
 
             if (this.shadow)
-                this.shadow.sprite = sprite;
+                this.shadow.rectTransform.sizeDelta = this.originalIconSize;
 
             if (this.worldProxy)
-                this.worldProxy.sprite = sprite;
+                this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
+                
+            Debug.Log($"Configuring {gameObject.name} originalIconSize is {this.originalIconSize}");
+        
+            this.itemIcon.color = inItemData.IconColor;
+            
+            var sprite = SpriteManager.GetSprite(inItemData.IconSpriteName);
+
+            SpriteManager.SetImageSprite(this.itemIcon, sprite);
+            SpriteManager.SetImageSprite(this.shadow, sprite);
+            SpriteManager.SetImageSprite(this.worldProxy, sprite);
         }
 
         // if (this.worldProxy)
         //     this.worldProxy.gameObject.SetActive(false);
-        
-        if(TryGetComponent<PassiveHarvester>(out var harvester))
-        { 
+
+        if (TryGetComponent<PassiveHarvester>(out var harvester))
+        {
             harvester.SetDecorationData(this.ItemData.DecorationData);
         }
     }

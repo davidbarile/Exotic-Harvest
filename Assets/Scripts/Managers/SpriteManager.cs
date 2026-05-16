@@ -18,6 +18,15 @@ public class SpriteManager : MonoBehaviour
 
     public static void SetImageSprite(Image inImage, Sprite inSprite, bool shouldFitInRect = true)
     {
+        if (inImage == null)
+            return;
+
+        // if sprite is null, set alpha to 0 to hide the image (instead of having a missing sprite icon show up)
+        var color = inImage.color;
+        var imgAlpha =  color.a == 0 ? 1 : color.a;
+        color.a = inSprite == null ? 0 : imgAlpha;
+        inImage.color = color;
+            
         inImage.sprite = inSprite;
 
         if (!shouldFitInRect) return;
