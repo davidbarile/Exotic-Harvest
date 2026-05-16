@@ -16,18 +16,21 @@ MonoBehaviour:
   DisplayName: Bush 2
   Description: 
   Icon: {fileID: 21300000, guid: ba050e2327f8645eb8fcdceb9b5706e8, type: 3}
+  WorldSprite: {fileID: 0}
   Scale: 1
   DecorationData:
     PrefabName: Decoration_General
-    WorldPosition: {x: 0, y: 0, z: 0}
-    ParentGuid: 0
-    SiblingIndex: 0
+    WorldSaveData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ParentGuid: 0
+      SiblingIndex: 0
     DecorationType: 524292
-    HighlightValidTargetsWhenDragged: 0
+    HighlightValidTargetsWhenDragged: 1
+    IsDragZone: 0
+    ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 1
     MaxAmount: 10
-    ConversionRatio: 1
     GenerationInterval: 0
     RequiresSpecificConditions: 0
     IsActive: 1

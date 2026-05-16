@@ -208,6 +208,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+            //this.targetRectTransform.SetAsLastSibling();
 
             ClampToScreenBounds();
             return;
