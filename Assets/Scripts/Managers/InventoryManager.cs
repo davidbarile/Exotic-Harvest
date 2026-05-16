@@ -19,6 +19,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (itemData != null && itemData.ShopItemConfig != null)
             {
+                itemData.Id = itemData.ShopItemConfig.ID;
                 itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
                 itemData.Category = itemData.ShopItemConfig.Category;
                 itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
@@ -48,6 +49,7 @@ public class InventoryManager : MonoBehaviour
 
         foreach(var itemData in sortedInitItemsList)
         {
+            itemData.Id = itemData.ShopItemConfig.ID;
             itemData.DisplayName = itemData.ShopItemConfig.DisplayName;
             itemData.Category = itemData.ShopItemConfig.Category;
             itemData.IconSpriteName = itemData.ShopItemConfig.Icon != null ? itemData.ShopItemConfig.Icon.name : string.Empty;
