@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private DecorationBase decoration;
     [SerializeField] private RectTransform editRT;
     [SerializeField] private Transform corner;
     [SerializeField] private GameObject rect;
@@ -63,25 +64,32 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
         // Get Icon center in screen space
         Vector2 iconCenter = RectTransformUtility.WorldToScreenPoint(this.canvas.worldCamera, this.editRT.position);
 
-        // Calculate vector from Icon center to drag position
+        // Calculate vector from Icon center to cursor position
         Vector2 delta = eventData.position - iconCenter;
+        float dragDistance = delta.magnitude;
         
-        // Calculate distance for scale
-        float currentDistance = delta.magnitude;
-        float scaleFactor = currentDistance / this.initialDistance;
-        scaleFactor = Mathf.Clamp(scaleFactor, this.minScale, this.maxScale);
+        // Calculate desired scale factor from cursor distance
+        float desiredScale = dragDistance / this.initialDistance;
+        float scaleFactor = Mathf.Clamp(desiredScale, this.minScale, this.maxScale);
         
-        // Calculate current angle and subtract initial angle to get rotation delta
+        // Apply the scale factor to the initial local scale
+        // The initialDistance measurement includes all parent scales, so the ratio accounts for them
+        float localScaleFactor = this.initialScale.x * scaleFactor;
+        
+        // Calculate angle from cursor position
         float currentAngle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
         float rotationAngle = currentAngle - this.initialAngle;
         
-        // Apply uniform scale
-        this.editRT.localScale = Vector3.one * scaleFactor;
-        
-        // Apply rotation (Z-axis only for 2D)
+        // Apply uniform scale and rotation to Icon
+        // This will move the Corner to the correct position
+        this.editRT.localScale = Vector3.one * localScaleFactor;
         this.editRT.localEulerAngles = new Vector3(0, 0, rotationAngle);
         
-        // Position knob at the Corner's world position (lower-left of Icon after transforms)
+        // Force transform hierarchy update so Corner position is current
+        Canvas.ForceUpdateCanvases();
+        
+        // Now position the knob at the Corner's world position
+        // The Corner has moved to where it should be based on the scale/rotation
         this.transform.position = this.corner.position;
     }
 
@@ -91,9 +99,8 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
             this.rect.SetActive(false);
             
         //Store final scale and rotation values
-        var decoration = this.editRT.GetComponentInParent<DecorationBase>();
-        decoration.ItemData.DecorationData.WorldSaveData.Scale = this.editRT.localScale.x / decoration.ItemData.Scale;
-        decoration.ItemData.DecorationData.WorldSaveData.Rotation = this.editRT.localEulerAngles.z;
+        this.decoration.ItemData.DecorationData.WorldSaveData.Scale = this.editRT.localScale.x;
+        this.decoration.ItemData.DecorationData.WorldSaveData.Rotation = this.editRT.localEulerAngles.z;
     }
 
     private float CalculateDistanceFromIconCenter(Vector3 worldPosition)

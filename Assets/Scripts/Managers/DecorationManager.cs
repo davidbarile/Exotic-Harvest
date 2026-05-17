@@ -64,7 +64,7 @@ public class DecorationManager : MonoBehaviour
         Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition} scale: {inScale} rot: {inRotation} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
 
         worldItem.transform.localPosition = inSpawnPosition;
-        worldItem.transform.localScale = Vector3.one * inScale;
+        worldItem.transform.localScale = Vector3.one * inItemData.Scale;
         worldItem.transform.localRotation = Quaternion.Euler(0f, 0f, inRotation);
         worldItem.name = $"Decoration_{inItemData.DisplayName}";
         worldItem.ConfigureFromDrag(inItemData, Vector2.zero);

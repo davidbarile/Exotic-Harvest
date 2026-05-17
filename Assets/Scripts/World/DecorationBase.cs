@@ -62,7 +62,7 @@ public class DecorationBase : Draggable
     {
         this.ItemData = inItemData;
 
-        this.transform.localScale = Vector3.one * inItemData.Scale * inItemData.DecorationData.WorldSaveData.Scale;
+        this.transform.localScale = Vector3.one * inItemData.Scale;
 
         if (this.itemIcon)
         {
@@ -71,8 +71,13 @@ public class DecorationBase : Draggable
 
             this.itemIcon.rectTransform.sizeDelta = this.originalIconSize;
 
+            var wData = inItemData.DecorationData.WorldSaveData;
+
+            this.itemIcon.transform.localScale = Vector3.one * wData.Scale;
+            this.itemIcon.transform.rotation = Quaternion.Euler(0f, 0f, wData.Rotation);
+
             if (this.shadow)
-                this.shadow.rectTransform.sizeDelta = this.originalIconSize;
+               this.shadow.rectTransform.sizeDelta = this.originalIconSize;
 
             if (this.worldProxy)
                 this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
