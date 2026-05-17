@@ -282,12 +282,20 @@ public class SaveManager : MonoBehaviour, ITickable
         UiManager.IN.SettingsPanel.ApplySaveDataToUI();
 
         AudioManager.IN.ApplyAudioSettingsFromSaveData();
+
+        var isNewGame = !this.HasSaveFile || this.nukeDataOnStart;
         
+        if(!isNewGame)
         ApplySettingsData();
     }
     
     private void CollectSettingsData()
     {
+        Data.TimeWeatherPanelPosition = UiManager.IN.TimeWeatherPanel.transform.localPosition;
+        Data.SettingsPanelPosition = UiManager.IN.SettingsPanel.transform.localPosition;
+        Data.ButtonsPanelPosition = UiManager.IN.UiButtonsPanel.transform.localPosition;
+        Data.MaximizeButtonPosition = UiManager.IN.MaximizeButton.transform.localPosition;
+
 #if UNITY_STANDALONE
         // Window settings (using UniWindowController)
         if (Kirurobo.UniWindowController.current != null)
@@ -305,6 +313,11 @@ public class SaveManager : MonoBehaviour, ITickable
     
     private void ApplySettingsData()
     {
+        UiManager.IN.TimeWeatherPanel.transform.localPosition = Data.TimeWeatherPanelPosition;
+        UiManager.IN.SettingsPanel.transform.localPosition = Data.SettingsPanelPosition;
+        UiManager.IN.UiButtonsPanel.transform.localPosition = Data.ButtonsPanelPosition;
+        UiManager.IN.MaximizeButton.transform.localPosition = Data.MaximizeButtonPosition;
+
 #if UNITY_STANDALONE
         // Window settings
         if (Kirurobo.UniWindowController.current != null)

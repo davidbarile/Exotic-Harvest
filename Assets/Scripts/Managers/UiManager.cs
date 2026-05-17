@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UiManager : MonoBehaviour
@@ -22,6 +23,7 @@ public class UiManager : MonoBehaviour
     public GameObject DecorationsContainer => this.decorationsContainer;
     public GameObject UiButtonsPanel => this.uiButtonsPanel;
     public UiMinimizePanel MinimizePanel => this.minimizePanel;
+    public Button MaximizeButton => this.maximizeButton;
     public UiCompass Compass => this.compass;
     public Transform Moon => this.moon;
 
@@ -45,6 +47,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject decorationsContainer;
     [SerializeField] private GameObject uiButtonsPanel;
     [SerializeField] private UiMinimizePanel minimizePanel;
+    [SerializeField] private Button maximizeButton;
 
     [Header("Misc")]
     [SerializeField] private UiCompass compass;

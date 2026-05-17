@@ -62,6 +62,12 @@ public class GameSaveData
     public bool ShowMountains = false;
     public float BgAlpha = .5f;
 
+    [Header("Panel Positions")]
+    public Vector3 TimeWeatherPanelPosition;
+    public Vector3 SettingsPanelPosition;
+    public Vector3 ButtonsPanelPosition;
+    public Vector3 MaximizeButtonPosition;
+
     [Header("Debug")]
     public bool DebugGrantAllResources;
     public bool FreezeTime;
