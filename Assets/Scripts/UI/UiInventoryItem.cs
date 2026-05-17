@@ -102,8 +102,6 @@ public class UiInventoryItem : Draggable
                         // Swap the dragged object to the new world item
                         DragManager.IN.SwapDraggedObject(worldItemRect);
 
-                        Debug.Log($"Spawned world item [{worldItem.name}] from inventory item [{name}] at position {worldItem.transform.position}", worldItem);
-
                         // Mark as not dragging so OnDrag doesn't process
                         this.isDragging = false;
 

@@ -48,12 +48,6 @@ public class DragManager : MonoBehaviour
         // For WorldSpace canvases, Unity's CanvasScaler modifies the Canvas transform.localScale, not scaleFactor
         // Use the localScale.x as the scale factor (assuming uniform scaling)
         DragManager.UiCanvasScaleFactor = UiManager.IN.UICanvas.transform.localScale.x;
-        
-        // Debug logging to verify values at different resolutions
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log($"<color=cyan>Screen: {Screen.width}x{Screen.height} | WorldCanvas.scaleFactor: {UiManager.IN.WorldCanvas.scaleFactor} | WorldCanvas.localScale: {UiManager.IN.WorldCanvas.transform.localScale} | Calculated WorldCanvasScaleFactor: {UiCanvasScaleFactor}</color>");
-        }
 
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
@@ -141,10 +135,12 @@ public class DragManager : MonoBehaviour
             // return;
         }
 
-        if( this.currentDragProxy)
+        if (this.currentDragProxy)
         {
-            //this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
-            this.currentDragProxy.transform.localPosition = (ScreenToWorldCameraDelta / UiCanvasScaleFactor) / this.currentDragSource.transform.localScale.x;
+            // Convert mouse position to world position using the WorldCamera
+            Vector3 mouseScreenPos = new Vector3(mousePos.x, mousePos.y, Mathf.Abs(UiManager.IN.WorldCamera.transform.position.z));
+            Vector3 worldPos = UiManager.IN.WorldCamera.ScreenToWorldPoint(mouseScreenPos);
+            this.currentDragProxy.transform.position = worldPos;
             this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
         }
 
