@@ -6,6 +6,7 @@ public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
     public static Vector3 ScreenToWorldCameraDelta { get; private set; }
+    public static float UiCanvasScaleFactor { get; private set; } = 1f;
     public static Vector3 CameraDelta = Vector3.zero;
 
     public static bool IsDragModeActivated = false;
@@ -43,6 +44,16 @@ public class DragManager : MonoBehaviour
     private void Update()
     {
         DragManager.ScreenToWorldCameraDelta = UiManager.IN.WorldCamera.transform.position - UiManager.IN.DragCamera.transform.position;
+        
+        // For WorldSpace canvases, Unity's CanvasScaler modifies the Canvas transform.localScale, not scaleFactor
+        // Use the localScale.x as the scale factor (assuming uniform scaling)
+        DragManager.UiCanvasScaleFactor = UiManager.IN.UICanvas.transform.localScale.x;
+        
+        // Debug logging to verify values at different resolutions
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log($"<color=cyan>Screen: {Screen.width}x{Screen.height} | WorldCanvas.scaleFactor: {UiManager.IN.WorldCanvas.scaleFactor} | WorldCanvas.localScale: {UiManager.IN.WorldCanvas.transform.localScale} | Calculated WorldCanvasScaleFactor: {UiCanvasScaleFactor}</color>");
+        }
 
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
@@ -114,7 +125,7 @@ public class DragManager : MonoBehaviour
             var shouldShow = true; //CameraDelta != Vector3.zero;
             this.currentDragProxy.SetActive(shouldShow);
             // this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
-            this.currentDragProxy.transform.localPosition = ScreenToWorldCameraDelta / this.currentDragSource.transform.localScale.x;
+            this.currentDragProxy.transform.localPosition = (ScreenToWorldCameraDelta / UiCanvasScaleFactor) / this.currentDragSource.transform.localScale.x;
         }
     }
 
@@ -133,7 +144,7 @@ public class DragManager : MonoBehaviour
         if( this.currentDragProxy)
         {
             //this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
-            this.currentDragProxy.transform.localPosition = ScreenToWorldCameraDelta / this.currentDragSource.transform.localScale.x;
+            this.currentDragProxy.transform.localPosition = (ScreenToWorldCameraDelta / UiCanvasScaleFactor) / this.currentDragSource.transform.localScale.x;
             this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
         }
 
@@ -277,7 +288,7 @@ public class DragManager : MonoBehaviour
     {
         //figure out which canvas this object is a child of to determine drag space
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
-        CameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
+        CameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? (DragManager.ScreenToWorldCameraDelta / UiCanvasScaleFactor) : Vector3.zero;
 
         var objectPos = inObject.transform.position - CameraDelta;
         outOffsetFromCursor = objectPos - (Vector3)inMousePosition;
@@ -289,7 +300,7 @@ public class DragManager : MonoBehaviour
     {
         //figure out which canvas this object is a child of to determine drag space
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
-        var cameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? DragManager.ScreenToWorldCameraDelta : Vector3.zero;
+        var cameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? (DragManager.ScreenToWorldCameraDelta / UiCanvasScaleFactor) : Vector3.zero;
 
         var objectPos = inObject.transform.position + cameraDelta;
 

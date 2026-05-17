@@ -255,7 +255,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                         continue;
 
                     if (dragTarget.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
-                        canvasOffset = DragManager.ScreenToWorldCameraDelta;
+                        canvasOffset = DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor;
 
                     dragTarget.SetAsParent(this.targetRectTransform);
 
@@ -335,7 +335,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         var destPosition = this.originalWorldPosition;
 
         if (isChildOfWorldCanvas)
-            destPosition -= DragManager.ScreenToWorldCameraDelta;
+            destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
 
         Debug.Log($"<color=white>[{this.name}] DoSnapBack() to original parent {this.originalParent.name} at position {this.originalWorldPosition}.  isChildOfWorldCanvas = {isChildOfWorldCanvas}. destPosition after screen to world adjustment = {destPosition}</color>");
 
