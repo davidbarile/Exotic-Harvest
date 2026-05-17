@@ -96,7 +96,16 @@ public class DragManager : MonoBehaviour
         var dragDecoration = this.currentDragSource as DecorationBase;
 
         if(inSource.HighlightValidTargetsWhenDragged)
-            OnDragStartedWithDecorationType?.Invoke(dragDecoration != null ? dragDecoration.ItemData.DecorationData.DecorationType : EDecorationType.None);
+        {
+            var decorationType = EDecorationType.None;
+            
+            if (dragDecoration != null)
+                decorationType = dragDecoration.ItemData.DecorationData.DecorationType;
+            else if (inSource.TryGetComponent(out UiInventoryItem uiInventoryItem))
+                decorationType = uiInventoryItem.ItemData.DecorationData.DecorationType;
+
+            OnDragStartedWithDecorationType?.Invoke(decorationType);
+        }
 
         if (dragDecoration != null && dragDecoration.WorldProxy != null)
         {

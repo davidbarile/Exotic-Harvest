@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager IN;
 
-    public static int NumInventorySlots = 20;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
+    public static int NumInventorySlots = 30;//TODO: link to InventoryManager and get value from Backpack, Chest, etc.
 
     public static Action OnInventoryRefreshed;
 

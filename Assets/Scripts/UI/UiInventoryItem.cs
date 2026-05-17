@@ -23,6 +23,8 @@ public class UiInventoryItem : Draggable
 
         this.transform.localScale = Vector3.one * inItemData.Scale;
 
+        this.highlightValidTargetsWhenDragged = this.ItemData.DecorationData.HighlightValidTargetsWhenDragged;
+
         if (this.itemIcon)
         {
             if (this.originalIconSize == Vector2.zero)
@@ -49,6 +51,7 @@ public class UiInventoryItem : Draggable
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        //block dragging when not in "All" category of InventoryPanel
         var inventoryPanel = UiManager.IN.InventoryPanel;
         if (inventoryPanel.IsShowing && inventoryPanel.CurrentCategory != EShopCategory.All)
             return;

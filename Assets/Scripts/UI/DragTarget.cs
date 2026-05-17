@@ -39,7 +39,8 @@ public class DragTarget : MonoBehaviour
 
     private void OnDragStartedWithDecorationType(EDecorationType decorationType)
     {
-        SetIsValidHighlight(AllowsDecorationType(decorationType));
+        var isValid = AllowsDecorationType(decorationType);
+        SetIsValidHighlight(isValid);
     }
 
     private void OnDragEnded()
@@ -63,7 +64,7 @@ public class DragTarget : MonoBehaviour
 
     public void SetIsValidHighlight(bool isHighlighted)
     {
-        // Debug.Log($"Setting valid highlight to {isHighlighted} for {gameObject.name}");
+        //Debug.Log($"Setting valid highlight to {isHighlighted} for {gameObject.name}");
         if (this.isValidHighlight)
             this.isValidHighlight.SetActive(isHighlighted);
     }

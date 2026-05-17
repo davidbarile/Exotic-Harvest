@@ -46,8 +46,6 @@ public class DecorationBase : Draggable
         this.initItemData.Scale = this.initItemData.ShopItemConfig.Scale;
         this.initItemData.DecorationData = DecorationData.Copy(this.initItemData.ShopItemConfig.DecorationData);
 
-        this.highlightValidTargetsWhenDragged = this.initItemData.DecorationData.HighlightValidTargetsWhenDragged;
-
         if (this.initItemData.Quantity <= 0)
             this.initItemData.Quantity = 1;
 
@@ -63,6 +61,8 @@ public class DecorationBase : Draggable
         this.ItemData = inItemData;
 
         this.transform.localScale = Vector3.one * inItemData.Scale;
+
+        this.highlightValidTargetsWhenDragged = inItemData.DecorationData.HighlightValidTargetsWhenDragged;
 
         if (this.itemIcon)
         {
@@ -82,8 +82,6 @@ public class DecorationBase : Draggable
             if (this.worldProxy)
                 this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
                 
-            Debug.Log($"Configuring {gameObject.name} originalIconSize is {this.originalIconSize}");
-
             this.itemIcon.color = inItemData.IconColor;
 
             var worldSprite = inItemData.IconSpriteName;//default to using the regular icon if no world icon specified
