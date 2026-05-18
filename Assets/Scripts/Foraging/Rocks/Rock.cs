@@ -125,7 +125,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         TrySpawnLoot();
 
-        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out this.offsetFromCursor);
+        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out this.offsetFromCursor);
         this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
 
         this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
@@ -138,7 +138,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (!this.isDragging)
             return;
 
-        var dragPos = DragManager.IN.GetPositionInSpace(eventData.position);
+        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out _);
         this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor;
     }
 
@@ -149,7 +149,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetParent(this.originalParent, true);
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
-        this.targetRectTransform.position += DragManager.ScreenToWorldCameraDelta;
+        this.targetRectTransform.position += DragManager.CameraDelta;
 
         this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 

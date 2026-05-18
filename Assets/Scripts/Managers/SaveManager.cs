@@ -292,6 +292,7 @@ public class SaveManager : MonoBehaviour, ITickable
     private void CollectSettingsData()
     {
         Data.TimeWeatherPanelPosition = UiManager.IN.TimeWeatherPanel.transform.localPosition;
+        Data.ResourcesPanelPosition = UiManager.IN.ResourcesPanel.transform.localPosition;
         Data.SettingsPanelPosition = UiManager.IN.SettingsPanel.transform.localPosition;
         Data.ButtonsPanelPosition = UiManager.IN.UiButtonsPanel.transform.localPosition;
         Data.MaximizeButtonPosition = UiManager.IN.MaximizeButton.transform.localPosition;
@@ -314,6 +315,7 @@ public class SaveManager : MonoBehaviour, ITickable
     private void ApplySettingsData()
     {
         UiManager.IN.TimeWeatherPanel.transform.localPosition = Data.TimeWeatherPanelPosition;
+        UiManager.IN.ResourcesPanel.transform.localPosition = Data.ResourcesPanelPosition;
         UiManager.IN.SettingsPanel.transform.localPosition = Data.SettingsPanelPosition;
         UiManager.IN.UiButtonsPanel.transform.localPosition = Data.ButtonsPanelPosition;
         UiManager.IN.MaximizeButton.transform.localPosition = Data.MaximizeButtonPosition;

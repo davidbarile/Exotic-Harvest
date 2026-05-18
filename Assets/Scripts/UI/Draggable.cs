@@ -171,7 +171,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.originalWorldPosition = this.targetRectTransform.position;
 
-        var dragPos = DragManager.GetPositionValuesForDrag(eventData.position, this.targetRectTransform, out var cursorOffset);
+        DragManager.IN.InitDrag(this.targetRectTransform);
+
+        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out var cursorOffset);
 
         if(this.snapToCursor)
             this.offsetFromCursor = this.snapToCursorOffset;
@@ -180,7 +182,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         this.targetRectTransform.position = dragPos + this.offsetFromCursor;
             
-        if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        if (DragManager.StartedDragInWorldCanvas)
             this.transform.localScale *= DragManager.UiCanvasScaleFactor;
 
         // Register with drag proxy
@@ -209,7 +211,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if (this.isMenuPanel)
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
-            this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+            this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
             this.targetRectTransform.localPosition += this.offsetFromCursor / DragManager.UiCanvasScaleFactor;
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
             //this.targetRectTransform.SetAsLastSibling();
@@ -232,7 +234,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         DoOnEndDrag();
 
-        if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        if (DragManager.StartedDragInWorldCanvas)
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
     }
 
@@ -252,8 +254,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 decorationType = decoration.ItemData.DecorationData.DecorationType;
             }
 
-            var canvasOffset = Vector3.zero;
-
             foreach (var possibleTarget in InputManager.ObjectsUnderMouse)
             {
                 if (possibleTarget.TryGetComponent<DragTarget>(out var dragTarget) && !dragTarget.transform.IsChildOf(this.targetRectTransform))
@@ -261,15 +261,12 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;
 
-                    if (dragTarget.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
-                        canvasOffset = DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor;
-
                     dragTarget.SetAsParent(this.targetRectTransform);
 
                     if (dragTarget.ShouldSnapToCenter)
-                        this.targetRectTransform.localPosition += (this.snapToCenterOffset * this.transform.localScale.y) - canvasOffset;
+                        this.targetRectTransform.localPosition += (this.snapToCenterOffset * this.transform.localScale.y);// - canvasOffset;
                     else
-                        this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+                        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
                         
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
@@ -315,7 +312,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         //do we want to parent to non drop targets? 
         //this.targetRectTransform.SetParent(foundtarget.transform, true);
 
-        if (foundtarget.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        if (foundtarget.transform.IsChildOf(UiManager.IN.WorldCamera.transform))
         {
             this.targetRectTransform.SetParent(DragManager.IN.WorldDecorationsContainer, true);
         }
@@ -328,8 +325,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.SetParent(this.originalParent, true);
         }
 
-        this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
-
+        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
+        //TODO: fix offset from cursor - make it not include canvas offset in the first place?
+        this.targetRectTransform.localPosition += (this.offsetFromCursor - DragManager.CameraDelta) / DragManager.UiCanvasScaleFactor;
+     
         this.targetRectTransform.SetAsLastSibling();
 
         SaveItemPosition();
@@ -340,7 +339,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         var destPosition = this.originalWorldPosition;
         
-        if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
+        if (DragManager.StartedDragInWorldCanvas)
             destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
 
         //snap back to original position

@@ -64,6 +64,7 @@ public class GameSaveData
 
     [Header("Panel Positions")]
     public Vector3 TimeWeatherPanelPosition;
+    public Vector3 ResourcesPanelPosition;
     public Vector3 SettingsPanelPosition;
     public Vector3 ButtonsPanelPosition;
     public Vector3 MaximizeButtonPosition;
