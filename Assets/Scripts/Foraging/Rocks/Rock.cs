@@ -129,6 +129,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
 
         this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
+
+        this.transform.localScale *= DragManager.UiCanvasScaleFactor;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -148,6 +150,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.targetRectTransform.position += DragManager.ScreenToWorldCameraDelta;
+
+        this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 
         SetShadowActive(false);
 
