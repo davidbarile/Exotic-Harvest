@@ -6,7 +6,7 @@ public class DragManager : MonoBehaviour
 {
     public static DragManager IN;
     public static Vector3 ScreenToWorldCameraDelta { get; private set; }
-    public static float UiCanvasScaleFactor { get; private set; } = 1f;
+    public static float UiCanvasScaleFactor => UiManager.IN.UICanvas.transform.localScale.x; // Assuming uniform scaling on the canvas
     public static Vector3 CameraDelta = Vector3.zero;
 
     public static bool IsDragModeActivated = false;
@@ -14,6 +14,7 @@ public class DragManager : MonoBehaviour
     //Events
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
     public static Action<EDecorationType> OnDragStartedWithDecorationType;
+    public static Action OnDragStarted;
     public static Action OnDragEnded;
     public static Action<bool> OnDragModeChanged;
 
@@ -44,10 +45,6 @@ public class DragManager : MonoBehaviour
     private void Update()
     {
         DragManager.ScreenToWorldCameraDelta = UiManager.IN.WorldCamera.transform.position - UiManager.IN.DragCamera.transform.position;
-        
-        // For WorldSpace canvases, Unity's CanvasScaler modifies the Canvas transform.localScale, not scaleFactor
-        // Use the localScale.x as the scale factor (assuming uniform scaling)
-        DragManager.UiCanvasScaleFactor = UiManager.IN.UICanvas.transform.localScale.x;
 
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
@@ -95,6 +92,8 @@ public class DragManager : MonoBehaviour
         this.OffsetFromCursor = inOffsetFromCursor;
         this.IsDraggingActive = true;
         this.hasBrokenFreeOfClamp = false;
+
+        OnDragStarted?.Invoke();
 
         inDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
 
@@ -249,9 +248,15 @@ public class DragManager : MonoBehaviour
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
 
+        var oldParentCanvas = this.CurrentDraggedTransform.GetComponentInParent<Canvas>();
+
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
         newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
+
+        Debug.Log($"SwapDraggedObject()  oldParentCanvas: {(oldParentCanvas != null ? oldParentCanvas.name : "null")} ", newDraggedTransform);
+        
+        newDraggedTransform.localScale *= UiCanvasScaleFactor;
 
         // Update the reference to the new transform
         this.CurrentDraggedTransform = newDraggedTransform;

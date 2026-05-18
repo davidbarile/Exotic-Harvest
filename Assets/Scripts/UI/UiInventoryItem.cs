@@ -90,7 +90,7 @@ public class UiInventoryItem : Draggable
                     var wData = this.ItemData.DecorationData.WorldSaveData;
                         
                     // Spawn world item at current position
-                    var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position, wData.Scale, wData.Rotation);
+                    var worldItem = DecorationManager.IN.SpawnItemInWorld(this.ItemData, this.transform.position);
                     
                     if(worldItem.TryGetComponent<RectTransform>(out var worldItemRect))
                     {

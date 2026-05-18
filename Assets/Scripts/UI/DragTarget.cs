@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using static GlobalEnums;
 
 public class DragTarget : MonoBehaviour
@@ -21,19 +22,28 @@ public class DragTarget : MonoBehaviour
     public bool IsDragOutOfInventoryZone;
     public bool IsDragOverOpenInventoryZone;
 
+    private Image baseImage;
+
     private void Awake()
     {
         this.BoundsCollider = this.BoundsCollider == null ? GetComponent<Collider2D>() : this.BoundsCollider;
+
+        this.baseImage = GetComponent<Image>();
+        if(this.baseImage != null)
+            this.baseImage.raycastTarget = false;
+
         SetHighlight(false);
         SetIsValidHighlight(false);
 
         DragManager.OnDragStartedWithDecorationType += OnDragStartedWithDecorationType;
+        DragManager.OnDragStarted += OnDragStarted;
         DragManager.OnDragEnded += OnDragEnded;
     }
 
     private void OnDestroy()
     {
         DragManager.OnDragStartedWithDecorationType -= OnDragStartedWithDecorationType;
+        DragManager.OnDragStarted -= OnDragStarted;
         DragManager.OnDragEnded -= OnDragEnded;
     }
 
@@ -42,9 +52,18 @@ public class DragTarget : MonoBehaviour
         var isValid = AllowsDecorationType(decorationType);
         SetIsValidHighlight(isValid);
     }
+    
+    private void OnDragStarted()
+    {
+        if (this.baseImage != null)
+            this.baseImage.raycastTarget = true;
+    }
 
     private void OnDragEnded()
     {
+        if (this.baseImage != null)
+            this.baseImage.raycastTarget = false;
+            
         SetHighlight(false);
         SetIsValidHighlight(false);
     }
@@ -73,7 +92,7 @@ public class DragTarget : MonoBehaviour
     {
         inChildObject.SetParent(transform, true);
 
-        if(this.shouldSnapToCenter)
+        if (this.shouldSnapToCenter)
             inChildObject.localPosition = Vector3.zero;
     }
 }

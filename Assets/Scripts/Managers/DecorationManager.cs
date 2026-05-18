@@ -55,19 +55,21 @@ public class DecorationManager : MonoBehaviour
             this.initDecorations = new List<DecorationBase>();
     }
 
-    public DecorationBase SpawnItemInWorld(InventoryItemData inItemData, Vector3 inSpawnPosition, float inScale = 1f, float inRotation = 0f, Transform inParent = null)
+    public DecorationBase SpawnItemInWorld(InventoryItemData inItemData, Vector3 inSpawnPosition, Transform inParent = null)
     {
         if (inItemData == null || string.IsNullOrEmpty(inItemData.DecorationData.PrefabName))
             return null;
 
         var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(inItemData.DecorationData.PrefabName, inParent ?? DragManager.IN.WorldDecorationsContainer);
-        Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition} scale: {inScale} rot: {inRotation} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
-
+       
         worldItem.transform.localPosition = inSpawnPosition;
-        worldItem.transform.localScale = Vector3.one * inItemData.Scale;
-        worldItem.transform.localRotation = Quaternion.Euler(0f, 0f, inRotation);
-        worldItem.name = $"Decoration_{inItemData.DisplayName}";
+        worldItem.transform.localRotation = Quaternion.identity;
+        worldItem.name = $"Decoration_{inItemData.DisplayName}*";
         worldItem.ConfigureFromDrag(inItemData, Vector2.zero);
+
+        worldItem.transform.localScale = Vector3.one * inItemData.Scale * DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
+
+        Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition}  scale: {inItemData.Scale}. locScale = {worldItem.transform.localScale} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
 
         if(worldItem.ItemData.DecorationData.IsDragZone && worldItem.ItemData.DecorationData.Guid == -1)
         {
@@ -116,7 +118,7 @@ public class DecorationManager : MonoBehaviour
             var wData = data.DecorationData.WorldSaveData;
             if (this.decorationParents.TryGetValue(wData.ParentGuid, out var foundParent))
             {
-                var decoration = SpawnItemInWorld(data, wData.WorldPosition, wData.Scale, wData.Rotation, foundParent);
+                var decoration = SpawnItemInWorld(data, wData.WorldPosition, foundParent);
                 decoration.transform.SetSiblingIndex(wData.SiblingIndex);
                 this.PlacedDecorations.Add(decoration);
 
@@ -149,7 +151,7 @@ public class DecorationManager : MonoBehaviour
                 parentTrans = this.worldDecorationCanvas.transform;
             }
                 
-            var decoration = SpawnItemInWorld(data, wData.WorldPosition, wData.Scale, wData.Rotation, parentTrans);
+            var decoration = SpawnItemInWorld(data, wData.WorldPosition, parentTrans);
             decoration.transform.SetSiblingIndex(wData.SiblingIndex);
             this.PlacedDecorations.Add(decoration);
         }
