@@ -284,20 +284,29 @@ public class DragManager : MonoBehaviour
 
     public static Vector3 GetPositionValuesForDrag(Vector2 inMousePosition, Transform inObject, out Vector3 outOffsetFromCursor)
     {
-        //figure out which canvas this object is a child of to determine drag space
+        // Find the parent canvas and its camera
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
-        CameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? (DragManager.ScreenToWorldCameraDelta / UiCanvasScaleFactor) : Vector3.zero;
 
-        var objectPos = inObject.transform.position - CameraDelta;
-        outOffsetFromCursor = objectPos - (Vector3)inMousePosition;
+        Camera eventCamera = null;
+        if (parentCanvas.renderMode == RenderMode.ScreenSpaceCamera || parentCanvas.renderMode == RenderMode.WorldSpace)
+            eventCamera = parentCanvas.worldCamera;
 
-        return DragManager.IN.GetPositionInSpace(objectPos);
+        Vector3 result = inObject.position;
+        
+        RectTransform rectTransform = inObject as RectTransform;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, inMousePosition, eventCamera, out Vector3 outWorldPos))
+        {
+            result = outWorldPos;
+        }
+        outOffsetFromCursor = inObject.position - (Vector3)inMousePosition;
+        return result;
     }
 
     public static Vector3 GetPositionValuesForDrop(Vector2 inMousePosition, Transform inObject)
     {
         // Find the parent canvas and its camera
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
+        
         Camera eventCamera = null;
         if (parentCanvas.renderMode == RenderMode.ScreenSpaceCamera || parentCanvas.renderMode == RenderMode.WorldSpace)
             eventCamera = parentCanvas.worldCamera;
