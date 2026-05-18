@@ -181,7 +181,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         this.targetRectTransform.position = dragPos + this.offsetFromCursor;
             
         if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
-            this.targetRectTransform.localScale *= DragManager.UiCanvasScaleFactor;
+            this.transform.localScale *= DragManager.UiCanvasScaleFactor;
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.offsetFromCursor);
@@ -327,6 +327,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
 
         this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
+
+        Debug.Log($"Dropped on non-target.  Reparenting to {this.targetRectTransform.parent.name}.  this.targetRectTransform.position = {this.targetRectTransform.position}", this.targetRectTransform);
  
         this.targetRectTransform.SetAsLastSibling();
 
@@ -335,9 +337,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     }
 
     protected virtual void DoSnapBack()
-    {    
+    {
         var destPosition = this.originalWorldPosition;
-
+        
         if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
             destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
 

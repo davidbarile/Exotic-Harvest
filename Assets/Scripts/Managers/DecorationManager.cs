@@ -69,8 +69,6 @@ public class DecorationManager : MonoBehaviour
 
         worldItem.transform.localScale *= inItemData.Scale / DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
 
-        Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition}  scale: {inItemData.Scale}. locScale = {worldItem.transform.localScale} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
-
         if(worldItem.ItemData.DecorationData.IsDragZone && worldItem.ItemData.DecorationData.Guid == -1)
         {
             worldItem.ItemData.DecorationData.Guid = UnityEngine.Random.Range(0, int.MaxValue);
