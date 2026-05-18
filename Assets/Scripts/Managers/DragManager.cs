@@ -152,7 +152,7 @@ public class DragManager : MonoBehaviour
         this.hasBrokenFreeOfClamp = true;
 
         var dragPos = GetPositionInSpace(mousePos);
-        this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor;
+        this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor; // Adjust for canvas scale factor
 
         this.currentDragSource.OnDragUpdate();
     }
