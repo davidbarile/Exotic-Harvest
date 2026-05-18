@@ -139,15 +139,8 @@ public class UiInventoryItem : Draggable
         {
             if (this.onlyDragToTargets)
             {
-                var destPosition = this.originalWorldPosition;
-                //not sure
-                // if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
-                // {
-                //     destPosition -= DragManager.ScreenToWorldCameraDelta;
-                // }
-        
                 //snap back to original position
-                this.targetRectTransform.DOMove(destPosition, 0.2f).OnComplete(() =>
+                this.targetRectTransform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
                 {
                     this.targetRectTransform.SetParent(this.originalParent, true);
                     this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);

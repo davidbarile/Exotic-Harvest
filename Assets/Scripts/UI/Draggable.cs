@@ -228,7 +228,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
         else
         {
-            if ((!foundValidTarget || this.onlyDragToTargets) && this.originalParent != null)
+            if ((!foundValidTarget || this.onlyDragToTargets) && this.originalParent != null && this.OnWorldDropFailed == null)
                 DoSnapBack();
         }
 
@@ -326,8 +326,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
 
         this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
-        //TODO: fix offset from cursor - make it not include canvas offset in the first place?
-        this.targetRectTransform.localPosition += (this.offsetFromCursor - DragManager.CameraDelta) / DragManager.UiCanvasScaleFactor;
+ 
+        this.targetRectTransform.localPosition += this.offsetFromCursor;
      
         this.targetRectTransform.SetAsLastSibling();
 
@@ -337,10 +337,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     protected virtual void DoSnapBack()
     {
-        var destPosition = this.originalWorldPosition;
-        
-        if (DragManager.StartedDragInWorldCanvas)
-            destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
+        var destPosition = this.originalWorldPosition - DragManager.CameraDelta;
 
         //snap back to original position
         this.targetRectTransform.DOMove(destPosition, .2f).OnComplete(() =>
@@ -355,21 +352,26 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             SaveItemPosition();
         });
     }
-    
+
     private void ClampToScreenBounds()
     {
         var itemRect = this.targetRectTransform.rect;
 
         var clampedPosition = this.targetRectTransform.position;
-        
+
         // Calculate offset based on pivot (0 = left/bottom edge, 0.5 = center, 1 = right/top edge)
         var pivotOffsetX = itemRect.width * this.targetRectTransform.pivot.x;
         var pivotOffsetY = itemRect.height * this.targetRectTransform.pivot.y;
-        
+
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + pivotOffsetX + this.padding, Screen.width - (itemRect.width - pivotOffsetX) - this.padding);
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + this.padding, Screen.height - (itemRect.height - pivotOffsetY) - this.padding);
 
         this.targetRectTransform.position = clampedPosition;
         SaveItemPosition();
-    }   
+    } 
+    
+    public void AdjustDragOffsetOnSwap()
+    {
+        this.offsetFromCursor -= DragManager.CameraDelta;
+    }
 }

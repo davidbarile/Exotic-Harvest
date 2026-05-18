@@ -241,7 +241,7 @@ public class DecorationBase : Draggable
         UiManager.IN.InventoryPanel.Show();
 
         var origCell = this.originalParent.GetComponentInParent<UiInventoryCell>();
-        
+
         this.transform.SetParent(UiManager.IN.DragCanvas, true);
 
         //snap back to original position

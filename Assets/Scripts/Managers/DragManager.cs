@@ -170,7 +170,7 @@ public class DragManager : MonoBehaviour
         var dragPos = GetDragPosition(mousePos,  this.CurrentDraggedTransform, out _);
         this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor;
 
-        Debug.Log($"UpdateDrag(mousePos = {mousePos})  dragPos = {dragPos}   OffsetFromCursor {this.OffsetFromCursor} and CameraDelta {CameraDelta}.  CurrentDraggedTransform.position = {this.CurrentDraggedTransform.position}");
+        //Debug.Log($"UpdateDrag(mousePos = {mousePos})  dragPos = {dragPos}   OffsetFromCursor {this.OffsetFromCursor} and CameraDelta {CameraDelta}.  CurrentDraggedTransform.position = {this.CurrentDraggedTransform.position}");
 
         this.currentDragSource.OnDragUpdate();
     }
@@ -266,12 +266,12 @@ public class DragManager : MonoBehaviour
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
 
-        var oldParentCanvas = this.CurrentDraggedTransform.GetComponentInParent<Canvas>();
-
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
         newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
         newDraggedTransform.localScale *= UiCanvasScaleFactor;
+
+        InitDrag(newDraggedTransform);
 
         // Update the reference to the new transform
         this.CurrentDraggedTransform = newDraggedTransform;
@@ -280,6 +280,8 @@ public class DragManager : MonoBehaviour
         if (newDraggedTransform.TryGetComponent<Draggable>(out var newDragSource))
         {
             this.currentDragSource = newDragSource;
+
+            newDragSource.AdjustDragOffsetOnSwap();
 
             if(!newDragSource.IsDraggingPermanent)
             {
