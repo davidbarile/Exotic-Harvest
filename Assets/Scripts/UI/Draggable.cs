@@ -179,11 +179,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.offsetFromCursor = cursorOffset;
 
         this.targetRectTransform.position = dragPos + this.offsetFromCursor;
-
-        var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
-
-        if(parentCanvas == UiManager.IN.WorldCanvas)
-            this.transform.localScale *= DragManager.UiCanvasScaleFactor;
+            
+        if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+            this.targetRectTransform.localScale *= DragManager.UiCanvasScaleFactor;
 
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.offsetFromCursor);
@@ -233,9 +231,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         DoOnEndDrag();
 
-        var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
-
-        if(parentCanvas == UiManager.IN.WorldCanvas)
+        if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
     }
 
@@ -340,11 +336,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     protected virtual void DoSnapBack()
     {    
-        var isChildOfWorldCanvas = this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform);
-
         var destPosition = this.originalWorldPosition;
 
-        if (isChildOfWorldCanvas)
+        if (this.originalParent.IsChildOf(UiManager.IN.WorldCanvas.transform))
             destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
 
         //snap back to original position
@@ -354,9 +348,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
             this.targetRectTransform.position = this.originalWorldPosition;
 
-             var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
-
-            if(parentCanvas == UiManager.IN.WorldCanvas)
+            if (this.targetRectTransform.IsChildOf(UiManager.IN.WorldCanvas.transform))
                 this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 
             SaveItemPosition();
