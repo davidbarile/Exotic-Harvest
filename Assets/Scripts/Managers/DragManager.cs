@@ -253,9 +253,6 @@ public class DragManager : MonoBehaviour
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
         newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
-
-        Debug.Log($"SwapDraggedObject()  oldParentCanvas: {(oldParentCanvas != null ? oldParentCanvas.name : "null")} ", newDraggedTransform);
-        
         newDraggedTransform.localScale *= UiCanvasScaleFactor;
 
         // Update the reference to the new transform

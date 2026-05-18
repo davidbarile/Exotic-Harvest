@@ -180,6 +180,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         this.targetRectTransform.position = dragPos + this.offsetFromCursor;
 
+        var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
+
+        if(parentCanvas == UiManager.IN.WorldCanvas)
+            this.transform.localScale *= DragManager.UiCanvasScaleFactor;
+
         // Register with drag proxy
         DragManager.IN.StartDrag(this, this.targetRectTransform, this.offsetFromCursor);
     }
@@ -224,9 +229,14 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             if ((!foundValidTarget || this.onlyDragToTargets) && this.originalParent != null)
                 DoSnapBack();
-        }      
+        }
 
-        DoOnEndDrag(); 
+        DoOnEndDrag();
+
+        var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
+
+        if(parentCanvas == UiManager.IN.WorldCanvas)
+            this.transform.localScale /= DragManager.UiCanvasScaleFactor;
     }
 
     protected virtual void SaveItemPosition()
@@ -300,7 +310,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 this.originalParent = DragManager.IN.WorldDecorationsContainer;
             }
 
-            DoSnapBack();
+            //DoSnapBack(); //this will call twice.  If I find a case where it's needed, must kill tween first
             return false;
         }
 
@@ -337,14 +347,17 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if (isChildOfWorldCanvas)
             destPosition -= (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor);
 
-        Debug.Log($"<color=white>[{this.name}] DoSnapBack() to original parent {this.originalParent.name} at position {this.originalWorldPosition}.  isChildOfWorldCanvas = {isChildOfWorldCanvas}. destPosition after screen to world adjustment = {destPosition}</color>");
-
         //snap back to original position
         this.targetRectTransform.DOMove(destPosition, .2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
             this.targetRectTransform.position = this.originalWorldPosition;
+
+             var parentCanvas = this.targetRectTransform.GetComponentInParent<Canvas>();
+
+            if(parentCanvas == UiManager.IN.WorldCanvas)
+                this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 
             SaveItemPosition();
         });

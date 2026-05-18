@@ -67,7 +67,7 @@ public class DecorationManager : MonoBehaviour
         worldItem.name = $"Decoration_{inItemData.DisplayName}*";
         worldItem.ConfigureFromDrag(inItemData, Vector2.zero);
 
-        worldItem.transform.localScale = Vector3.one * inItemData.Scale * DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
+        worldItem.transform.localScale *= inItemData.Scale / DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
 
         Debug.Log($"<color=yellow>SpawnItemInWorld() {inItemData.DisplayName} at pos: {inSpawnPosition}  scale: {inItemData.Scale}. locScale = {worldItem.transform.localScale} parent: {(inParent != null ? inParent.name : "null")}</color>", worldItem.gameObject);
 
