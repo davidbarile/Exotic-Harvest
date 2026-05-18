@@ -329,8 +329,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         this.targetRectTransform.position = DragManager.GetPositionValuesForDrop(Input.mousePosition, this.targetRectTransform);
 
-        Debug.Log($"Dropped on non-target.  Reparenting to {this.targetRectTransform.parent.name}.  this.targetRectTransform.position = {this.targetRectTransform.position}", this.targetRectTransform);
- 
         this.targetRectTransform.SetAsLastSibling();
 
         SaveItemPosition();
