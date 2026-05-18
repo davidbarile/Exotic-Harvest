@@ -296,12 +296,20 @@ public class DragManager : MonoBehaviour
 
     public static Vector3 GetPositionValuesForDrop(Vector2 inMousePosition, Transform inObject)
     {
-        //figure out which canvas this object is a child of to determine drag space
+        // Find the parent canvas and its camera
         var parentCanvas = inObject.GetComponentInParent<Canvas>();
-        var cameraDelta = parentCanvas.renderMode == RenderMode.WorldSpace ? (DragManager.ScreenToWorldCameraDelta / UiCanvasScaleFactor) : Vector3.zero;
+        Camera eventCamera = null;
+        if (parentCanvas.renderMode == RenderMode.ScreenSpaceCamera || parentCanvas.renderMode == RenderMode.WorldSpace)
+            eventCamera = parentCanvas.worldCamera;
 
-        var objectPos = inObject.transform.position + cameraDelta;
+        Vector3 result = inObject.position;
 
-        return DragManager.IN.GetPositionInSpace(objectPos);
+        // Convert the mouse position to world position in the context of the canvas
+        RectTransform rectTransform = inObject as RectTransform;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, inMousePosition, eventCamera, out Vector3 outWorldPos))
+        {
+            result = outWorldPos;
+        }
+        return result;
     }
 }
