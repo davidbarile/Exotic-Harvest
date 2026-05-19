@@ -293,7 +293,7 @@ public class DecorationBase : Draggable
         if(this.worldProxy)
         {
             this.worldProxy.gameObject.SetActive(true);
-            this.worldProxy.transform.localPosition = (DragManager.ScreenToWorldCameraDelta / DragManager.UiCanvasScaleFactor) / this.transform.localScale.x;
+            this.worldProxy.transform.localPosition = DragManager.ScreenToWorldCameraDelta / this.transform.localScale.x;
         }
 
         // Store drag state for proper cleanup on drag end

@@ -55,6 +55,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
+    private bool isFromInventoryItemDrag;//gross hack
+
     protected virtual void OnValidate()
     {
         if (this.targetRectTransform == null)
@@ -156,6 +158,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         this.OnWorldDropFailed = null;
+         this.isFromInventoryItemDrag = false;
 
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
@@ -234,8 +237,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         DoOnEndDrag();
 
-        if (DragManager.StartedDragInWorldCanvas)
+        if (DragManager.StartedDragInWorldCanvas || this.isFromInventoryItemDrag)
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
+
+        this.isFromInventoryItemDrag = false;
     }
 
     protected virtual void SaveItemPosition()
@@ -322,6 +327,12 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
         else
         {
+            if(this.isFromInventoryItemDrag)
+            {
+                this.originalParent = DragManager.IN.WorldDecorationsContainer;
+                this.offsetFromCursor += DragManager.ScreenToWorldCameraDelta;
+            }
+             
             this.targetRectTransform.SetParent(this.originalParent, true);
         }
 
@@ -372,6 +383,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     
     public void AdjustDragOffsetOnSwap()
     {
-        this.offsetFromCursor -= DragManager.CameraDelta;
+        this.isFromInventoryItemDrag = true;
     }
 }

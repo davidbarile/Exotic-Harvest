@@ -91,7 +91,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         this.spawnedLoots.Clear();
 
-        if(this.originalParent != null)
+        if (this.originalParent != null)
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
@@ -100,7 +100,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         // this.targetRectTransform.SetAsLastSibling();
         // this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
         this.targetRectTransform.localPosition = this.originalPosition;
-        
+
         this.fadeTween?.Kill();
 
         if (!this.gameObject.activeSelf)
@@ -110,7 +110,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             this.canvasGroup.interactable = true;
             this.canvasGroup.alpha = 1f;
         }
-         
+
         this.gameObject.SetActive(true);
     }
 
@@ -125,12 +125,8 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
         TrySpawnLoot();
 
-        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out this.offsetFromCursor);
-        this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor; //TODO: fix offset from cursor
-
         this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
-
-        this.transform.localScale *= DragManager.UiCanvasScaleFactor;
+        this.targetRectTransform.localScale *= DragManager.UiCanvasScaleFactor;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -138,8 +134,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (!this.isDragging)
             return;
 
-        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out _);
-        this.targetRectTransform.position = dragPos;// + this.OffsetFromCursor;
+        this.targetRectTransform.position = (Vector3)eventData.position - this.offsetFromCursor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -149,9 +144,13 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.SetParent(this.originalParent, true);
         this.targetRectTransform.SetAsLastSibling();
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
-        this.targetRectTransform.position += DragManager.CameraDelta;
 
-        this.transform.localScale /= DragManager.UiCanvasScaleFactor;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(this.targetRectTransform, eventData.position, UiManager.IN.WorldCanvas.worldCamera, out Vector3 outWorldPos))
+        {
+            this.targetRectTransform.position = outWorldPos;
+        }
+
+        this.targetRectTransform.localScale /= DragManager.UiCanvasScaleFactor;
 
         SetShadowActive(false);
 

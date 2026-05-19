@@ -50,7 +50,7 @@ public class DragManager : MonoBehaviour
 
     private void Update()
     {
-        DragManager.ScreenToWorldCameraDelta = (UiManager.IN.WorldCamera.transform.position - UiManager.IN.DragCamera.transform.position) * UiCanvasScaleFactor;
+        ScreenToWorldCameraDelta = UiManager.IN.WorldCamera.transform.position - UiManager.IN.DragCamera.transform.position;// * UiCanvasScaleFactor;
 
         // Continue updating drag position autonomously when active
         // This allows dragging to continue after object swap
@@ -88,9 +88,9 @@ public class DragManager : MonoBehaviour
     public void SetDragMode(bool isDragMode)
     {
         IsDragModeActivated = isDragMode;
+
         OnDragModeChanged?.Invoke(IsDragModeActivated);
     }
-
     public void InitDrag(RectTransform inRectTrans)
     {
         //set/cache values to be used in drag calculations
@@ -132,8 +132,7 @@ public class DragManager : MonoBehaviour
 
             var shouldShow = true; //CameraDelta != Vector3.zero;
             this.currentDragProxy.SetActive(shouldShow);
-            // this.currentDragProxy.transform.localPosition = CameraDelta / this.currentDragSource.transform.localScale.x;
-            this.currentDragProxy.transform.localPosition = (ScreenToWorldCameraDelta / UiCanvasScaleFactor) / this.currentDragSource.transform.localScale.x;
+            this.currentDragProxy.transform.localPosition = ScreenToWorldCameraDelta / this.currentDragSource.transform.localScale.x;
         }
     }
 
@@ -166,7 +165,6 @@ public class DragManager : MonoBehaviour
 
         this.hasBrokenFreeOfClamp = true;
 
-        // var dragPos = GetPositionInSpace(mousePos);
         var dragPos = GetDragPosition(mousePos,  this.CurrentDraggedTransform, out _);
         this.CurrentDraggedTransform.position = dragPos + this.OffsetFromCursor;
 
