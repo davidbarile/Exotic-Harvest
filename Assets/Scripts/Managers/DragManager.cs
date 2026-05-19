@@ -269,6 +269,7 @@ public class DragManager : MonoBehaviour
         newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
         newDraggedTransform.localScale *= UiCanvasScaleFactor;
 
+        //force InitDrag to world
         InitDrag(newDraggedTransform);
 
         // Update the reference to the new transform
@@ -279,7 +280,7 @@ public class DragManager : MonoBehaviour
         {
             this.currentDragSource = newDragSource;
 
-            newDragSource.AdjustDragOffsetOnSwap();
+            newDragSource.FlagInventoryItemSwap();
 
             if(!newDragSource.IsDraggingPermanent)
             {

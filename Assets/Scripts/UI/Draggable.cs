@@ -55,7 +55,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
-    private bool isFromInventoryItemDrag;//gross hack
+    private bool isFromInventoryItemSwap;//gross hack
 
     protected virtual void OnValidate()
     {
@@ -158,7 +158,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         this.OnWorldDropFailed = null;
-         this.isFromInventoryItemDrag = false;
+        this.isFromInventoryItemSwap = false;
 
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
@@ -237,10 +237,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         DoOnEndDrag();
 
-        if (DragManager.StartedDragInWorldCanvas || this.isFromInventoryItemDrag)
+        if (DragManager.StartedDragInWorldCanvas || this.isFromInventoryItemSwap)
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 
-        this.isFromInventoryItemDrag = false;
+        this.isFromInventoryItemSwap = false;
     }
 
     protected virtual void SaveItemPosition()
@@ -327,10 +327,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         }
         else
         {
-            if(this.isFromInventoryItemDrag)
+            if(this.isFromInventoryItemSwap)
             {
                 this.originalParent = DragManager.IN.WorldDecorationsContainer;
-                this.offsetFromCursor += DragManager.ScreenToWorldCameraDelta;
+                this.offsetFromCursor += DragManager.ScreenToWorldCameraDelta;//TODO: does not work on mobile aspect ratio
             }
              
             this.targetRectTransform.SetParent(this.originalParent, true);
@@ -381,8 +381,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         SaveItemPosition();
     } 
     
-    public void AdjustDragOffsetOnSwap()
+    public void FlagInventoryItemSwap()
     {
-        this.isFromInventoryItemDrag = true;
+        this.isFromInventoryItemSwap = true;
     }
 }
