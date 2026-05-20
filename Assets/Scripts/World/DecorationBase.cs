@@ -283,7 +283,7 @@ public class DecorationBase : Draggable
         return null;
     }
 
-    public virtual void ConfigureFromDrag(InventoryItemData inItemData, Vector3 inOffsetFromCursor, Transform inOriginalParent = null, int inOriginalSiblingIndex = -1)
+    public virtual void ConfigureFromDrag(InventoryItemData inItemData, Transform inOriginalParent = null, int inOriginalSiblingIndex = -1)
     {
         Configure(inItemData);
 
@@ -297,7 +297,6 @@ public class DecorationBase : Draggable
         }
 
         // Store drag state for proper cleanup on drag end
-        this.offsetFromCursor = inOffsetFromCursor;
         this.originalWorldPosition = this.targetRectTransform.position;
         // this.originalSiblingIndex = 0;
         this.originalParent = inOriginalParent != null ? inOriginalParent : this.targetRectTransform.parent;

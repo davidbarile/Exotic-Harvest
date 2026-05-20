@@ -65,7 +65,7 @@ public class DecorationManager : MonoBehaviour
         worldItem.transform.localPosition = inSpawnPosition;
         worldItem.transform.localRotation = Quaternion.identity;
         worldItem.name = $"Decoration_{inItemData.DisplayName}*";
-        worldItem.ConfigureFromDrag(inItemData, Vector2.zero);
+        worldItem.ConfigureFromDrag(inItemData);
 
         worldItem.transform.localScale *= inItemData.Scale / DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
 
