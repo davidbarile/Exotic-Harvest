@@ -10,7 +10,6 @@ public class DragManager : MonoBehaviour
     public static Vector3 CameraDelta = Vector3.zero;
 
     public static float UiCanvasScaleFactor => UiManager.IN.UICanvas.transform.localScale.x; // Assuming uniform scaling on the canvas
-    public static bool ShouldScaleUpFlag;
 
     public static Canvas DragStartCanvas;
     public static Vector3 OffsetFromCursor;
@@ -265,8 +264,7 @@ public class DragManager : MonoBehaviour
         // Copy position from current dragged object to new one
         newDraggedTransform.position = this.CurrentDraggedTransform.position;
         newDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
-
-        ShouldScaleUpFlag = true;
+        newDraggedTransform.localScale *= UiCanvasScaleFactor;
 
         //force InitDrag to world
         InitDrag(newDraggedTransform);

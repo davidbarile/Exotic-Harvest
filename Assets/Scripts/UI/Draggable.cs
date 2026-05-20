@@ -156,7 +156,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         this.OnWorldDropFailed = null;
-        DragManager.ShouldScaleUpFlag = false;
 
         if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
             return;
@@ -223,6 +222,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         var foundValidTarget = TryParentToTarget(out bool foundDragTarget);
 
+        var didSnapBack = false;
+
         if (foundDragTarget)
         {
             TryInventoryCellDrop();//inventory cell is a DropTarget
@@ -230,12 +231,15 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         else
         {
             if ((!foundValidTarget || this.onlyDragToTargets) && this.originalParent != null && this.OnWorldDropFailed == null)
+            {
+                didSnapBack = true;
                 DoSnapBack();
+            }
         }
 
         DoOnEndDrag();
 
-        if (this.endCanvas == UiManager.IN.WorldCanvas || DragManager.ShouldScaleUpFlag)
+        if (this.endCanvas == UiManager.IN.WorldCanvas && !didSnapBack)
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
     }
 
@@ -276,6 +280,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
                     this.targetRectTransform.SetAsLastSibling();
                     dragTarget.SetHighlight(false);
+
+                    this.endCanvas = dragTarget.GetComponentInParent<Canvas>();
 
                     SaveItemPosition();
                     foundDragTarget = true;
@@ -357,7 +363,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         var destPosition = this.originalWorldPosition - DragManager.CameraDelta;
 
         //snap back to original position
-        this.targetRectTransform.DOMove(destPosition, .2f).OnComplete(() =>
+        this.targetRectTransform.DOMove(destPosition, 2.2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
