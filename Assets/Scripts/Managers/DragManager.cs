@@ -101,6 +101,8 @@ public class DragManager : MonoBehaviour
         CameraDelta = isChildOfWorld ? ScreenToWorldCameraDelta : Vector3.zero;
     }
 
+    public static Vector3 SnapBackStartPos;
+
     public void StartDrag(Draggable inSource, RectTransform inDraggedTransform)
     {
         this.currentDragSource = inSource;
@@ -111,6 +113,10 @@ public class DragManager : MonoBehaviour
         OnDragStarted?.Invoke();
 
         inDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
+
+        SnapBackStartPos = inDraggedTransform.position;
+
+        Debug.Log($"SnapBackStartPos = {SnapBackStartPos}, parent = {inDraggedTransform.parent.name}", inDraggedTransform);
 
         var dragDecoration = this.currentDragSource as DecorationBase;
 
