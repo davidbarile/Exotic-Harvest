@@ -171,7 +171,7 @@ public class DragManager : MonoBehaviour
 
         this.hasBrokenFreeOfClamp = true;
 
-        var dragPos = GetDragPosition(mousePos, this.CurrentDraggedTransform, out _, UiManager.IN.UICanvas);
+        var dragPos = GetDragPosition(mousePos, this.CurrentDraggedTransform, UiManager.IN.UICanvas);
         this.CurrentDraggedTransform.position = dragPos + OffsetFromCursor;
         this.currentDragSource.OnDragUpdate();
     }
@@ -187,7 +187,7 @@ public class DragManager : MonoBehaviour
                 return false;
                 
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
-            Vector3 clampedPosition = GetDragPosition(mousePos, this.CurrentDraggedTransform, out _);
+            Vector3 clampedPosition = GetDragPosition(mousePos, this.CurrentDraggedTransform);
             if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
             {
                 var offsetClampedPosition = clampedPosition + CameraDelta + OffsetFromCursor;
@@ -292,17 +292,15 @@ public class DragManager : MonoBehaviour
         }
     }
 
-    public static Vector3 GetDragPosition(Vector2 inMousePosition, RectTransform inRectTrans, out Vector3 offsetFromCursor, Canvas inDragStartCanvas = null)
+    public static Vector3 GetDragPosition(Vector2 inMousePosition, RectTransform inRectTrans, Canvas inDragStartCanvas = null)
     {
         Vector3 result = inRectTrans.position;
-
-        var canvas = inDragStartCanvas != null ? inDragStartCanvas : DragStartCanvas;
+        var canvas = inDragStartCanvas ? inDragStartCanvas : DragStartCanvas;
         
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(inRectTrans, inMousePosition, canvas.worldCamera, out Vector3 outWorldPos))
         {
             result = outWorldPos;
         }
-        offsetFromCursor = UiCanvasScaleFactor != 1 ? Vector3.zero : inRectTrans.position - (Vector3)inMousePosition - (Vector3)CameraDelta;
         return result;
     }
 }

@@ -173,12 +173,12 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         DragManager.IN.InitDrag(this.targetRectTransform);
 
-        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform, out var cursorOffset);
+        var dragPos = DragManager.GetDragPosition(eventData.position, this.targetRectTransform);
 
         if (this.snapToCursor)
             DragManager.OffsetFromCursor = this.snapToCursorOffset;
         else
-            DragManager.OffsetFromCursor = cursorOffset; //this.targetRectTransform.position - (Vector3)eventData.position - DragManager.CameraDelta;
+            DragManager.OffsetFromCursor = DragManager.UiCanvasScaleFactor != 1 ? Vector3.zero : this.targetRectTransform.position - (Vector3)eventData.position - (Vector3)DragManager.CameraDelta;
 
         this.targetRectTransform.position = dragPos + DragManager.OffsetFromCursor;
         
@@ -211,8 +211,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if (this.isMenuPanel)
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
-            this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
-            this.targetRectTransform.position += DragManager.OffsetFromCursor;// / DragManager.UiCanvasScaleFactor;
+            this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform);
+            this.targetRectTransform.position += DragManager.OffsetFromCursor;
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
             //this.targetRectTransform.SetAsLastSibling();
 
@@ -274,7 +274,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                         this.targetRectTransform.localPosition += (this.snapToCenterOffset * this.transform.localScale.y);// - canvasOffset;
                     else
                     {
-                        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _);
+                        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform);
                         this.targetRectTransform.position += DragManager.OffsetFromCursor;
                     }
 
@@ -349,7 +349,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.targetRectTransform.SetParent(this.originalParent, true);
         }
         
-        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, out _, this.endCanvas);
+        this.targetRectTransform.position = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, this.endCanvas);
         this.targetRectTransform.position += DragManager.OffsetFromCursor;
 
         this.targetRectTransform.SetAsLastSibling();
