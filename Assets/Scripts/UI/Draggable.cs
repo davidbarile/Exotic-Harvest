@@ -360,14 +360,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     protected virtual void DoSnapBack()
     {
-        //var destPosition = this.originalWorldPosition - DragManager.CameraDelta;
-        //var destPosition = DragManager.GetDragPosition(this.originalWorldPosition, this.targetRectTransform, out _, UiManager.IN.UICanvas) - DragManager.CameraDelta;
-        var destPosition = DragManager.SnapBackStartPos;
-
-        Debug.Log($"SNAP SnapBackStartPos = {DragManager.SnapBackStartPos},  parent = {this.targetRectTransform.parent.name}, destPosition = {destPosition}, originalWorldPosition = {this.originalWorldPosition}, CameraDelta = {DragManager.CameraDelta}", this.targetRectTransform);
-
         //snap back to original position
-        this.targetRectTransform.DOMove(destPosition, 2.2f).OnComplete(() =>
+        this.targetRectTransform.DOMove(DragManager.SnapBackStartPos, .2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);

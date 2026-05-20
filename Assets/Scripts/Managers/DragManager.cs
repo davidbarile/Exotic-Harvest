@@ -13,6 +13,7 @@ public class DragManager : MonoBehaviour
 
     public static Canvas DragStartCanvas;
     public static Vector3 OffsetFromCursor;
+    public static Vector3 SnapBackStartPos;
 
     public static bool StartedDragInWorldCanvas => DragStartCanvas == UiManager.IN.WorldCanvas;
     public static bool StartedDragInUICanvas => DragStartCanvas == UiManager.IN.UICanvas;
@@ -101,8 +102,6 @@ public class DragManager : MonoBehaviour
         CameraDelta = isChildOfWorld ? ScreenToWorldCameraDelta : Vector3.zero;
     }
 
-    public static Vector3 SnapBackStartPos;
-
     public void StartDrag(Draggable inSource, RectTransform inDraggedTransform)
     {
         this.currentDragSource = inSource;
@@ -114,6 +113,7 @@ public class DragManager : MonoBehaviour
 
         inDraggedTransform.SetParent(UiManager.IN.DragCanvas, true);
 
+        UpdateDrag(Input.mousePosition);//call once to set position in DragCanvas before caching
         SnapBackStartPos = inDraggedTransform.position;
 
         Debug.Log($"SnapBackStartPos = {SnapBackStartPos}, parent = {inDraggedTransform.parent.name}", inDraggedTransform);
