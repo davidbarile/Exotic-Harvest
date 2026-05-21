@@ -295,7 +295,8 @@ public class SaveManager : MonoBehaviour, ITickable
         Data.ResourcesPanelPosition = UiManager.IN.ResourcesPanel.transform.localPosition;
         Data.SettingsPanelPosition = UiManager.IN.SettingsPanel.transform.localPosition;
         Data.ButtonsPanelPosition = UiManager.IN.UiButtonsPanel.transform.localPosition;
-        Data.MaximizeButtonPosition = UiManager.IN.MaximizeButton.transform.localPosition;
+        if(UiManager.IN.MaximizeButton)
+            Data.MaximizeButtonPosition = UiManager.IN.MaximizeButton.transform.localPosition;
 
 #if UNITY_STANDALONE
         // Window settings (using UniWindowController)
@@ -318,7 +319,8 @@ public class SaveManager : MonoBehaviour, ITickable
         UiManager.IN.ResourcesPanel.transform.localPosition = Data.ResourcesPanelPosition;
         UiManager.IN.SettingsPanel.transform.localPosition = Data.SettingsPanelPosition;
         UiManager.IN.UiButtonsPanel.transform.localPosition = Data.ButtonsPanelPosition;
-        UiManager.IN.MaximizeButton.transform.localPosition = Data.MaximizeButtonPosition;
+        if(UiManager.IN.MaximizeButton)
+            UiManager.IN.MaximizeButton.transform.localPosition = Data.MaximizeButtonPosition;
 
 #if UNITY_STANDALONE
         // Window settings
