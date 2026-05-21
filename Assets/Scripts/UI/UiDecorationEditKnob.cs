@@ -24,7 +24,9 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
     [Header("Sister Knobs (Optional)")]
     [SerializeField] private UiDecorationEditKnob[] sisterKnobs;
 
-    private Vector3 initialSize, initialScale, initialRotation;
+    private Vector3 initialSize;
+    private float dragStartScale;
+    private float dragStartRotation;
     private float initialDistance;
     private float initialAngle;
     private Canvas canvas;
@@ -32,8 +34,6 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
     private void Start()
     {
         this.initialSize = this.editRT.sizeDelta;
-        this.initialScale = this.editRT.localScale;
-        this.initialRotation = this.editRT.localEulerAngles;
 
         // Get canvas for screen space calculations
         this.canvas = this.editRT.GetComponentInParent<Canvas>();
@@ -66,6 +66,8 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
         // Recalculate initial distance and angle in case Icon was already transformed
         this.initialDistance = CalculateDistanceFromIconCenter(GetCornerPosition());
         this.initialAngle = CalculateAngleFromIconCenter(GetCornerPosition());
+        this.dragStartScale = this.editRT.localScale.x;
+        this.dragStartRotation = this.editRT.localEulerAngles.z;
 
          if (this.rect)
             this.rect.SetActive(true);
@@ -82,15 +84,16 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
         
         // Calculate desired scale factor from cursor distance
         float desiredScale = dragDistance / this.initialDistance;
-        float scaleFactor = Mathf.Clamp(desiredScale, this.minScale, this.maxScale);
-        
-        // Apply the scale factor to the initial local scale
-        // The initialDistance measurement includes all parent scales, so the ratio accounts for them
-        float localScaleFactor = this.initialScale.x * scaleFactor;
+
+        // Scale relative to the value at drag start so each new drag stays aligned with cursor
+        var localScaleFactor = Mathf.Clamp(this.dragStartScale * desiredScale,
+            this.decoration.ItemData.Scale * this.minScale,
+            this.decoration.ItemData.Scale * this.maxScale);
         
         // Calculate angle from cursor position
         float currentAngle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
-        float rotationAngle = currentAngle - this.initialAngle;
+        float rotationDelta = currentAngle - this.initialAngle;
+        float rotationAngle = this.dragStartRotation + rotationDelta;
         
         // Apply uniform scale and rotation to Icon
         // This will move the Corner to the correct position
