@@ -4,6 +4,8 @@ public class TooltipManager : MonoBehaviour
 {
     public static TooltipManager IN;
 
+    public bool IsTooltipActive => this.tooltip.gameObject.activeSelf;
+
     [SerializeField] private UiTooltip tooltip;
 
     private void Start()

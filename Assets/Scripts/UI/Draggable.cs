@@ -178,7 +178,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if (this.snapToCursor)
             DragManager.OffsetFromCursor = this.snapToCursorOffset;
         else
-            DragManager.OffsetFromCursor = DragManager.UiCanvasScaleFactor != 1 ? Vector3.zero : this.targetRectTransform.position - (Vector3)eventData.position - (Vector3)DragManager.CameraDelta;
+            DragManager.OffsetFromCursor = DragManager.UiCanvasScaleFactor != 1 ? Vector3.zero : this.targetRectTransform.position - (Vector3)eventData.position - DragManager.CameraDelta;
+
+        if(this.isMenuPanel)
+            DragManager.OffsetFromCursor = this.targetRectTransform.position - (Vector3)eventData.position - DragManager.CameraDelta;
+
 
         this.targetRectTransform.position = dragPos + DragManager.OffsetFromCursor;
         
@@ -380,12 +384,14 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         var clampedPosition = this.targetRectTransform.position;
 
+        var adjustedPadding = this.padding / DragManager.UiCanvasScaleFactor;
+
         // Calculate offset based on pivot (0 = left/bottom edge, 0.5 = center, 1 = right/top edge)
         var pivotOffsetX = itemRect.width * this.targetRectTransform.pivot.x / DragManager.UiCanvasScaleFactor;
         var pivotOffsetY = itemRect.height * this.targetRectTransform.pivot.y / DragManager.UiCanvasScaleFactor;
 
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + pivotOffsetX + this.padding, Screen.width - (itemRect.width - pivotOffsetX) - this.padding);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + this.padding, Screen.height - (itemRect.height - pivotOffsetY) - this.padding);
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + pivotOffsetX + adjustedPadding, Screen.width - (itemRect.width - pivotOffsetX) - adjustedPadding);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + adjustedPadding, Screen.height - (itemRect.height - pivotOffsetY) - adjustedPadding);
 
         this.targetRectTransform.position = clampedPosition;
         SaveItemPosition();
