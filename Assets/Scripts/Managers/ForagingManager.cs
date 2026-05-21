@@ -12,6 +12,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
 
+    public static bool IsInitialized { get; private set; }
+
     [SerializeField] private bool debugIgnoreTimeOfDayAndWeather; // For testing - ignore time/weather conditions and spawn all collectables
 
     [Header("Raindrop Settings --------------")]
@@ -153,11 +155,11 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
 
-        this.lootContainersParent.SetActive(false);
-
         InitDewDropPositions();
         InitMeadowSearchablePositions();
         InitNightSkySearchablePositions();
+
+        this.lootContainersParent.SetActive(false);//hide AFTER initializing
 
         if (this.debugSpawnAllDewdrops)
             DebugDewSpawn();
@@ -176,6 +178,8 @@ public class ForagingManager : MonoBehaviour, ITickable
             DebugSpawnNightSkySearchables();
         else
             SpawnNightSkySearchables();//TODO: sync this with time of day/weather instead of spawning on start
+
+        IsInitialized = true;
     }
 
     private void OnDestroy()
@@ -424,9 +428,11 @@ public class ForagingManager : MonoBehaviour, ITickable
     private void InitMeadowSearchablePositions()
     {
         // If no predefined positions, generate a grid of positions within the spawn area
-        this.meadowSearchablePositions = GetRandomPositions(this.meadowSearchableParent, inCount: -1, inGridSize: this.meadowGridSize, inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
+        this.meadowSearchablePositions = GetRandomPositions(this.meadowSearchableParent, inCount: -1, inGridSize: this.meadowGridSize,
+            inOffsetRange: 0, inChanceToSpawn: 1f, inForceGridToSpawnAreaSize: true, inIterations: 1);
 
         var layerMask = LayerMask.GetMask("MeadowSearchables");
+        var totalPositions = this.meadowSearchablePositions.Count;
 
         // Raycast to only show elements in colliders
         for (int i = 0; i < this.meadowSearchablePositions.Count; i++)
@@ -447,6 +453,9 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.meadowSearchablePositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
             }
         }
+
+        var textColor = this.meadowSearchablePositions.Count == 0 ? "red" : "yellow";
+        Debug.Log($"<color={textColor}>InitMeadowSearchablePositions()  meadowSearchablePositions = {this.meadowSearchablePositions.Count}/{totalPositions}</color>");
     }
 
     [Button(ButtonSizes.Large)]
@@ -490,10 +499,9 @@ public class ForagingManager : MonoBehaviour, ITickable
             return;
         }
 
-
         DeleteAllMeadowSearchables();
 
-        Debug.Log($"Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas");
+        Debug.Log($"<color=white>Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas</color>");
 
         if(this.meadowSearchablePositions.Count == 0)
         {
@@ -558,6 +566,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         var layerMask = LayerMask.GetMask("NightSkySearchables");
 
+        var totalPositions = this.nightSkySearchablePositions.Count;
+
         // Raycast to only show elements in colliders
         for (int i = 0; i < this.nightSkySearchablePositions.Count; i++)
         {
@@ -577,6 +587,9 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.nightSkySearchablePositions[i] = new Vector3(screenPos.x, screenPos.y, hitCollider.transform.position.z);
             }
         }
+
+        var textColor = this.nightSkySearchablePositions.Count == 0 ? "red" : "yellow";
+        Debug.Log($"<color={textColor}>InitNightSkySearchablePositions()  nightSkySearchablePositions = {this.nightSkySearchablePositions.Count}/{totalPositions}</color>");
     }
 
     [Button(ButtonSizes.Large)]

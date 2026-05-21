@@ -174,6 +174,9 @@ public class SearchToolBase : DecorationBase //Draggable
 
     protected void SetLootFieldParent(Transform inLootField)
     {
+        if (!ForagingManager.IsInitialized)
+            return;
+
         Debug.Log($"Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}");
         if (inLootField == this.innerWorld)
             return;
