@@ -211,9 +211,6 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         this.isOverSearchableArea = IsOverSearchableArea();
 
-        if(TimeManager.CurrentTimeOfDay != ETimeOfDay.Night)
-            this.isOverSearchableArea = false;
-
         SetSearchMode(this.isOverSearchableArea);
 
         if(this.isOverSearchableArea || !this.isMaskEnabled)
@@ -224,7 +221,7 @@ public class SearchToolBase : DecorationBase //Draggable
 
     protected virtual bool IsOverSearchableArea()
     {
-        Collider2D hitCollider = Physics2D.OverlapPoint(this.worldProxy.transform.position, this.searchAreaLayerMask);
+        var hitCollider = Physics2D.OverlapPoint(this.worldProxy.transform.position, this.searchAreaLayerMask);
 
         if (hitCollider != null)
             return true;

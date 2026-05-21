@@ -146,7 +146,8 @@ public class UiInventoryPanel : UIPanelBase
 
         var cell = this.allInventoryCells[cellIndex];
         var prefab = PrefabManager.IN.SpawnPrefab<UiInventoryItem>($"InventoryItemUI", cell.Container);
-        prefab.name = $"Item_{itemData.DisplayName}";
+        var prefabName = itemData.DisplayName.Replace("\n", "");
+        prefab.name = $"Item_{prefabName}";
         prefab.transform.localScale = Vector3.one * itemData.Scale;
         cell.AddItem(prefab, itemData);
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static GlobalEnums;
 
 [RequireComponent(typeof(Telescope))]
 [RequireComponent(typeof(Animator))]
