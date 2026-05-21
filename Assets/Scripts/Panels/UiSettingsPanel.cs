@@ -301,5 +301,11 @@ public class UiSettingsPanel : UIPanelBase
         SaveManager.Data.FreezeTime = active;
     }
 
+    public void HandleEnableDebugTextToggle(bool active)
+    {
+        if(UiManager.IN.DebugText)
+            UiManager.IN.DebugText.gameObject.SetActive(active);
+    }
+
     #endregion
 }

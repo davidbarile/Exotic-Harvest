@@ -121,7 +121,7 @@ public class SaveManager : MonoBehaviour, ITickable
         ApplySaveDataToGame();
     }
     
-    public bool SaveGame()
+    private bool SaveGame()
     {
         if (this.isDeletingSave) return false; // Don't save if we're in the process of deleting the save file
          
@@ -413,11 +413,16 @@ public class SaveManager : MonoBehaviour, ITickable
                 break;
         }
     }
-    
+
     public void RecordDecorationPlaced()
     {
         if (Data?.StatsData != null)
             Data.StatsData.DecorationsPlaced++;
+    }
+    
+    public void HandleSaveGameButtonPress()
+    {
+        SaveGame();
     }
     
     public void HandleDeleteDataButtonPress()

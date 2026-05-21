@@ -450,10 +450,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6970618749069963688}
   - component: {fileID: 383545140740851056}
-  - component: {fileID: 4065138776385294642}
   - component: {fileID: 6279911262812058476}
   - component: {fileID: 2130910214799975657}
   - component: {fileID: 5627831588434159567}
+  - component: {fileID: 4065138776385294642}
   - component: {fileID: 5759241920078531953}
   m_Layer: 5
   m_Name: Panel
@@ -493,31 +493,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8971023710941370431}
   m_CullTransparentMesh: 1
---- !u!114 &4065138776385294642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8971023710941370431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bf3b2b3048e84710af693ddb2f4906f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UiDraggablePanel
-  isDraggingPermanent: 1
-  onlyDragToTargets: 0
-  limitToParentTargetBounds: 0
-  shouldDetectDropTargets: 0
-  highlightValidTargetsWhenDragged: 0
-  isMenuPanel: 0
-  padding: 10
-  targetRectTransform: {fileID: 6970618749069963688}
-  snapToCursor: 0
-  snapToCursorOffset: {x: 0, y: 0, z: 0}
-  snapToCenterOffset: {x: 0, y: 250, z: 0}
-  autoCalculateSnapToCenterOffset: 1
-  dragEnabledDisplay: {fileID: 0}
 --- !u!223 &6279911262812058476
 Canvas:
   m_ObjectHideFlags: 0
@@ -571,6 +546,31 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &4065138776385294642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971023710941370431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf3b2b3048e84710af693ddb2f4906f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiDraggablePanel
+  isDraggingPermanent: 1
+  onlyDragToTargets: 0
+  limitToParentTargetBounds: 0
+  shouldDetectDropTargets: 0
+  highlightValidTargetsWhenDragged: 0
+  isMenuPanel: 0
+  padding: 10
+  targetRectTransform: {fileID: 6970618749069963688}
+  snapToCursor: 0
+  snapToCursorOffset: {x: 0, y: 0, z: 0}
+  snapToCenterOffset: {x: 0, y: 250, z: 0}
+  autoCalculateSnapToCenterOffset: 1
+  dragEnabledDisplay: {fileID: 0}
 --- !u!114 &5759241920078531953
 MonoBehaviour:
   m_ObjectHideFlags: 0

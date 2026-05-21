@@ -51,6 +51,7 @@ public class UiManager : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private UiCompass compass;
+    public TMP_Text DebugText => this.debugText;
     [SerializeField] private TMP_Text debugText;
     [SerializeField] private Transform moon;
 
