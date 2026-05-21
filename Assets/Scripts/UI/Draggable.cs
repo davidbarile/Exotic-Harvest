@@ -381,8 +381,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         var clampedPosition = this.targetRectTransform.position;
 
         // Calculate offset based on pivot (0 = left/bottom edge, 0.5 = center, 1 = right/top edge)
-        var pivotOffsetX = itemRect.width * this.targetRectTransform.pivot.x;
-        var pivotOffsetY = itemRect.height * this.targetRectTransform.pivot.y;
+        var pivotOffsetX = itemRect.width * this.targetRectTransform.pivot.x / DragManager.UiCanvasScaleFactor;
+        var pivotOffsetY = itemRect.height * this.targetRectTransform.pivot.y / DragManager.UiCanvasScaleFactor;
 
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0 + pivotOffsetX + this.padding, Screen.width - (itemRect.width - pivotOffsetX) - this.padding);
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + this.padding, Screen.height - (itemRect.height - pivotOffsetY) - this.padding);
