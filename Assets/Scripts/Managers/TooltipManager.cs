@@ -13,6 +13,18 @@ public class TooltipManager : MonoBehaviour
         HideTooltip();
     }
 
+    private void Update()
+    {
+        if(PlatformManager.IsDesktop)
+            return;
+
+        if (Input.GetMouseButtonDown(0) && IsTooltipActive)
+        {
+            CancelInvoke(nameof(HideTooltip));
+            Invoke(nameof(HideTooltip), 0.2f);
+        }
+    }
+
     public void ShowTooltip(string inText, Vector3 inPosition, UiTooltip.ETailDirection inTailDirection = UiTooltip.ETailDirection.Down)
     {
         this.tooltip.Show(inText, inPosition, inTailDirection);

@@ -12,15 +12,6 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private float delayToHide = 5f;
 
-    private void Update()
-    {
-        if(PlatformManager.IsDesktop)
-            return;
-
-        if (Input.GetMouseButtonDown(0) && TooltipManager.IN.IsTooltipActive)
-            TooltipManager.IN.HideTooltip();
-    }
-
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         if (string.IsNullOrEmpty(this.TooltipText))
