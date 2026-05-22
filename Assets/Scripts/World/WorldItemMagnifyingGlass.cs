@@ -16,6 +16,13 @@ public class WorldItemMagnifyingGlass : SearchToolBase //DecorationBase/Draggabl
     {
         SetLootFieldParent(ForagingManager.IN.MeadowLootField);
 
+        this.OnDeinitialize = () =>
+        {
+            ForagingManager.IN.MeadowLootField.transform.SetParent(ForagingManager.IN.LootContainersParent);
+            ForagingManager.IN.MeadowLootField.transform.localPosition = Vector3.zero;
+            ForagingManager.IN.MeadowLootField.transform.localScale = Vector3.one;
+        };
+
         SetSearchMode(true);
         return true;
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -6,8 +7,9 @@ using static GlobalEnums;
 
 public class DecorationBase : Draggable
 {
-    [Header("Inventory Item UI Elements")]
+    public Action OnDeinitialize;
 
+    [Header("Inventory Item UI Elements")]
     [SerializeField] protected Image itemIcon;
     [SerializeField] protected Image shadow;
 
@@ -73,6 +75,8 @@ public class DecorationBase : Draggable
 
             var wData = inItemData.DecorationData.WorldSaveData;
 
+            Debug.Log($"Configuring {this.name}  this.itemIcon.transform.localScale = {itemIcon.transform.localScale}    wData.Scale = {wData.Scale}");
+
             this.itemIcon.transform.localScale = Vector3.one * wData.Scale;
             this.itemIcon.transform.rotation = Quaternion.Euler(0f, 0f, wData.Rotation);
 
@@ -111,7 +115,7 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.transform.parent.GetInstanceID();
         this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.transform.GetSiblingIndex();
-        this.ItemData.DecorationData.WorldSaveData.Scale = this.transform.localScale.x;
+        this.ItemData.DecorationData.WorldSaveData.Scale = this.itemIcon ? this.itemIcon.transform.localScale.x : 1f;
         this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
     }
 
@@ -215,6 +219,8 @@ public class DecorationBase : Draggable
             }
 
             SaveManager.Data.WorldItems.Remove(this.ItemData);
+            this.OnDeinitialize?.Invoke();
+            this.OnDeinitialize = null;
             Destroy(this.gameObject);
         }
         else
@@ -231,6 +237,8 @@ public class DecorationBase : Draggable
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
+
+            //scale here?
 
             SaveItemPosition();
         });
@@ -255,6 +263,22 @@ public class DecorationBase : Draggable
     public override void OnDragUpdate()
     {
         CheckIfOverInventoryZone();
+
+        //maybe inefficient
+        if(UiManager.IN.ResourcesPanel.IsShowing)
+        {
+            foreach (var obj in InputManager.ObjectsUnderMouse)
+            {
+                if(obj.transform.IsChildOf(UiManager.IN.ResourcesPanel.transform))
+                {
+                    if (TryGetComponent<PassiveHarvester>(out var harvester))
+                    {
+                        harvester.CollectAll();
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     public static bool CheckIfOverInventoryZone()
@@ -265,6 +289,7 @@ public class DecorationBase : Draggable
             {
                 UiManager.IN.InventoryPanel.Show();
                 UiManager.IN.InventoryPanel.SwitchCategory(EShopCategory.All);
+
                 return true;
             }
         }
@@ -293,6 +318,7 @@ public class DecorationBase : Draggable
         if(this.worldProxy)
         {
             this.worldProxy.gameObject.SetActive(true);
+            //maybe use RectTransformUtility.ScreenPointToLocalPointInRectangle for mobile screen aspect ratios
             this.worldProxy.transform.localPosition = DragManager.ScreenToWorldCameraDelta / this.transform.localScale.x;
         }
 
@@ -312,7 +338,7 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
         this.ItemData.DecorationData.WorldSaveData.SiblingIndex = this.targetRectTransform.GetSiblingIndex();
-        this.ItemData.DecorationData.WorldSaveData.Scale = this.transform.localScale.x;
+        this.ItemData.DecorationData.WorldSaveData.Scale = this.itemIcon ? this.itemIcon.transform.localScale.x : 1f;
         this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
 
         //in case of stools and benches and such, we store a unique Guid

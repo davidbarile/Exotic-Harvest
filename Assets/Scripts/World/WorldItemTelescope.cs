@@ -28,6 +28,13 @@ public class WorldItemTelescope : SearchToolBase //DecorationBase/Draggable
     {
         SetLootFieldParent(ForagingManager.IN.NightSkyLootField);
 
+          this.OnDeinitialize = () =>
+        {
+            ForagingManager.IN.NightSkyLootField.transform.SetParent(ForagingManager.IN.LootContainersParent);
+            ForagingManager.IN.NightSkyLootField.transform.localPosition = Vector3.zero;
+            ForagingManager.IN.NightSkyLootField.transform.localScale = Vector3.one;
+        };
+
         SetAnimatorState("BeginDrag");
         return true;
     }

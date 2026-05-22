@@ -14,6 +14,7 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     [SerializeField] private ECorner cornerType;
     [Space, SerializeField] private DecorationBase decoration;
+    [Tooltip("Set to IconSprite, not root RectTransform")]
     [SerializeField] private RectTransform editRT;
     [SerializeField] private GameObject rect;
 

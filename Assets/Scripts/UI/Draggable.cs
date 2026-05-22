@@ -53,7 +53,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     protected int originalSiblingIndex;
     protected bool isDragging = false;
 
-    private Canvas endCanvas;
+    protected Canvas endCanvas;
 
     protected virtual void OnValidate()
     {
@@ -186,7 +186,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         this.targetRectTransform.position = dragPos + DragManager.OffsetFromCursor;
         
-        if( DragManager.DragStartCanvas == UiManager.IN.WorldCanvas)
+        if(DragManager.DragStartCanvas == UiManager.IN.WorldCanvas)
             this.transform.localScale *= DragManager.UiCanvasScaleFactor;
 
         // Register with drag proxy

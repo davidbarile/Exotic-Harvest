@@ -10,20 +10,12 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [TextArea(0, 5)] public string TooltipText;
 
-    private float delayToHide = 5f;
-
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         if (string.IsNullOrEmpty(this.TooltipText))
             return;
 
         TooltipManager.IN.ShowTooltip(this.TooltipText, this.transform.position + tooltipOffset, this.tailDirection);
-
-        if(PlatformManager.IsMobile)
-        {
-            CancelInvoke(nameof(HideTooltip));
-            Invoke(nameof(HideTooltip), this.delayToHide);
-        }
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)

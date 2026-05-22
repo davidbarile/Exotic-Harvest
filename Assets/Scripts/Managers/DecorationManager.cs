@@ -74,7 +74,10 @@ public class DecorationManager : MonoBehaviour
 
         worldItem.ConfigureFromDrag(inItemData);
 
-        worldItem.transform.localScale *= inItemData.Scale / DragManager.UiCanvasScaleFactor; // Adjust scale based on UI canvas scale factor
+        if (worldItem.transform.IsChildOf(UiManager.IN.WorldCanvas.transform))
+            worldItem.transform.localScale = Vector3.one * inItemData.Scale / DragManager.UiCanvasScaleFactor;
+        else
+            worldItem.transform.localScale = Vector3.one * inItemData.Scale;
 
         if(worldItem.ItemData.DecorationData.IsDragZone && worldItem.ItemData.DecorationData.Guid == -1)
         {

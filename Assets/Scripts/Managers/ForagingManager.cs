@@ -80,6 +80,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     [Header("Misc --------------")]
     [SerializeField] private GameObject lootContainersParent;
+    public Transform LootContainersParent => this.lootContainersParent.transform;
 
     #region Static Methods
     public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize,

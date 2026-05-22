@@ -70,7 +70,7 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         if (!this.isMaskEnabled)
             return;
-                
+
         if (this.IsInSearchMode == inIsSearchMode && !inShouldForce)
             return;
         
@@ -168,7 +168,7 @@ public class SearchToolBase : DecorationBase //Draggable
         //override in derived classes
         //SetLootFieldParent(ForagingManager.IN.MeadowLootField);
 
-        SetSearchMode(true);
+        //SetSearchMode(true);
         return true;
     }
 
@@ -213,6 +213,18 @@ public class SearchToolBase : DecorationBase //Draggable
     public override void OnDragUpdate()
     {
         this.isOverSearchableArea = IsOverSearchableArea();
+
+        if (UiManager.IN.InventoryPanel.IsShowing)
+        {
+            foreach (var obj in InputManager.ObjectsUnderMouse)
+            {
+                if(obj.transform.IsChildOf(UiManager.IN.InventoryPanel.transform))
+                {
+                    this.isOverSearchableArea = false;
+                    break;
+                }
+            }
+        }
 
         SetSearchMode(this.isOverSearchableArea);
 

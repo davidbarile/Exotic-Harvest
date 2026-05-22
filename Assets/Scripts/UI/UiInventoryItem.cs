@@ -101,7 +101,7 @@ public class UiInventoryItem : Draggable
 
                         // Swap the dragged object to the new world item
                         DragManager.IN.SwapDraggedObject(worldItemRect);
-
+                        
                         // Mark as not dragging so OnDrag doesn't process
                         this.isDragging = false;
 
@@ -150,6 +150,11 @@ public class UiInventoryItem : Draggable
                     {
                         //origCell.SetSelected(true);
                         origCell.AddItem(this, this.ItemData);
+                    }
+                    else
+                    {
+                        if (this.endCanvas == UiManager.IN.WorldCanvas)
+                            this.transform.localScale /= DragManager.UiCanvasScaleFactor;
                     }
                 });
             }
