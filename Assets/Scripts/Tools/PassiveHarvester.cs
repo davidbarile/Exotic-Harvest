@@ -141,7 +141,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         if (this.DecorationData == null)
             return false;
 
-        if (inAmount <= 0)
+        if (inAmount <= 0 || this.CurrentAmount >= this.MaxCapacity)
             return false;
 
         this.leftoverFractionAmount += inAmount;
@@ -151,8 +151,6 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
             this.leftoverFractionAmount -= amountToAdd;
         else
             this.leftoverFractionAmount = 0;
-
-        //Debug.Log($"Trying to add {inAmount} of {inResourceType} to {this.gameObject.name}. Amount to add: {amountToAdd}, Leftover fraction: {this.leftoverFractionAmount}. isEmpty = {this.IsEmpty}");
 
         if (this.DecorationData.CurrentAmount == 0 && inResourceType != EResourceType.None)
         {
@@ -167,18 +165,18 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
             return false;
         }
 
-        int actualAmount = Mathf.Min(amountToAdd, this.MaxCapacity - this.CurrentAmount);
-        this.DecorationData.CurrentAmount += actualAmount;
+        amountToAdd = Mathf.Min(amountToAdd, this.MaxCapacity - this.CurrentAmount);
+        this.DecorationData.CurrentAmount += amountToAdd;
 
-        if (actualAmount > 0)
+        if (amountToAdd > 0)
         {
-            ResourceManager.OnResourceGained?.Invoke(this.ActiveResourceData.ResourceType, actualAmount);
-            OnGenerated(actualAmount);
+            ResourceManager.OnResourceGained?.Invoke(this.ActiveResourceData.ResourceType, amountToAdd);
+            OnGenerated(amountToAdd);
         }
 
         RefreshQuantityDisplay();
-
-        return actualAmount > 0;
+        
+        return amountToAdd + this.leftoverFractionAmount > 0;
     }
     
     //kinda hack function to be called from Attractor before TryAddAmount()

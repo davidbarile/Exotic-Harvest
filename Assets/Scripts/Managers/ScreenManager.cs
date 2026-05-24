@@ -1,12 +1,15 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Collections.Generic;
-using System;
 
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager IN;
+
+    public static float WorldToScreenRatio { get; private set; }
+    public static RectTransform WorldScreenRectTrans => IN.worldScreenRectTrans;
 
     public static Action<bool> OnMinimizeMaximizeToggled;
     public static Action<bool> OnGameFocusChanged;
@@ -34,6 +37,8 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject[] clouds;
     [SerializeField] private GameObject[] mountains;
     [Space, SerializeField] private GameObject[] collidersToDisableOnMinimize;
+
+    [SerializeField] private RectTransform worldScreenRectTrans;
 
     private bool isClickThrough;
     private bool appHasFocus = true;
@@ -71,6 +76,23 @@ public class ScreenManager : MonoBehaviour
         InputManager.OnTabPress -= ToggleBackgroundVisibility;
         InputManager.OnF1Press -= ToggleMonitor;
         InputManager.OnMPress -= ShowMonitorInfo;
+    }
+
+    private void Update()
+    {
+        //Calculate World to Screen ratio
+        var bl = UiManager.IN.WorldCamera.ViewportToWorldPoint(new Vector3(0, 0, 1000f));
+        var br = UiManager.IN.WorldCamera.ViewportToWorldPoint(new Vector3(1, 0, 1000f));
+        var tl = UiManager.IN.WorldCamera.ViewportToWorldPoint(new Vector3(0, 1, 1000f));
+        var tr = UiManager.IN.WorldCamera.ViewportToWorldPoint(new Vector3(1, 1, 1000f));
+
+        // position and size the worldScreenRect to match the world camera's viewport in world space, so we can use it as a reference for placing world-space objects that should align with the screen
+        this.worldScreenRectTrans.position = (bl + tr) / 2f;
+        var worldWidth = Vector3.Distance(bl, br);
+        var worldHeight = Vector3.Distance(bl, tl);
+        this.worldScreenRectTrans.sizeDelta = new Vector2(worldWidth, worldHeight);
+
+        WorldToScreenRatio = worldWidth / Screen.width;
     }
 
     public void ToggleRootVisibility()

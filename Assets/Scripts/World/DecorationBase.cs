@@ -85,6 +85,9 @@ public class DecorationBase : Draggable
 
             if (this.worldProxy)
                 this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
+
+            // if(worldProxy)
+            //     Debug.Log($"Configuring {this.name}  this.itemIcon.transform.localScale = {itemIcon.transform.localScale}    wData.Scale = {wData.Scale}   this.worldProxy.rectTransform = { this.worldProxy.rectTransform.rect.size}");
                 
             this.itemIcon.color = inItemData.IconColor;
 
@@ -315,13 +318,12 @@ public class DecorationBase : Draggable
         // Mark as actively being dragged
         this.isDragging = true;
 
-        if(this.worldProxy)
+        if (this.worldProxy)
         {
             this.worldProxy.gameObject.SetActive(true);
-            //maybe use RectTransformUtility.ScreenPointToLocalPointInRectangle for mobile screen aspect ratios
             this.worldProxy.transform.localPosition = DragManager.ScreenToWorldCameraDelta / this.transform.localScale.x;
         }
-
+        
         // Store drag state for proper cleanup on drag end
         this.originalWorldPosition = this.targetRectTransform.position;
         // this.originalSiblingIndex = 0;

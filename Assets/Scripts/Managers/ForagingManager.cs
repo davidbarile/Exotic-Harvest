@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,7 +12,9 @@ using static GlobalEnums;
 public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
-
+    
+    private static WaitForSeconds _waitForSeconds0_2 = new(0.2f);
+   
     public static bool IsInitialized { get; private set; }
 
     [SerializeField] private bool debugIgnoreTimeOfDayAndWeather; // For testing - ignore time/weather conditions and spawn all collectables
@@ -226,10 +229,21 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     public void OnHourChanged(float inCurrentHour)
     {
+        StopAllCoroutines();
+        StartCoroutine(DistributedHourRefresh());
+    }
+
+    private IEnumerator DistributedHourRefresh()
+    {
+        // Could be used to spread out spawning/despawning of collectables over several frames to reduce stutter
         RefreshRockPile();
-        RefreshMeadowSearchables();
+        yield return _waitForSeconds0_2;
+        RefreshMeadowSearchables();//causes stutter
+        yield return _waitForSeconds0_2;
         RefreshNightSkySearchables();
+        yield return _waitForSeconds0_2;
         RefreshMoonbeamGenerator();
+        yield return _waitForSeconds0_2;
         RefreshStardustGenerator();
     }
 
@@ -491,6 +505,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         }
     }
     
+    //TODO: create a function that loads various loot configs and stores in an array, so they can be quickly chosen and not cause a stutter.
     private void SpawnMeadowSearchables()
     {
         var meadowLootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.Meadow);
@@ -502,8 +517,6 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         DeleteAllMeadowSearchables();
 
-        Debug.Log($"<color=white>Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas</color>");
-
         if(this.meadowSearchablePositions.Count == 0)
         {
             Debug.Log("<color=red>No meadow searchable positions available. Cannot spawn meadow searchables.</color>");
@@ -514,7 +527,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         float rnd = 0;
 
-        foreach(var lootData in meadowLootConfig.LootDatas)
+        foreach (var lootData in meadowLootConfig.LootDatas)
         {
             //possible number of this loot to drop based on the config settings
             var quantity = lootData.QuantityToDrop.GetWeightedRandomQuantity();
@@ -527,7 +540,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 //for each potential loot drop, roll to see if it actually drops based on the ChanceToDrop weight
                 var chance = lootData.ChanceToDrop.GetWeightedRandomQuantity();
                 rnd = UnityEngine.Random.value * 100f;
-                
+
                 if (rnd > chance && !this.debugSpawnAllMeadowSearchables)
                     continue;
 
@@ -536,8 +549,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 
                 var spawnPosIndex = 0;
 
-                if(this.activeNightSkySearchables.Count > 0)
-                    spawnPosIndex =this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count;
+                if (this.activeNightSkySearchables.Count > 0)
+                    spawnPosIndex = this.activeMeadowSearchables.Count % this.meadowSearchablePositions.Count;
 
                 meadowSearchable.transform.localPosition = this.meadowSearchablePositions[spawnPosIndex];
                 meadowSearchable.transform.position = new Vector3(meadowSearchable.transform.position.x, meadowSearchable.transform.position.y, 0f); // Set Z based on collider
@@ -546,6 +559,8 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.activeMeadowSearchables.Add(meadowSearchable);
             }
         }
+
+        Debug.Log($"<color=white>Lootconfig chosen for meadow searchables: {meadowLootConfig.DisplayName} with {meadowLootConfig.LootDatas.Length} loot datas.  activeMeadowSearchables.Count = {this.activeMeadowSearchables.Count}</color>");
     }
 
     private void DeleteAllMeadowSearchables()

@@ -55,15 +55,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text debugText;
     [SerializeField] private Transform moon;
 
-    private void OnDrawGizmos()
-    {
-        var wc = this.worldCamera.transform;
-        this.worldCamera.transform.position = new Vector3(wc.position.x, this.worldRectTrans.position.y, wc.position.z);
-    }
-
     private void Awake()
     {
-        OnDrawGizmos();
         SetDebugText(string.Empty);
     }
 
