@@ -221,6 +221,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             //this.targetRectTransform.SetAsLastSibling();
 
             ClampToScreenBounds();
+            SaveItemPosition();
             return;
         }
 
@@ -394,6 +395,5 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0 + pivotOffsetY + adjustedPadding, Screen.height - (itemRect.height - pivotOffsetY) - adjustedPadding);
 
         this.targetRectTransform.position = clampedPosition;
-        SaveItemPosition();
     }
 }

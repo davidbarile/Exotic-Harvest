@@ -236,12 +236,13 @@ public class DecorationBase : Draggable
     private void SnapBackToWorldFromInventoryFail()
     {
         //snap back to original position
-        transform.DOMove(this.originalWorldPosition, 0.2f).OnComplete(() =>
+        transform.DOMove(DragManager.SnapBackStartPos, 0.2f).OnComplete(() =>
         {
             this.targetRectTransform.SetParent(this.originalParent, true);
             this.targetRectTransform.SetSiblingIndex(this.originalSiblingIndex);
 
-            //scale here?
+            if (this.endCanvas == UiManager.IN.WorldCanvas)
+                this.transform.localScale /= DragManager.UiCanvasScaleFactor;
 
             SaveItemPosition();
         });
