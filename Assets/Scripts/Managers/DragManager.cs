@@ -116,8 +116,6 @@ public class DragManager : MonoBehaviour
         UpdateDrag(Input.mousePosition);//call once to set position in DragCanvas before caching
         SnapBackStartPos = inDraggedTransform.position;
 
-        Debug.Log($"SnapBackStartPos = {SnapBackStartPos}, parent = {inDraggedTransform.parent.name}", inDraggedTransform);
-
         var dragDecoration = this.currentDragSource as DecorationBase;
 
         if(inSource.HighlightValidTargetsWhenDragged)

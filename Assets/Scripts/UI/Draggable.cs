@@ -276,7 +276,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     dragTarget.SetAsParent(this.targetRectTransform);
 
                     if (dragTarget.ShouldSnapToCenter)
-                        this.targetRectTransform.localPosition += (this.snapToCenterOffset * this.transform.localScale.y);// - canvasOffset;
+                        this.targetRectTransform.localPosition = Vector3.zero + (this.snapToCenterOffset * this.transform.localScale.y);
                     else
                     {
                         var targetParentCanvas = dragTarget.GetComponentInParent<Canvas>();
@@ -284,7 +284,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
                         var canvasRectTrans = isTargetWorldCanvas ? UiManager.IN.WorldRectTrans : UiManager.IN.DragCanvas;
                         var camera = isTargetWorldCanvas ? UiManager.IN.WorldCamera : UiManager.IN.DragCamera;
-    
+
+                        Debug.Log($"isTargetWorldCanvas = {isTargetWorldCanvas}");
+
                         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(canvasRectTrans, Input.mousePosition, camera, out Vector3 outWorldPos))
                             this.targetRectTransform.position = outWorldPos + DragManager.OffsetFromCursor;
                     }
