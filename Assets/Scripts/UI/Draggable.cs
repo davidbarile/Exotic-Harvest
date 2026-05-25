@@ -282,13 +282,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                         var targetParentCanvas = dragTarget.GetComponentInParent<Canvas>();
                         var isTargetWorldCanvas = targetParentCanvas == UiManager.IN.WorldCanvas;
 
-                        var canvasRectTrans = isTargetWorldCanvas ? UiManager.IN.WorldRectTrans : UiManager.IN.DragCanvas;
-                        var camera = isTargetWorldCanvas ? UiManager.IN.WorldCamera : UiManager.IN.DragCamera;
+                        var targetCanvas = isTargetWorldCanvas ? UiManager.IN.WorldCanvas : UiManager.IN.UICanvas;
 
-                        Debug.Log($"isTargetWorldCanvas = {isTargetWorldCanvas}");
-
-                        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(canvasRectTrans, Input.mousePosition, camera, out Vector3 outWorldPos))
-                            this.targetRectTransform.position = outWorldPos + DragManager.OffsetFromCursor;
+                        var dropPos = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, targetCanvas);
+                        this.targetRectTransform.position = dropPos + DragManager.OffsetFromCursor;
                     }
 
                     this.targetRectTransform.SetAsLastSibling();
