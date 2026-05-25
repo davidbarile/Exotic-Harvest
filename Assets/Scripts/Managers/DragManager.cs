@@ -183,30 +183,36 @@ public class DragManager : MonoBehaviour
         {
             if (parentDragTarget.UnsnapRange == -1)
                 return false;
-                
+
+            var targetParentCanvas = parentDragTarget.GetComponentInParent<Canvas>();
+            var isTargetWorldCanvas = targetParentCanvas == UiManager.IN.WorldCanvas;
+
+            var targetCanvas = isTargetWorldCanvas ? UiManager.IN.WorldCanvas : UiManager.IN.UICanvas;
+
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
-            Vector3 clampedPosition = GetDragPosition(mousePos, this.CurrentDraggedTransform);
+            Vector3 clampedPosition = GetDragPosition(mousePos, this.CurrentDraggedTransform, targetCanvas);
+            
             if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
             {
-                var offsetClampedPosition = clampedPosition + CameraDelta + OffsetFromCursor;
+                var offsetClampedPosition = clampedPosition + OffsetFromCursor;// + CameraDelta;
                 // Check if the point is inside the 2D collider
                 if (!parentDragTarget.BoundsCollider.OverlapPoint(offsetClampedPosition))
                 {
                     // Find the closest point on the collider's bounds
-                    var closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(offsetClampedPosition) - (Vector2)OffsetFromCursor - (Vector2)CameraDelta;
+                    var closestPoint = parentDragTarget.BoundsCollider.ClosestPoint(clampedPosition);// - (Vector2)CameraDelta;
                     clampedPosition = new Vector3(closestPoint.x, closestPoint.y, this.CurrentDraggedTransform.position.z);
                 }
             }
             else
             {
                 //no collider, clamp to rect transform bounds
-                RectTransform parentRect = this.currentDragSource.OriginalParent.GetComponent<RectTransform>();
-                if (parentRect != null)
+                if (parentDragTarget.TryGetComponent<RectTransform>(out var parentRect))
                 {
-                    var worldCorners = new Vector3[4];
-                    parentRect.GetWorldCorners(worldCorners);
-                    Vector3 min = worldCorners[0] - OffsetFromCursor - CameraDelta;
-                    Vector3 max = worldCorners[2] - OffsetFromCursor - CameraDelta;
+                    var corners = new Vector3[4];
+                    parentRect.GetWorldCorners(corners);
+                        
+                    Vector3 min = corners[0] - OffsetFromCursor - CameraDelta;
+                    Vector3 max = corners[2] - OffsetFromCursor - CameraDelta;
 
                     clampedPosition.x = Mathf.Clamp(clampedPosition.x, min.x, max.x);
                     clampedPosition.y = Mathf.Clamp(clampedPosition.y, min.y, max.y);
