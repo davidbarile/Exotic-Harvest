@@ -6,6 +6,8 @@ public class DragTarget : MonoBehaviour
 {
     [Header("If null, will use this transform")]
     [SerializeField] private Transform itemContainer;
+    public Transform ItemContainer => this.itemContainer == null ? this.transform : this.itemContainer;
+
     [Header("Leave null to not highlight on valid drag over")]
     [SerializeField] private GameObject highlightObject;
     [Header("Leave null to not highlight on valid drag start")]

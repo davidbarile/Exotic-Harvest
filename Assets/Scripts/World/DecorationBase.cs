@@ -344,12 +344,24 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.Scale = this.itemIcon ? this.itemIcon.transform.localScale.x : 1f;
         this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
 
+        DecorationBase dbase = null;
+
+        Debug.Log($"Saving position for {this.ItemData.DisplayName} at {this.ItemData.DecorationData.WorldSaveData.WorldPosition}. ParentGuid: {this.ItemData.DecorationData.WorldSaveData.ParentGuid}, SiblingIndex: {this.ItemData.DecorationData.WorldSaveData.SiblingIndex}");
+
         //in case of stools and benches and such, we store a unique Guid
-        if(this.targetRectTransform.parent.parent.TryGetComponent<DecorationBase>(out var decorationBase))
+        if (this.targetRectTransform.parent.parent.TryGetComponent<DecorationBase>(out dbase))
         {
-            if(decorationBase.ItemData.DecorationData.IsDragZone)
+            if (dbase.ItemData.DecorationData.IsDragZone)
             {
-                this.ItemData.DecorationData.WorldSaveData.ParentGuid = decorationBase.ItemData.DecorationData.Guid;
+                this.ItemData.DecorationData.WorldSaveData.ParentGuid = dbase.ItemData.DecorationData.Guid;
+            }
+        }
+        else if(this.targetRectTransform.parent.parent.parent.TryGetComponent<DecorationBase>(out dbase))
+        {
+            //hacky way to check if nested ItemContainer being used
+            if(dbase.ItemData.DecorationData.IsDragZone)
+            {
+                this.ItemData.DecorationData.WorldSaveData.ParentGuid = dbase.ItemData.DecorationData.Guid;
             }
         }
 

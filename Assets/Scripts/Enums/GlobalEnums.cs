@@ -136,7 +136,7 @@ public class GlobalEnums
         Stool = 1 << 16,
         Sign = 1 << 17,
         PetHome = 1 << 18,
-        Plant = 1 << 19,
+        Plantable = 1 << 19,
         Pet = 1 << 20,
         HangingTop = 1 << 21,
         FloorMount = 1 << 22,

@@ -93,7 +93,7 @@ public class DecorationManager : MonoBehaviour
         {
             if (parent.TryGetComponent<DragTarget>(out var dragTarget))
             {
-                this.decorationParents.Add(parent.GetInstanceID(), parent);
+                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
             }
         }
 
@@ -102,7 +102,7 @@ public class DecorationManager : MonoBehaviour
         {
             if (parent.TryGetComponent<DragTarget>(out var dragTarget))
             {
-                this.decorationParents.Add(parent.GetInstanceID(), parent);
+                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
             }
         }
     }
@@ -150,7 +150,7 @@ public class DecorationManager : MonoBehaviour
             {
                 var childDragTarget = foundParent.GetComponentInChildren<DragTarget>();
                 if (childDragTarget != null)
-                    parentTrans = childDragTarget.transform;
+                    parentTrans = childDragTarget.ItemContainer;
             }
 
             if (parentTrans == null)
