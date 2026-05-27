@@ -158,10 +158,12 @@ public class DecorationManager : MonoBehaviour
                 Debug.Log($"<color=red>No parent found for {data.DisplayName} with ParentGuid {wData.ParentGuid}. Spawning under worldDecorationCanvas.</color>");
                 parentTrans = this.worldDecorationCanvas.transform;
             }
-                
+
             var decoration = SpawnItemInWorld(data, wData.WorldPosition, parentTrans);
             decoration.transform.SetSiblingIndex(wData.SiblingIndex);
             this.PlacedDecorations.Add(decoration);
         }
+        
+        //TODO: loop third time for planters that are children of drag targets on stools/benches that are themselves children of drag targets on stools/benches
     }
 }
