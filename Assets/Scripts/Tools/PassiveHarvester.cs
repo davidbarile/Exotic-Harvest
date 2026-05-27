@@ -283,7 +283,7 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
         // Check for right mouse button press (button 1)
         if (Input.GetMouseButtonDown(1))
         {
-            if (!DragManager.IsDragModeActivated)
+            if (!DragManager.IsEditModeActivated)
             {
                 //not sure if I really want this here, but good for testing
                 CollectAll();

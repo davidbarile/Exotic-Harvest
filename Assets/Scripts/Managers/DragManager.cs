@@ -18,14 +18,14 @@ public class DragManager : MonoBehaviour
     public static bool StartedDragInWorldCanvas => DragStartCanvas == UiManager.IN.WorldCanvas;
     public static bool StartedDragInUICanvas => DragStartCanvas == UiManager.IN.UICanvas;
 
-    public static bool IsDragModeActivated = false;
+    public static bool IsEditModeActivated = false;
 
     //Events
     public static Action<bool> OnDragOverInventoryZoneActiveChanged;
     public static Action<EDecorationType> OnDragStartedWithDecorationType;
     public static Action OnDragStarted;
     public static Action OnDragEnded;
-    public static Action<bool> OnDragModeChanged;
+    public static Action<bool> OnEditModeChanged;
 
     [Space] public Transform WorldDecorationsContainer;
 
@@ -45,7 +45,7 @@ public class DragManager : MonoBehaviour
 
     private void Start()
     {
-        InputManager.OnDragPress += OnToggleDragMode;
+        InputManager.OnEditPress += OnToggleEditMode;
         OnDragOverInventoryZoneActiveChanged += SetDragOverInventoryZoneActive;
         SetDragOverInventoryZoneActive(false);
     }
@@ -70,7 +70,7 @@ public class DragManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.OnDragPress -= OnToggleDragMode;
+        InputManager.OnEditPress -= OnToggleEditMode;
         OnDragOverInventoryZoneActiveChanged -= SetDragOverInventoryZoneActive;
     }
 
@@ -81,17 +81,16 @@ public class DragManager : MonoBehaviour
     }
 
     //called from Drag UI Button and also Tab hotkey
-    public void OnToggleDragMode()
+    public void OnToggleEditMode()
     {
-        IsDragModeActivated = !IsDragModeActivated;
-        OnDragModeChanged?.Invoke(IsDragModeActivated);
+        IsEditModeActivated = !IsEditModeActivated;
+        OnEditModeChanged?.Invoke(IsEditModeActivated);
     }
 
-    public void SetDragMode(bool isDragMode)
+    public void SetEditMode(bool inIsEditMode)
     {
-        IsDragModeActivated = isDragMode;
-
-        OnDragModeChanged?.Invoke(IsDragModeActivated);
+        IsEditModeActivated = inIsEditMode;
+        OnEditModeChanged?.Invoke(IsEditModeActivated);
     }
     public void InitDrag(RectTransform inRectTrans)
     {
@@ -290,7 +289,7 @@ public class DragManager : MonoBehaviour
             if(!newDragSource.IsDraggingPermanent)
             {
                 //flag to turn off on complete
-                DragManager.IN.SetDragMode(true);
+                DragManager.IN.SetEditMode(true);
             }
         }
     }

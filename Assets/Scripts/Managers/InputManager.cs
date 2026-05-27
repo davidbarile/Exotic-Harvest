@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
     public static Action OnEscapePress;
     public static Action OnTabPress;
     public static Action OnSpacePress;
-    public static Action OnDragPress;
+    public static Action OnEditPress;
     public static Action OnMPress;
     public static Action OnSettingsPress;
     public static Action OnShopPress;
@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) OnEscapePress?.Invoke();
         if (Input.GetKeyDown(KeyCode.Space)) OnSpacePress?.Invoke();
 
-        if (Input.GetKeyDown(KeyCode.D)) OnDragPress?.Invoke();
+        if (Input.GetKeyDown(KeyCode.E)) OnEditPress?.Invoke();
         if (Input.GetKeyDown(KeyCode.M)) OnMPress?.Invoke();
 
         if (Input.GetKeyDown(KeyCode.F1)) OnF1Press?.Invoke();

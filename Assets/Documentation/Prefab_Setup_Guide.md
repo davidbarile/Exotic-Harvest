@@ -178,7 +178,7 @@ Once setup is complete, you can test:
 
 3. **Decoration System**:
    - Place purchased decorations
-   - Drag decorations around (when drag mode enabled)
+   - Drag decorations around (when edit mode enabled)
    - Lock/unlock decorations
 
 4. **Save System**:

@@ -13,7 +13,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public Action OnWorldDropFailed;
 
-    [Header("Can drag when Drag Mode is Off")]
+    [Header("Can drag when Edit Mode is Off")]
     [SerializeField] protected bool isDraggingPermanent;
     [SerializeField] protected bool onlyDragToTargets;
     [SerializeField] protected bool limitToParentTargetBounds;
@@ -114,21 +114,21 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     protected virtual void Start()
     {
-        SetDragEnabledDisplayVisibility(false);
+        SetEditModeDisplayVisibility(false);
 
-        DragManager.OnDragModeChanged += SetDragEnabledDisplayVisibility;
-        SetDragEnabledDisplayVisibility(DragManager.IsDragModeActivated);
+        DragManager.OnEditModeChanged += SetEditModeDisplayVisibility;
+        SetEditModeDisplayVisibility(DragManager.IsEditModeActivated);
     }
 
     protected virtual void OnDestroy()
     {
-        DragManager.OnDragModeChanged -= SetDragEnabledDisplayVisibility;
+        DragManager.OnEditModeChanged -= SetEditModeDisplayVisibility;
     }
 
-    protected virtual void SetDragEnabledDisplayVisibility(bool isDragMode)
+    protected virtual void SetEditModeDisplayVisibility(bool inIsEditMode)
     {
         if (this.dragEnabledDisplay)
-            this.dragEnabledDisplay.SetActive(isDragMode);
+            this.dragEnabledDisplay.SetActive(inIsEditMode);
     }
 
     protected virtual bool DoOnBeginDrag()
@@ -157,7 +157,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         this.OnWorldDropFailed = null;
 
-        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+        if (!DragManager.IsEditModeActivated && !this.isDraggingPermanent)
             return;
 
         if (!DoOnBeginDrag())
@@ -195,7 +195,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+        if (!DragManager.IsEditModeActivated && !this.isDraggingPermanent)
             return;
 
         if (!this.isDragging)
@@ -204,7 +204,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        if (!DragManager.IsDragModeActivated && !this.isDraggingPermanent)
+        if (!DragManager.IsEditModeActivated && !this.isDraggingPermanent)
             return;
 
         this.isDragging = false;

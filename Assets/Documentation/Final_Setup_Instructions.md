@@ -104,7 +104,7 @@ notificationParent: Main Canvas > UI Interface > Notification Container (RectTra
 
 ### Decoration System:
 1. **Placement**: Uses UI coordinates with grid-based positioning
-2. **Dragging**: Enter drag mode (D key) to move decorations
+2. **Dragging**: Enter edit mode (E key) to move decorations
 3. **Visual Feedback**: Scale and alpha effects during interaction
 4. **Persistence**: Positions saved as Vector2 anchored positions
 

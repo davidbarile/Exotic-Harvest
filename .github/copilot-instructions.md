@@ -43,12 +43,13 @@ UniWindowController.current.SetTransparentType(TransparentType.Alpha);
 
 ### UI Interaction Modes
 - **Normal Mode**: Standard UI interactions
-- **Drag Mode**: Activated via `ScreenManager.IsDragModeActivated` - enables `UiDraggablePanel` components to move UI elements
+- **Edit Mode**: Activated via `ScreenManager.IsEditModeActivated` - enables `UiDraggablePanel` components to move UI elements
+- 
 - **Click-Through**: Automatic detection based on pixel opacity or raycast hits when window is transparent
 
 ### Custom UI Components
 - **ProceduralUIImage**: Custom UI system for procedural shapes with modifiers (RoundModifier, FreeModifier, etc.)
-- **UiDraggablePanel**: Draggable UI panels that respect the global drag mode state
+- **UiDraggablePanel**: Draggable UI panels that respect the global edit mode state
 
 ## Build Configuration
 
@@ -87,6 +88,6 @@ UniWindowController.current.SetTransparentType(TransparentType.Alpha);
 
 ## Common Patterns
 - Singleton access via `UniWindowController.current` and `ScreenManager.IN`
-- Event-driven UI updates via `ScreenManager.OnDragModeChanged`
+- Event-driven UI updates via `ScreenManager.OnEditModeChanged`
 - Assembly-based organization with clear separation between runtime and editor code
 - Prefab-based component system for reusable window management features

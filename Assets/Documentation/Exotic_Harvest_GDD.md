@@ -71,7 +71,7 @@ Jungle plants, houseplants, bamboo wind chimes, masks, tiki torches, lamps, vine
 ### Interaction Systems
 - **Minimize/Maximize Button**: with hotkey press or button click/rollover
 - **Hot corners**: optional minimize/maximize triggers
-- **Toggle for Drag Mode**: enables rearranging decorations; clear UI indicator
+- **Toggle for Edit Mode**: enables rearranging decorations; clear UI indicator
 
 ### Visual Feedback
 - Clear visual indicators for drag mode activation

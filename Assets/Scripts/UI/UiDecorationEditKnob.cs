@@ -43,21 +43,21 @@ public class UiDecorationEditKnob : MonoBehaviour, IBeginDragHandler, IDragHandl
         this.initialDistance = CalculateDistanceFromIconCenter(GetCornerPosition());
         this.initialAngle = CalculateAngleFromIconCenter(GetCornerPosition());
 
-        DragManager.OnDragModeChanged += OnDragModeChanged;
+        DragManager.OnEditModeChanged += OnEditModeChanged;
         this.transform.position = GetCornerPosition();
 
         if (this.rect)
-            this.rect.SetActive(DragManager.IsDragModeActivated);
+            this.rect.SetActive(DragManager.IsEditModeActivated);
             
-        this.gameObject.SetActive(DragManager.IsDragModeActivated);
+        this.gameObject.SetActive(DragManager.IsEditModeActivated);
     }
 
     private void OnDestroy()
     {
-        DragManager.OnDragModeChanged -= OnDragModeChanged;
+        DragManager.OnEditModeChanged -= OnEditModeChanged;
     }
 
-    private void OnDragModeChanged(bool inIsActive)
+    private void OnEditModeChanged(bool inIsActive)
     {
         this.gameObject.SetActive(inIsActive);
     }

@@ -307,14 +307,14 @@ public abstract class CollectionTool : UiDraggablePanel
     public CollectionMode currentMode = CollectionMode.Active;
     
     // Integration with existing drag system
-    protected override void OnDragModeChanged(bool dragMode)
+    protected override void OnEditModeChanged(bool inEditMode)
     {
-        base.OnDragModeChanged(dragMode);
-        UpdateCollectionVisualization(dragMode);
+        base.OnEditModeChanged(inEditMode);
+        UpdateCollectionVisualization(inEditMode);
     }
     
     // DOTween integration for collection effects
-    public virtual void PlayCollectionEffect(ResourceType resourceType)
+    public virtual void PlayCollectionEffect(ResourceType inResourceType)
     {
         transform.DOPunchScale(Vector3.one * 0.1f, 0.5f);
         // Additional juice effects using existing animation pipeline
@@ -325,7 +325,7 @@ public abstract class CollectionTool : UiDraggablePanel
 ### Integration Points
 - **UniWindowController**: Leverage existing file drop system for resource import mechanics
 - **DOTween Pipeline**: Extend current animation framework for collection visual feedback
-- **Event System**: Build upon `ScreenManager.OnDragModeChanged` for collection mode transitions
+- **Event System**: Build upon `ScreenManager.OnEditModeChanged` for collection mode transitions
 - **Transparent Overlay**: Utilize hit-testing capabilities for precise collection interaction zones
 
 ---
