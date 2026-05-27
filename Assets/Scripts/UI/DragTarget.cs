@@ -4,6 +4,8 @@ using static GlobalEnums;
 
 public class DragTarget : MonoBehaviour
 {
+    [Header("If null, will use this transform")]
+    [SerializeField] private Transform itemContainer;
     [Header("Leave null to not highlight on valid drag over")]
     [SerializeField] private GameObject highlightObject;
     [Header("Leave null to not highlight on valid drag start")]
@@ -17,8 +19,10 @@ public class DragTarget : MonoBehaviour
 
     [Header("Optional Bounds")]
     public Collider2D BoundsCollider;
+    [Tooltip("-1 = Disabled")]
     public float UnsnapRange = -1;
 
+    [Space]
     public bool IsDragOutOfInventoryZone;
     public bool IsDragOverOpenInventoryZone;
 
@@ -26,6 +30,9 @@ public class DragTarget : MonoBehaviour
 
     private void Awake()
     {
+        if (this.itemContainer == null)
+            this.itemContainer = this.transform;
+
         this.BoundsCollider = this.BoundsCollider == null ? GetComponent<Collider2D>() : this.BoundsCollider;
 
         this.baseImage = GetComponent<Image>();
@@ -90,7 +97,7 @@ public class DragTarget : MonoBehaviour
 
     public void SetAsParent(Transform inChildObject)
     {
-        inChildObject.SetParent(transform, true);
+        inChildObject.SetParent(this.itemContainer, true);
 
         if (this.shouldSnapToCenter)
             inChildObject.localPosition = Vector3.zero;
