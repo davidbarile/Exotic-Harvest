@@ -78,13 +78,14 @@ MonoBehaviour:
       SiblingIndex: 0
     DecorationType: 0
     HighlightValidTargetsWhenDragged: 0
-    IsDragZone: 0
+    Guid: -1
     ActiveResourceType: 0
     GeneratedResource: 0
     CurrentAmount: 0
     MaxAmount: 0
     GenerationInterval: 0
     RequiresSpecificConditions: 0
+    LastGenerationTime: 0
     IsActive: 1
   collectableResources:
   - ResourceType: 60
@@ -127,6 +128,7 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   shadow: {fileID: 0}
   worldProxy: {fileID: 1298532410139078883}
+  childDragTarget: {fileID: 0}
   initItemData:
     DisplayName: 
     Id: 
@@ -143,13 +145,14 @@ MonoBehaviour:
         SiblingIndex: 0
       DecorationType: 0
       HighlightValidTargetsWhenDragged: 0
-      IsDragZone: 0
+      Guid: -1
       ActiveResourceType: 0
       GeneratedResource: 0
       CurrentAmount: 0
       MaxAmount: 0
       GenerationInterval: 0
       RequiresSpecificConditions: 0
+      LastGenerationTime: 0
       IsActive: 1
     Scale: 1
     IconSpriteName: 

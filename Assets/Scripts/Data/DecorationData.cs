@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using static GlobalEnums;
+using Sirenix.OdinInspector;
 
 [Serializable]
 public class DecorationData
@@ -13,9 +14,8 @@ public class DecorationData
     public EDecorationType DecorationType;
     public bool HighlightValidTargetsWhenDragged;
 
-    [Space, Header("Decoration Holder Settings")]
-    public bool IsDragZone;
-    public int Guid { get; set; } = -1;
+    //Decoration Holder Setting
+    [ReadOnly] public int Guid = -1;
 
     // For passive harvesters
     [Header("Resource Generation")]
@@ -25,7 +25,7 @@ public class DecorationData
     public int MaxAmount;
     public float GenerationInterval;// Seconds between generation
     public bool RequiresSpecificConditions;
-    public float LastGenerationTime {get; set;}
+    [ReadOnly] public float LastGenerationTime;
     public bool IsActive = true;
 
     public static DecorationData Copy(DecorationData decorationData)
@@ -43,7 +43,6 @@ public class DecorationData
             },
             DecorationType = decorationData.DecorationType,
             HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
-            IsDragZone = decorationData.IsDragZone,
             Guid = decorationData.Guid, // Only generate new guid if original is -1, otherwise copy existing guid (used for saving/loading)
             ActiveResourceType = decorationData.ActiveResourceType,
             GeneratedResource = decorationData.GeneratedResource,
@@ -60,9 +59,9 @@ public class DecorationData
 [Serializable]
 public class WorldSaveData
 {
-    public Vector3 WorldPosition;
-    public float Scale = 1f;
-    public float Rotation;
-    public int ParentGuid;
-    public int SiblingIndex;
+    [ReadOnly] public Vector3 WorldPosition;
+    [ReadOnly] public float Scale = 1f;
+    [ReadOnly] public float Rotation;
+    [ReadOnly] public int ParentGuid;
+    [ReadOnly] public int SiblingIndex;
 }

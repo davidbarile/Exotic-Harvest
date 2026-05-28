@@ -259,6 +259,7 @@ MonoBehaviour:
   itemIcon: {fileID: 2056835041292401957}
   shadow: {fileID: 0}
   worldProxy: {fileID: 0}
+  childDragTarget: {fileID: 0}
   initItemData:
     DisplayName: General
     Id: 
@@ -275,13 +276,14 @@ MonoBehaviour:
         SiblingIndex: 0
       DecorationType: 0
       HighlightValidTargetsWhenDragged: 0
-      IsDragZone: 0
+      Guid: -1
       ActiveResourceType: 0
       GeneratedResource: 0
       CurrentAmount: 1
       MaxAmount: 1
       GenerationInterval: 0
       RequiresSpecificConditions: 0
+      LastGenerationTime: 0
       IsActive: 1
     Scale: 1
     IconSpriteName: X

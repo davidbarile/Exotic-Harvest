@@ -16,6 +16,9 @@ public class DecorationBase : Draggable
     public Image WorldProxy => this.worldProxy;
     [SerializeField] protected Image worldProxy;
 
+    public DragTarget ChildDragTarget => this.childDragTarget;
+    [SerializeField] protected DragTarget childDragTarget;
+
     protected PassiveHarvester linkedPassiveHarvester;
     protected Attractor attractor;
 
@@ -344,28 +347,11 @@ public class DecorationBase : Draggable
         this.ItemData.DecorationData.WorldSaveData.Scale = this.itemIcon ? this.itemIcon.transform.localScale.x : 1f;
         this.ItemData.DecorationData.WorldSaveData.Rotation = this.transform.localRotation.eulerAngles.z;
 
-        DecorationBase dbase = null;
-
-        Debug.Log($"Saving position for {this.ItemData.DisplayName} at {this.ItemData.DecorationData.WorldSaveData.WorldPosition}. ParentGuid: {this.ItemData.DecorationData.WorldSaveData.ParentGuid}, SiblingIndex: {this.ItemData.DecorationData.WorldSaveData.SiblingIndex}");
+        var decorationBase = this.targetRectTransform.transform.parent.GetComponentInParent<DecorationBase>();
 
         //in case of stools and benches and such, we store a unique Guid
-        if (this.targetRectTransform.parent.parent.TryGetComponent<DecorationBase>(out dbase))
-        {
-            if (dbase.ItemData.DecorationData.IsDragZone)
-            {
-                this.ItemData.DecorationData.WorldSaveData.ParentGuid = dbase.ItemData.DecorationData.Guid;
-            }
-        }
-        else if(this.targetRectTransform.parent.parent.parent.TryGetComponent<DecorationBase>(out dbase))
-        {
-            //hacky way to check if nested ItemContainer being used
-            if(dbase.ItemData.DecorationData.IsDragZone)
-            {
-                this.ItemData.DecorationData.WorldSaveData.ParentGuid = dbase.ItemData.DecorationData.Guid;
-            }
-        }
-
-        //Debug.Log($"Saving position for {this.ItemData.DisplayName} at {this.ItemData.DecorationData.WorldSaveData.WorldPosition}. ParentGuid: {this.ItemData.DecorationData.WorldSaveData.ParentGuid}, SiblingIndex: {this.ItemData.DecorationData.WorldSaveData.SiblingIndex}");
+        if (decorationBase != null && decorationBase.ChildDragTarget != null)
+            this.ItemData.DecorationData.WorldSaveData.ParentGuid = decorationBase.ItemData.DecorationData.Guid;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
