@@ -23,9 +23,9 @@ MonoBehaviour:
       MaxQuantity: 50
       MinMaxWeightFactor: 1
     QuantityToDrop:
-      MinQuantity: 2
-      MaxQuantity: 5
-      MinMaxWeightFactor: 0
+      MinQuantity: 5
+      MaxQuantity: 10
+      MinMaxWeightFactor: 0.4
   - DisplayName: Asteroid
     OverrideSpriteName: Icon_Asteroid
     ResourceType: 65
@@ -34,6 +34,6 @@ MonoBehaviour:
       MaxQuantity: 100
       MinMaxWeightFactor: 0.5
     QuantityToDrop:
-      MinQuantity: 5
+      MinQuantity: 10
       MaxQuantity: 20
       MinMaxWeightFactor: 0.3

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GlobalEnums;
 
 public class RockPile : MonoBehaviour
 {
+    [SerializeField] private ETimeOfDay spawnTimeOfDay;
     [SerializeField] private RectTransform rockSpawnArea;
     [Range(0f, 100f), SerializeField] private float gridSize;
     [Range(0f, 30f), SerializeField] private float offsetRange;
@@ -56,7 +58,7 @@ public class RockPile : MonoBehaviour
         }
     }
 
-    public void SpawnRocks()
+    private void SpawnRocks()
     {
         ClearRocks(); 
 
@@ -64,12 +66,14 @@ public class RockPile : MonoBehaviour
         {
             var newRock = PrefabManager.IN.SpawnPrefab<Rock>($"Rock", this.rockSpawnArea);
             newRock.name = $"Rock_{i}";
+            newRock.ParentRockPile = this;
 
             //set rocks to grid with random offset, rotation, scale and color variation
             newRock.SetPosition(this.rockSpawnPositions[i]);
             newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
 
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
+
             this.activeRocks.Add(newRock);
         }
     }
@@ -82,5 +86,13 @@ public class RockPile : MonoBehaviour
                 Destroy(rock.gameObject);
         }
         this.activeRocks.Clear();
+    }
+
+    public bool CanSpawnLoot()
+    {
+        var canSpawn = this.spawnTimeOfDay.HasFlag(TimeManager.CurrentTimeOfDay) || ForagingManager.IgnoreTimeOfDayAndWeather;
+        // var color = canSpawn ? "green" : "red";
+        // Debug.Log($"<color={color}>RockPile.CanSpawnLoot() Checking if can spawn loot. Time ofDay: {TimeManager.CurrentTimeOfDay}, SpawnTimeOfDay: {this.spawnTimeOfDay}, IgnoreTimeOfDayAndWeather: {ForagingManager.IgnoreTimeOfDayAndWeather}  CanSpawn: {canSpawn}</color>");
+        return canSpawn;
     }
 }

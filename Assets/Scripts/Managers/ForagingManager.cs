@@ -17,7 +17,8 @@ public class ForagingManager : MonoBehaviour, ITickable
    
     public static bool IsInitialized { get; private set; }
 
-    [SerializeField] private bool debugIgnoreTimeOfDayAndWeather; // For testing - ignore time/weather conditions and spawn all collectables
+    public static bool IgnoreTimeOfDayAndWeather => IN != null && IN.ignoreTimeOfDayAndWeather;
+    [SerializeField] private bool ignoreTimeOfDayAndWeather; // For testing - ignore time/weather conditions and spawn all collectables
 
     [Header("Raindrop Settings --------------")]
     [SerializeField] private RectTransform rainParent; // UI container for rain collectables
@@ -159,6 +160,9 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         TimeManager.OnTimeOfDayChanged += OnTimeOfDayChanged;
 
+        this.rockPile.InitRockPositions();
+        this.rockPile.ResetRocks();
+
         InitDewDropPositions();
         InitMeadowSearchablePositions();
         InitNightSkySearchablePositions();
@@ -170,8 +174,6 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         if (this.debugSpawnRocks)
             DebugSpawnRocks();
-        else
-            this.rockPile.InitRockPositions();//do once when it turns afternoon
 
         if (this.debugSpawnAllMeadowSearchables)
             DebugSpawnMeadowSearchables();
@@ -216,7 +218,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         // Spawn dewdrops during morning
         if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
             (WeatherManager.IsClear || WeatherManager.IsFoggy) || WeatherManager.IsWindy ||
-            this.debugIgnoreTimeOfDayAndWeather)
+            this.ignoreTimeOfDayAndWeather)
         {
             SpawnDewdrops();
         }
@@ -254,7 +256,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void OnWeatherChanged(EWeatherType inNewWeather)
     {
-        if (this.debugSpawnAllDewdrops || this.debugIgnoreTimeOfDayAndWeather)
+        if (this.debugSpawnAllDewdrops || this.ignoreTimeOfDayAndWeather)
             return;
 
         if(WeatherManager.IsClear || WeatherManager.IsFoggy || WeatherManager.IsWindy)
@@ -410,17 +412,13 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Button(ButtonSizes.Large)]
     private void DebugSpawnRocks()
     {
-        this.rockPile.InitRockPositions();
-        this.rockPile.SpawnRocks();
+        this.rockPile.ResetRocks();
     }
 
     private void RefreshRockPile()
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) || this.debugIgnoreTimeOfDayAndWeather)
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) || this.ignoreTimeOfDayAndWeather)
         {
-            if (TimeManager.LastTimeOfDay != ETimeOfDay.Afternoon || this.debugIgnoreTimeOfDayAndWeather)
-                this.rockPile.InitRockPositions();//do once when it turns afternoon
-
             //refresh rocks every hour in the Afternoon
             if (TimeManager.CurrentHour > this.nextRockRefreshTime)
             {
@@ -469,7 +467,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
 
-        var textColor = this.meadowSearchablePositions.Count == 0 ? "red" : "yellow";
+        var textColor = this.meadowSearchablePositions.Count == 0 ? "red" : "white";
         Debug.Log($"<color={textColor}>InitMeadowSearchablePositions()  meadowSearchablePositions = {this.meadowSearchablePositions.Count}/{totalPositions}</color>");
     }
 
@@ -485,7 +483,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) ||
             TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) ||
-            this.debugIgnoreTimeOfDayAndWeather)
+            this.ignoreTimeOfDayAndWeather)
         {
             //spawn meadow searchables every hour in the Morning/Afternoon
             if (TimeManager.CurrentHour > this.nextMeadowRefreshTime)
@@ -604,7 +602,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
 
-        var textColor = this.nightSkySearchablePositions.Count == 0 ? "red" : "yellow";
+        var textColor = this.nightSkySearchablePositions.Count == 0 ? "red" : "white";
         Debug.Log($"<color={textColor}>InitNightSkySearchablePositions()  nightSkySearchablePositions = {this.nightSkySearchablePositions.Count}/{totalPositions}</color>");
     }
 
@@ -618,7 +616,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
     private void RefreshNightSkySearchables()
     {
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night) || this.debugIgnoreTimeOfDayAndWeather)
+        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Night) || this.ignoreTimeOfDayAndWeather)
         {
             //spawn night sky searchables every hour at night
             if (TimeManager.CurrentHour > this.nextNightSkyRefreshTime)
@@ -661,7 +659,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 
         float rnd = 0;
 
-        foreach(var lootData in nightSkyLootConfig.LootDatas)
+        foreach (var lootData in nightSkyLootConfig.LootDatas)
         {
             //possible number of this loot to drop based on the config settings
             var quantity = lootData.QuantityToDrop.GetWeightedRandomQuantity();
@@ -674,7 +672,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 //for each potential loot drop, roll to see if it actually drops based on the ChanceToDrop weight
                 var chance = lootData.ChanceToDrop.GetWeightedRandomQuantity();
                 rnd = UnityEngine.Random.value * 100f;
-                
+
                 if (rnd > chance && !this.debugSpawnAllNightSkySearchables)
                     continue;
 
@@ -683,8 +681,8 @@ public class ForagingManager : MonoBehaviour, ITickable
 
                 var spawnPosIndex = 0;
 
-                if(this.activeNightSkySearchables.Count > 0)
-                    spawnPosIndex =this.activeNightSkySearchables.Count % this.nightSkySearchablePositions.Count;
+                if (this.activeNightSkySearchables.Count > 0)
+                    spawnPosIndex = this.activeNightSkySearchables.Count % this.nightSkySearchablePositions.Count;
 
                 nightSkySearchable.transform.localPosition = this.nightSkySearchablePositions[spawnPosIndex];
                 nightSkySearchable.transform.position = new Vector3(nightSkySearchable.transform.position.x, nightSkySearchable.transform.position.y, 0f); // Set Z based on collider
@@ -693,6 +691,8 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.activeNightSkySearchables.Add(nightSkySearchable);
             }
         }
+        
+        Debug.Log($"<color=white>Spawned {this.activeNightSkySearchables.Count} night sky searchables based on loot config: {nightSkyLootConfig.DisplayName}</color>");
     }
 
     private void DeleteAllNightSkySearchables()
@@ -709,7 +709,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Stardust Searchables
      private void RefreshStardustGenerator()
     {
-        if (!this.stardustSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+        if (!this.stardustSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.ignoreTimeOfDayAndWeather))
             return;
 
         var secondsElapsed = (DateTime.Now - this.lastStardustSpawnHour).TotalSeconds;
@@ -761,7 +761,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Moonbeams
     private void RefreshMoonbeamGenerator()
     {
-        if (!this.moonbeamGenerator.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.debugIgnoreTimeOfDayAndWeather))
+        if (!this.moonbeamGenerator.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.ignoreTimeOfDayAndWeather))
             return;
 
         var secondsElapsed = (DateTime.Now - this.lastMoonbeamsSpawnHour).TotalSeconds;

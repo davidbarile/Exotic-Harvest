@@ -18,7 +18,8 @@ public class SearchToolBase : DecorationBase //Draggable
     [Space,SerializeField] protected GameObject fillBarDisplay;
     [SerializeField] protected Image fillBarImage;
 
-    [Space, Range(0f, 10f),SerializeField] protected float scrollSpeed = 1f;
+    [Space, Range(0f, 10f), SerializeField] protected float scrollSpeed = 1f;
+    [SerializeField] protected Vector2 scrollOffset;
     [Range(0f, 2f), SerializeField] protected float lensTweenDuration = .3f;
 
     [Space, Range(0f, 5f), SerializeField] protected float timeToActivateHover = 1f;//how long the player needs to hover over a searchable object before it "activates"
@@ -107,7 +108,7 @@ public class SearchToolBase : DecorationBase //Draggable
         if (!this.IsInSearchMode && this.isMaskEnabled)
             return;
 
-        this.innerWorld.localPosition = this.transform.localPosition * -1 * this.scrollSpeed;
+        this.innerWorld.localPosition = this.transform.localPosition * -1 * this.scrollSpeed + (Vector3)this.scrollOffset;
 
         var wasSearchObjectNull = this.activeSearchable == null;
         this.activeSearchable = GetActiveSearchObject();

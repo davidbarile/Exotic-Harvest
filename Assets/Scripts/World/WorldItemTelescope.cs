@@ -1,5 +1,4 @@
 using UnityEngine;
-using static GlobalEnums;
 
 [RequireComponent(typeof(Telescope))]
 [RequireComponent(typeof(Animator))]
@@ -48,9 +47,6 @@ public class WorldItemTelescope : SearchToolBase //DecorationBase/Draggable
 
     public override void SetSearchMode(bool inIsSearchMode, bool inShouldForce = false)
     {
-        if (!this.isMaskEnabled)
-            return;
-
         if (this.IsInSearchMode == inIsSearchMode && !inShouldForce)
             return;
 

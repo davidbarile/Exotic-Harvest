@@ -157,7 +157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8525943209058786747
 RectTransform:
   m_ObjectHideFlags: 0
@@ -822,7 +822,8 @@ MonoBehaviour:
   lensCanvasGroup: {fileID: 3854682026704921767}
   fillBarDisplay: {fileID: 2677719034685010763}
   fillBarImage: {fileID: 3343849779043420167}
-  scrollSpeed: 5
+  scrollSpeed: 3.5
+  scrollOffset: {x: 0, y: 700}
   lensTweenDuration: 0.3
   timeToActivateHover: 1.5
   isMaskEnabled: 1

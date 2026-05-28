@@ -9,6 +9,8 @@ using static GlobalEnums;
 [RequireComponent(typeof(CanvasGroup))]
 public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public RockPile ParentRockPile { get; set; }
+
     [SerializeField] private Image rockImage;
     [SerializeField] private Image shadow;
     [SerializeField] private Image fillImage;
@@ -30,6 +32,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private bool hasBeenHarvested = false;
 
     private Tween fadeTween;
+    private Tween shakeTween;
 
     private void Awake()
     {
@@ -73,7 +76,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     {
         this.originalPosition = position;
         this.targetRectTransform.localPosition = position;
-        this.targetRectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
+        this.targetRectTransform.localRotation = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(-30f, 30f));
             
         this.gameObject.SetActive(true);
     }
@@ -116,14 +119,22 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        this.shakeTween?.Kill();
+
+        var canSpawn = TrySpawnLoot();//not sure if I want to stop drag here.  Maybe something more subtle
+        if (!canSpawn)
+        {
+            //make sound, shake rock, tint rock red briefly
+            this.shakeTween = this.targetRectTransform.DOShakePosition(0.5f, 10f, 40).SetEase(Ease.Linear);
+            return;
+        }
+        
         this.isDragging = true;
 
         SetShadowActive(true);
 
         this.originalParent = this.targetRectTransform.parent;
         this.originalSiblingIndex = this.targetRectTransform.GetSiblingIndex();
-
-        TrySpawnLoot();
 
         this.targetRectTransform.SetParent(UiManager.IN.DragCanvas, true);
         this.targetRectTransform.localScale *= DragManager.UiCanvasScaleFactor;
@@ -139,6 +150,9 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!this.isDragging)
+            return;
+            
         this.isDragging = false;
 
         this.targetRectTransform.SetParent(this.originalParent, true);
@@ -161,16 +175,13 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.fadeTween = this.canvasGroup.DOFade(0f, 0.75f).SetDelay(1f).OnComplete(() => this.gameObject.SetActive(false));
     }
 
-    public void TrySpawnLoot()
+    public bool TrySpawnLoot()
     {
         if (this.hasBeenHarvested)
-            return;
+            return false;
 
-        if (!TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon) && !TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening))
-        {
-            Debug.Log($"<color=yellow>Rock.TrySpawnLoot() It's not afternoon, skipping loot spawn {name}</color>");
-            return;
-        }
+        if(!this.ParentRockPile.CanSpawnLoot())
+            return false;
 
         this.hasBeenHarvested = true;
 
@@ -181,7 +192,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (lootDatas.Count == 0)
         {
             //Debug.Log($"<color=red>Rock.TrySpawnLoot()  No loot was returned from LootConfig.GetRandomLoot() for {this.LootConfig.DisplayName}</color>");
-            return;
+            return true;
         }
 
         this.spawnedLoots.Clear();
@@ -200,7 +211,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
                 var distanceFromCenter = 25f * loot.transform.localScale.x;
                 var sign = (i % 2 == 0) ? 1 : -1; // alternate left and right
                 var sign2 = (i % 4 < 2) ? 1 : -1; // alternate up and down every two loots
-                loot.transform.position += new Vector3(sign * Random.Range(.5f * distanceFromCenter, distanceFromCenter), sign2 * Random.Range(.5f * distanceFromCenter, distanceFromCenter), 0f);
+                loot.transform.position += new Vector3(sign * UnityEngine.Random.Range(.5f * distanceFromCenter, distanceFromCenter), sign2 * UnityEngine.Random.Range(.5f * distanceFromCenter, distanceFromCenter), 0f);
             }
 
             //Debug.Log($"<color=#00FF00>Rock.TrySpawnLoot() Spawned loot {lootData.DisplayName}  for {this.LootConfig.DisplayName}</color>");
@@ -208,5 +219,6 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             loot.Configure(lootData);
             this.spawnedLoots.Add(loot);
         }
+        return true;
     }
 }
