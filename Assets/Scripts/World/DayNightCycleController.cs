@@ -130,6 +130,7 @@ public class DayNightCycleController : MonoBehaviour
         this.sliderTween = DOVirtual.Float(this.worldPanSlider.value, inNormalizedTime, 1f, value =>
         {
             this.worldPanSlider.SetValueWithoutNotify(value);
+            UiManager.IN.Compass.SetDirection(value);
         }).SetEase(Ease.Linear);
     }
 }
