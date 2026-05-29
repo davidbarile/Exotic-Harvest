@@ -717,7 +717,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: -8, y: -8, z: -8, w: -8}
+  m_RaycastPadding: {x: -10, y: -20, z: -10, w: -8}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: -25, y: -25, z: -25, w: -25}
+  m_RaycastPadding: {x: -35, y: -25, z: -35, w: -25}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2118,6 +2118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5298737520630252221}
   - component: {fileID: 8871104254807713160}
+  - component: {fileID: 5533140113414705005}
   m_Layer: 5
   m_Name: WorldPanSlider
   m_TagString: Untagged
@@ -2201,7 +2202,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DayNightCycleController, Assembly-CSharp
-        m_MethodName: UserPanCamera
+        m_MethodName: HandleWorldPanSliderDrag
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2211,6 +2212,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5533140113414705005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722656631756754781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 1
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 1
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &7183184268701738176
 GameObject:
   m_ObjectHideFlags: 0

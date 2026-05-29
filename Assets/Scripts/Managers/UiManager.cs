@@ -26,6 +26,7 @@ public class UiManager : MonoBehaviour
     public Button MaximizeButton => this.maximizeButton;
     public UiCompass Compass => this.compass;
     public Transform Moon => this.moon;
+    public DayNightCycleController DayNightCycleController => this.dayNightCycleController;
 
     [Header("Cameras")]
     [SerializeField] private Camera worldCamera;
@@ -54,6 +55,7 @@ public class UiManager : MonoBehaviour
     public TMP_Text DebugText => this.debugText;
     [SerializeField] private TMP_Text debugText;
     [SerializeField] private Transform moon;
+    [SerializeField] private DayNightCycleController dayNightCycleController;
 
     private void Awake()
     {

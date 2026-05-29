@@ -5,11 +5,14 @@ using DG.Tweening;
 
 public class DayNightCycleController : MonoBehaviour
 {
+    public float CurrentScrollValue { get; private set; }
+    
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Animation dayNightCycleAnim;
     [SerializeField] private RectTransform timeOfDayRectTrans;
     [SerializeField] private float cameraOffset = -1920;
     [SerializeField] private Slider worldPanSlider;
+    [SerializeField] private bool shouldInvertSliderValue;
 
     private Vector3 initCameraPos;
 
@@ -59,13 +62,27 @@ public class DayNightCycleController : MonoBehaviour
         //Debug.Log($"currentHour: {inCurrentHour} ({TimeManager.FormatFloatAsTime(inCurrentHour)})   normalizedTime: {normalizedTime}   frame = {frameNum} / {clipLength}   anim speed = {this.dayNightCycleAnim[clipName].speed}");
     }
 
-    // This method can be called by a UI slider to allow the user to pan world rect trans
-    public void UserPanCamera(float inNormalizedValue)
+    //called by a UI slider to allow the user to pan world rect trans
+    public void HandleWorldPanSliderDrag(float inNormalizedValue)
+    {
+        var sliderValue = this.shouldInvertSliderValue ? 1 - inNormalizedValue : inNormalizedValue;
+        UserPanCamera(sliderValue, false);
+    }
+    
+    //called by the WorldBgDrag script when the user drags on the world background, allowing them to pan the camera
+    public void UserPanCamera(float inNormalizedValue, bool inShouldUpdateSlider)
     {
         var rectWidth = this.timeOfDayRectTrans.rect.width;
         var scrollValue = -1 * ((inNormalizedValue * rectWidth) + this.cameraOffset);
         UiManager.IN.Compass.SetDirection(inNormalizedValue);
         this.cameraTransform.localPosition = new Vector3(scrollValue, this.initCameraPos.y, this.initCameraPos.z);
+        this.CurrentScrollValue = inNormalizedValue;
+
+        if(inShouldUpdateSlider)
+        {
+            var sliderValue = this.shouldInvertSliderValue ? 1 - inNormalizedValue : inNormalizedValue;
+            this.worldPanSlider.SetValueWithoutNotify(sliderValue);
+        }
 
         this.lastTimeSliderMoved = DateTime.Now;
     }
@@ -76,6 +93,8 @@ public class DayNightCycleController : MonoBehaviour
             return; // Don't update the position if the user has recently moved the slider
 
         UiManager.IN.Compass.SetDirection(inNormalizedTime);
+
+        this.CurrentScrollValue = inNormalizedTime;
 
         var rectWidth = this.timeOfDayRectTrans.rect.width;
         var newPosition = new Vector3(-1 * ((inNormalizedTime * rectWidth) + this.cameraOffset), this.initCameraPos.y, this.initCameraPos.z);
