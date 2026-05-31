@@ -69,8 +69,6 @@ public class PlatformBasedDisabler : MonoBehaviour
         if (_reverseLogic)
             shouldShow = !shouldShow;
             
-        Debug.Log($"PlatformBasedDisabler on {name} evaluated platform flags.  Should Show = {shouldShow}.   hasFlag = {PlatformManager.IN.PlatformFlags.HasFlag(PlatformFlags.IsUnityEditor)} Frame = {Time.frameCount}", gameObject);
-
         if(!shouldShow)
         {
             switch (_hideType)

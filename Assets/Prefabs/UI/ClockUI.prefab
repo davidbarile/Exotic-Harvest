@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3224604542237942958}
   - component: {fileID: 7131460246338303349}
   - component: {fileID: 2792919348947027874}
+  - component: {fileID: 4242386288429366415}
   m_Layer: 0
   m_Name: ClockUI
   m_TagString: Untagged
@@ -63,6 +64,37 @@ MonoBehaviour:
   timeText: {fileID: 3604327478355479061}
   hourHand: {fileID: 8512702332318827525}
   doValidate: 0
+--- !u!114 &4242386288429366415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224250526846310919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b99b38c55704a15b2b8450502dd79e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatformBasedUiAnchors
+  _callType: 1
+  _platformBasedAnchors:
+  - platform: 64
+    referenceRectTransform: {fileID: 0}
+    overrideAnchors: 0
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 0, y: 0}
+    overridePivot: 0
+    pivot: {x: 0, y: 0}
+    overrideAnchoredPosition: 0
+    anchoredPosition: {x: 0, y: 0}
+    overrideSizeDelta: 0
+    sizeDelta: {x: 0, y: 0}
+    overrideLocalPosition: 0
+    localPosition: {x: 0, y: 0, z: 0}
+    overrideRotation: 0
+    eulerAngles: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    localScale: {x: 2, y: 2, z: 2}
 --- !u!1 &2018862882949569013
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,8 +162,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 12:00 PM
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
+  m_sharedMaterial: {fileID: 5230488916123834151, guid: 18d7ef5e473ff42d685216588de4daff, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -155,8 +187,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -258,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -333,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

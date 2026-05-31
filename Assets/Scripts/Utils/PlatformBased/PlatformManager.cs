@@ -30,7 +30,7 @@ public class PlatformManager : MonoBehaviour
     public static bool IsPhone => IN.PlatformFlags.HasFlag(PlatformFlags.IsPhone) || (IN.PlatformFlags.HasFlag(PlatformFlags.Mobile) && !IsMostLikelyTablet());
 #endif
     public static bool IsTablet => IN.PlatformFlags.HasFlag(PlatformFlags.IsTablet);
-    public static bool IsTouchInput => IN?.PlatformFlags.HasFlag(PlatformFlags.Mobile) == false;
+    public static bool IsTouchInput => IN?.PlatformFlags.HasFlag(PlatformFlags.Mobile) == true;
 
     [Tooltip("Note: If Selecting IsTablet, be sure to also select Mobile (or Desktop) as well")]
     [SerializeField] private PlatformFlags _platformOverride;
@@ -38,8 +38,6 @@ public class PlatformManager : MonoBehaviour
     private PlatformFlags _platformFlags;
 
     public PlatformFlags PlatformFlags => _platformFlags;
-
-    public PlatformFlags StoreFlags => _platformFlags & ~(PlatformFlags.Desktop | PlatformFlags.Mobile);
 
     protected void Awake()
     {
