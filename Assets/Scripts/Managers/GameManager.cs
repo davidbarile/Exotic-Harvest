@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SaveManager.IN.Init();
+        UiManager.IN.Init();
+        ScreenManager.IN.Init();
         ShopManager.IN.Init();
         AudioManager.IN.Init();
 

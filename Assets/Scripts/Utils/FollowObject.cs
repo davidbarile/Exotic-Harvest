@@ -25,7 +25,7 @@ public class FollowObject : MonoBehaviour
     {
         if (this.target != null && this.updateInEditor)
         {    
-            Update();
+            LateUpdate();
         }
     }
 #endif
@@ -39,7 +39,7 @@ public class FollowObject : MonoBehaviour
         this.rectTrans = this.GetComponent<RectTransform>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (this.target != null)
         {

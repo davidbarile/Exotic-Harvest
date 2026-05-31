@@ -14,7 +14,8 @@ public enum PlatformFlags
     iOS = 1 << 3,
     Mobile = 1 << 4,
     IsTablet = 1 << 5,
-    IsPhone = 1 << 6
+    IsPhone = 1 << 6,
+    IsUnityEditor = 1 << 7
 }
 
 public class PlatformManager : MonoBehaviour
@@ -55,6 +56,10 @@ public class PlatformManager : MonoBehaviour
         {
             _platformFlags = _platformOverride;
             return;
+        }
+        else
+        {
+            _platformFlags |= PlatformFlags.IsUnityEditor;
         }
 #endif // UNITY_EDITOR
 

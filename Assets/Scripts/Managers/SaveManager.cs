@@ -115,7 +115,7 @@ public class SaveManager : MonoBehaviour, ITickable
         }
     }
     
-    public void CreateNewSave()
+    private void CreateNewSave()
     {
         Data = new GameSaveData();
         ApplySaveDataToGame();

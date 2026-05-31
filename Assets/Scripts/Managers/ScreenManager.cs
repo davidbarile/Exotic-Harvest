@@ -54,11 +54,12 @@ public class ScreenManager : MonoBehaviour
             canvasGroup.alpha = alpha;
     }
 
-    private void Start()
+    public void Init()
     {
         GatherLitShaderImages();
 
-        var bgAlpha = PlatformManager.IsMobile ? 1f : .5f;
+        var bgAlpha = PlatformManager.IsMobile ? 1f : SaveManager.Data.BgAlpha;
+
         SetWorldBgAlpha(bgAlpha);
 
         this.maximizePanel.SetActive(false);
@@ -112,7 +113,7 @@ public class ScreenManager : MonoBehaviour
 
         this.isClickThrough = !inIsVisible;
 
-        //SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
+        SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
         SetCanvasGroupInteractable(this.decorationsCanvasGroup, inIsVisible);
 
         SetCollidersEnabled(inIsVisible);
@@ -156,9 +157,9 @@ public class ScreenManager : MonoBehaviour
     public void SetWorldBgAlpha(float inAlpha)
     {
         this.bgCanvasGroup.alpha = inAlpha;
+
         SetWordEffectsAlpha(inAlpha);
-        var onFocusShow = this.bgCanvasGroup.GetComponent<OnFocusShow>();
-        if (onFocusShow != null)
+        if (this.bgCanvasGroup.TryGetComponent<OnFocusShow>(out var onFocusShow))
         {
             //onFocusShow.MinAlpha = inAlpha;
             onFocusShow.MaxAlpha = inAlpha;

@@ -62,7 +62,7 @@ public class UiManager : MonoBehaviour
         SetDebugText(string.Empty);
     }
 
-    private void Start()
+    public void Init()
     {
         InputManager.OnSpacePress += HandleSpacePress;
         InputManager.OnSettingsPress += ToggleSettingsPanelVisibility;
