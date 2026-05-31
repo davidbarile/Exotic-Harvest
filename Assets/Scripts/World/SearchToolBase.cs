@@ -24,6 +24,8 @@ public class SearchToolBase : DecorationBase //Draggable
 
     [Space, Range(0f, 5f), SerializeField] protected float timeToActivateHover = 1f;//how long the player needs to hover over a searchable object before it "activates"
 
+    [SerializeField] protected bool shouldTrackWithWorldCamera;
+
     [SerializeField] protected bool isMaskEnabled = true; // For debug, allows toggling the mask on/off in the inspector
 
     protected Tween lensTween;
@@ -108,7 +110,9 @@ public class SearchToolBase : DecorationBase //Draggable
         if (!this.IsInSearchMode && this.isMaskEnabled)
             return;
 
-        this.innerWorld.localPosition = this.transform.localPosition * -1 * this.scrollSpeed + (Vector3)this.scrollOffset;
+        var worldCameraOffset = this.shouldTrackWithWorldCamera ? new Vector3(UiManager.IN.WorldCamera.transform.position.x, 0f, 0f) : Vector3.zero;
+
+        this.innerWorld.localPosition = (this.transform.localPosition + worldCameraOffset) * -1 * this.scrollSpeed + (Vector3)this.scrollOffset;
 
         var wasSearchObjectNull = this.activeSearchable == null;
         this.activeSearchable = GetActiveSearchObject();
