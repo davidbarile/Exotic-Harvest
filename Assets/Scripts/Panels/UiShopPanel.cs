@@ -15,7 +15,7 @@ public class UiShopPanel : UIPanelBase
     [Header("Item Detail Panel")]
     [SerializeField] private GameObject itemDetailPanel;
     [SerializeField] private GameObject itemDetailDisplaysParent;
-    [Range(0f, 1f), SerializeField] private float itemDetailDisplayScale = .9f;
+    [Range(0f, 5f), SerializeField] private float itemDetailDisplayScale = 1f;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
     [SerializeField] private TMP_Text ownedText;
@@ -176,7 +176,7 @@ public class UiShopPanel : UIPanelBase
             return;
         }
 
-        var canvasScaleFactor = Mathf.Clamp01(1 / DragManager.UiCanvasScaleFactor);
+        var canvasScaleFactor = Mathf.Clamp(1 / DragManager.UiCanvasScaleFactor, .75f, 1f);
 
         this.itemDetailDisplaysParent.transform.localScale = this.itemDetailDisplayScale * this.selectedItemData.Scale * canvasScaleFactor * Vector3.one;
 
