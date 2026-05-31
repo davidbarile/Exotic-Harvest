@@ -13,6 +13,7 @@ public class DayNightCycleController : MonoBehaviour
     [SerializeField] private float cameraOffset = -1920;
     [SerializeField] private Slider worldPanSlider;
     [SerializeField] private bool shouldInvertSliderValue;
+    [SerializeField] private float delayToResetCameraPosition = 3f;
 
     private Vector3 initCameraPos;
 
@@ -89,7 +90,7 @@ public class DayNightCycleController : MonoBehaviour
 
     private void SetCameraPosition(float inNormalizedTime)
     {
-        if (DateTime.Now - this.lastTimeSliderMoved < TimeSpan.FromSeconds(2))
+        if (this.delayToResetCameraPosition == -1 || DateTime.Now - this.lastTimeSliderMoved < TimeSpan.FromSeconds(this.delayToResetCameraPosition))
             return; // Don't update the position if the user has recently moved the slider
 
         UiManager.IN.Compass.SetDirection(inNormalizedTime);

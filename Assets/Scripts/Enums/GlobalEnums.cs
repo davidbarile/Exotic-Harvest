@@ -80,7 +80,7 @@ public class GlobalEnums
         Resources,
         Pets,
         Upgrades,
-        Gems,
+        Special,
         All
     }
 

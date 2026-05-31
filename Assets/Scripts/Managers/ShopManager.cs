@@ -146,7 +146,7 @@ public class ShopManager : MonoBehaviour
             case EShopCategory.Tools:
             case EShopCategory.Pets:
             case EShopCategory.Upgrades:
-            case EShopCategory.Gems:
+            case EShopCategory.Special:
                 // TODO: Implement in future phases
                 return true;
             default:
