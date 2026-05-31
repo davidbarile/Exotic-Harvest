@@ -19,6 +19,10 @@ public class DragTarget : MonoBehaviour
     public bool ShouldSnapToCenter => this.shouldSnapToCenter;
     [Space, SerializeField] private bool shouldSnapToCenter;
 
+    public int MaxChildren => this.maxChildren;
+    [Space, SerializeField] private int maxChildren = -1; // -1 for unlimited
+
+
     [Header("Optional Bounds")]
     public Collider2D BoundsCollider;
     [Tooltip("-1 = Disabled")]
@@ -103,5 +107,54 @@ public class DragTarget : MonoBehaviour
 
         if (this.shouldSnapToCenter)
             inChildObject.localPosition = Vector3.zero;
+    }
+
+    public void SetChildPositions(Draggable inDraggable)
+    {
+        if (this.ShouldSnapToCenter)
+        {
+            // Calculate total width of all children
+            float totalWidth = 0f;
+            for (int i = 0; i < this.ItemContainer.childCount; i++)
+            {
+                var child = this.ItemContainer.GetChild(i);
+                if (child.TryGetComponent<RectTransform>(out var rt))
+                {
+                    totalWidth += rt.rect.width * rt.localScale.x;
+                }
+            }
+
+            var containerWidth = this.ItemContainer.GetComponent<RectTransform>().rect.width * this.ItemContainer.localScale.x;
+            // Center children and space evenly within ItemContainer
+            float spacing = (containerWidth - totalWidth) / (ItemContainer.childCount + 1);
+            float currentX = -containerWidth / 2f + spacing;
+            for (int i = 0; i < ItemContainer.childCount; i++)                
+            {
+                var child = ItemContainer.GetChild(i);
+                if (child.TryGetComponent<RectTransform>(out var rt))                    
+                {
+                    float childWidth = rt.rect.width * rt.localScale.x;
+                    child.localPosition = new Vector3(currentX + childWidth / 2f, 0f, 0f) + (inDraggable.SnapToCenterOffset * transform.localScale.y);
+                    currentX += childWidth + spacing;
+                }
+            }
+            
+            foreach (Transform child in this.ItemContainer)
+            {
+                if(child.TryGetComponent<Draggable>(out var draggable))
+                    draggable.SaveItemPosition();
+            }
+        }
+        else
+        {
+            var targetParentCanvas = this.GetComponentInParent<Canvas>();
+            var isTargetWorldCanvas = targetParentCanvas == UiManager.IN.WorldCanvas;
+
+            var targetCanvas = isTargetWorldCanvas ? UiManager.IN.WorldCanvas : UiManager.IN.UICanvas;
+
+            var dropPos = DragManager.GetDragPosition(Input.mousePosition, inDraggable.TargetRectTransform, targetCanvas);
+            inDraggable.transform.position = dropPos + DragManager.OffsetFromCursor;
+            inDraggable.SaveItemPosition();
+        }
     }
 }

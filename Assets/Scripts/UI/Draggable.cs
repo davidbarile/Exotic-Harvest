@@ -33,6 +33,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     [Header("Drop Offset")]
     [SerializeField] protected Vector3 snapToCenterOffset;
+    public Vector3 SnapToCenterOffset => this.snapToCenterOffset;
     [SerializeField] private bool autoCalculateSnapToCenterOffset = true;
 
     [HideIf("IsDraggingPermanent"), Header("Optional outline to show when drag mode is enabled")]
@@ -248,7 +249,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             this.transform.localScale /= DragManager.UiCanvasScaleFactor;
     }
 
-    protected virtual void SaveItemPosition()
+    public virtual void SaveItemPosition()
     {
         //implement in subclasses
     }
@@ -273,27 +274,16 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                     if (!dragTarget.AllowsDecorationType(decorationType))
                         continue;
 
+                    if (dragTarget.MaxChildren != -1 && dragTarget.ItemContainer.childCount >= dragTarget.MaxChildren)
+                        continue;
+
                     dragTarget.SetAsParent(this.targetRectTransform);
-
-                    if (dragTarget.ShouldSnapToCenter)
-                        this.targetRectTransform.localPosition = Vector3.zero + (this.snapToCenterOffset * this.transform.localScale.y);
-                    else
-                    {
-                        var targetParentCanvas = dragTarget.GetComponentInParent<Canvas>();
-                        var isTargetWorldCanvas = targetParentCanvas == UiManager.IN.WorldCanvas;
-
-                        var targetCanvas = isTargetWorldCanvas ? UiManager.IN.WorldCanvas : UiManager.IN.UICanvas;
-
-                        var dropPos = DragManager.GetDragPosition(Input.mousePosition, this.targetRectTransform, targetCanvas);
-                        this.targetRectTransform.position = dropPos + DragManager.OffsetFromCursor;
-                    }
-
                     this.targetRectTransform.SetAsLastSibling();
+                    dragTarget.SetChildPositions(this);
+
                     dragTarget.SetHighlight(false);
 
                     this.endCanvas = dragTarget.GetComponentInParent<Canvas>();
-
-                    SaveItemPosition();
                     foundDragTarget = true;
                     return true;//found drag target, reparent and exit
                 }

@@ -339,7 +339,7 @@ public class DecorationBase : Draggable
         DragManager.OnDragOverInventoryZoneActiveChanged?.Invoke(true);
     }
 
-    protected override void SaveItemPosition()
+    public override void SaveItemPosition()
     {
         this.ItemData.DecorationData.WorldSaveData.WorldPosition = this.transform.localPosition;
         this.ItemData.DecorationData.WorldSaveData.ParentGuid = this.targetRectTransform.parent.GetInstanceID();
