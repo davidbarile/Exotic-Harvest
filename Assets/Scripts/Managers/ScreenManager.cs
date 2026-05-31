@@ -16,8 +16,9 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup rootCanvasGroup;
     [SerializeField] private CanvasGroup worldCanvasGroup;
-    [SerializeField] private CanvasGroup decorationsCanvasGroup;
-    [SerializeField] private CanvasGroup bgCanvasGroup;
+    [Space, SerializeField] private UiFadeTween worldDecorationsFader;
+    [SerializeField] private UiFadeTween screenDecorationsFader;
+    [Space, SerializeField] private CanvasGroup bgCanvasGroup;
 
     [Space, SerializeField] private CanvasGroup followMoonCanvasGroup;
     [SerializeField] private CanvasGroup sunCanvasGroup;
@@ -114,11 +115,20 @@ public class ScreenManager : MonoBehaviour
         this.isClickThrough = !inIsVisible;
 
         SetCanvasGroupInteractable(this.bgCanvasGroup, inIsVisible);
-        SetCanvasGroupInteractable(this.decorationsCanvasGroup, inIsVisible);
-
         SetCollidersEnabled(inIsVisible);
 
         UiManager.IN.SetDebugText($"SetBgVis({inIsVisible}) App Focus: {this.appHasFocus}\nBg Click-thru: {this.isClickThrough}", true);
+    }
+
+    private void ToggleDecorationsVisibility()
+    {
+        SetDecorationsVisibility(this.isClickThrough);
+    }
+
+    public void SetDecorationsVisibility(bool inIsVisible)
+    {
+        this.worldDecorationsFader.FadeToVisibility(inIsVisible);
+        this.screenDecorationsFader.FadeToVisibility(inIsVisible);
     }
 
     private void SetCollidersEnabled(bool inEnabled)
@@ -129,13 +139,15 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    private void ToggleElementsVisibility(bool inShouldShow)
+    public void ToggleElementsVisibility(bool inShouldShow)
     {
         //TODO: refactor to enable/disable OnFocusShow components 
         UiManager.IN.TimeWeatherPanel.gameObject.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowTimeWeatherPanelToggle.isOn);
         UiManager.IN.UiButtonsPanel.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowUiButtonsToggle.isOn);
         UiManager.IN.NotificationsCanvas.enabled = inShouldShow || UiManager.IN.SettingsPanel.ShowNotificationsToggle.isOn;
-        UiManager.IN.DecorationsContainer.SetActive(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
+        
+        this.worldDecorationsFader.FadeToVisibility(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
+        this.screenDecorationsFader.FadeToVisibility(inShouldShow || UiManager.IN.SettingsPanel.ShowDecorationsToggle.isOn);
 
         foreach (var item in this.sunAndMoon)
         {
@@ -158,7 +170,7 @@ public class ScreenManager : MonoBehaviour
     {
         this.bgCanvasGroup.alpha = inAlpha;
 
-        SetWordEffectsAlpha(inAlpha);
+        SetWorldEffectsAlpha(inAlpha);
         if (this.bgCanvasGroup.TryGetComponent<OnFocusShow>(out var onFocusShow))
         {
             //onFocusShow.MinAlpha = inAlpha;
@@ -166,7 +178,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    public void SetWordEffectsAlpha(float inAlpha)
+    public void SetWorldEffectsAlpha(float inAlpha)
     {
         foreach (var effect in this.worldDistortionEffects)
         {
@@ -230,7 +242,8 @@ public class ScreenManager : MonoBehaviour
         else
             FadeOutRoot();
 
-        ToggleElementsVisibility(inIsMaximized);
+        if(Application.isEditor)
+            OnApplicationFocus(inIsMaximized);
 
         OnMinimizeMaximizeToggled?.Invoke(inIsMaximized);
     }
@@ -245,7 +258,7 @@ public class ScreenManager : MonoBehaviour
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 1f, 0.5f, value =>
         {
-            SetWordEffectsAlpha(value);
+            SetWorldEffectsAlpha(value);
         });
 
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
@@ -272,7 +285,7 @@ public class ScreenManager : MonoBehaviour
         var alpha = this.rootCanvasGroup.alpha;
         DOVirtual.Float(alpha, 0f, 0.5f, value =>
         {
-            SetWordEffectsAlpha(value);
+            SetWorldEffectsAlpha(value);
         });
 
         //TODO: break this into many small canvas groups so we can specify which ones to show/hide based on settings
@@ -289,28 +302,6 @@ public class ScreenManager : MonoBehaviour
             this.worldCanvasGroup.gameObject.SetActive(false);
         });
     }
-
-    // private void FadeInBackground()
-    // {
-    //     this.isClickThrough = false;
-        
-    //     this.bgCanvasGroup.DOFade(1f, 0.5f).OnComplete(() =>
-    //     {
-    //         SetCanvasGroupInteractable(this.bgCanvasGroup, true, 1f);
-    //         SetCollidersEnabled(true);
-    //     });
-    // }
-
-    // private void FadeOutBackground()
-    // {
-    //     this.isClickThrough = true;
-
-    //     this.bgCanvasGroup.DOFade(0f, 0.5f).OnComplete(() =>
-    //     {
-    //         SetCanvasGroupInteractable(this.bgCanvasGroup, false, 0f);
-    //         SetCollidersEnabled(false);
-    //     });
-    // }
     
     public void SwitchToMonitor(int inMonitorIndex)
     {
@@ -362,6 +353,7 @@ public class ScreenManager : MonoBehaviour
         this.appHasFocus = inHasFocus;
         UiManager.IN.SetDebugText($"App Focus: {this.appHasFocus}\nBg Click-thru: {this.isClickThrough}", true);
         SetBgVisibility(inHasFocus);
+        SetDecorationsVisibility(inHasFocus);
         OnGameFocusChanged?.Invoke(inHasFocus);
     }
 

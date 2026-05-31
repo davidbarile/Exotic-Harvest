@@ -84,12 +84,15 @@ public class UiMinimizePanel : UIPanelBase
                 break;
             case 2:
                 // Handle third button action
-                Debug.Log("Third button pressed!");
+                ScreenManager.IN.SetBgVisibility(false);
+                ScreenManager.IN.SetDecorationsVisibility(false);
                 break;
 
             case 3:
                 // Handle fourth button action
-                Debug.Log("Fourth button pressed!");
+                ScreenManager.IN.SetBgVisibility(false);
+                ScreenManager.IN.SetDecorationsVisibility(false);
+                ScreenManager.IN.ToggleElementsVisibility(false);
                 break;
             case 4:
                 UIConfirmPanel.IN.Show("Quit Game", "Are you sure you want to quit the game?", () =>

@@ -9,7 +9,7 @@ public class DecorationManager : MonoBehaviour
     public static DecorationManager IN;
 
     [Header("UI Placement Settings")]
-    [SerializeField] private RectTransform worldDecorationCanvas, screenDecorationCanvas; // Canvas for decorations
+    [SerializeField] private RectTransform worldDecorationsContainer, screenDecorationsContainer; // Canvas for decorations
     
     private Dictionary<int,Transform> decorationParents = new(); // List of parent transforms for different decoration types
 
@@ -27,8 +27,8 @@ public class DecorationManager : MonoBehaviour
     /// </summary>
     public void InitDecorationsInWorld(bool isNewGame)
     {
-        this.initDecorations = new List<DecorationBase>(this.worldDecorationCanvas.GetComponentsInChildren<DecorationBase>());
-        var screenDecorations = new List<DecorationBase>(this.screenDecorationCanvas.GetComponentsInChildren<DecorationBase>());
+        this.initDecorations = new List<DecorationBase>(this.worldDecorationsContainer.GetComponentsInChildren<DecorationBase>());
+        var screenDecorations = new List<DecorationBase>(this.screenDecorationsContainer.GetComponentsInChildren<DecorationBase>());
 
         this.initDecorations.AddRange(screenDecorations);
 
@@ -85,7 +85,7 @@ public class DecorationManager : MonoBehaviour
     
     private void InitDecorationParents()
     {
-        var parentObjects = this.worldDecorationCanvas.GetComponentsInChildren<Transform>(true);
+        var parentObjects = this.worldDecorationsContainer.GetComponentsInChildren<Transform>(true);
         foreach (var parent in parentObjects)
         {
             if (parent.TryGetComponent<DragTarget>(out var dragTarget))
@@ -94,7 +94,7 @@ public class DecorationManager : MonoBehaviour
             }
         }
 
-        var screenParentObjects = this.screenDecorationCanvas.GetComponentsInChildren<Transform>(true);
+        var screenParentObjects = this.screenDecorationsContainer.GetComponentsInChildren<Transform>(true);
         foreach (var parent in screenParentObjects)
         {
             if (parent.TryGetComponent<DragTarget>(out var dragTarget))
@@ -125,7 +125,7 @@ public class DecorationManager : MonoBehaviour
         {
             var wData = data.DecorationData.WorldSaveData;
             var success = this.decorationParents.TryGetValue(wData.ParentGuid, out var foundParent);
-            var parentTrans = success ? foundParent : this.worldDecorationCanvas.transform;
+            var parentTrans = success ? foundParent : this.worldDecorationsContainer.transform;
 
             var decoration = SpawnItemInWorld(data, wData.WorldPosition, parentTrans);
             decoration.transform.SetSiblingIndex(wData.SiblingIndex);
@@ -153,7 +153,7 @@ public class DecorationManager : MonoBehaviour
             if (parentTrans == null)
             {
                 Debug.Log($"<color=red>No parent found for {item.ItemData.DisplayName} with ParentGuid {wData.ParentGuid}. Spawning under worldDecorationCanvas.</color>");
-                parentTrans = this.worldDecorationCanvas.transform;
+                parentTrans = this.worldDecorationsContainer.transform;
             }
 
             item.transform.SetParent(parentTrans);
