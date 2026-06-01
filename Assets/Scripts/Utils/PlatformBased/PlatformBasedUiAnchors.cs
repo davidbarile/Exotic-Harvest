@@ -36,6 +36,18 @@ public class PlatformBasedUiAnchors : PlatformBasedModifierBase
 
         [Space]
         [HideIf("@referenceRectTransform != null")]
+        public bool overrideOffsetMin;
+        [HideIf("@referenceRectTransform != null || !overrideOffsetMin")]
+        public Vector2 offsetMin;
+
+        [Space]
+        [HideIf("@referenceRectTransform != null")]
+        public bool overrideOffsetMax;
+        [HideIf("@referenceRectTransform != null || !overrideOffsetMax")]
+        public Vector2 offsetMax;
+
+        [Space]
+        [HideIf("@referenceRectTransform != null")]
         public bool overrideSizeDelta;
         [HideIf("@referenceRectTransform != null || !overrideSizeDelta")]
         public Vector2 sizeDelta;
@@ -106,6 +118,12 @@ public class PlatformBasedUiAnchors : PlatformBasedModifierBase
 
                 if (platformBasedUiAnchor.overrideAnchoredPosition)
                     rectTransform.anchoredPosition = platformBasedUiAnchor.anchoredPosition;
+
+                if (platformBasedUiAnchor.overrideOffsetMin)
+                    rectTransform.offsetMin = platformBasedUiAnchor.offsetMin;
+
+                if (platformBasedUiAnchor.overrideOffsetMax)
+                    rectTransform.offsetMax = platformBasedUiAnchor.offsetMax;
 
                 if (platformBasedUiAnchor.overrideSizeDelta)
                     rectTransform.sizeDelta = platformBasedUiAnchor.sizeDelta;
