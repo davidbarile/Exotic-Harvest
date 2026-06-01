@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 37.020596, y: 37.427055}
+  m_AnchoredPosition: {x: -11.165081, y: 50.77399}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4908164429975544502
@@ -98,19 +98,19 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 4
+    widthMultiplier: 5
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.88461655
-        inSlope: 0
-        outSlope: 0
+        value: 0.9217859
+        inSlope: 0.9667387
+        outSlope: 0.9667387
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.115577884
       - serializedVersion: 3
         time: 1
         value: 0
@@ -164,6 +164,81 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!1 &3923376723235312657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5201006577836912713}
+  - component: {fileID: 698919180316793073}
+  - component: {fileID: 4074313405154005780}
+  m_Layer: 12
+  m_Name: HitArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5201006577836912713
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923376723235312657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8238583986292442565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &698919180316793073
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923376723235312657}
+  m_CullTransparentMesh: 1
+--- !u!114 &4074313405154005780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923376723235312657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.20392157}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 26d9d8c1882964c1ca8f20b845f1d6f8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5913726934031707107
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +252,7 @@ GameObject:
   - component: {fileID: 8944537237467210828}
   - component: {fileID: 2015691968791721267}
   m_Layer: 12
-  m_Name: Star Particles_Local
+  m_Name: Fireflies Particles_Local
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +293,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5913726934031707107}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 8
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -293,8 +368,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1
+      scalar: 3
+      minScalar: 1.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -464,8 +539,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 40
-      minScalar: 20
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -622,7 +697,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -675,7 +750,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -728,9 +803,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotation:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: 1.5707963
+      minScalar: -1.5707963
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -780,7 +855,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    gravitySource: 0
+    gravitySource: 1
     maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
@@ -924,9 +999,9 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 0.3
     sphericalDirectionAmount: 0
-    randomPositionAmount: 0
+    randomPositionAmount: 1
     radius:
       value: 125
       mode: 0
@@ -1047,7 +1122,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7
+      scalar: 1.2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4980,7 +5055,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5023,7 +5098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8238583986292442565}
   - component: {fileID: 3329589479185800618}
-  - component: {fileID: 9216222666981800686}
+  - component: {fileID: 5424180540214829809}
   - component: {fileID: 5913523410657671519}
   - component: {fileID: 8185493256377399083}
   - component: {fileID: 6991643650690051007}
@@ -5047,6 +5122,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5201006577836912713}
   - {fileID: 4123324068977951997}
   - {fileID: 3695184768882668598}
   - {fileID: 4182108186755052581}
@@ -5065,7 +5141,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6193859504091026788}
   m_CullTransparentMesh: 1
---- !u!114 &9216222666981800686
+--- !u!114 &5424180540214829809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5074,21 +5150,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193859504091026788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 795a2e62b650d412dadf1cbdf95c72e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bccdd1644dab4f75a6ce43d4cdf184c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stardust
-  resourceType: 61
+  m_EditorClassIdentifier: Assembly-CSharp::Fireflies
+  resourceType: 25
   amount: 1
-  collectionType: 64
+  collectionType: 4
   lifetimeMinMax:
-    MinQuantity: 3
+    MinQuantity: 4
     MaxQuantity: 8
-    MinMaxWeightFactor: 0.5
+    MinMaxWeightFactor: 0.4
   collectableImage: {fileID: 0}
-  tweenDuration: 2.5
-  starParticles:
-  - {fileID: 3872017821838019031}
+  tweenDuration: 0.2
+  fireflyParticles:
   - {fileID: 8944537237467210828}
+  - {fileID: 3872017821838019031}
 --- !u!111 &5913523410657671519
 Animation:
   m_ObjectHideFlags: 0
@@ -5153,7 +5229,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 120
+  m_Radius: 130
 --- !u!50 &6299747393022386267
 Rigidbody2D:
   serializedVersion: 5
@@ -5194,7 +5270,7 @@ GameObject:
   - component: {fileID: 3872017821838019031}
   - component: {fileID: 972997427469539127}
   m_Layer: 12
-  m_Name: Star Particles_World
+  m_Name: Fireflies Particles_World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5235,7 +5311,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7949859398428272938}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 8
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5310,8 +5386,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1
+      scalar: 3
+      minScalar: 1.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5481,8 +5557,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 40
-      minScalar: 20
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5639,7 +5715,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -5692,7 +5768,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -5745,9 +5821,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotation:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: 1.5707963
+      minScalar: -1.5707963
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5797,7 +5873,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    gravitySource: 0
+    gravitySource: 1
     maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
@@ -5941,11 +6017,11 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 0.3
     sphericalDirectionAmount: 0
-    randomPositionAmount: 0
+    randomPositionAmount: 1
     radius:
-      value: 125
+      value: 130
       mode: 0
       spread: 0
       speed:
@@ -6064,7 +6140,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7
+      scalar: 1.2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -9997,7 +10073,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0

@@ -13,7 +13,7 @@ public class ForagingManager : MonoBehaviour, ITickable
 {
     public static ForagingManager IN;
     
-    private static WaitForSeconds _waitForSeconds0_2 = new(0.2f);
+    private static WaitForSeconds _waitForSeconds0_1 = new(0.1f);
    
     public static bool IsInitialized { get; private set; }
 
@@ -45,6 +45,15 @@ public class ForagingManager : MonoBehaviour, ITickable
     private List<Searchable> activeMeadowSearchables = new();
     private List<Vector3> meadowSearchablePositions = new();
     private float nextMeadowRefreshTime = -1;
+
+     [Header("Fireflies Settings --------------")]
+    [SerializeField] private RectTransform firefliesSpawnRect; // UI container for fireflies searchable positions
+    [SerializeField] private Fireflies[] firefliesPrefabs; // Different fireflies variants to spawn
+    [SerializeField] private float firefliesGridSize = 100f; // Grid size for potential fireflies searchable positions
+    [SerializeField] private WeightedRandom minMaxTimeBetweenFirefliesSpawns; // Chance to spawn fireflies each hour during clear nights
+    private DateTime lastFirefliesSpawnHour = DateTime.MinValue;
+    private float secondsUntilNextFirefliesSpawn = 5f;//gets set by weighted random on start and after each change
+    private List<Fireflies> activeFireflies = new();
 
     [Header("Night Sky Settings --------------")]
     [SerializeField] private Transform nightSkyLootField; // Parent transform for sky collectables (e.g. stars, constellations)
@@ -239,14 +248,16 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         // Could be used to spread out spawning/despawning of collectables over several frames to reduce stutter
         RefreshRockPile();
-        yield return _waitForSeconds0_2;
+        yield return _waitForSeconds0_1;
         RefreshMeadowSearchables();//causes stutter
-        yield return _waitForSeconds0_2;
+        yield return _waitForSeconds0_1;
         RefreshNightSkySearchables();
-        yield return _waitForSeconds0_2;
+        yield return _waitForSeconds0_1;
         RefreshMoonbeamGenerator();
-        yield return _waitForSeconds0_2;
+        yield return _waitForSeconds0_1;
         RefreshStardustGenerator();
+        yield return _waitForSeconds0_1;
+        RefreshFirefliesGenerator();
     }
 
     private void OnTimeOfDayChanged(ETimeOfDay inNewTime)
@@ -572,6 +583,63 @@ public class ForagingManager : MonoBehaviour, ITickable
     }
     #endregion
 
+    #region Fireflies Searchables
+    private void RefreshFirefliesGenerator()
+    {
+        Debug.Log($"<color=grey>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
+        //the world animation shows and hides the parent containter, so we don't need to check for time of day here
+        if (!this.firefliesSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || WeatherManager.IsFoggy || this.ignoreTimeOfDayAndWeather))
+            return;
+
+        var secondsElapsed = (DateTime.Now - this.lastFirefliesSpawnHour).TotalSeconds;
+        //secondsElapsed *= TimeManager.IN.TimeScale;
+
+        Debug.Log($"<color=white>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
+
+        if (secondsElapsed > this.secondsUntilNextFirefliesSpawn)
+        {
+            this.lastFirefliesSpawnHour = DateTime.Now;
+            this.secondsUntilNextFirefliesSpawn = this.minMaxTimeBetweenFirefliesSpawns.GetWeightedRandomQuantity();
+
+            SpawnFireflies();
+        }
+    }
+    private void SpawnFireflies()
+    {
+        //ResetFireflies();
+
+        var firefliesPrefab = this.firefliesPrefabs[UnityEngine.Random.Range(0, this.firefliesPrefabs.Length)];//random fireflies variant
+        var fireflies = Instantiate(firefliesPrefab, this.firefliesSpawnRect);
+        fireflies.transform.localPosition = GetRandomFirefliesSpawnPosition();
+        fireflies.transform.SetAsLastSibling(); // Ensure fireflies appears above other elements
+        fireflies.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.35f, 0.5f); // Randomize size for visual variety
+        fireflies.Spawn();
+        this.activeFireflies.Add(fireflies);
+
+        Debug.Log($"<color=yellow>SpawnFireflies() pos = {fireflies.transform.localPosition}</color>");
+
+        Vector3 GetRandomFirefliesSpawnPosition()
+        {
+            var xPos = UnityEngine.Random.Range(this.firefliesSpawnRect.rect.xMin, this.firefliesSpawnRect.rect.xMax);
+            var yPos = UnityEngine.Random.Range(this.firefliesSpawnRect.rect.yMin, this.firefliesSpawnRect.rect.yMax);
+
+            xPos = Mathf.Round(xPos / this.firefliesGridSize) * this.firefliesGridSize;
+            yPos = Mathf.Round(yPos / this.firefliesGridSize) * this.firefliesGridSize;
+            return new Vector3(xPos, yPos, 0f);
+        }
+    }
+
+    private void ResetFireflies()
+    {
+        foreach (var firefly in this.activeFireflies)
+        {
+            if (firefly != null)
+                firefly.Expire();
+        }
+        this.activeFireflies.Clear();
+    }
+    #endregion
+
     #region Night Sky Searchables
     private void InitNightSkySearchablePositions()
     {
@@ -707,8 +775,9 @@ public class ForagingManager : MonoBehaviour, ITickable
     #endregion
 
     #region Stardust Searchables
-     private void RefreshStardustGenerator()
+    private void RefreshStardustGenerator()
     {
+        //the world animation shows and hides the parent containter, so we don't need to check for time of day here
         if (!this.stardustSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.ignoreTimeOfDayAndWeather))
             return;
 
@@ -723,6 +792,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             SpawnStardust();
         }
     }
+
     private void SpawnStardust()
     {
         ResetStardusts();
@@ -761,6 +831,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Moonbeams
     private void RefreshMoonbeamGenerator()
     {
+        //the world animation shows and hides the parent containter, so we don't need to check for time of day here
         if (!this.moonbeamGenerator.gameObject.activeInHierarchy || !(WeatherManager.IsClear || this.ignoreTimeOfDayAndWeather))
             return;
 
