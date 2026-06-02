@@ -84,20 +84,20 @@ public class DecorationBase : Draggable
             this.itemIcon.transform.rotation = Quaternion.Euler(0f, 0f, wData.Rotation);
 
             if (this.shadow)
-               this.shadow.rectTransform.sizeDelta = this.originalIconSize;
+                this.shadow.rectTransform.sizeDelta = this.originalIconSize;
 
             if (this.worldProxy)
                 this.worldProxy.rectTransform.sizeDelta = this.originalIconSize;
 
             // if(worldProxy)
             //     Debug.Log($"Configuring {this.name}  this.itemIcon.transform.localScale = {itemIcon.transform.localScale}    wData.Scale = {wData.Scale}   this.worldProxy.rectTransform = { this.worldProxy.rectTransform.rect.size}");
-                
+
             this.itemIcon.color = inItemData.IconColor;
 
             var worldSprite = inItemData.IconSpriteName;//default to using the regular icon if no world icon specified
-            if(!string.IsNullOrEmpty(inItemData.WorldIconSpriteName))
+            if (!string.IsNullOrEmpty(inItemData.WorldIconSpriteName))
                 worldSprite = inItemData.WorldIconSpriteName;
-            
+
             var sprite = SpriteManager.GetSprite(worldSprite);
 
             SpriteManager.SetImageSprite(this.itemIcon, sprite);
@@ -107,6 +107,11 @@ public class DecorationBase : Draggable
 
         // if (this.worldProxy)
         //     this.worldProxy.gameObject.SetActive(false);
+        
+        if(this.attractor && this.ItemData.DecorationData.IsAttractor)
+        {
+            this.attractor.Configure(this.ItemData.DecorationData.AttractorData);
+        }
 
         if (TryGetComponent<PassiveHarvester>(out var harvester))
         {

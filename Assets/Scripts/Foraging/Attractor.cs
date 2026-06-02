@@ -18,6 +18,15 @@ public class Attractor : MonoBehaviour, ITickable
 
     private bool tickHasHappened;
 
+    public void Configure(AttractorData inData)
+    {
+        this.strength = inData.Strength;
+        this.maxDistance = inData.MaxDistance;
+        this.collisionRadius = inData.CollisionRadius;
+        this.attractableLayer = inData.AttractableLayer;
+        this.tagToAttract = inData.TagToAttract;
+    }
+
     private void Start()
     {
         TickManager.OnTick += Tick;

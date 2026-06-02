@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using static GlobalEnums;
 using Sirenix.OdinInspector;
+using UnityEngine.Rendering;
 
 [Serializable]
 public class DecorationData
@@ -20,6 +21,13 @@ public class DecorationData
     // For passive harvesters
     [Header("Resource Generation")]
     [HideInInspector] public EResourceType ActiveResourceType;
+
+    [ShowIf("@DecorationType.HasFlag(GlobalEnums.EDecorationType.Tool)")]
+    public bool IsAttractor;
+    [ShowIf("IsAttractor")]
+    public AttractorData AttractorData;
+
+    [Space]
     public EResourceType GeneratedResource;
     public int CurrentAmount;
     public int MaxAmount;
@@ -29,7 +37,7 @@ public class DecorationData
     public bool IsActive = true;
 
     public static DecorationData Copy(DecorationData decorationData)
-    {        
+    {
         return new DecorationData
         {
             PrefabName = decorationData.PrefabName,
@@ -45,6 +53,8 @@ public class DecorationData
             HighlightValidTargetsWhenDragged = decorationData.HighlightValidTargetsWhenDragged,
             Guid = decorationData.Guid, // Only generate new guid if original is -1, otherwise copy existing guid (used for saving/loading)
             ActiveResourceType = decorationData.ActiveResourceType,
+            IsAttractor = decorationData.IsAttractor,
+            AttractorData = decorationData.IsAttractor ? AttractorData.Copy(decorationData.AttractorData) : null,
             GeneratedResource = decorationData.GeneratedResource,
             CurrentAmount = decorationData.CurrentAmount,
             MaxAmount = decorationData.MaxAmount,

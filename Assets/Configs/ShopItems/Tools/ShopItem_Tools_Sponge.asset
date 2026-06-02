@@ -28,13 +28,24 @@ MonoBehaviour:
       SiblingIndex: 0
     DecorationType: 8193
     HighlightValidTargetsWhenDragged: 0
-    IsDragZone: 0
+    Guid: -1
     ActiveResourceType: 0
+    IsAttractor: 1
+    AttractorData:
+      OnlyAttractWhileDragging: 1
+      Strength: 65
+      MaxDistance: 200
+      CollisionRadius: 75
+      AttractableLayer:
+        serializedVersion: 2
+        m_Bits: 128
+      TagToAttract: Attractable
     GeneratedResource: 1
     CurrentAmount: 0
     MaxAmount: 50
     GenerationInterval: 0
     RequiresSpecificConditions: 0
+    LastGenerationTime: 0
     IsActive: 0
   Quanity: 1
   MaxStack: 1

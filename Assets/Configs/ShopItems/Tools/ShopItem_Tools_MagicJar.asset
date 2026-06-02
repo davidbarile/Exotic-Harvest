@@ -10,37 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d4b79ca75814ab889b344cb38589bf, type: 3}
-  m_Name: ShopItem_Tools_Crystal
+  m_Name: ShopItem_Tools_MagicJar
   m_EditorClassIdentifier: 
-  ID: Tools_Crystal
-  DisplayName: Crystal
-  Description: Collect moonbeams and starlight
-  Icon: {fileID: 21300000, guid: 63aca6f216935440f948d020f6faa4fd, type: 3}
+  ID: Tools_Jar_Magic
+  DisplayName: Magic Jar
+  Description: Attracts Fireflies
+  Icon: {fileID: 21300000, guid: a5c8de94c0f4e459ca6dfb1b34a7ed55, type: 3}
   WorldSprite: {fileID: 0}
   Scale: 1
   DecorationData:
-    PrefabName: Tool_Crystal
+    PrefabName: Tool_MagicJar
     WorldSaveData:
       WorldPosition: {x: 0, y: 0, z: 0}
       Scale: 1
       Rotation: 0
       ParentGuid: 0
       SiblingIndex: 0
-    DecorationType: 4099
+    DecorationType: 2051
     HighlightValidTargetsWhenDragged: 1
     Guid: -1
     ActiveResourceType: 0
     IsAttractor: 1
     AttractorData:
       OnlyAttractWhileDragging: 0
-      Strength: 25
-      MaxDistance: 250
-      CollisionRadius: 55
+      Strength: 35
+      MaxDistance: 300
+      CollisionRadius: 70
       AttractableLayer:
         serializedVersion: 2
-        m_Bits: 4096
+        m_Bits: 8192
       TagToAttract: Attractable
-    GeneratedResource: 60
+    GeneratedResource: 25
     CurrentAmount: 0
     MaxAmount: 100
     GenerationInterval: 0
@@ -48,20 +48,18 @@ MonoBehaviour:
     LastGenerationTime: 0
     IsActive: 0
   Quanity: 1
-  MaxStack: 1
+  MaxStack: 3
   Category: 0
   ResourceItems: []
   Cost:
     requiredResources:
-    - Type: 47
-      Amount: 10
-    - Type: 82
-      Amount: 20
-    - Type: 2
-      Amount: 100
-    - Type: 200
-      Amount: 1
-  MaxPurchases: 5
-  IconColor: {r: 1, g: 1, b: 1, a: 1}
+    - Type: 25
+      Amount: 200
+    - Type: 61
+      Amount: 50
+    - Type: 42
+      Amount: 3
+  MaxPurchases: 1
+  IconColor: {r: 0.94740295, g: 0.6367924, b: 1, a: 1}
   BgColor: {r: 1, g: 1, b: 1, a: 1}
   ShowInShop: 1

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8160949974879223126}
   - component: {fileID: 1651403169425470284}
   m_Layer: 0
-  m_Name: Tool_Jar
+  m_Name: Tool_MagicJar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.92156863, g: 0.5647059, b: 0.99215686, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.UI.ProceduralImage.ProceduralImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.92312866, g: 0.5653702, b: 0.990566, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5542,18 +5542,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8138734003648917058}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2349e56a0c144d62ab4d3ee987fddb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attractor
   IsActive: 1
-  strength: 15
-  maxDistance: 180
-  collisionRadius: 55
+  strength: 35
+  maxDistance: 300
+  collisionRadius: 70
   attractableLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 8192
   tagToAttract: Attractable
   linkedPassiveHarvester: {fileID: 6824301037246945621}
 --- !u!1 &8392184584709894608
