@@ -4,10 +4,9 @@ using DG.Tweening;
 public class Fireflies : Collectable
 {
     [Range(0, 5), SerializeField] private float tweenDuration = 1f;
-    
     [SerializeField] private ParticleSystem[] fireflyParticles;
+    
     private float initAlpha = -1f;
-
     private Tween fadeTween;
 
     public override void Spawn()
