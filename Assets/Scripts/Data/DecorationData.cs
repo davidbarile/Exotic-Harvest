@@ -3,6 +3,7 @@ using UnityEngine;
 using static GlobalEnums;
 using Sirenix.OdinInspector;
 using UnityEngine.Rendering;
+using UnityEditor.EditorTools;
 
 [Serializable]
 public class DecorationData
@@ -22,6 +23,7 @@ public class DecorationData
     [Header("Resource Generation")]
     [HideInInspector] public EResourceType ActiveResourceType;
 
+    [Tooltip("Enable to control values from data, otherwise set them in prefab")]
     [ShowIf("@DecorationType.HasFlag(GlobalEnums.EDecorationType.Tool)")]
     public bool IsAttractor;
     [ShowIf("IsAttractor")]
