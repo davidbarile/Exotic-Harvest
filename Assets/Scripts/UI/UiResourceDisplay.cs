@@ -13,6 +13,7 @@ public class UiResourceDisplay : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] private UiTickTextToValue tickTextComponent;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private bool isShopDisplay; // Set to false for static displays (e.g. shop costs)
     [Space, SerializeField] private TooltipTrigger tooltipTrigger;
@@ -30,7 +31,7 @@ public class UiResourceDisplay : MonoBehaviour
         this.resourceConfig = inConfig;
         this.isResourcesDisplay = inIsResourcesDisplay;
 
-        UpdateDisplay();
+        UpdateDisplay(false);
 
         // Subscribe to resource changes
         if (ResourceManager.IN != null)
@@ -57,7 +58,7 @@ public class UiResourceDisplay : MonoBehaviour
         }
     }
 
-    private void UpdateDisplay()
+    private void UpdateDisplay(bool inShouldTickToNewValue = true)
     {
         if (ResourceManager.IN == null) return;
 
@@ -66,7 +67,11 @@ public class UiResourceDisplay : MonoBehaviour
         var displayAmount = this.isShopDisplay ? this.costAmount : currentAmount;
 
         // Update amount text
-        this.amountText.text = displayAmount.ToString();
+        if (inShouldTickToNewValue)
+            this.tickTextComponent.SetValue(displayAmount);
+        else
+            this.amountText.text = displayAmount.ToString();
+
         this.amountText.color = Color.white;
 
         bool hasEnough = true;
