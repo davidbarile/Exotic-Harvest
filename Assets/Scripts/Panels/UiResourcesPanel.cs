@@ -14,8 +14,10 @@ public class UiResourcesPanel : UIPanelBase
     [SerializeField] private int maxItemsPerRow = 15;
 
     private List<GameObject> allResourceObjects = new();
-    
+
     private Dictionary<EResourceType, UiResourceDisplay> activeDisplaysDict = new();
+    
+    private ResourceConfig[] visibleResources = new ResourceConfig[0];
     
     public void Init()
     {
@@ -30,7 +32,7 @@ public class UiResourcesPanel : UIPanelBase
             ResourceManager.OnResourceChanged -= OnResourceChanged;
         }
     }
-    
+
     public void HandleShowAllToggleChanged(bool value)
     {
         this.showAllResources = value;
@@ -47,15 +49,23 @@ public class UiResourcesPanel : UIPanelBase
             CreateResourceDisplay(resourceConfig);
         }
 
-        var visibleResources = resourcesToShow.Where(r => ResourceManager.IN.GetResourceAmount(r.ResourceType) > 0 || this.showAllResources).ToArray();
+        this.visibleResources = resourcesToShow.Where(r => ResourceManager.IN.GetResourceAmount(r.ResourceType) > 0 || this.showAllResources).ToArray();
 
+        if (ResourceManager.IN.DebugGrantAllResources)
+            GrantAllResources();
+        else
+            RefreshGridLayout();
+    }
+
+    public void RefreshGridLayout()
+    {
         this.grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-
-        if (visibleResources.Length < this.maxItemsPerRow + 1)
+         
+        if (this.visibleResources.Length < this.maxItemsPerRow + 1)
         {
             this.grid.constraintCount = 1;
         }
-        else if (visibleResources.Length < this.maxItemsPerRow * 2 + 1)
+        else if (this.visibleResources.Length < this.maxItemsPerRow * 2 + 1)
         {
             this.grid.constraintCount = 2;
         }
@@ -65,8 +75,10 @@ public class UiResourcesPanel : UIPanelBase
             this.grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
         }
 
-        if (ResourceManager.IN.DebugGrantAllResources)
-            GrantAllResources();
+        // this.grid.CalculateLayoutInputHorizontal();
+        // this.grid.CalculateLayoutInputVertical();
+        // this.grid.SetLayoutHorizontal();
+        // this.grid.SetLayoutVertical();
     }
     
     public void GrantAllResources()
@@ -99,7 +111,10 @@ public class UiResourcesPanel : UIPanelBase
     private void OnResourceChanged(EResourceType type, int newAmount)
     {            
         if (this.activeDisplaysDict.TryGetValue(type, out UiResourceDisplay display))
+        {
             display.gameObject.SetActive(newAmount > 0 || this.showAllResources);
+            RefreshGridLayout();
+        }
     }
     
     public void RefreshAllDisplays()

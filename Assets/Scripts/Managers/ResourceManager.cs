@@ -54,14 +54,17 @@ public class ResourceManager : MonoBehaviour
         return this.resourcesDict.ContainsKey(type) ? this.resourcesDict[type].Amount : 0;
     }
     
-    public void AddResource(EResourceType type, int amount)
+    public void AddResource(EResourceType type, int amount, bool triggerEvents = true)
     {
         if (!this.resourcesDict.ContainsKey(type))
             this.resourcesDict[type] = new ResourceData(type, 0);
         
         this.resourcesDict[type].Add(amount);
-        OnResourceChanged?.Invoke(type, this.resourcesDict[type].Amount);
-        OnResourceGained?.Invoke(type, amount);
+        if (triggerEvents)
+        {
+            OnResourceChanged?.Invoke(type, this.resourcesDict[type].Amount);
+            OnResourceGained?.Invoke(type, amount);
+        }
     }
     
     public bool SpendResources(ResourceCost cost)
