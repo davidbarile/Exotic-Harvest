@@ -116,16 +116,14 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     // Collection methods (can be overridden)
     protected virtual void OnClick()
     {
-        if (CanBeCollected())
-            Collect();
+        Collect();
     }
     
     protected virtual void OnDragStart() { }
     
     public virtual void OnDragOver()
     {
-        if (CanBeCollected())
-            Collect();
+        Collect();
     }
     
     protected virtual void OnDragEnd() { }

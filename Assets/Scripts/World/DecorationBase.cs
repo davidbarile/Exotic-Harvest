@@ -79,8 +79,6 @@ public class DecorationBase : Draggable
 
             var wData = inItemData.DecorationData.WorldSaveData;
 
-            Debug.Log($"Configuring {this.name}  this.itemIcon.transform.localScale = {itemIcon.transform.localScale}    wData.Scale = {wData.Scale}");
-
             this.itemIcon.transform.localScale = Vector3.one * wData.Scale;
             this.itemIcon.transform.rotation = Quaternion.Euler(0f, 0f, wData.Rotation);
 
@@ -362,12 +360,14 @@ public class DecorationBase : Draggable
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        //Debug.Log($"OnTriggerEnter2D - DecorationBase {this.name} ");
+
         if (collision != null)
         {
             if (collision.TryGetComponent<Collectable>(out var collectible))
             {
                 // if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
-                //     return;
+                //     return;// not necessary beacuse TryAddAmount will fail if it can't collect that resource type
                     
                 this.linkedPassiveHarvester.TrySetActiveResourceType(collectible.ResourceType);
 

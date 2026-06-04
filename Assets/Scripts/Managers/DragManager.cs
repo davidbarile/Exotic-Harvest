@@ -139,7 +139,7 @@ public class DragManager : MonoBehaviour
         }
     }
 
-    public void UpdateDrag(Vector2 mousePos)
+    public void UpdateDrag(Vector2 inMousePos)
     {
         if (!this.IsDraggingActive || this.CurrentDraggedTransform == null)
             return;
@@ -154,7 +154,7 @@ public class DragManager : MonoBehaviour
         if (this.currentDragProxy)
         {
             // Convert mouse position to world position using the WorldCamera
-            var mouseScreenPos = new Vector3(mousePos.x, mousePos.y, Mathf.Abs(UiManager.IN.WorldCamera.transform.position.z));
+            var mouseScreenPos = new Vector3(inMousePos.x, inMousePos.y, Mathf.Abs(UiManager.IN.WorldCamera.transform.position.z));
             var worldPos = UiManager.IN.WorldCamera.ScreenToWorldPoint(mouseScreenPos);
             this.currentDragProxy.transform.position = worldPos;
             this.currentDragProxy.SetActive(!UiManager.IN.InventoryPanel.IsShowing);
@@ -163,17 +163,17 @@ public class DragManager : MonoBehaviour
         if (this.currentDragSource.ShouldDetectDropTargets)
             Draggable.UpdateHighlightedObjects();
 
-        if (!this.hasBrokenFreeOfClamp && IsClampedToDragTargetBounds(mousePos))
+        if (!this.hasBrokenFreeOfClamp && IsClampedToDragTargetBounds(inMousePos))
             return;
 
         this.hasBrokenFreeOfClamp = true;
 
-        var dragPos = GetDragPosition(mousePos, this.CurrentDraggedTransform, UiManager.IN.UICanvas);
+        var dragPos = GetDragPosition(inMousePos, this.CurrentDraggedTransform, UiManager.IN.UICanvas);
         this.CurrentDraggedTransform.position = dragPos + OffsetFromCursor;
         this.currentDragSource.OnDragUpdate();
     }
     
-    private bool IsClampedToDragTargetBounds(Vector2 mousePos)
+    private bool IsClampedToDragTargetBounds(Vector2 inMousePos)
     {
         if (!this.currentDragSource.LimitToParentTargetBounds || this.currentDragSource.OriginalParent == null)
             return false;
@@ -189,7 +189,7 @@ public class DragManager : MonoBehaviour
             var targetCanvas = isTargetWorldCanvas ? UiManager.IN.WorldCanvas : UiManager.IN.UICanvas;
 
             //if the parent has a bounds collider, clamp to that.  Otherwise clamp to the parent's rect transform bounds
-            Vector3 clampedPosition = GetDragPosition(mousePos, this.CurrentDraggedTransform, targetCanvas);
+            Vector3 clampedPosition = GetDragPosition(inMousePos, this.CurrentDraggedTransform, targetCanvas);
             
             if (parentDragTarget.BoundsCollider && parentDragTarget.BoundsCollider.enabled)
             {
@@ -221,7 +221,7 @@ public class DragManager : MonoBehaviour
             if (parentDragTarget.UnsnapRange > -1)
             {
                 // Distance from drag start point (should be 0 at drag start)
-                float distance = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(UiManager.IN.DragCamera, clampedPosition));
+                float distance = Vector2.Distance(inMousePos, RectTransformUtility.WorldToScreenPoint(UiManager.IN.DragCamera, clampedPosition));
                 if (distance > parentDragTarget.UnsnapRange)
                 {
                     // Outside unsnap range, do not clamp
@@ -289,20 +289,22 @@ public class DragManager : MonoBehaviour
             if(!newDragSource.IsDraggingPermanent)
             {
                 //flag to turn off on complete
-                DragManager.IN.SetEditMode(true);
+                SetEditMode(true);
             }
         }
     }
 
-    public static Vector3 GetDragPosition(Vector2 inMousePosition, RectTransform inRectTrans, Canvas inDragStartCanvas = null)
+    public static Vector3 GetDragPosition(Vector2 inMousePos, RectTransform inRectTrans, Canvas inDragStartCanvas = null)
     {
         Vector3 result = inRectTrans.position;
         var canvas = inDragStartCanvas ? inDragStartCanvas : DragStartCanvas;
-        
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(inRectTrans, inMousePosition, canvas.worldCamera, out Vector3 outWorldPos))
+
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(UiManager.IN.DragCanvas, inMousePos, canvas.worldCamera, out Vector3 outWorldPos))
         {
             result = outWorldPos;
         }
+        result.z = 0f;
+
         return result;
     }
 }

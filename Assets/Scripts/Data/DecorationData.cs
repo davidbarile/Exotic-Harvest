@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 using static GlobalEnums;
 using Sirenix.OdinInspector;
-using UnityEngine.Rendering;
-using UnityEditor.EditorTools;
 
 [Serializable]
 public class DecorationData

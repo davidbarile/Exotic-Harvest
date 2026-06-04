@@ -34,6 +34,12 @@ public class UiResourcesPanel : UIPanelBase
         }
     }
 
+    public override void Show()
+    {
+        base.Show();
+        RefreshGridLayout();
+    }
+
     public void HandleShowAllToggleChanged(bool value)
     {
         this.showAllResources = value;

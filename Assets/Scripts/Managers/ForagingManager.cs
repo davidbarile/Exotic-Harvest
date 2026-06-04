@@ -587,7 +587,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Fireflies Searchables
     private void RefreshFirefliesGenerator()
     {
-        Debug.Log($"<color=grey>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
+        //Debug.Log($"<color=grey>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
         //the world animation shows and hides the parent containter, so we don't need to check for time of day here
         if (!this.firefliesSpawnRect.gameObject.activeInHierarchy || !(WeatherManager.IsClear || WeatherManager.IsFoggy || this.ignoreTimeOfDayAndWeather))
             return;
@@ -595,7 +595,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         var secondsElapsed = (DateTime.Now - this.lastFirefliesSpawnHour).TotalSeconds;
         //secondsElapsed *= TimeManager.IN.TimeScale;
 
-        Debug.Log($"<color=white>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
+        //Debug.Log($"<color=white>RefreshFirefliesGenerator()  lastFirefliesSpawnHour = {this.lastFirefliesSpawnHour}   secondsUntilNextFirefliesSpawn = {this.secondsUntilNextFirefliesSpawn}</color>");
 
         if (secondsElapsed > this.secondsUntilNextFirefliesSpawn)
         {
@@ -617,7 +617,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         fireflies.Spawn();
         this.activeFireflies.Add(fireflies);
 
-        Debug.Log($"<color=yellow>SpawnFireflies() pos = {fireflies.transform.localPosition}</color>");
+        //Debug.Log($"<color=yellow>SpawnFireflies() pos = {fireflies.transform.localPosition}</color>");
 
         Vector3 GetRandomFirefliesSpawnPosition()
         {
