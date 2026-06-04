@@ -182,14 +182,14 @@ public class SearchToolBase : DecorationBase //Draggable
         if (!ForagingManager.IsInitialized)
             return;
 
-        Debug.Log($"Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}");
+        //Debug.Log($"Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}");
         if (inLootField == this.innerWorld)
             return;
             
         this.lootField = inLootField;
         this.originalLootFieldParent = inLootField.parent;
 
-        Debug.Log($"SUCCESS. Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}. this.originalLootFieldParent = {this.originalLootFieldParent.name}");
+        // Debug.Log($"SUCCESS. Setting loot field parent to {inLootField.name} for {this.name}. this.innerWorld = {this.innerWorld.name}. this.originalLootFieldParent = {this.originalLootFieldParent.name}");
 
         inLootField.SetParent(this.innerWorld);
         inLootField.localPosition = Vector3.zero;
@@ -205,8 +205,8 @@ public class SearchToolBase : DecorationBase //Draggable
             return;
         }
 
-        Debug.Log($"this.lootField = {this.lootField}");
-        Debug.Log($"this.originalLootFieldParent = {this.originalLootFieldParent}");
+        // Debug.Log($"this.lootField = {this.lootField}");
+        // Debug.Log($"this.originalLootFieldParent = {this.originalLootFieldParent}");
             
         this.lootField.SetParent(this.originalLootFieldParent);
         this.lootField.localPosition = Vector3.zero;
