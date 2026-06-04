@@ -32,7 +32,10 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     private bool hasBeenHarvested = false;
 
+    private Vector3 originalScale;
+
     private Tween fadeTween;
+    private Tween scaleTween;
     private Tween shakeTween;
 
     private void Awake()
@@ -45,38 +48,44 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         SetShadowActive(false);
     }
 
-    public void SetSprite(Sprite sprite)
+    public void SetSprite(Sprite inSprite)
     {
         if (this.rockImage)
         {
-            this.rockImage.sprite = sprite;
+            this.rockImage.sprite = inSprite;
 
             if (this.fillImage)
-                this.fillImage.sprite = sprite;
+                this.fillImage.sprite = inSprite;
         }
     }
 
-    public void SetColor(Color color)
+    public void SetColor(Color inColor)
     {
-        this.rockImage.color = color;
+        this.rockImage.color = inColor;
     }
 
-    public void SetText(string text)
+    public void SetScale(float inScale)
+    {
+        this.originalScale = Vector3.one * inScale;
+        this.targetRectTransform.localScale = this.originalScale;
+    }
+
+    public void SetText(string inText)
     {
         if (this.label)
-            this.label.text = text;
+            this.label.text = inText;
     }
 
-    public void SetShadowActive(bool isActive)
+    public void SetShadowActive(bool inIsActive)
     {
-        if (this.shadow != null)
-            this.shadow.gameObject.SetActive(isActive);
+        if (this.shadow)
+            this.shadow.gameObject.SetActive(inIsActive);
     }
 
-    public void SetPosition(Vector3 position)
+    public void SetPosition(Vector3 inPosition)
     {
-        this.originalPosition = position;
-        this.targetRectTransform.localPosition = position;
+        this.originalPosition = inPosition;
+        this.targetRectTransform.localPosition = inPosition;
         this.targetRectTransform.localRotation = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(-30f, 30f));
             
         this.gameObject.SetActive(true);
@@ -106,9 +115,14 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.targetRectTransform.localPosition = this.originalPosition;
 
         this.fadeTween?.Kill();
+        this.scaleTween?.Kill();
 
         if (!this.gameObject.activeSelf)
+        {
             this.fadeTween = this.canvasGroup.DOFade(1f, 0.3f).OnComplete(() => this.canvasGroup.interactable = true);
+            this.transform.localScale = this.originalScale * 0.1f;
+            this.scaleTween = this.targetRectTransform.DOScale(this.originalScale.x, 0.4f).From(0.3f).SetEase(Ease.OutElastic);
+        }
         else
         {
             this.canvasGroup.interactable = true;

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Lean.Pool;
 using UnityEngine;
@@ -51,11 +52,18 @@ public class RockPile : MonoBehaviour
             SpawnRocks();
             return;
         }
-        
+
+        StartCoroutine(ResetRocksCo());
+    }
+    
+    private IEnumerator ResetRocksCo()
+    {
+        yield return null;
+
         foreach (var rock in this.activeRocks)
         {
-            if (rock != null)
-                rock.Reset();
+            yield return new WaitForSeconds(0.1f);
+            rock.Reset();
         }
     }
 
@@ -71,7 +79,8 @@ public class RockPile : MonoBehaviour
 
             //set rocks to grid with random offset, rotation, scale and color variation
             newRock.SetPosition(this.rockSpawnPositions[i]);
-            newRock.transform.localScale = Vector3.one * Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
+            var scale = Random.Range(this.rockMinMaxScale.x, this.rockMinMaxScale.y);
+            newRock.SetScale(scale);
 
             newRock.SetColor(this.rockColorGradient.Evaluate(Random.Range(0f, 1f)));
 
