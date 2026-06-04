@@ -1,6 +1,7 @@
 using UnityEngine;
-using DG.Tweening;
 using UnityEngine.EventSystems;
+using DG.Tweening;
+using Lean.Pool;
 
 /// <summary>
 /// Raindrop collectable - appears during rain, collect by dragging bucket
@@ -58,11 +59,11 @@ public class Raindrop : Collectable
                 var splashSequence = DOTween.Sequence()
                     .Append(this.transform.DOScale(2f, 0.15f))
                     .Join(this.collectableImage.DOFade(0f, 0.15f))
-                    .OnComplete(() => Destroy(gameObject));
+                    .OnComplete(() => LeanPool.Despawn(this.gameObject));
             }
             else
             {
-                Destroy(gameObject);
+                LeanPool.Despawn(this.gameObject);
             }
         }
     }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Lean.Pool;
 using static GlobalEnums;
 
-public class DragTarget : MonoBehaviour
+public class DragTarget : MonoBehaviour, IPoolable
 {
     [Header("If null, will use this transform")]
     [SerializeField] private Transform itemContainer;
@@ -42,22 +43,44 @@ public class DragTarget : MonoBehaviour
         this.BoundsCollider = this.BoundsCollider == null ? GetComponent<Collider2D>() : this.BoundsCollider;
 
         this.baseImage = GetComponent<Image>();
-        if(this.baseImage != null)
+        if (this.baseImage != null)
             this.baseImage.raycastTarget = false;
 
         SetHighlight(false);
         SetIsValidHighlight(false);
 
+        RegisterEvents();
+    }
+
+    private void RegisterEvents()
+    {
+        UnregisterEvents();
+        
         DragManager.OnDragStartedWithDecorationType += OnDragStartedWithDecorationType;
         DragManager.OnDragStarted += OnDragStarted;
         DragManager.OnDragEnded += OnDragEnded;
     }
-
-    private void OnDestroy()
+    
+    private void UnregisterEvents()
     {
         DragManager.OnDragStartedWithDecorationType -= OnDragStartedWithDecorationType;
         DragManager.OnDragStarted -= OnDragStarted;
         DragManager.OnDragEnded -= OnDragEnded;
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterEvents();
+    }
+
+    public void OnSpawn()
+    {
+        RegisterEvents();
+    }
+
+    public void OnDespawn()
+    {
+        UnregisterEvents();
     }
 
     private void OnDragStartedWithDecorationType(EDecorationType decorationType)

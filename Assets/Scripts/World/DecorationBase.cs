@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Lean.Pool;
 using static GlobalEnums;
 
 public class DecorationBase : Draggable
@@ -232,7 +233,7 @@ public class DecorationBase : Draggable
             SaveManager.Data.WorldItems.Remove(this.ItemData);
             this.OnDeinitialize?.Invoke();
             this.OnDeinitialize = null;
-            Destroy(this.gameObject);
+            LeanPool.Despawn(this.gameObject);
         }
         else
         {
@@ -268,7 +269,7 @@ public class DecorationBase : Draggable
         this.transform.DOMove(origCell.transform.position, 0.2f).OnComplete(() =>
         {
             UiManager.IN.InventoryPanel.SpawnInventoryItemInCell(this.ItemData, origCell.CellIndex);
-            Destroy(this.gameObject);
+            LeanPool.Despawn(this.gameObject);
         });
     }
 

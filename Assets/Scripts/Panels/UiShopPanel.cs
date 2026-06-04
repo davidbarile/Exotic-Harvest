@@ -137,7 +137,7 @@ public class UiShopPanel : UIPanelBase
     
     private void CreateItemDisplay(ShopItemData itemData)
     {            
-        var shopItemUI = PrefabManager.IN.SpawnPrefab<UiShopItem>("ShopItemUI", this.itemsGridParent);
+        var shopItemUI = Pool.Spawn<UiShopItem>("ShopItemUI", this.itemsGridParent);
         this.currentItemDisplays.Add(shopItemUI.gameObject);
         
         // Setup itemData display (this would be expanded with actual UI components)

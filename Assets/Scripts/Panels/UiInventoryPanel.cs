@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Lean.Pool;
 using static InventoryManager;
 using static GlobalEnums;
 
@@ -145,7 +146,7 @@ public class UiInventoryPanel : UIPanelBase
             return;
 
         var cell = this.allInventoryCells[cellIndex];
-        var prefab = PrefabManager.IN.SpawnPrefab<UiInventoryItem>($"InventoryItemUI", cell.Container);
+        var prefab = Pool.Spawn<UiInventoryItem>($"InventoryItemUI", cell.Container);
         var prefabName = itemData.DisplayName.Replace("\n", "");
         prefab.name = $"Item_{prefabName}";
         prefab.transform.localScale = Vector3.one * itemData.Scale;
@@ -178,7 +179,7 @@ public class UiInventoryPanel : UIPanelBase
 
         for (int i = 0; i < InventoryManager.NumInventorySlots; i++)
         {
-            var cell = PrefabManager.IN.SpawnPrefab<UiInventoryCell>($"InventoryCellUI", this.itemsGridParent);
+            var cell = Pool.Spawn<UiInventoryCell>($"InventoryCellUI", this.itemsGridParent);
             cell.name = $"Cell_{i}";
             cell.CellIndex = i;
             this.allInventoryCells.Add(cell);
@@ -190,7 +191,7 @@ public class UiInventoryPanel : UIPanelBase
         foreach (var item in this.allInventoryCells)
         {
             if (item != null)
-                Destroy(item.gameObject);
+                LeanPool.Despawn(item.gameObject);
         }
         this.allInventoryCells.Clear();
     }

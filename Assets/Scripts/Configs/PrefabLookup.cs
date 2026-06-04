@@ -14,6 +14,7 @@ public class PrefabLookup : ScriptableObject
 
     [SerializeField] private PrefabPair[] prefabPairs = new PrefabPair[0];
 
+    public Dictionary<string, GameObject> PrefabDictionary => this.prefabDictionary;
     private Dictionary<string, GameObject> prefabDictionary = new();
 
 #if UNITY_EDITOR

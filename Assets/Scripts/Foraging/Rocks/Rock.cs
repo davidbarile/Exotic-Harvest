@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using TMPro;
 using DG.Tweening;
+using Lean.Pool;
 using static GlobalEnums;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -89,7 +90,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             var loot = this.spawnedLoots[i];
             if (loot != null)
-                Destroy(loot.gameObject);
+                LeanPool.Despawn(loot.gameObject);
         }
 
         this.spawnedLoots.Clear();
@@ -200,7 +201,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         for (int i = 0; i < lootDatas.Count; i++)
         {
             var lootData = lootDatas[i];
-            var loot = PrefabManager.IN.SpawnPrefab<Loot>("Loot", this.originalParent);
+            var loot = Pool.Spawn<Loot>("Loot", this.originalParent);
             loot.transform.position = this.targetRectTransform.position;
             loot.transform.SetSiblingIndex(this.originalSiblingIndex + i);
             loot.transform.localScale = this.transform.localScale * .7f;

@@ -3,11 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Lean.Pool;
 
 /// <summary>
 /// UI component for displaying individual toast notifications
 /// </summary>
-public class UiToastNotification : MonoBehaviour
+[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(RectTransform))]
+public class UiToastNotification : MonoBehaviour, IPoolable
 {
     [Header("UI Components")]
     [SerializeField] private Image backgroundImage;
@@ -35,14 +38,7 @@ public class UiToastNotification : MonoBehaviour
         this.canvasGroup = GetComponent<CanvasGroup>();
         
         if (this.canvasGroup == null)
-        {
             this.canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
-        
-        if (this.dismissButton != null)
-        {
-            this.dismissButton.onClick.AddListener(Dismiss);
-        }
     }
     
     public void Initialize(ToastNotification notification, Action<UiToastNotification> onDismissCallback)
@@ -143,7 +139,7 @@ public class UiToastNotification : MonoBehaviour
         if(isImmediate)
         {
             this.onDismissed?.Invoke(this);
-            Destroy(gameObject);
+            LeanPool.Despawn(gameObject);
             return;
         }
         
@@ -155,7 +151,7 @@ public class UiToastNotification : MonoBehaviour
 
         hideSequence.OnComplete(() => {
             this.onDismissed?.Invoke(this);
-            Destroy(gameObject);
+            LeanPool.Despawn(gameObject);
         });
         
         this.animationTween = hideSequence;
@@ -163,12 +159,9 @@ public class UiToastNotification : MonoBehaviour
     
     private void OnDestroy()
     {
-        if (this.animationTween != null)
-        {
-            this.animationTween.Kill();
-        }
+        this.animationTween?.Kill();
     }
-    
+
     // Allow clicking anywhere on the notification to dismiss (optional)
     public void OnPointerClick()
     {
@@ -176,5 +169,15 @@ public class UiToastNotification : MonoBehaviour
         {
             Dismiss();
         }
+    }
+    
+    public void OnSpawn()
+    {
+        
+    }
+
+    public void OnDespawn()
+    {
+        OnDestroy();
     }
 }

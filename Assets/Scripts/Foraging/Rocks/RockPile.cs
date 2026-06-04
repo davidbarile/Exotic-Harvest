@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Lean.Pool;
 using UnityEngine;
 using static GlobalEnums;
 
@@ -64,7 +65,7 @@ public class RockPile : MonoBehaviour
 
         for (int i = 0; i < this.rockSpawnPositions.Count; i++)
         {
-            var newRock = PrefabManager.IN.SpawnPrefab<Rock>($"Rock", this.rockSpawnArea);
+            var newRock = Pool.Spawn<Rock>($"Rock", this.rockSpawnArea);
             newRock.name = $"Rock_{i}";
             newRock.ParentRockPile = this;
 
@@ -83,7 +84,7 @@ public class RockPile : MonoBehaviour
         foreach (var rock in this.activeRocks)
         {
             if (rock != null)
-                Destroy(rock.gameObject);
+                LeanPool.Despawn(rock.gameObject);
         }
         this.activeRocks.Clear();
     }

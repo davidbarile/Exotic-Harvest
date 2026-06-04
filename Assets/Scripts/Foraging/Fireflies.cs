@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using Lean.Pool;
 
 public class Fireflies : Collectable
 {
@@ -31,7 +32,7 @@ public class Fireflies : Collectable
     public override void Expire()
     {
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => LeanPool.Despawn(this.gameObject));
         foreach (var particle in this.fireflyParticles)
         {
             particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -58,6 +59,6 @@ public class Fireflies : Collectable
     public override void OnAttracted()
     {
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => LeanPool.Despawn(this.gameObject));
     }
 }

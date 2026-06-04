@@ -1,15 +1,16 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Lean.Pool;
 using static GlobalEnums;
-using System;
 
 /// <summary>
 /// Base class for collectable objects that can be harvested by the player
 /// UI-based for desktop overlay gameplay
 /// </summary>
 [RequireComponent(typeof(CanvasGroup))]
-public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
+public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPoolable
 {
     public EResourceType ResourceType => resourceType;
     [SerializeField] protected EResourceType resourceType;
@@ -60,12 +61,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     public virtual void Expire()
     {
         // Optional: Add lifetime-based fading or other time-based effects here
-        Destroy(gameObject, this.lifetime);
-    }
-    
-    protected virtual void OnDestroy()
-    {
-        // Cleanup if needed
+        LeanPool.Despawn(this.gameObject, this.lifetime);
     }
     
     public virtual bool CanBeCollected()
@@ -149,7 +145,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     protected virtual void OnCollected()
     {
         // Override for collection effects (particles, sound, animation)
-        Destroy(this.gameObject);
+        LeanPool.Despawn(this.gameObject);
     }
     
     // Additional collection methods for future use
@@ -164,10 +160,25 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
         if (this.collectionType.HasFlag(ECollectionMethod.Hold))
             Collect();
     }
-    
+
     public virtual void OnAttracted()
     {
         //Debug.Log("Collectable attracted!");
-        Destroy(this.gameObject);
+        LeanPool.Despawn(this.gameObject);
+    }
+    
+    protected virtual void OnDestroy()
+    {
+        // Cleanup if needed
+    }
+
+    public void OnSpawn()
+    {
+        
+    }
+
+    public void OnDespawn()
+    {
+        OnDestroy();
     }
 }

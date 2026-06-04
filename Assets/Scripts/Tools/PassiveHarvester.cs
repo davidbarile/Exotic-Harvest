@@ -1,15 +1,16 @@
 using System;
 using System.Linq;
-using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
+using Lean.Pool;
 using static GlobalEnums;
 
 /// <summary>
 /// Decorations that passively generate resources over time
 /// </summary>
-public abstract class PassiveHarvester : MonoBehaviour, ITickable
+public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
 {
     [Serializable]
     public class CollectableResourceData
@@ -67,9 +68,14 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable
     protected float targetFillAmount;
     protected float leftoverFractionAmount;
 
-    protected virtual void Start()
+    public virtual void OnSpawn()
     {
         TickManager.OnSecondTick += SecondTick;
+    }
+
+    public virtual void OnDespawn()
+    {
+        TickManager.OnSecondTick -= SecondTick;
     }
 
     protected virtual void OnDestroy()

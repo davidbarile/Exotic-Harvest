@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using Lean.Pool;
 
 public class Stardust : Collectable
 {
@@ -32,7 +33,7 @@ public class Stardust : Collectable
     public override void Expire()
     {
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => LeanPool.Despawn(this.gameObject));
         foreach (var particle in this.starParticles)
         {
             particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -59,6 +60,6 @@ public class Stardust : Collectable
     public override void OnAttracted()
     {
         this.fadeTween?.Kill();
-        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => Destroy(this.gameObject));
+        this.canvasGroup.DOFade(0, this.tweenDuration).SetEase(Ease.InOutSine).OnComplete(() => LeanPool.Despawn(this.gameObject));
     }
 }

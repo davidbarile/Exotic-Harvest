@@ -106,7 +106,7 @@ public class NotificationManager : MonoBehaviour
         }
         
         // Create notification UI
-        var notificationUI = PrefabManager.IN.SpawnPrefab<UiToastNotification>("ToastNotificationUI", this.notificationParent);
+        var notificationUI = Pool.Spawn<UiToastNotification>("ToastNotificationUI", this.notificationParent);
         
         notificationUI.Initialize(notification, OnNotificationDismissedCallback);
         this.activeNotifications.Enqueue(notificationUI);
@@ -207,6 +207,9 @@ public class NotificationManager : MonoBehaviour
     
     private void OnTimeOfDayChanged(ETimeOfDay timeOfDay)
     {
+        if (UiManager.IN.SettingsPanel.IsShowing)
+            return;//TODO: make this only when slider being slid, not when showing settings menu
+            
         ShowNotification(ToastNotification.TimeOfDayChanged(timeOfDay));
     }
     

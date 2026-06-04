@@ -1,13 +1,14 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Lean.Pool;
+using TMPro;
 using static GlobalEnums;
 
 /// <summary>
 /// UI component for displaying shop items
 /// </summary>
-public class UiShopItem : MonoBehaviour
+public class UiShopItem : MonoBehaviour, IPoolable
 {
     [Header("UI Components")]
     [SerializeField] private Button itemButton;
@@ -25,16 +26,25 @@ public class UiShopItem : MonoBehaviour
     // private ShopItemDefinition itemDefinition;
     
     public event Action<ShopItemData> OnItemSelected;
-    
+
     public void Initialize(ShopItemData itemData)
     {
         this.shopItemData = itemData;
         //itemDefinition = definition;
-        
+
         UpdateDisplay();
-        
-        // Subscribe to relevant events
+
         ResourceManager.OnResourceChanged += OnResourceChanged;
+    }
+    
+    public void OnSpawn()
+    {
+        //ResourceManager.OnResourceChanged += OnResourceChanged;
+    }
+
+    public void OnDespawn()
+    {
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
     }
     
     private void OnDestroy()

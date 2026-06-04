@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Pool;
 
 /// <summary>
 /// Manages all decorations on the desktop
@@ -44,7 +45,7 @@ public class DecorationManager : MonoBehaviour
                 }
                 else
                 {
-                    Destroy(decoration.gameObject);
+                    LeanPool.Despawn(decoration.gameObject);
                 }
             }
         }
@@ -58,7 +59,7 @@ public class DecorationManager : MonoBehaviour
         if (inItemData == null || string.IsNullOrEmpty(inItemData.DecorationData.PrefabName))
             return null;
 
-        var worldItem = PrefabManager.IN.SpawnPrefab<DecorationBase>(inItemData.DecorationData.PrefabName, inParent ?? DragManager.IN.WorldDecorationsContainer);
+        var worldItem = Pool.Spawn<DecorationBase>(inItemData.DecorationData.PrefabName, inParent ?? DragManager.IN.WorldDecorationsContainer);
        
         worldItem.transform.localPosition = inSpawnPosition;
         worldItem.transform.localRotation = Quaternion.identity;
@@ -111,7 +112,7 @@ public class DecorationManager : MonoBehaviour
         {
             var decoration = this.PlacedDecorations[i];
             if (decoration != null)
-                Destroy(decoration.gameObject);
+                LeanPool.Despawn(decoration.gameObject);
         }
 
         this.PlacedDecorations.Clear();

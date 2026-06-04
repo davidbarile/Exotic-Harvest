@@ -19,11 +19,11 @@ using UnityEngine;
 [RequireComponent(typeof(NotificationManager))]
 [RequireComponent(typeof(SpriteManager))]
 [RequireComponent(typeof(ColorManager))]
-[RequireComponent(typeof(PrefabManager))]
 [RequireComponent(typeof(LootManager))]
 [RequireComponent(typeof(AudioManager))]
 public class SingletonManager : MonoBehaviour
 {
+    [SerializeField] private Pool pool;
     [SerializeField] private UIConfirmPanel confirmPanel;
     public void Init()
     {
@@ -45,10 +45,10 @@ public class SingletonManager : MonoBehaviour
         NotificationManager.IN = this.GetComponent<NotificationManager>();
         SpriteManager.IN = this.GetComponent<SpriteManager>();
         ColorManager.IN = this.GetComponent<ColorManager>();
-        PrefabManager.IN = this.GetComponent<PrefabManager>();
         TooltipManager.IN = this.GetComponent<TooltipManager>();
         LootManager.IN = this.GetComponent<LootManager>();
         AudioManager.IN = this.GetComponent<AudioManager>();
         UIConfirmPanel.IN = this.confirmPanel;
+        Pool.IN = this.pool;
     }
 }

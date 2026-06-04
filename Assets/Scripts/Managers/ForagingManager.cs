@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Lean.Pool;
 using Sirenix.OdinInspector;
 using static GlobalEnums;
 
@@ -289,7 +290,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             if (UnityEngine.Random.value < numSpawns)
             {
                 Vector2 spawnPos = GetRaindropSpawnPosition();
-                var raindrop = PrefabManager.IN.SpawnPrefab<Raindrop>("Raindrop", this.rainParent);
+                var raindrop = Pool.Spawn<Raindrop>("Raindrop", this.rainParent);
                 raindrop.transform.localPosition = spawnPos;
                 raindrop.Spawn();
                 this.numActiveRaindrops++;
@@ -380,7 +381,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             var index = this.activeDewdrops.Count % this.dewSpawnPositions.Count; // Cycle through positions based on current active count
             Vector3 spawnPos = this.dewSpawnPositions[index]; // Cycle through predefined positions
 
-            var dewdrop = PrefabManager.IN.SpawnPrefab<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
+            var dewdrop = Pool.Spawn<Dewdrop>("Dewdrop", this.dewDropSpawnParent);
             dewdrop.name = $"Dewdrop_{this.activeDewdrops.Count}";
             dewdrop.transform.localPosition = new Vector3(spawnPos.x, spawnPos.y, 0f);
             var rndDepth = UnityEngine.Random.Range(0f, 50f);
@@ -413,7 +414,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         foreach (var dewdrop in this.activeDewdrops)
         {
             if (dewdrop != null)
-                Destroy(dewdrop.gameObject);
+                LeanPool.Despawn(dewdrop.gameObject);
         }
         this.activeDewdrops.Clear();
     }
@@ -553,7 +554,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 if (rnd > chance && !this.debugSpawnAllMeadowSearchables)
                     continue;
 
-                var meadowSearchable = PrefabManager.IN.SpawnPrefab<Searchable>("MeadowSearchable", this.meadowSearchableParent);
+                var meadowSearchable = Pool.Spawn<Searchable>("MeadowSearchable", this.meadowSearchableParent);
                 meadowSearchable.name = $"MeadowSearchable_{this.activeMeadowSearchables.Count}";
 
                 var spawnPosIndex = 0;
@@ -577,7 +578,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         foreach (var meadowSearchable in this.activeMeadowSearchables)
         {
             if (meadowSearchable != null)
-                Destroy(meadowSearchable.gameObject);
+                LeanPool.Despawn(meadowSearchable.gameObject);
         }
         this.activeMeadowSearchables.Clear();
     }
@@ -634,7 +635,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         foreach (var firefly in this.activeFireflies)
         {
             if (firefly != null)
-                firefly.Expire();
+                LeanPool.Despawn(firefly.gameObject);
         }
         this.activeFireflies.Clear();
     }
@@ -744,7 +745,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 if (rnd > chance && !this.debugSpawnAllNightSkySearchables)
                     continue;
 
-                var nightSkySearchable = PrefabManager.IN.SpawnPrefab<Searchable>("NightSkySearchable", this.nightSkySearchableParent);
+                var nightSkySearchable = Pool.Spawn<Searchable>("NightSkySearchable", this.nightSkySearchableParent);
                 nightSkySearchable.name = $"NightSkySearchable_{this.activeNightSkySearchables.Count}";
 
                 var spawnPosIndex = 0;

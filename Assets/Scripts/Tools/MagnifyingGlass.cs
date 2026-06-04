@@ -2,9 +2,9 @@ using static GlobalEnums;
 
 public class MagnifyingGlass : PassiveHarvester
 {
-    protected override void Start()
+    public override void OnSpawn()
     {
-        base.Start();
+        base.OnSpawn();
         RefreshQuantityDisplay();
     }
     

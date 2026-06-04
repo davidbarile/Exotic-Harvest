@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Lean.Pool;
 using static GlobalEnums;
 
 public class UiResourcesPanel : UIPanelBase
@@ -99,7 +100,7 @@ public class UiResourcesPanel : UIPanelBase
     
     private void CreateResourceDisplay(ResourceConfig resourceConfig)
     {
-        UiResourceDisplay displayUI = PrefabManager.IN.SpawnPrefab<UiResourceDisplay>($"ResourceDisplayUI", this.grid.transform);
+        UiResourceDisplay displayUI = Pool.Spawn<UiResourceDisplay>($"ResourceDisplayUI", this.grid.transform);
         this.allResourceObjects.Add(displayUI.gameObject);
         
         displayUI.Configure(resourceConfig.ResourceType, resourceConfig, true);
@@ -122,7 +123,7 @@ public class UiResourcesPanel : UIPanelBase
         // Clear existing displays
         foreach (var resourceObject in this.allResourceObjects)
         {
-            Destroy(resourceObject);
+            LeanPool.Despawn(resourceObject);
         }
         
         this.activeDisplaysDict.Clear();

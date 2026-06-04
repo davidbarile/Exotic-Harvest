@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Lean.Pool;
 using Sirenix.OdinInspector;
 using static GlobalEnums;
 
 [RequireComponent(typeof(RectTransform))]
-public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPoolable
 {
     public static HashSet<DragTarget> CurrentHighlightedTargets = new();
 
@@ -117,11 +118,23 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
         SetEditModeDisplayVisibility(false);
 
+        DragManager.OnEditModeChanged -= SetEditModeDisplayVisibility;
         DragManager.OnEditModeChanged += SetEditModeDisplayVisibility;
+
         SetEditModeDisplayVisibility(DragManager.IsEditModeActivated);
     }
 
+    public void OnSpawn()
+    {
+        Start();
+    }
+
     protected virtual void OnDestroy()
+    {
+        DragManager.OnEditModeChanged -= SetEditModeDisplayVisibility;
+    }
+
+    public void OnDespawn()
     {
         DragManager.OnEditModeChanged -= SetEditModeDisplayVisibility;
     }

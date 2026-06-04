@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Lean.Pool;
 using static ColorPalette;
 using static GlobalEnums;
-using System;
 
 /// <summary>
 /// UI component for displaying a single resource amount
 /// </summary>
-public class UiResourceDisplay : MonoBehaviour
+public class UiResourceDisplay : MonoBehaviour, IPoolable
 {
     [Header("UI Components")]
     [SerializeField] private Image iconImage;
@@ -33,9 +33,8 @@ public class UiResourceDisplay : MonoBehaviour
 
         UpdateDisplay(false);
 
-        // Subscribe to resource changes
-        if (ResourceManager.IN != null)
-            ResourceManager.OnResourceChanged += OnResourceChanged;
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
+        ResourceManager.OnResourceChanged += OnResourceChanged;
     }
     
     public void Configure(EResourceType type, ResourceData data)
@@ -44,8 +43,19 @@ public class UiResourceDisplay : MonoBehaviour
         this.costAmount = data.Amount;
         Configure(type, this.resourceConfig);
     }
-    
+
     private void OnDestroy()
+    {
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
+    }
+    
+    public void OnSpawn()
+    {
+        ResourceManager.OnResourceChanged -= OnResourceChanged;
+        ResourceManager.OnResourceChanged += OnResourceChanged;
+    }
+
+    public void OnDespawn()
     {
         ResourceManager.OnResourceChanged -= OnResourceChanged;
     }

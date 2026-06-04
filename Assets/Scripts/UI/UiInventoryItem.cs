@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Lean.Pool;
 using static GlobalEnums;
 
 public class UiInventoryItem : Draggable
@@ -46,7 +47,7 @@ public class UiInventoryItem : Draggable
     public void Delete()
     {
         this.ItemData = null;
-        Destroy(this.gameObject);
+        LeanPool.Despawn(this.gameObject);
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
