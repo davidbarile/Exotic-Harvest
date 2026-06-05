@@ -119,6 +119,21 @@ public class GlobalEnums
         DragCollector = 1 << 6 // Drag a collector item over the resource to collect (e.g., using a jar to collect fireflies)
     }
 
+    public enum EHarvestLocation
+    {
+        None,
+        MeadowDew,
+        MeadowSearch,
+        Beach,
+        Marsh,
+        Jungle,
+        NightSky,
+        NightSkySearch,
+        Windy,
+        Rainy,
+        Stormy
+    }
+
     [Flags]
     public enum EDecorationType
     {

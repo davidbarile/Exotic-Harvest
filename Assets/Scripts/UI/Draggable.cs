@@ -197,7 +197,6 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if(this.isMenuPanel)
             DragManager.OffsetFromCursor = this.targetRectTransform.position - (Vector3)eventData.position - DragManager.CameraDelta;
 
-
         this.targetRectTransform.position = dragPos + DragManager.OffsetFromCursor;
         
         if(DragManager.DragStartCanvas == UiManager.IN.WorldCanvas)

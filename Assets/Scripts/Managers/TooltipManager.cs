@@ -30,6 +30,7 @@ public class TooltipManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && IsTooltipActive)
         {
             HideTooltip();
+            HideHarvestRejectMessage();
         }
     }
 
@@ -73,27 +74,24 @@ public class TooltipManager : MonoBehaviour
         this.blockHideTooltip = false;
     }
 
-    public void ShowHarvestRejectMessage(string inText, Vector3 inPosition)
+    public void ShowHarvestRejectMessage(string inText, string inTitle, Vector3 inPosition)
     {
-        this.harvestRejectMessage.Show(inText, inPosition);
+        this.harvestRejectMessage.Show(inText, inTitle, inPosition);
 
         this.blockHideTooltip = true;
 
         Invoke(nameof(UnblockTooltip), 0.1f);
 
-        if(PlatformManager.IsMobile)
-        {
-            if(this != null && this.gameObject != null)
-                CancelInvoke(nameof(HideTooltip));
+        if(this != null && this.gameObject != null)
+            CancelInvoke(nameof(HideHarvestRejectMessage));
                 
-            Invoke(nameof(HideTooltip), this.delayToHide);
-        }
+        Invoke(nameof(HideHarvestRejectMessage), this.delayToHide);
     }
 
     public void HideHarvestRejectMessage()
     {
         if(this != null && this.gameObject != null)
-            CancelInvoke(nameof(HideTooltip));
+            CancelInvoke(nameof(HideHarvestRejectMessage));
 
         this.harvestRejectMessage.Hide();
     }

@@ -38,6 +38,11 @@ public class TimeManager : MonoBehaviour, ITickable
     private ETimeOfDay lastTimeOfDay = ETimeOfDay.Morning;
     public static float CurrentHour => IN.currentHour;
     public static float DayProgress => IN.currentHour / 24f; // 0-1 progress through day
+
+    public static bool IsMorning => CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning);
+    public static bool IsAfternoon => CurrentTimeOfDay.HasFlag(ETimeOfDay.Afternoon);
+    public static bool IsEvening => CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening);
+    public static bool IsNight => CurrentTimeOfDay.HasFlag(ETimeOfDay.Night);
     
     private void Start() 
     {

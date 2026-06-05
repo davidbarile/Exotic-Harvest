@@ -90,7 +90,12 @@ public class SearchToolBase : DecorationBase //Draggable
 
             if(this.harvestRejectMessage)
             {
-                //this.harvestRejectMessage.Show();
+                var rejectMessage = ForagingManager.GetHarvestRejectMessage(this.harvestLocation, out var rejectTitle);
+
+                if(string.IsNullOrEmpty(rejectMessage))
+                    this.harvestRejectMessage.Hide();
+                else
+                    this.harvestRejectMessage.Show(rejectMessage, rejectTitle);
             }
         }
         else

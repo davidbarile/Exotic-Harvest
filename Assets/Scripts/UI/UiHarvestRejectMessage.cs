@@ -11,12 +11,14 @@ public class UiHarvestRejectMessage : MonoBehaviour
         Hide();
     }
 
-    public void Show(string message, Vector3 inPosition,string title = "Invalid")
+    public void Show(string message, string title = "Invalid", Vector3 inPosition = default)
     {
         this.titleText.text = title;
         this.messageText.text = message;
 
-        this.transform.position = inPosition;
+        if (inPosition != default)
+            this.transform.position = inPosition;
+            
         this.gameObject.SetActive(true);
     }
 

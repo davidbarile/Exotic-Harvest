@@ -35,6 +35,9 @@ public class ForagingManager : MonoBehaviour, ITickable
     private List<Dewdrop> activeDewdrops = new();
     private List<Vector3> dewSpawnPositions = new();
 
+    public static bool CanSpawnDewdrops => (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
+        (WeatherManager.IsClear || WeatherManager.IsFoggy) || WeatherManager.IsWindy);
+
     [Header("Meadow Settings --------------")]
     [SerializeField] private Transform meadowLootField; // Parent transform for meadow collectables (e.g. mushrooms, flowers)
     public Transform MeadowLootField => this.meadowLootField;
@@ -153,6 +156,41 @@ public class ForagingManager : MonoBehaviour, ITickable
             }
         }
     }
+
+    public static string GetHarvestRejectMessage(EHarvestLocation inLocation, out string outTitle)
+    {
+        var message = string.Empty;
+        outTitle = "Invalid Location";
+
+        switch(inLocation)
+        {
+            case EHarvestLocation.MeadowDew:
+                if(!CanSpawnDewdrops)
+                {
+                    outTitle = "No Dewdrops";
+                    message = $"Come back in the Morning when\nweather is Clear, Foggy or Windy";
+                }
+                break;
+            case EHarvestLocation.MeadowSearch:
+                outTitle = "Invalid Location";
+                message = $"You can't harvest here.";
+                break;
+            case EHarvestLocation.NightSky:
+                outTitle = "Invalid Location";
+                message = $"Requires: Clear, Foggy\nTime: Night";
+                break;
+            case EHarvestLocation.Beach:
+                outTitle = "No Beach Loot";
+                message = $"Come back in the Afternoon or Evening";
+                break;
+            default:
+                outTitle = "Invalid Location";
+                message = "Cannot harvest here.";
+                break;
+        }
+
+        return message;
+    }
     #endregion
 
 
@@ -226,12 +264,8 @@ public class ForagingManager : MonoBehaviour, ITickable
         }
 
         // Spawn dewdrops during morning
-        if (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
-            (WeatherManager.IsClear || WeatherManager.IsFoggy) || WeatherManager.IsWindy ||
-            this.ignoreTimeOfDayAndWeather)
-        {
+        if (CanSpawnDewdrops || this.ignoreTimeOfDayAndWeather)
             SpawnDewdrops();
-        }
     }
     
     public void SecondTick()

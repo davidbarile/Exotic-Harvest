@@ -21,6 +21,7 @@ public class DecorationBase : Draggable
     [SerializeField] protected DragTarget childDragTarget;
 
     [Space, SerializeField] protected UiHarvestRejectMessage harvestRejectMessage;
+    [SerializeField] protected EHarvestLocation harvestLocation;
 
     protected PassiveHarvester linkedPassiveHarvester;
     protected Attractor attractor;

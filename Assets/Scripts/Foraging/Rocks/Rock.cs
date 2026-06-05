@@ -141,6 +141,17 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         {
             //make sound, shake rock, tint rock red briefly
             this.shakeTween = this.targetRectTransform.DOShakePosition(0.5f, 10f, 40).SetEase(Ease.Linear);
+
+            //TODO maybe move to OnEndDrag
+            var rejectMessage = ForagingManager.GetHarvestRejectMessage(EHarvestLocation.Beach, out var rejectTitle);
+
+            if (!string.IsNullOrEmpty(rejectMessage))
+            {
+                Vector3 offsetPosition = RectTransformUtility.WorldToScreenPoint(UiManager.IN.WorldCamera, this.targetRectTransform.position);
+                offsetPosition += new Vector3(25f, 50f, 0f);
+                TooltipManager.IN.ShowHarvestRejectMessage(rejectMessage, rejectTitle, offsetPosition);
+            }
+
             return;
         }
         
