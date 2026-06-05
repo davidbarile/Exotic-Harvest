@@ -20,6 +20,8 @@ public class DecorationBase : Draggable
     public DragTarget ChildDragTarget => this.childDragTarget;
     [SerializeField] protected DragTarget childDragTarget;
 
+    [Space, SerializeField] protected UiHarvestRejectMessage harvestRejectMessage;
+
     protected PassiveHarvester linkedPassiveHarvester;
     protected Attractor attractor;
 
@@ -34,8 +36,11 @@ public class DecorationBase : Draggable
     {
         this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
 
-        if(this.worldProxy)
+        if (this.worldProxy)
             this.attractor = this.worldProxy.GetComponent<Attractor>();
+            
+        if(this.harvestRejectMessage)
+            this.harvestRejectMessage.Hide();
     }
 
     protected override void OnValidate()

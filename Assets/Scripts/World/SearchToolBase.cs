@@ -55,8 +55,9 @@ public class SearchToolBase : DecorationBase //Draggable
     
     protected override void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
+        base.Awake();//call before, because the next code overrwrites the base
 
+        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
         this.searchObjectLayerMask = LayerMask.GetMask("Default");
         //set this in override
         //this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchArea");
@@ -86,11 +87,19 @@ public class SearchToolBase : DecorationBase //Draggable
 
             this.lensCanvasGroup.gameObject.SetActive(true);
             this.lensTween = this.lensCanvasGroup.DOFade(0f, this.lensTweenDuration).SetEase(Ease.InOutSine);
+
+            if(this.harvestRejectMessage)
+            {
+                //this.harvestRejectMessage.Show();
+            }
         }
         else
         {
             this.lensCanvasGroup.gameObject.SetActive(true);
             this.lensTween = this.lensCanvasGroup.DOFade(1f, this.lensTweenDuration).SetEase(Ease.InOutSine).OnComplete(() => this.lensMask.gameObject.SetActive(false));
+
+            if(this.harvestRejectMessage)
+                this.harvestRejectMessage.Hide();
         }
     }
 
