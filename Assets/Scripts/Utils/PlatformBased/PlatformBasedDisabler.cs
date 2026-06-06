@@ -63,8 +63,8 @@ public class PlatformBasedDisabler : MonoBehaviour
 
         var shouldShow = PlatformManager.IN.Matches(_enableOnPlatforms);
 
-        if (PlatformManager.IN.PlatformFlags.HasFlag(PlatformFlags.IsUnityEditor))
-            shouldShow = true;
+        // if (PlatformManager.IN.PlatformFlags.HasFlag(PlatformFlags.IsUnityEditor))
+        //     shouldShow = true;
 
         if (_reverseLogic)
             shouldShow = !shouldShow;

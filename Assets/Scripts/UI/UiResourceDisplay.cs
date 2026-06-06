@@ -12,9 +12,10 @@ public class UiResourceDisplay : MonoBehaviour, IPoolable
 {
     [Header("UI Components")]
     [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] private SpriteFlasher spriteFlasher;
+    [Space, SerializeField] private TextMeshProUGUI amountText;
     [SerializeField] private UiTickTextToValue tickTextComponent;
-    [SerializeField] private Image backgroundImage;
+    [Space, SerializeField] private Image backgroundImage;
     [SerializeField] private bool isShopDisplay; // Set to false for static displays (e.g. shop costs)
     [Space, SerializeField] private TooltipTrigger tooltipTrigger;
     
@@ -24,6 +25,7 @@ public class UiResourceDisplay : MonoBehaviour, IPoolable
     private bool isResourcesDisplay;
 
     private int costAmount; // For shop displays, the amount required (not current amount)
+    private int oldAmount = 0;
 
     public void Configure(EResourceType inType, ResourceConfig inConfig, bool inIsResourcesDisplay = false)
     {
@@ -60,9 +62,9 @@ public class UiResourceDisplay : MonoBehaviour, IPoolable
         ResourceManager.OnResourceChanged -= OnResourceChanged;
     }
 
-    private void OnResourceChanged(EResourceType type, int newAmount)
+    private void OnResourceChanged(EResourceType inType, int inNewAmount)
     {
-        if (type == this.resourceType)
+        if (inType == this.resourceType)
         {
             UpdateDisplay();
         }
@@ -77,10 +79,15 @@ public class UiResourceDisplay : MonoBehaviour, IPoolable
         var displayAmount = this.isShopDisplay ? this.costAmount : currentAmount;
 
         // Update amount text
-        if (inShouldTickToNewValue)
+        if (inShouldTickToNewValue && !this.isShopDisplay && displayAmount != this.oldAmount)
+        {
             this.tickTextComponent.SetValue(displayAmount);
+            this.spriteFlasher.Flash();
+        }
         else
             this.amountText.text = displayAmount.ToString();
+
+        this.oldAmount = displayAmount;
 
         this.amountText.color = Color.white;
 
