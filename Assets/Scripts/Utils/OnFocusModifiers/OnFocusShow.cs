@@ -31,7 +31,7 @@ public class OnFocusShow : OnFocusModifierBase
         this.graphicToEnable = GetComponent<Graphic>();
         base.Start();
     }
-    
+
     protected override void OnGameFocusChanged(bool hasFocus)
     {
         base.OnGameFocusChanged(hasFocus);
@@ -45,10 +45,11 @@ public class OnFocusShow : OnFocusModifierBase
         {
             case EShowMode.SetActive:
                 this.gameObject.SetActive(hasFocus);
+                TryReEnableParticle();
                 break;
 
             case EShowMode.EnableGraphic:
-                if (this.graphicToEnable != null)                
+                if (this.graphicToEnable != null)
                 {
                     this.graphicToEnable.enabled = hasFocus;
                 }
@@ -66,7 +67,7 @@ public class OnFocusShow : OnFocusModifierBase
                 }
 
                 this.worldDistortionEffects ??= GetComponentsInChildren<_2dxFX_Distortion>(true);
-                
+
                 foreach (var effect in this.worldDistortionEffects)
                 {
                     effect._Alpha = alphaValue;
@@ -87,22 +88,40 @@ public class OnFocusShow : OnFocusModifierBase
                         this.canvasGroupFade.blocksRaycasts = hasFocus;
                     }
                 }
-                
+
                 this.worldDistortionEffects ??= GetComponentsInChildren<_2dxFX_Distortion>(true);
-                
+
                 foreach (var effect in this.worldDistortionEffects)
                 {
                     DOTween.To(() => effect._Alpha, x => effect._Alpha = x, alphaValue, this.fadeDuration).OnStart(() =>
                     {
                         if (alphaValue > 0f)
+                        {
                             effect.gameObject.SetActive(true);
+                            TryReEnableParticle();
+                        }
+                            
                     }).OnComplete(() =>
                     {
                         if (alphaValue <= 0f)
+                        {
                             effect.gameObject.SetActive(false);
+                        }
                     });
                 }
                 break;
+        }
+
+        void TryReEnableParticle()
+        {
+            if (!hasFocus)
+                return;
+
+            if(TryGetComponent<ParticleHelper>(out var pHelper))
+            {
+                if (pHelper.IsPlaying)
+                    pHelper.Play();
+            }
         }
     }
 }
