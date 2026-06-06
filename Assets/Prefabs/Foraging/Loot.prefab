@@ -65,7 +65,10 @@ MonoBehaviour:
   resourceType: 0
   amount: 1
   collectionType: 1
-  lifetime: -1
+  lifetimeMinMax:
+    MinQuantity: 0
+    MaxQuantity: 0
+    MinMaxWeightFactor: 0.5
   collectableImage: {fileID: 8888169063758961084}
   shadow: {fileID: 6963151012213560505}
   fillImage: {fileID: 0}

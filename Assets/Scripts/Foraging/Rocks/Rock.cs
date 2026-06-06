@@ -35,6 +35,7 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     private Vector3 originalScale;
 
     private Tween fadeTween;
+    private Tween fallTween;
     private Tween scaleTween;
     private Tween shakeTween;
 
@@ -198,7 +199,9 @@ public class Rock : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         this.canvasGroup.interactable = false;
 
         this.fadeTween?.Kill();
-        this.fadeTween = this.canvasGroup.DOFade(0f, 0.75f).SetDelay(1f).OnComplete(() => this.gameObject.SetActive(false));
+        this.fadeTween = this.canvasGroup.DOFade(0f, 0.3f).SetDelay(.4f).OnComplete(() => this.gameObject.SetActive(false));
+        this.fallTween?.Kill();
+        this.fallTween = this.targetRectTransform.DOLocalMoveY(this.targetRectTransform.localPosition.y - 100f, 0.6f).SetDelay(.1f).SetEase(Ease.InQuad);
     }
 
     public bool TrySpawnLoot()
