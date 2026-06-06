@@ -204,6 +204,11 @@ public class WeatherManager : MonoBehaviour, ITickable
         return weather.HasFlag(EWeatherType.Rain) || weather.HasFlag(EWeatherType.Storm);
     }
 
+     private bool IsWeatherStorm(EWeatherType weather)
+    {
+        return weather.HasFlag(EWeatherType.Storm);
+    }
+
     private bool IsWeatherWind(EWeatherType weather)
     {
         return weather.HasFlag(EWeatherType.Wind);

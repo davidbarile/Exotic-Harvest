@@ -319,7 +319,7 @@ public class ForagingManager : MonoBehaviour, ITickable
         // Spawn based on rain intensity
         float numSpawns = this.raindropSpawnRate * WeatherManager.WeatherIntensity;
 
-        for(int i = 0; i < Mathf.Round(numSpawns); i++)
+        for(int i = 0; i < Mathf.Ceil(numSpawns); i++)
         {
             if (UnityEngine.Random.value < numSpawns)
             {

@@ -23,7 +23,9 @@ public class Raindrop : Collectable
         this.amount = 1;
 
         base.Spawn();
+        Reset();
         StartFallingAnimation();
+        Invoke(nameof(HitGround), this.fallDuration + 1f);//safeguard
     }
     
     private void StartFallingAnimation()
@@ -46,6 +48,8 @@ public class Raindrop : Collectable
     
     private void HitGround()
     {
+        CancelInvoke();
+
         if (!this.isCollected)
         {
             this.isFalling = false;
@@ -58,7 +62,7 @@ public class Raindrop : Collectable
             {
                 var splashSequence = DOTween.Sequence()
                     .Append(this.transform.DOScale(2f, 0.15f))
-                    .Join(this.collectableImage.DOFade(0f, 0.15f))
+                    .Join(this.canvasGroup.DOFade(0f, 0.15f))
                     .OnComplete(() => LeanPool.Despawn(this.gameObject));
             }
             else
@@ -92,10 +96,19 @@ public class Raindrop : Collectable
 
     protected override void OnDestroy()
     {
+        Reset();
+        base.OnDestroy();
+    }
+
+    private void Reset()
+    {
         this.fallTween?.Kill();
         this.waveTween?.Kill();
 
-        base.OnDestroy();
+        this.canvasGroup.alpha = 1f;
+        this.transform.localScale = Vector3.one;
+
+        CancelInvoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
