@@ -25,9 +25,13 @@ public class WeatherManager : MonoBehaviour, ITickable
     [SerializeField] private EWeatherType debugWeather = EWeatherType.Clear;
     [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
     [SerializeField] private float weatherIntensity = 1f; // 0-1 for effects strength
+
+    [SerializeField] private ParticleSystem fogEffect;
+    [SerializeField] private Color[] fogColors;
     
     private float weatherTimer;
     private float nextWeatherChange;
+    private bool isForcingWeather;
 
     // Properties
     public static EWeatherType CurrentWeather => IN.currentWeather;
@@ -79,8 +83,11 @@ public class WeatherManager : MonoBehaviour, ITickable
     public void ChangeWeather()
     {
         // Simple weather transition logic
-        EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
-        this.currentWeather = possibleWeathers[UnityEngine.Random.Range(0, possibleWeathers.Length)];
+        if(!this.isForcingWeather)
+        {
+            EWeatherType[] possibleWeathers = GetPossibleWeathers(this.currentWeather);
+            this.currentWeather = possibleWeathers[UnityEngine.Random.Range(0, possibleWeathers.Length)];
+        }
 
         // Set intensity based on weather type
         this.weatherIntensity = GetWeatherIntensity(this.currentWeather);
@@ -88,7 +95,7 @@ public class WeatherManager : MonoBehaviour, ITickable
         UpdateWeatherDisplay();
         
         // Fire events
-        if (LastWeather != this.currentWeather)
+        if (LastWeather != this.currentWeather || this.isForcingWeather)
         {
             OnWeatherChanged?.Invoke(this.currentWeather);
 
@@ -97,12 +104,31 @@ public class WeatherManager : MonoBehaviour, ITickable
                 OnRainStarted?.Invoke();
             else if (IsWeatherRain(LastWeather) && !IsWeatherRain(this.currentWeather))
                 OnRainStopped?.Invoke();
-                
+
             // Wind-specific events
             if (!IsWeatherWind(LastWeather) && IsWeatherWind(this.currentWeather))
                 OnWindStarted?.Invoke();
             else if (IsWeatherWind(LastWeather) && !IsWeatherWind(this.currentWeather))
                 OnWindStopped?.Invoke();
+                
+            //Fog-specific effects
+            if (!LastWeather.HasFlag(EWeatherType.Foggy) && this.currentWeather.HasFlag(EWeatherType.Foggy))
+            {
+                //update fog effect based on intensity
+                var emission = this.fogEffect.emission;
+                emission.rateOverTime = 20f * this.weatherIntensity;
+
+                var mainModule = this.fogEffect.main;
+                var color1 = new Color(this.fogColors[0].r, this.fogColors[0].g, this.fogColors[0].b, this.weatherIntensity);
+                var color2 = new Color(this.fogColors[1].r, this.fogColors[1].g, this.fogColors[1].b, this.weatherIntensity);
+                mainModule.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
+                
+                this.fogEffect.Play();
+            }
+            else if (LastWeather.HasFlag(EWeatherType.Foggy) && !this.currentWeather.HasFlag(EWeatherType.Foggy))
+            {
+                this.fogEffect.Stop();
+            }
         }
 
         OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
@@ -137,7 +163,7 @@ public class WeatherManager : MonoBehaviour, ITickable
             case EWeatherType.Storm: return UnityEngine.Random.Range(0.8f, 1f);
             case EWeatherType.Wind: return UnityEngine.Random.Range(0.3f, 0.6f);
             case EWeatherType.Snow: return UnityEngine.Random.Range(0.4f, 0.7f);
-            case EWeatherType.Foggy: return UnityEngine.Random.Range(0.2f, 0.5f);
+            case EWeatherType.Foggy: return UnityEngine.Random.Range(0.3f, 0.5f);
             default: return 0.5f;
         }
     }
@@ -171,20 +197,14 @@ public class WeatherManager : MonoBehaviour, ITickable
 
     public void ForceWeather(EWeatherType weather)
     {
+        this.isForcingWeather = true;
         EWeatherType oldWeather = this.currentWeather;
         this.currentWeather = weather;
-        this.weatherIntensity = GetWeatherIntensity(weather);
         this.weatherTimer = 0f;
 
-        UpdateWeatherDisplay();
+        ChangeWeather();
 
-        OnWeatherChanged?.Invoke(this.currentWeather);
-        OnWeatherIntensityChanged?.Invoke(this.currentWeather, this.weatherIntensity);
-
-        if (!IsWeatherRain(oldWeather) && IsWeatherRain(this.currentWeather))
-            OnRainStarted?.Invoke();
-        else if (IsWeatherRain(oldWeather) && !IsWeatherRain(this.currentWeather))
-            OnRainStopped?.Invoke();
+        this.isForcingWeather = false;
     }
     
     private void UpdateWeatherDisplay()
