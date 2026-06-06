@@ -45,6 +45,8 @@ public class WeatherManager : MonoBehaviour, ITickable
     
     private IEnumerator Start()
     {
+        this.fogEffect.gameObject.SetActive(true);
+        
         this.nextWeatherChange = this.weatherChangeInterval;
 
         TickManager.OnSecondTick += SecondTick;
