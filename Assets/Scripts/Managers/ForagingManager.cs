@@ -27,6 +27,14 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Range(0,10), SerializeField] private float raindropSpawnRate = 5f;// 
     private int numActiveRaindrops = 0;
 
+    [Header("Lightning Settings --------------")]
+    [SerializeField] private UiFadeTween lightningFlash;
+    [SerializeField] private LightningBolt lightningBolt;
+
+    [Space, SerializeField] private WeightedRandom minMaxTimeBetweenLightningStrikes;
+    private DateTime lastLightningStrikeTime = DateTime.MinValue;
+    private float secondsUntilNextLightningStrike = 5f;//gets set by weighted random on start and after each change
+
     [Header("Dewdrop Settings --------------")]
     [SerializeField] private RectTransform dewDropSpawnParent; // UI container for dewdrop collectables
     [SerializeField] private float dewGridSize = 20f; // Grid size for potential dewdrop spawn positions
@@ -263,6 +271,19 @@ public class ForagingManager : MonoBehaviour, ITickable
             this.numActiveRaindrops = 0;
         }
 
+        if(WeatherManager.IsStorm)
+        {
+            var secondsElapsed = (DateTime.Now - this.lastLightningStrikeTime).TotalSeconds;
+
+            if (secondsElapsed > this.secondsUntilNextLightningStrike)
+            {
+                this.lastLightningStrikeTime = DateTime.Now;
+                this.secondsUntilNextLightningStrike = this.minMaxTimeBetweenLightningStrikes.GetWeightedRandomQuantity();
+
+                SpawnLightning();
+            }
+        }
+
         // Spawn dewdrops during morning
         if (CanSpawnDewdrops || this.ignoreTimeOfDayAndWeather)
             SpawnDewdrops();
@@ -353,7 +374,20 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         // Stop rain effects
     }
+    #endregion
 
+    #region Lightning
+    private void SpawnLightning()
+    {
+        this.lightningBolt.Generate();
+        this.lightningBolt.Play();
+
+        this.lightningFlash.CanvasGroup.alpha = .7f;
+        this.lightningFlash.FadeOut();
+    }
+    #endregion
+
+    #region Wind
     private void OnWindStarted()
     {
         // Could add special effects or increase spawn rates for certain collectables
@@ -364,7 +398,6 @@ public class ForagingManager : MonoBehaviour, ITickable
         // Stop wind effects
     }
     #endregion
-
 
     #region Dewdrops
     private void InitDewDropPositions()
