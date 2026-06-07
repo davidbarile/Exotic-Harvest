@@ -364,10 +364,32 @@ public class ScreenManager : MonoBehaviour
 
     public void HandleQuitButtonClick()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
         Application.Quit();
-        #endif
+#endif
+    }
+    
+    public static Vector3 TransformPositionToScreenSpace(Vector3 inPosition)
+    {
+        if (UiManager.IN == null)
+            return Vector3.zero;
+
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(UiManager.IN.DragCanvas, inPosition, UiManager.IN.WorldCamera, out Vector3 outWorldPos))
+            inPosition = outWorldPos;
+
+        return inPosition;
+    }
+
+    public static Vector3 TransformPositionToWorldSpace(Vector3 inPosition)
+    {
+        if (UiManager.IN == null)
+            return Vector3.zero;
+
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(UiManager.IN.WorldRectTrans, inPosition, UiManager.IN.DragCamera, out Vector3 outWorldPos))
+            inPosition = outWorldPos;
+
+        return inPosition;
     }
 }

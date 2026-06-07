@@ -379,8 +379,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #region Lightning
     private void SpawnLightning()
     {
-        this.lightningBolt.Generate();
-        this.lightningBolt.Play();
+        this.lightningBolt.Strike();
 
         this.lightningFlash.CanvasGroup.alpha = .7f;
         this.lightningFlash.FadeOut();
