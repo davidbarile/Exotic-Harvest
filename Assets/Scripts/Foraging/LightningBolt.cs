@@ -30,12 +30,11 @@ public class LightningBolt : MonoBehaviour
         {
             var node = this.lightningNodes[i];
 
-            var length = this.nodeAngleMinMax.GetWeightedRandomQuantity();
+            var length = this.nodeLengthMinMax.GetWeightedRandomQuantity();
 
-            Debug.Log($"length = {length}. this.nodeAngleMin = {this.nodeAngleMinMax.MinQuantity}. this.nodeAngleMax = {this.nodeAngleMinMax.MaxQuantity}");
-
-            var angle = this.nodeAngleMinMax.GetWeightedRandomQuantity();
-            angle -= this.nodeAngleMinMax.MaxQuantity;
+            float angle = this.nodeAngleMinMax.GetWeightedRandomQuantity();
+            angle -= this.nodeAngleMinMax.MaxQuantity * .5f;
+            angle *= 20f;
 
             var parent = this.transform;
 
@@ -59,6 +58,7 @@ public class LightningBolt : MonoBehaviour
     {
         foreach(var node in this.lightningNodes)
         {
+            node.transform.parent = this.transform;
             node.Reset();
         }
     }

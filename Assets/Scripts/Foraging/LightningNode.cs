@@ -24,6 +24,9 @@ public class LightningNode : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         this.glow.gameObject.SetActive(false);
-        this.rectTrans.sizeDelta = new Vector2(20, 20);
+        this.transform.rotation = Quaternion.identity;
+        this.transform.localPosition = Vector3.zero;
+        this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20);
+        this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
     }
 }
