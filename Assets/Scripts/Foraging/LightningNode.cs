@@ -10,6 +10,16 @@ public class LightningNode : MonoBehaviour
     public Transform ChildAttachPoint => this.childAttachPoint;
     [SerializeField] private Transform childAttachPoint;
 
+    public void Configure(float inSize, float inRotation, Transform inParent)
+    {
+        this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20);
+        this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inSize);
+        this.transform.rotation = Quaternion.Euler(0, 0, inRotation);
+        this.transform.SetParent(inParent);
+        this.transform.localPosition = Vector3.zero;
+        this.gameObject.SetActive(true);
+    }
+
     public void Reset()
     {
         this.gameObject.SetActive(false);

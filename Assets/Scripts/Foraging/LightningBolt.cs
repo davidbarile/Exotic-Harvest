@@ -12,11 +12,39 @@ public class LightningBolt : MonoBehaviour
     [SerializeField] private WeightedRandom nodeAngleMinMax;
     [SerializeField] private WeightedRandom nodeCountMinMax;
 
+    private List<LightningNode> nodes = new();
+
     [Button(ButtonSizes.Large)]
     public void Generate()
     {
-        var xPos = this.boltXPosMinMax.GetWeightedRandomQuantity();
-        this.transform.localPosition = new Vector3(xPos, 0, 0);
+        var xPos = this.boltXPosMinMax.GetWeightedRandomQuantity() * 10;
+        xPos -= this.boltXPosMinMax.MaxQuantity * 5;
+
+        this.transform.localPosition = new Vector3(xPos, 540, 0);
+
+        this.nodes.Clear();
+
+        var tierNodes = new List<LightningNode>();
+
+        for(var i = 0; i < this.lightningNodes.Count; ++i)
+        {
+            var node = this.lightningNodes[i];
+
+            var length = this.nodeAngleMinMax.GetWeightedRandomQuantity();
+
+            Debug.Log($"length = {length}. this.nodeAngleMin = {this.nodeAngleMinMax.MinQuantity}. this.nodeAngleMax = {this.nodeAngleMinMax.MaxQuantity}");
+
+            var angle = this.nodeAngleMinMax.GetWeightedRandomQuantity();
+            angle -= this.nodeAngleMinMax.MaxQuantity;
+
+            var parent = this.transform;
+
+            if (tierNodes.Count > 0)
+                parent = tierNodes[tierNodes.Count - 1].ChildAttachPoint;
+
+            node.Configure(length, angle, parent);
+            tierNodes.Add(node);
+        }
         
         //place nodes, decide if split, rotate, length
     }
