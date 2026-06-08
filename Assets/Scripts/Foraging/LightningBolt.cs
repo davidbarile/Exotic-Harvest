@@ -21,6 +21,11 @@ public class LightningBolt : MonoBehaviour
 
     private List<LightningNode> activeNodes = new();
 
+    private void Start()
+    {
+        Reset();
+    }
+
     [Button(ButtonSizes.Large)]
     public void Strike()
     {
