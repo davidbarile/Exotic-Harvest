@@ -116,6 +116,8 @@ public class LightningBolt : MonoBehaviour
     
     private IEnumerator PlayStrikeCo()
     {
+        var volume = (float)this.activeNodes.Count / (float) this.lightningNodes.Count;
+        AudioManager.IN.PlayClip(AudioManager.IN.LightningClip, volume, -1);//TODO: get various lightning sounds and randomize them, set volume based on activeNodes.Count
         for (int i = 0; i < this.activeNodes.Count; ++i)
         {
             var node = this.activeNodes[i];

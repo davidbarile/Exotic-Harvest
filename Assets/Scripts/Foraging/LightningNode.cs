@@ -8,7 +8,7 @@ public class LightningNode : MonoBehaviour
     [SerializeField] private Image segment;
     [SerializeField] private Image glow;
 
-    private readonly int width = 10;
+    private readonly int width = 6;
 
     public Transform ChildAttachPoint => this.childAttachPoint;
     [SerializeField] private Transform childAttachPoint;

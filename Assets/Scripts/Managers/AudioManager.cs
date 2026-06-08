@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip GoldenAppleUseClip;
 
     [Space()]
+    public AudioClip LightningClip;
     public AudioClip GrasshopperCollectClip;
     public AudioClip GrasshopperUseClip;
     public AudioClip GrasshopperJumpClip;
@@ -443,7 +444,7 @@ public class AudioManager : MonoBehaviour
         return PlayClip(inClip, inVolume, inPitch, 0);
     }
 
-    public AudioSource PlayClip(AudioClip inClip, float inVolume, float inPitch, float inDelay)
+    public AudioSource PlayClip(AudioClip inClip, float inVolume, float inPitch = -1, float inDelay = 0)
     {
         if (!this.isAudioEnabled)
             return null;
@@ -451,6 +452,9 @@ public class AudioManager : MonoBehaviour
         if (inClip != null)
         {
             AudioSource audioSource = this.audioSources[this.audioSourceIndex];
+
+            if(inPitch == -1)
+                inPitch = UnityEngine.Random.Range(.95f, 1.05f);
 
             if (!audioSource.isPlaying)
             {

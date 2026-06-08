@@ -381,7 +381,8 @@ public class ForagingManager : MonoBehaviour, ITickable
     {
         this.lightningBolt.Strike();
 
-        this.lightningFlash.CanvasGroup.alpha = .7f;
+        this.lightningFlash.gameObject.SetActive(true);
+        this.lightningFlash.CanvasGroup.alpha = .6f;
         this.lightningFlash.FadeOut();
     }
     #endregion
