@@ -23,7 +23,7 @@ public class DecorationBase : Draggable
     [Space, SerializeField] protected UiHarvestRejectMessage harvestRejectMessage;
     [SerializeField] protected EHarvestLocation harvestLocation;
 
-    protected PassiveHarvester linkedPassiveHarvester;
+    protected ForagerBase linkedForager;
     protected Attractor attractor;
 
     private Vector2 originalIconSize = Vector2.zero;
@@ -35,7 +35,7 @@ public class DecorationBase : Draggable
 
     protected virtual void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
+        this.linkedForager = GetComponent<ForagerBase>();
 
         if (this.worldProxy)
             this.attractor = this.worldProxy.GetComponent<Attractor>();
@@ -118,9 +118,9 @@ public class DecorationBase : Draggable
             this.attractor.Configure(this.ItemData.DecorationData.AttractorData);
         }
 
-        if (TryGetComponent<PassiveHarvester>(out var harvester))
+        if (TryGetComponent<ForagerBase>(out var forager))
         {
-            harvester.SetDecorationData(this.ItemData.DecorationData);
+            forager.SetDecorationData(this.ItemData.DecorationData);
         }
     }
     
@@ -168,9 +168,9 @@ public class DecorationBase : Draggable
             {
                 if (cell.Item == null)
                 {
-                    if (TryGetComponent<PassiveHarvester>(out var harvester))
+                    if (TryGetComponent<ForagerBase>(out var forager))
                     {
-                        harvester.CollectAll();
+                        forager.CollectAll();
                     }
 
                     //if cell empty, add item to that cell
@@ -288,9 +288,9 @@ public class DecorationBase : Draggable
             {
                 if(obj.transform.IsChildOf(UiManager.IN.ResourcesPanel.transform))
                 {
-                    if (TryGetComponent<PassiveHarvester>(out var harvester))
+                    if (TryGetComponent<ForagerBase>(out var forager))
                     {
-                        harvester.CollectAll();
+                        forager.CollectAll();
                     }
                     break;
                 }
@@ -382,18 +382,16 @@ public class DecorationBase : Draggable
 
         void TryToCollect(Collectable collectible)
         {
-            // if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
+            // if (!this.linkedForager.CanCollectResourceType(collectible.ResourceType))
             //     return;// not necessary beacuse TryAddAmount will fail if it can't collect that resource type
 
-            this.linkedPassiveHarvester.TrySetActiveResourceType(collectible.ResourceType);
+            this.linkedForager.TrySetActiveResourceType(collectible.ResourceType);
 
             float amountToAdd = collectible.Amount;
-            if (this.linkedPassiveHarvester.ActiveResourceData != null)
-                amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
+            if (this.linkedForager.ActiveResourceData != null)
+                amountToAdd *= this.linkedForager.ActiveResourceData.ConversionRatio;
 
-            var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, collectible.ResourceType);
-
-            Debug.Log($"collectible.ResourceType = {collectible.ResourceType}");
+            var success = this.linkedForager.TryAddAmount(amountToAdd, collectible.ResourceType);
 
             if (success)
                 collectible.Collect(false);

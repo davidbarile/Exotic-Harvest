@@ -1,4 +1,4 @@
-public class Crystal : PassiveHarvester
+public class Crystal : ForagerBase
 {
     protected override bool CheckGenerationConditions()
     {

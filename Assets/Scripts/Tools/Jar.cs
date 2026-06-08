@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Jar : PassiveHarvester
+public class Jar : ForagerBase
 {
     protected override bool CheckGenerationConditions()
     {

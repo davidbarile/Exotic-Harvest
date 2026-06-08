@@ -184,7 +184,7 @@ Assets/Scripts/
 │   └── NotificationManager.cs # Toast notifications
 ├── Decorations/             # Decoration system
 │   ├── DecorationBase.cs    # Base decoration class
-│   ├── PassiveHarvester.cs  # Resource generators
+│   ├── ForagerBase.cs  # Resource generators
 │   ├── Bucket.cs           # Water collection
 │   └── PlantDecoration.cs  # Visual decorations
 ├── Foraging/               # Active collection system

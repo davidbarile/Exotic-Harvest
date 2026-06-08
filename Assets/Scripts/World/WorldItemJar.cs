@@ -5,6 +5,6 @@ public class WorldItemJar : DecorationBase
 {
     protected override void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<Jar>();
+        this.linkedForager = GetComponent<Jar>();
     }
 }

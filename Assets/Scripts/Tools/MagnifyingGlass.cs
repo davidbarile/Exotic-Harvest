@@ -1,6 +1,6 @@
 using static GlobalEnums;
 
-public class MagnifyingGlass : PassiveHarvester
+public class MagnifyingGlass : ForagerBase
 {
     public override void OnSpawn()
     {

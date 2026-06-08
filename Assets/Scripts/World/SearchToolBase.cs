@@ -57,7 +57,7 @@ public class SearchToolBase : DecorationBase //Draggable
     {
         base.Awake();//call before, because the next code overrwrites the base
 
-        this.linkedPassiveHarvester = GetComponent<PassiveHarvester>();
+        this.linkedForager = GetComponent<ForagerBase>();
         this.searchObjectLayerMask = LayerMask.GetMask("Default");
         //set this in override
         //this.searchAreaLayerMask = LayerMask.GetMask("MeadowSearchArea");
@@ -140,7 +140,7 @@ public class SearchToolBase : DecorationBase //Draggable
 
                 this.startActiveObjectHoverTime = DateTime.Now;
                 SetFillAmount(0f);
-                this.linkedPassiveHarvester.SetText($"Found: {this.activeSearchable.SearchableName}!");
+                this.linkedForager.SetText($"Found: {this.activeSearchable.SearchableName}!");
             }
             else
             {
@@ -153,14 +153,14 @@ public class SearchToolBase : DecorationBase //Draggable
                     this.activeSearchable = null;
                     SetFillAmount(0f);
                     this.startActiveObjectHoverTime = DateTime.Now + TimeSpan.FromSeconds(1); //reset hover time to prevent immediate re-activation
-                    this.linkedPassiveHarvester.SetText(string.Empty);
+                    this.linkedForager.SetText(string.Empty);
                 }
             }
         }
         else
         {
             SetFillAmount(0f);
-            this.linkedPassiveHarvester.SetText(string.Empty);
+            this.linkedForager.SetText(string.Empty);
         }
     }
 

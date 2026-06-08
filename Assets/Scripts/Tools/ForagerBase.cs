@@ -11,7 +11,7 @@ using UnityEditor.EditorTools;
 /// <summary>
 /// Decorations that passively generate resources over time
 /// </summary>
-public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
+public abstract class ForagerBase : MonoBehaviour, ITickable, IPoolable
 {
     [Serializable]
     public class CollectableResourceData

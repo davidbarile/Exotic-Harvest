@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bucket : PassiveHarvester
+public class Bucket : ForagerBase
 {     
     protected override bool CheckGenerationConditions()
     {

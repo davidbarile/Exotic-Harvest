@@ -7,7 +7,7 @@ public class WorldItemSponge : DecorationBase
 
     protected override void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<Sponge>();
+        this.linkedForager = GetComponent<Sponge>();
         this.layerMask = LayerMask.GetMask("DewSpawn");
     }
 

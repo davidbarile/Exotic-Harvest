@@ -10,7 +10,7 @@ public class Attractor : MonoBehaviour, ITickable
     [SerializeField] private LayerMask attractableLayer;
     [SerializeField] private string tagToAttract = "Attractable";
 
-    [SerializeField] private PassiveHarvester linkedPassiveHarvester;
+    [SerializeField] private ForagerBase linkedForager;
 
     private Collider2D[] attractables = new Collider2D[10];
     private Collectable currentCollectable;
@@ -52,7 +52,7 @@ public class Attractor : MonoBehaviour, ITickable
     {
         if (!IsActive) return;
 
-        if(this.linkedPassiveHarvester == null || this.linkedPassiveHarvester.IsFull)
+        if(this.linkedForager == null || this.linkedForager.IsFull)
             return;
 
         var count = Physics2D.OverlapCircleNonAlloc(this.transform.position, this.maxDistance, this.attractables, this.attractableLayer);
@@ -64,7 +64,7 @@ public class Attractor : MonoBehaviour, ITickable
 
             if (this.currentAttractable.TryGetComponent(out this.currentCollectable))
             {
-                if (!this.linkedPassiveHarvester.ShouldAttract(this.currentCollectable.ResourceType))
+                if (!this.linkedForager.ShouldAttract(this.currentCollectable.ResourceType))
                     continue;
             }
             else
@@ -88,13 +88,13 @@ public class Attractor : MonoBehaviour, ITickable
                 if (!this.tickHasHappened)
                     return;
 
-                this.linkedPassiveHarvester.TrySetActiveResourceType(this.currentCollectable.ResourceType);
+                this.linkedForager.TrySetActiveResourceType(this.currentCollectable.ResourceType);
 
                 float amountToAdd = this.currentCollectable.Amount;
-                if (this.linkedPassiveHarvester.ActiveResourceData != null)
-                    amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
+                if (this.linkedForager.ActiveResourceData != null)
+                    amountToAdd *= this.linkedForager.ActiveResourceData.ConversionRatio;
 
-                var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, this.currentCollectable.ResourceType);
+                var success = this.linkedForager.TryAddAmount(amountToAdd, this.currentCollectable.ResourceType);
 
                 if (success)
                     this.currentCollectable.OnAttracted();

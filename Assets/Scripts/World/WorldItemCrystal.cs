@@ -17,7 +17,7 @@ public class WorldItemCrystal : DecorationBase
 
     protected override void Awake()
     {
-        this.linkedPassiveHarvester = GetComponent<Crystal>();
+        this.linkedForager = GetComponent<Crystal>();
     }
 
     protected override void Start()
@@ -48,7 +48,7 @@ public class WorldItemCrystal : DecorationBase
             var moonbeam = inCollider.GetComponentInParent<Moonbeam>();
             if (moonbeam != null)
             {
-                if (!this.linkedPassiveHarvester.CanCollectResourceType(moonbeam.ResourceType))
+                if (!this.linkedForager.CanCollectResourceType(moonbeam.ResourceType))
                     return;
 
                 //start timer and fillbar
@@ -71,7 +71,7 @@ public class WorldItemCrystal : DecorationBase
 
         if (hoverDuration >= this.timeToActivateHover && this.activeMoonbeam != null)
         {
-            var success = this.linkedPassiveHarvester.TryAddAmount(this.activeMoonbeam.Amount, this.activeMoonbeam.ResourceType);
+            var success = this.linkedForager.TryAddAmount(this.activeMoonbeam.Amount, this.activeMoonbeam.ResourceType);
 
             if (success)
                 this.activeMoonbeam.Collect(false);

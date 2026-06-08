@@ -1,6 +1,6 @@
 using static GlobalEnums;
 
-public class Telescope : PassiveHarvester
+public class Telescope : ForagerBase
 {
     protected override bool CheckGenerationConditions()
     {
