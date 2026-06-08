@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class LightningNode : MonoBehaviour
 {
+    public LightningBolt LightningBolt { get; private set; }
     public int NumBranches { get; private set; }
     [SerializeField] private RectTransform rectTrans;
     [SerializeField] private Image segment;
@@ -13,8 +14,9 @@ public class LightningNode : MonoBehaviour
     public Transform ChildAttachPoint => this.childAttachPoint;
     [SerializeField] private Transform childAttachPoint;
 
-    public void Configure(float inSize, float inRotation, Transform inParent, int inNumBranches, bool inShouldShow)
+    public void Configure(LightningBolt inLightningBolt, float inSize, float inRotation, Transform inParent, int inNumBranches, bool inShouldShow)
     {
+        this.LightningBolt = inLightningBolt;
         this.NumBranches = inNumBranches;
         this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, this.width);
         this.rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inSize);

@@ -93,9 +93,12 @@ public class Attractor : MonoBehaviour, ITickable
                 float amountToAdd = this.currentCollectable.Amount;
                 if (this.linkedPassiveHarvester.ActiveResourceData != null)
                     amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
-  
-                this.linkedPassiveHarvester.TryAddAmount(amountToAdd, this.currentCollectable.ResourceType);
-                this.currentCollectable.OnAttracted();
+
+                var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, this.currentCollectable.ResourceType);
+
+                if (success)
+                    this.currentCollectable.OnAttracted();
+                    
                 this.currentCollectable = null; // Clear reference after attraction
             }
         }

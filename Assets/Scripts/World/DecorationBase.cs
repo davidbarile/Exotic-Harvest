@@ -372,20 +372,31 @@ public class DecorationBase : Draggable
         {
             if (collision.TryGetComponent<Collectable>(out var collectible))
             {
-                // if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
-                //     return;// not necessary beacuse TryAddAmount will fail if it can't collect that resource type
-                    
-                this.linkedPassiveHarvester.TrySetActiveResourceType(collectible.ResourceType);
-
-                float amountToAdd = collectible.Amount;
-                if (this.linkedPassiveHarvester.ActiveResourceData != null)
-                    amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
-
-                var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, collectible.ResourceType);
-
-                if (success)
-                    collectible.Collect(false);
+                TryToCollect(collectible);
             }
+            else if(collision.TryGetComponent<LightningNode>(out var node))
+            {
+                TryToCollect(node.LightningBolt);
+            }
+        }
+
+        void TryToCollect(Collectable collectible)
+        {
+            // if (!this.linkedPassiveHarvester.CanCollectResourceType(collectible.ResourceType))
+            //     return;// not necessary beacuse TryAddAmount will fail if it can't collect that resource type
+
+            this.linkedPassiveHarvester.TrySetActiveResourceType(collectible.ResourceType);
+
+            float amountToAdd = collectible.Amount;
+            if (this.linkedPassiveHarvester.ActiveResourceData != null)
+                amountToAdd *= this.linkedPassiveHarvester.ActiveResourceData.ConversionRatio;
+
+            var success = this.linkedPassiveHarvester.TryAddAmount(amountToAdd, collectible.ResourceType);
+
+            Debug.Log($"collectible.ResourceType = {collectible.ResourceType}");
+
+            if (success)
+                collectible.Collect(false);
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections;
 
-public class LightningBolt : MonoBehaviour
+public class LightningBolt : Collectable
 {
     private static WaitForSecondsRealtime _waitForSecondsRealtime_1 = new(.01f);
     [SerializeField] private List<LightningNode> lightningNodes = new();
@@ -27,8 +27,9 @@ public class LightningBolt : MonoBehaviour
     }
 
     [Button(ButtonSizes.Large)]
-    public void Strike()
+    public override void Spawn()
     {
+        base.Spawn();
         Generate(false);
         Play();
     }
@@ -103,7 +104,7 @@ public class LightningBolt : MonoBehaviour
 
             if (isNodeOnscreen)
             {
-                node.Configure(length, angle, parent, numBranches, inShouldShow);
+                node.Configure(this, length, angle, parent, numBranches, inShouldShow);
                 this.activeNodes.Add(node);
             }
 
@@ -138,7 +139,7 @@ public class LightningBolt : MonoBehaviour
 
         Reset();
     }
-    
+
     [Button(ButtonSizes.Large)]
     public void Reset()
     {
@@ -146,11 +147,17 @@ public class LightningBolt : MonoBehaviour
 
         this.activeNodes.Clear();
 
-        foreach(var node in this.lightningNodes)
+        foreach (var node in this.lightningNodes)
         {
             node.transform.parent = this.transform;
             node.Reset();
             node.transform.SetAsLastSibling();
         }
+    }
+    
+     protected override void OnCollected()
+    {
+        // Override for collection effects (particles, sound, animation)
+        Reset();
     }
 }

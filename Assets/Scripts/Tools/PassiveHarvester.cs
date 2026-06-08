@@ -6,6 +6,7 @@ using TMPro;
 using DG.Tweening;
 using Lean.Pool;
 using static GlobalEnums;
+using UnityEditor.EditorTools;
 
 /// <summary>
 /// Decorations that passively generate resources over time
@@ -57,9 +58,12 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
     [SerializeField] private CollectableResourceData[] collectableResources;
 
     [Space, SerializeField] protected Image fillImage;
-    [Range(0, 2),SerializeField] protected float fillAnimationDuration = 0.5f;
+    [Range(0, 2), SerializeField] protected float fillAnimationDuration = 0.5f;
 
-    [SerializeField] protected TextMeshProUGUI quantityText;
+    [Tooltip("Set to 0 for no cooldown time")]
+    [Space, Range(0,10), SerializeField] protected float cooldownTime = 0;
+
+    [Space, SerializeField] protected TextMeshProUGUI quantityText;
     [SerializeField] protected bool showQuantityTextWhenEmpty;
     [SerializeField] protected bool showQuantityTextAsPercent;
 
@@ -67,6 +71,8 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
 
     protected float targetFillAmount;
     protected float leftoverFractionAmount;
+
+    private DateTime collectedTime = DateTime.MinValue;
 
     public virtual void OnSpawn()
     {
@@ -150,6 +156,9 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
         if (inAmount <= 0 || this.CurrentAmount >= this.MaxCapacity)
             return false;
 
+        if (DateTime.Now - this.collectedTime < TimeSpan.FromSeconds(this.cooldownTime))
+            return false;
+
         this.leftoverFractionAmount += inAmount;
         int amountToAdd = Mathf.FloorToInt(this.leftoverFractionAmount);
 
@@ -181,6 +190,8 @@ public abstract class PassiveHarvester : MonoBehaviour, ITickable, IPoolable
         }
 
         RefreshQuantityDisplay();
+
+        this.collectedTime = DateTime.Now;
         
         return amountToAdd + this.leftoverFractionAmount > 0;
     }

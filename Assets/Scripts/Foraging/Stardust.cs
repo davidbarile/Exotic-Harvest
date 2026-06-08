@@ -40,7 +40,7 @@ public class Stardust : Collectable
         }
     }
 
-     public override void Collect(bool inShouldAddResourceImmediately = true)
+    public override void Collect(bool inShouldAddResourceImmediately = true)
     {
         if (!CanBeCollected())
             return;
