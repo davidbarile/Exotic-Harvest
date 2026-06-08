@@ -1,3 +1,4 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class PlatformBasedDisabler : MonoBehaviour
@@ -24,6 +25,9 @@ public class PlatformBasedDisabler : MonoBehaviour
     [SerializeField] private ECallType _callType = ECallType.Start;
 
     [Space, SerializeField] private bool _reverseLogic;
+
+    [Tooltip("Check this to work with PlatformFlags.UnityEditor")]
+    [Space, SerializeField] private bool _showInEditor;
 
     private bool _isComplete;
 
@@ -63,8 +67,8 @@ public class PlatformBasedDisabler : MonoBehaviour
 
         var shouldShow = PlatformManager.IN.Matches(_enableOnPlatforms);
 
-        // if (PlatformManager.IN.PlatformFlags.HasFlag(PlatformFlags.IsUnityEditor))
-        //     shouldShow = true;
+        if (_showInEditor && PlatformManager.IN.PlatformFlags.HasFlag(PlatformFlags.IsUnityEditor))
+            shouldShow = true;
 
         if (_reverseLogic)
             shouldShow = !shouldShow;
