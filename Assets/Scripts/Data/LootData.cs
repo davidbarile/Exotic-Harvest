@@ -14,4 +14,19 @@ public class LootData
     public WeightedRandom ChanceToDrop;
     [Header("Amount under Rock, or # of spawns in Meadow")]
     public WeightedRandom QuantityToDrop;
+
+    public static LootData Copy(LootData inLootData)
+    {
+        var lootData = new LootData()
+        {
+            DisplayName = inLootData.DisplayName,
+            OverrideSpriteName = inLootData.OverrideSpriteName,
+            ResourceType = inLootData.ResourceType,
+            Quantity = inLootData.Quantity,
+            ChanceToDrop = inLootData.ChanceToDrop,
+            QuantityToDrop = inLootData.QuantityToDrop
+        };
+
+        return lootData;
+    }
 }

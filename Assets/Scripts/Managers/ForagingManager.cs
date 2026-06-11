@@ -43,6 +43,15 @@ public class ForagingManager : MonoBehaviour, ITickable
     private List<Dewdrop> activeDewdrops = new();
     private List<Vector3> dewSpawnPositions = new();
 
+    [Header("Wind Settings --------------")]
+    [Range(0,1), SerializeField] private float windItemSpawnChance = 0.1f;
+    [SerializeField] private bool debugSpawnAllWindItems; // For testing - force spawn WindItems on start
+    private List<WindItem> activeWindItems = new();
+
+    [Space, SerializeField] private WeightedRandom minMaxTimeBetweenWindItems;
+    private DateTime lastWindItemTime = DateTime.MinValue;
+    private float secondsUntilNextWindItemSpawn = 5f;//gets set by weighted random on start and after each change
+
     public static bool CanSpawnDewdrops => (TimeManager.CurrentTimeOfDay.HasFlag(ETimeOfDay.Morning) &&
         (WeatherManager.IsClear || WeatherManager.IsFoggy) || WeatherManager.IsWindy);
 
@@ -106,6 +115,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Misc --------------")]
     [SerializeField] private GameObject lootContainersParent;
     public Transform LootContainersParent => this.lootContainersParent.transform;
+    [Space, SerializeField] private RectTransform[] windItemsContainers;
 
     #region Static Methods
     public static List<Vector3> GetRandomPositions(RectTransform inSpawnArea, int inCount, float inGridSize,
@@ -271,7 +281,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             this.numActiveRaindrops = 0;
         }
 
-        if(WeatherManager.IsStorm)
+        if (WeatherManager.IsStorm)
         {
             var secondsElapsed = (DateTime.Now - this.lastLightningStrikeTime).TotalSeconds;
 
@@ -281,6 +291,19 @@ public class ForagingManager : MonoBehaviour, ITickable
                 this.secondsUntilNextLightningStrike = this.minMaxTimeBetweenLightningStrikes.GetWeightedRandomQuantity();
 
                 SpawnLightning();
+            }
+        }
+        
+        if(WeatherManager.IsWindy)
+        {
+            var secondsElapsed = (DateTime.Now - this.lastWindItemTime).TotalSeconds;
+
+            if (secondsElapsed > this.secondsUntilNextWindItemSpawn)
+            {
+                this.lastWindItemTime = DateTime.Now;
+                this.secondsUntilNextWindItemSpawn = this.minMaxTimeBetweenWindItems.GetWeightedRandomQuantity();
+
+                SpawnWindItems();
             }
         }
 
@@ -388,6 +411,38 @@ public class ForagingManager : MonoBehaviour, ITickable
     #endregion
 
     #region Wind
+    public void SpawnWindItems()
+    {
+        var lootConfig = LootManager.IN.GetRandomLootConfigOfType(ELootType.Wind, TimeManager.CurrentTimeOfDay);
+        var lootDatas = lootConfig.GetRandomLoot(true);
+
+        var windItemParentIndex = WeatherManager.WindDirection == -1 ? 1 : 0;
+        var windItemParent = this.windItemsContainers[windItemParentIndex];
+
+        foreach(var data in lootDatas)
+        {
+            var shouldSpawn = data.ChanceToDrop.GetWeightedRandomQuantity();
+            var rnd = UnityEngine.Random.Range(0, 100);
+            if (rnd > shouldSpawn) 
+                continue;
+
+            for(int i = 0; i < data.Quantity; ++i)
+            {
+                var yPos = UnityEngine.Random.Range(500, Screen.height - 250);
+                Debug.Log($"{name}. yPos = {yPos}. WeatherManager.WindDirection = {WeatherManager.WindDirection}. parent = {windItemParent.name}");
+
+                var windItem = Pool.Spawn<WindItem>("WindItem", windItemParent);
+                windItem.transform.localPosition = new Vector3(0, yPos, 0);
+                windItem.transform.rotation = Quaternion.identity;
+                windItem.transform.localScale = Vector3.one;
+                windItem.Configure(data);
+                var rndSpeed = UnityEngine.Random.Range(1f, 1.3f);
+                rndSpeed = 1 + WeatherManager.WeatherIntensity;//TODO: randomize
+                windItem.PlayRandomAnim(rndSpeed);
+            }
+        }
+    }
+    
     private void OnWindStarted()
     {
         // Could add special effects or increase spawn rates for certain collectables

@@ -25,7 +25,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     [SerializeField] private EWeatherType debugWeather = EWeatherType.Clear;
     [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
     private float weatherIntensity = 1f; // 0-1 for effects strength
-    private int windDirection;//0 = left, 1 = right
+    private int windDirection;//-1 = left, 1 = right
 
     [Space, SerializeField] private ParticleHelper fogParticle;
     [SerializeField] private Color[] fogColors;
@@ -43,6 +43,7 @@ public class WeatherManager : MonoBehaviour, ITickable
     public static EWeatherType CurrentWeather => IN.currentWeather;
     public static EWeatherType LastWeather { get; private set; }
     public static float WeatherIntensity => IN.weatherIntensity;
+    public static int WindDirection => IN.windDirection;
     public static bool IsRaining => IN.currentWeather.HasFlag(EWeatherType.Rain) || IN.currentWeather.HasFlag(EWeatherType.Storm);
     public static bool IsStorm => IN.currentWeather.HasFlag(EWeatherType.Storm);
     public static bool IsWindy => IN.currentWeather.HasFlag(EWeatherType.Wind);
@@ -125,16 +126,16 @@ public class WeatherManager : MonoBehaviour, ITickable
 
             if (IsWeatherWind(this.currentWeather))
             {
-                this.windDirection = UnityEngine.Random.value < .5f ? 0 : 1;
+                this.windDirection = UnityEngine.Random.value < .5f ? -1 : 1;
 
-                var inactivePartile = this.windParticles[1 - this.windDirection];
+                var particleIndex = this.windDirection == -1 ? 1 : 0;
+
+                var inactivePartile = this.windParticles[1 - particleIndex];
                 inactivePartile.Stop();
 
-                var windParticle = this.windParticles[this.windDirection];
-
+                var windParticle = this.windParticles[particleIndex];
                 windParticle.SetEmissionRate(this.weatherIntensity * this.windEmissionRatio);
-                var directionMod = this.windDirection == 0 ? -1 : 1;
-                var windSpeedMin = this.weatherIntensity * this.windSpeedRatio * directionMod;
+                var windSpeedMin = this.weatherIntensity * this.windSpeedRatio * -this.windDirection;
                 windParticle.SetSpeed(windSpeedMin, windSpeedMin * 2f);
                 windParticle.Play();
             }

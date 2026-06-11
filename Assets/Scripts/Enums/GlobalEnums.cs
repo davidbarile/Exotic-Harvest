@@ -104,7 +104,8 @@ public class GlobalEnums
         None,
         RockPile,
         NightSky,
-        Meadow
+        Meadow,
+        Wind
     }
 
     [Flags]

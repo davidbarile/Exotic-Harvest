@@ -27,6 +27,7 @@ public class UiManager : MonoBehaviour
     public UiCompass Compass => this.compass;
     public Transform Moon => this.moon;
     public Transform ParticlesContainer => this.particlesContainer;
+
     public DayNightCycleController DayNightCycleController => this.dayNightCycleController;
 
     [Header("Cameras")]
