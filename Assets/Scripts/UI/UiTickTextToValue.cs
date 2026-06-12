@@ -33,6 +33,8 @@ public class UiTickTextToValue : MonoBehaviour
                 {
                     if (AudioManager.IN.IncrementCounterClip != null)
                         AudioManager.IN.PlayClip(AudioManager.IN.IncrementCounterClip, .3f);
+
+                    this.textComponent.text = (previousValue + inAmountToAdd).ToString("N0");
                 }
             }
             else

@@ -12,6 +12,7 @@ using static GlobalEnums;
 [RequireComponent(typeof(CanvasGroup))]
 public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPoolable
 {
+    protected Action onCollected;
     public EResourceType ResourceType => resourceType;
     [SerializeField] protected EResourceType resourceType;
 
@@ -142,6 +143,7 @@ public abstract class Collectable : MonoBehaviour, IPointerClickHandler, IBeginD
     
     protected virtual void OnCollected()
     {
+        this.onCollected?.Invoke();
         // Override for collection effects (particles, sound, animation)
         LeanPool.Despawn(this.gameObject);
     }

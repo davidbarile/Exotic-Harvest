@@ -255,7 +255,7 @@ public abstract class ForagerBase : MonoBehaviour, ITickable, IPoolable
 
         var resourceType = this.ActiveResourceData.ResourceType;
 
-        ResourceManager.IN.AddResource(resourceType, this.DecorationData.CurrentAmount);
+        ResourceManager.IN.AddResource(resourceType, this.DecorationData.CurrentAmount); 
 
         this.leftoverFractionAmount = 0f;
         this.DecorationData.CurrentAmount = 0;

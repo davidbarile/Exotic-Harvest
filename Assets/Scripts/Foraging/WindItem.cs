@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Lean.Common;
+using Lean.Pool;
 
 public class WindItem : MonoBehaviour
 {
@@ -18,9 +20,12 @@ public class WindItem : MonoBehaviour
         this.tempImage.enabled = false;
 
         this.Loot = Pool.Spawn<Loot>("Loot", this.lootParent);
-        this.Loot.Configure(inLootData);
-        this.Loot.transform.localPosition = Vector3.zero;
-        this.Loot.transform.localRotation = Quaternion.identity;
+        this.Loot.Configure(inLootData, () =>
+        {
+            LeanPool.Despawn(this.gameObject);
+            this.tweener?.Kill();
+        });
+        this.Loot.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         //flip depending on wind direction
         this.transform.localScale = new Vector3(-WeatherManager.WindDirection, 1, 1);
@@ -36,6 +41,9 @@ public class WindItem : MonoBehaviour
 
         var destPosX = WeatherManager.WindDirection == -1 ? 0 : Screen.width;
 
-        this.tweener = this.transform.DOMoveX(destPosX, 15f).SetEase(Ease.Linear);
+        this.tweener = this.transform.DOMoveX(destPosX, 15f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            LeanPool.Despawn(this.gameObject);
+        });
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -14,7 +15,7 @@ public class Searchable : Loot
         }
     }
 
-     public override void Configure(LootData inLootData)
+     public override void Configure(LootData inLootData, Action inOnCollected = null)
     {
         base.Configure(inLootData);
         this.SearchableName = inLootData.DisplayName;

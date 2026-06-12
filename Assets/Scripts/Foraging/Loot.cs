@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,10 +24,11 @@ public class Loot : Collectable
         SetShadowActive(false);
     }
 
-    public virtual void Configure(LootData inLootData)
+    public virtual void Configure(LootData inLootData, Action inOnCollected = null)
     {
         this.LootData = inLootData;
         this.resourceType = inLootData.ResourceType;
+        this.onCollected = inOnCollected;
 
         if (string.IsNullOrWhiteSpace(inLootData.OverrideSpriteName))
         {
