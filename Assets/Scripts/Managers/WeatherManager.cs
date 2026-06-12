@@ -23,7 +23,7 @@ public class WeatherManager : MonoBehaviour, ITickable
 
     [SerializeField] private EWeatherType currentWeather = EWeatherType.Clear;
     [SerializeField] private EWeatherType debugWeather = EWeatherType.Clear;
-    [SerializeField] private float weatherChangeInterval = 300f; // 5 minutes in seconds
+    [SerializeField] private WeightedRandom weatherChangeInvervalMinMax;
     private float weatherIntensity = 1f; // 0-1 for effects strength
     private int windDirection;//-1 = left, 1 = right
 
@@ -57,8 +57,8 @@ public class WeatherManager : MonoBehaviour, ITickable
 
         foreach (var windParticle in this.windParticles)
             windParticle.gameObject.SetActive(true);
-        
-        this.nextWeatherChange = this.weatherChangeInterval;
+
+        this.nextWeatherChange = this.weatherChangeInvervalMinMax.GetWeightedRandomQuantity();
 
         TickManager.OnSecondTick += SecondTick;
 
@@ -89,7 +89,7 @@ public class WeatherManager : MonoBehaviour, ITickable
         {
             ChangeWeather();
             this.weatherTimer = 0f;
-            this.nextWeatherChange = UnityEngine.Random.Range(this.weatherChangeInterval * 0.5f, this.weatherChangeInterval * 1.5f);
+            this.nextWeatherChange = this.weatherChangeInvervalMinMax.GetWeightedRandomQuantity();
         }
     }
     

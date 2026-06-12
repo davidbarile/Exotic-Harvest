@@ -39,6 +39,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip ButtonClickClip;
     public AudioClip KeyPressClickClip;
     public AudioClip IncrementCounterClip;
+    public AudioClip SingleIncrementClip;
+    public AudioClip ResourceGainClip;
     public AudioClip ErrorSoundClip;
     public AudioClip GoldenAppleUseClip;
 
@@ -431,16 +433,34 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource PlayClip(AudioClip inClip)
     {
+        if (inClip == null)
+        {
+            Debug.Log("<color=red>AudioManager.PlayClip()   inClip is null!</color>");
+            return null;
+        }
+            
         return PlayClip(inClip, 1, 1, 0);
     }
 
     public AudioSource PlayClip(AudioClip inClip, float inVolume)
     {
+        if (inClip == null)
+        {
+            Debug.Log("<color=red>AudioManager.PlayClip()   inClip is null!</color>");
+            return null;
+        }
+
         return PlayClip(inClip, inVolume, 1, 0);
     }
 
     public AudioSource PlayClip(AudioClip inClip, float inVolume, float inPitch)
     {
+        if (inClip == null)
+        {
+            Debug.Log("<color=red>AudioManager.PlayClip()   inClip is null!</color>");
+            return null;
+        }
+
         return PlayClip(inClip, inVolume, inPitch, 0);
     }
 
@@ -449,54 +469,52 @@ public class AudioManager : MonoBehaviour
         if (!this.isAudioEnabled)
             return null;
 
-        if (inClip != null)
+        if (inClip == null)
         {
-            AudioSource audioSource = this.audioSources[this.audioSourceIndex];
+            Debug.Log("<color=red>AudioManager.PlayClip()   inClip is null!</color>");
+            return null;
+        }
 
-            if(inPitch == -1)
-                inPitch = UnityEngine.Random.Range(.95f, 1.05f);
+        AudioSource audioSource = this.audioSources[this.audioSourceIndex];
 
-            if (!audioSource.isPlaying)
-            {
-                audioSource.clip = inClip;
-                audioSource.volume = inVolume;
-                audioSource.pitch = inPitch;
-                audioSource.PlayDelayed(inDelay);
+        if(inPitch == -1)
+            inPitch = UnityEngine.Random.Range(.95f, 1.05f);
 
-                ++this.audioSourceIndex;
-                this.audioSourceIndex %= this.audioSources.Count;
+        if (!audioSource.isPlaying)
+        {
+            audioSource.clip = inClip;
+            audioSource.volume = inVolume;
+            audioSource.pitch = inPitch;
+            audioSource.PlayDelayed(inDelay);
 
-                this.recursionCounter = 0;
+            ++this.audioSourceIndex;
+            this.audioSourceIndex %= this.audioSources.Count;
 
-                return audioSource;
-            }
-            else
-            {
-                if (this.recursionCounter < this.audioSources.Count) //find next in list
-                {
-                    ++this.recursionCounter;
+            this.recursionCounter = 0;
 
-                    ++this.audioSourceIndex;
-                    this.audioSourceIndex %= this.audioSources.Count;
-                }
-                else //entire list is exhausted, so add a new one and play it
-                {
-                    audioSource = gameObject.AddComponent<AudioSource>();
-
-                    this.audioSources.Add(audioSource);
-
-                    this.audioSourceIndex = this.audioSources.Count - 1;//select it
-                }
-
-                PlayClip(inClip, inVolume, inPitch, inDelay);
-
-                return audioSource;
-            }
+            return audioSource;
         }
         else
         {
-            Debug.Log("AudioManager.PlayClip()   inClip is null!");
-            return null;
+            if (this.recursionCounter < this.audioSources.Count) //find next in list
+            {
+                ++this.recursionCounter;
+
+                ++this.audioSourceIndex;
+                this.audioSourceIndex %= this.audioSources.Count;
+            }
+            else //entire list is exhausted, so add a new one and play it
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+
+                this.audioSources.Add(audioSource);
+
+                this.audioSourceIndex = this.audioSources.Count - 1;//select it
+            }
+
+            PlayClip(inClip, inVolume, inPitch, inDelay);
+
+            return audioSource;
         }
     }
 

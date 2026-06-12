@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 
@@ -19,7 +20,7 @@ public class UiTickTextToValue : MonoBehaviour
 
     public void AddValue(int inAmountToAdd)
     {
-        int previousValue = this.textComponent.text == "" ? 0 : int.Parse(this.textComponent.text, System.Globalization.NumberStyles.AllowThousands);
+        int previousValue = this.textComponent.text == "" ? 0 : int.Parse(this.textComponent.text, NumberStyles.AllowThousands);
 
         if (inAmountToAdd > 0)
         {
@@ -31,10 +32,8 @@ public class UiTickTextToValue : MonoBehaviour
                 }
                 else
                 {
-                    if (AudioManager.IN.IncrementCounterClip != null)
-                        AudioManager.IN.PlayClip(AudioManager.IN.IncrementCounterClip, .3f);
-
                     this.textComponent.text = (previousValue + inAmountToAdd).ToString("N0");
+                    AudioManager.IN.PlayClip(AudioManager.IN.SingleIncrementClip, .4f, 1.3f);
                 }
             }
             else
@@ -46,7 +45,7 @@ public class UiTickTextToValue : MonoBehaviour
     
     public void SetValue(int inNewValue)
     {
-        int previousValue = this.textComponent.text == "" ? 0 : int.Parse(this.textComponent.text, System.Globalization.NumberStyles.AllowThousands);
+        int previousValue = this.textComponent.text == "" ? 0 : int.Parse(this.textComponent.text, NumberStyles.AllowThousands);
 
         if (inNewValue > previousValue)
         {
@@ -84,8 +83,7 @@ public class UiTickTextToValue : MonoBehaviour
                 float pitch = 1f + (counter * .1f);
                 //Debug.Log(counter + "   pitch = " + pitch);
 
-                if (AudioManager.IN.IncrementCounterClip != null)
-                    AudioManager.IN.PlayClip(AudioManager.IN.IncrementCounterClip, .3f, pitch);
+                AudioManager.IN.PlayClip(AudioManager.IN.IncrementCounterClip, .3f, pitch);
             }
 
             ++counter;
