@@ -6,7 +6,6 @@ using TMPro;
 using DG.Tweening;
 using Lean.Pool;
 using static GlobalEnums;
-using UnityEditor.EditorTools;
 
 /// <summary>
 /// Decorations that passively generate resources over time
