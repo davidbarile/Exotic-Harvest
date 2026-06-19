@@ -23,6 +23,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     [Header("This is overridden by DecorationData.HighlightValidTargetsWhenDragged if UiDecorationBase")]
     [SerializeField] protected bool highlightValidTargetsWhenDragged;
     [SerializeField] protected bool isMenuPanel;
+    [Tooltip("For Clamp to Screen Bounds")]
     [Space, Range(0,50f), SerializeField] protected float padding = 10f;
 
     [Header("(Defaults to Object Root)")]

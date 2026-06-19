@@ -73,7 +73,7 @@ public class Attractor : MonoBehaviour, ITickable
             var direction = (Vector2)this.transform.position - (Vector2)this.currentAttractable.transform.position;
             var distance = direction.magnitude;
 
-            //Debug.Log($"Attracting {this.currentAttractable.gameObject.name} at distance {distance}");
+            //Debug.Log($"Attracting {this.currentAttractable.gameObject.name} at distance {distance}/{this.collisionRadius}");
 
             if (distance > this.collisionRadius)
             {
