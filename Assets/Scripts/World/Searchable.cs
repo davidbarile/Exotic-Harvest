@@ -15,7 +15,7 @@ public class Searchable : Loot
         }
     }
 
-     public override void Configure(LootData inLootData, Action inOnCollected = null)
+     public override void Configure(LootData inLootData, Action inOnCollected = null, int maxLootQuantity = 0)
     {
         base.Configure(inLootData);
         this.SearchableName = inLootData.DisplayName;

@@ -24,7 +24,7 @@ public class Loot : Collectable
         SetShadowActive(false);
     }
 
-    public virtual void Configure(LootData inLootData, Action inOnCollected = null)
+    public virtual void Configure(LootData inLootData, Action inOnCollected = null, int maxLootQuantity = 0)
     {
         this.LootData = inLootData;
         this.resourceType = inLootData.ResourceType;
@@ -43,9 +43,11 @@ public class Loot : Collectable
         }
 
         this.amount = inLootData.Quantity;
+        if(maxLootQuantity > 0)
+            this.amount = Mathf.Min(this.amount, maxLootQuantity);
 
-        if (inLootData.Quantity > 1)
-            SetText(inLootData.Quantity.ToString());
+        if (this.amount> 1)
+            SetText(this.amount.ToString());
     }
     
     public void SetSprite(Sprite sprite)

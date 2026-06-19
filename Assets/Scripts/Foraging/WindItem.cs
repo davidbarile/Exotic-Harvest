@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Lean.Common;
 using Lean.Pool;
 
 public class WindItem : MonoBehaviour
@@ -19,12 +18,12 @@ public class WindItem : MonoBehaviour
     {
         this.tempImage.enabled = false;
 
-        this.Loot = Pool.Spawn<Loot>("Loot", this.lootParent);
+        this.Loot = Pool.Spawn<Loot>("WindLoot", this.lootParent);
         this.Loot.Configure(inLootData, () =>
         {
             LeanPool.Despawn(this.gameObject);
             this.tweener?.Kill();
-        });
+        }, maxLootQuantity: 1);
         this.Loot.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         //flip depending on wind direction

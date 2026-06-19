@@ -429,7 +429,7 @@ public class ForagingManager : MonoBehaviour, ITickable
             for(int i = 0; i < data.Quantity; ++i)
             {
                 var yPos = UnityEngine.Random.Range(500, Screen.height - 250);
-                Debug.Log($"{name}. yPos = {yPos}. WeatherManager.WindDirection = {WeatherManager.WindDirection}. parent = {windItemParent.name}");
+                //Debug.Log($"{name}. yPos = {yPos}. WeatherManager.WindDirection = {WeatherManager.WindDirection}. parent = {windItemParent.name}");
 
                 var windItem = Pool.Spawn<WindItem>("WindItem", windItemParent);
                 windItem.transform.localPosition = new Vector3(0, yPos, 0);
@@ -437,7 +437,7 @@ public class ForagingManager : MonoBehaviour, ITickable
                 windItem.transform.localScale = Vector3.one;
                 windItem.Configure(data);
                 var rndSpeed = UnityEngine.Random.Range(1f, 1.3f);
-                rndSpeed = 1 + WeatherManager.WeatherIntensity;//TODO: randomize
+                rndSpeed += WeatherManager.WeatherIntensity;
                 windItem.PlayRandomAnim(rndSpeed);
             }
         }

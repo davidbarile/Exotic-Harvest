@@ -96,15 +96,18 @@ MonoBehaviour:
     LastGenerationTime: 0
     IsActive: 1
   collectableResources:
+  - ResourceType: 25
+    ConversionRatio: 1
+    MaxAmount: 0
   - ResourceType: 52
     ConversionRatio: 1
     MaxAmount: 0
-  - ResourceType: 25
+  - ResourceType: 45
     ConversionRatio: 1
     MaxAmount: 0
   fillImage: {fileID: 1627848786645917381}
   fillAnimationDuration: 0.5
-  cooldownTime: 1
+  cooldownTime: 0.3
   quantityText: {fileID: 2746075342888448478}
   showQuantityTextWhenEmpty: 0
   showQuantityTextAsPercent: 0
