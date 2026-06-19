@@ -423,8 +423,10 @@ public class ForagingManager : MonoBehaviour, ITickable
         {
             var shouldSpawn = data.ChanceToDrop.GetWeightedRandomQuantity();
             var rnd = UnityEngine.Random.Range(0, 100);
-            if (rnd > shouldSpawn) 
+            if (rnd > shouldSpawn)
                 continue;
+                
+            //TODO: force spacing, maybe delay between spawns, maybe limit to one
 
             for(int i = 0; i < data.Quantity; ++i)
             {

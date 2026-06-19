@@ -129,6 +129,7 @@ public class UiManager : MonoBehaviour
         this.timeWeatherPanel.Toggle();
     }
 
+    [HideInCallstack]
     public void SetDebugText(string text, bool append = false)
     {
         if (this.debugText)

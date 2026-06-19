@@ -28,6 +28,8 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f), SerializeField] private float ambientChangeChance = 0.1f; // Chance to change ambient on time/weather change, for variety
 
     [Header("Audio Settings -----------------")]
+    [SerializeField] private bool shouldFadeInMusic;
+    [Range(0f, 10f), SerializeField] private float musicFadeDuration = 1;
     [Range(0f, 3f), SerializeField] private float audioFadeDuration = 1;
 
     [Space, Range(0f, 1f),SerializeField] private float buttonVolume = 1;
@@ -173,7 +175,7 @@ public class AudioManager : MonoBehaviour
         if (inNewClip == null || inNewClip == CurrentMusicClip)
             return;
 
-        AudioManager.CurrentMusicClip = inNewClip;
+        CurrentMusicClip = inNewClip;
 
         //swap active/inactive
         var temp = this.activeMusicSource;
@@ -186,8 +188,12 @@ public class AudioManager : MonoBehaviour
         if (!this.inactiveMusicSource.isPlaying)
         {
             this.activeMusicSource.clip = inNewClip;
-            this.activeMusicSource.volume = musicVolume;
+            this.activeMusicSource.volume = this.shouldFadeInMusic ? 0 : musicVolume;
             this.activeMusicSource.Play();
+
+            if (this.shouldFadeInMusic)
+                this.activeMusicTween = this.activeMusicSource.DOFade(musicVolume, this.musicFadeDuration);
+
             return;
         }
 
@@ -203,7 +209,7 @@ public class AudioManager : MonoBehaviour
         this.activeMusicSource.Play();
 
         if (musicVolume > 0)
-            this.activeMusicTween = this.activeMusicSource.DOFade(musicVolume, this.audioFadeDuration);
+            this.activeMusicTween = this.activeMusicSource.DOFade(musicVolume, this.musicFadeDuration);
     }
     
     private void PlayOrCrossfadeAmbient(AudioClip inNewClip)
