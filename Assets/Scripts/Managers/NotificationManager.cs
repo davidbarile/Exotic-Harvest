@@ -30,28 +30,15 @@ public class NotificationManager : MonoBehaviour
     private Queue<UiToastNotification> activeNotifications = new();
     private bool notificationsEnabled = true;
     
-    private void Awake()
+    public void Init()
     {
         if (this.notificationParent == null)
             this.notificationParent = transform;
 
         if (this.audioSource == null)
             this.audioSource = GetComponent<AudioSource>();
-    }
-    
-    private void Start()
-    {
+
         // Listen to game events and show appropriate notifications
-        SetupEventListeners();
-    }
-    
-    private void OnDestroy()
-    {
-        RemoveEventListeners();
-    }
-    
-    private void SetupEventListeners()
-    {
         // ResourceData events
         ResourceManager.OnResourceGained += OnResourceGained;
         ResourceManager.OnInventoryFull += OnInventoryFull;
@@ -71,7 +58,7 @@ public class NotificationManager : MonoBehaviour
         SaveManager.OnSaveError += OnSaveError;
     }
     
-    private void RemoveEventListeners()
+    private void OnDestroy()
     {
         // Resource events
         ResourceManager.OnResourceGained -= OnResourceGained;

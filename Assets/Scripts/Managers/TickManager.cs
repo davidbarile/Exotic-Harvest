@@ -8,8 +8,8 @@ public class TickManager : MonoBehaviour
 {
     public static TickManager IN;
 
-    private float tickInterval = .02f;
-    private float secondInterval = 1f;
+    private readonly float tickInterval = .02f;
+    private readonly float secondInterval = 1f;
 
     private float tickTimer;
     private float secondTimer;

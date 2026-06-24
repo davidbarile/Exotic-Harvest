@@ -16,12 +16,15 @@ public class UiSplashScreenPanel : UIPanelBase
     {
         Hide();
         AudioManager.IN.StartGameAudio();
+        GameManager.IN.StartGame();
     }
 
     public void HandleTutorialButtonPress()
     {
         Hide();
-        //AudioManager.IN.StartGameAudio();
+        AudioManager.IN.StartGameAudio();
+        TutorialManager.IN.SetTutorialMode(true);
+        GameManager.IN.StartGame();//maybe not yet...
     }
     
     public void HandleFeedbackButtonPress()

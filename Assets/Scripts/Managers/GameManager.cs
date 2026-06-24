@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
         UiManager.IN.Init();
         ScreenManager.IN.Init();
-        ShopManager.IN.Init();
         AudioManager.IN.Init();
 
         if (isNewGame)
@@ -38,13 +37,25 @@ public class GameManager : MonoBehaviour
         {
             UiManager.IN.SplashScreenPanel.PlaySplashAnim();
             AudioManager.IN.StartSplashScreenAudio();
-        } 
+        }
         else
         {
             UiManager.IN.SplashScreenPanel.SetVisible(false);
             AudioManager.IN.StartGameAudio();
+            StartGame();
         }
-    
+
         UiManager.IN.ResourcesPanel.Init();
+    }
+    
+
+    public void StartGame()
+    {
+        WeatherManager.IN.Init();
+        TimeManager.IN.Init();
+        ForagingManager.IN.Init();
+        DecorationManager.IN.InitDecorationParents();
+        NotificationManager.IN.Init();
+        ShopManager.IN.Init();
     }
 }

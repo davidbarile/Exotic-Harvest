@@ -44,7 +44,7 @@ public class TimeManager : MonoBehaviour, ITickable
     public static bool IsEvening => CurrentTimeOfDay.HasFlag(ETimeOfDay.Evening);
     public static bool IsNight => CurrentTimeOfDay.HasFlag(ETimeOfDay.Night);
     
-    private void Start() 
+    public void Init()
     {
         TickManager.OnSecondTick += SecondTick;
         //TickManager.OnTick += Tick;

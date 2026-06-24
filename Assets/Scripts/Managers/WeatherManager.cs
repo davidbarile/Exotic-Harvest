@@ -9,6 +9,7 @@ using static GlobalEnums;
 /// </summary>
 public class WeatherManager : MonoBehaviour, ITickable
 {
+    private static readonly WaitForSeconds _waitForSeconds1 = new(1f);
     public static WeatherManager IN;
 
     // Events
@@ -50,8 +51,13 @@ public class WeatherManager : MonoBehaviour, ITickable
     public static bool IsSnow => IN.currentWeather.HasFlag(EWeatherType.Snow);
     public static bool IsFoggy => IN.currentWeather.HasFlag(EWeatherType.Foggy);
     public static bool IsClear => IN.currentWeather == EWeatherType.Clear;
+
+    public void Init()
+    {
+        StartCoroutine(StartCo());
+    }
     
-    private IEnumerator Start()
+    private IEnumerator StartCo()
     {
         this.fogParticle.gameObject.SetActive(true);
 
@@ -64,7 +70,7 @@ public class WeatherManager : MonoBehaviour, ITickable
 
         ChangeWeather();
 
-        yield return new WaitForSeconds(1f); // Wait a moment to ensure everything is initialized
+        yield return _waitForSeconds1; // Wait a moment to ensure everything is initialized
         
         if ((int)this.debugWeather > 0)
             ForceWeather(this.debugWeather);

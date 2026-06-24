@@ -18,9 +18,25 @@ public class DecorationManager : MonoBehaviour
 
     private List<DecorationBase> initDecorations = new();
 
-    private void Awake()
+    public void InitDecorationParents()
     {
-        InitDecorationParents();
+        var parentObjects = this.worldDecorationsContainer.GetComponentsInChildren<Transform>(true);
+        foreach (var parent in parentObjects)
+        {
+            if (parent.TryGetComponent<DragTarget>(out var dragTarget))
+            {
+                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
+            }
+        }
+
+        var screenParentObjects = this.screenDecorationsContainer.GetComponentsInChildren<Transform>(true);
+        foreach (var parent in screenParentObjects)
+        {
+            if (parent.TryGetComponent<DragTarget>(out var dragTarget))
+            {
+                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
+            }
+        }
     }
 
     /// <summary>
@@ -82,27 +98,6 @@ public class DecorationManager : MonoBehaviour
             worldItem.ItemData.DecorationData.Guid = UnityEngine.Random.Range(0, int.MaxValue);
             
         return worldItem;
-    }
-    
-    private void InitDecorationParents()
-    {
-        var parentObjects = this.worldDecorationsContainer.GetComponentsInChildren<Transform>(true);
-        foreach (var parent in parentObjects)
-        {
-            if (parent.TryGetComponent<DragTarget>(out var dragTarget))
-            {
-                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
-            }
-        }
-
-        var screenParentObjects = this.screenDecorationsContainer.GetComponentsInChildren<Transform>(true);
-        foreach (var parent in screenParentObjects)
-        {
-            if (parent.TryGetComponent<DragTarget>(out var dragTarget))
-            {
-                this.decorationParents.Add(dragTarget.ItemContainer.GetInstanceID(), dragTarget.ItemContainer);
-            }
-        }
     }
     
     public void ApplyFromSaveData(List<InventoryItemData> savedWorldItems)

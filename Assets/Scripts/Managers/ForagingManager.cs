@@ -212,7 +212,7 @@ public class ForagingManager : MonoBehaviour, ITickable
     #endregion
 
 
-    private void Start()
+    public void Init()
     {
         TickManager.OnTick += Tick;
         TimeManager.OnHourChanged += OnHourChanged;
