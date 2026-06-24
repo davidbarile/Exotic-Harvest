@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource activeAmbientSource, inactiveAmbientSource;
 
     [Header("Audio Configs -----------------")]
+    [SerializeField] private AudioConfig splashScreenConfig;
     [SerializeField] private AudioConfig[] musicConfigs;
     [SerializeField] private AudioConfig[] ambientConfigs;
 
@@ -85,8 +86,6 @@ public class AudioManager : MonoBehaviour
         this.minutesBetweenMusicChanges = this.minMaxMinutesBetweenMusicChanges.GetWeightedRandomQuantity();
         this.secondsBetweenAmbientChanges = this.minMaxSecondsBetweenAmbientChanges.GetWeightedRandomQuantity();
 
-        SetAudioMode(true);
-
         //dynamically create audio sources
         for (int i = 0; i < 8; ++i)
         {
@@ -95,6 +94,26 @@ public class AudioManager : MonoBehaviour
 
             this.audioSources.Add(a);
         }
+    }
+
+    public void StartSplashScreenAudio()
+    {
+        var rnd = UnityEngine.Random.Range(0, this.splashScreenConfig.AudioClips.Length);
+        var splashClip = this.splashScreenConfig.AudioClips[rnd];
+        
+        this.activeMusicSource.clip = splashClip;
+        this.activeMusicSource.volume = this.shouldFadeInMusic ? 0 : SaveManager.Data.MusicVolume;
+        this.activeMusicSource.Play();
+
+        if (this.shouldFadeInMusic)
+            this.activeMusicTween = this.activeMusicSource.DOFade(SaveManager.Data.MusicVolume, this.musicFadeDuration);
+
+        AudioListener.volume = SaveManager.Data.EffectsVolume;
+    }
+
+    public void StartGameAudio()
+    {
+        SetAudioMode(true);
 
         TimeManager.OnHourChanged += OnHourChanged; //also update music on hour change for more variety
         WeatherManager.OnWeatherChanged += OnWeatherChanged;

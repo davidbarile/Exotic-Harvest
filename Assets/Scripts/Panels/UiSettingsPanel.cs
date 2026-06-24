@@ -108,8 +108,8 @@ public class UiSettingsPanel : UIPanelBase
     #endregion
 
     #region General
-    //[Header("General ---------------")]
-
+    [Header("General ---------------")]
+    public Toggle ShowSplashScreenToggle;
 
     #endregion
 
@@ -137,6 +137,7 @@ public class UiSettingsPanel : UIPanelBase
 
     public void ApplySaveDataToUI()
     {
+        this.ShowSplashScreenToggle.isOn = SaveManager.Data.ShowSplashScreen;
         this.ShowTimeWeatherPanelToggle.isOn = SaveManager.Data.ShowTimeWeatherPanel;
         this.ShowUiButtonsToggle.isOn = SaveManager.Data.ShowPanelsButtons;
         this.ShowNotificationsToggle.isOn = SaveManager.Data.ShowNotifications;
@@ -157,6 +158,11 @@ public class UiSettingsPanel : UIPanelBase
 
     // the application of these values are all handled in ScreenManager.ToggleElementsVisibility
     // (it doesn't need to change now, because it only applies on minimize)
+    public void HandleShowSplashScreenPanelToggle(bool active)
+    {
+        SaveManager.Data.ShowSplashScreen = active;
+    }
+    
     public void HandleShowTimeWeatherPanelToggle(bool active)
     {            
         SaveManager.Data.ShowTimeWeatherPanel = active;

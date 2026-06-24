@@ -6,6 +6,8 @@ public class UiManager : MonoBehaviour
 {
     public static UiManager IN;
 
+    public UiSplashScreenPanel SplashScreenPanel => this.splashScreenPanel;
+
     public Camera WorldCamera => this.worldCamera;
     public Camera DragCamera => this.dragCamera;
 
@@ -29,6 +31,8 @@ public class UiManager : MonoBehaviour
     public Transform ParticlesContainer => this.particlesContainer;
 
     public DayNightCycleController DayNightCycleController => this.dayNightCycleController;
+
+    [SerializeField] private UiSplashScreenPanel splashScreenPanel;
 
     [Header("Cameras")]
     [SerializeField] private Camera worldCamera;

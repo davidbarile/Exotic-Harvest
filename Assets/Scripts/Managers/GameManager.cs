@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         this.singletonManager.Init();
-        //DontDestroyOnLoad(gameObject);
         Application.runInBackground = true;
         Application.targetFrameRate = 60;
     }
@@ -17,17 +16,34 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SaveManager.IN.Init();
+
+        var isNewGame = !SaveManager.IN.HasSaveFile;
+        var showSplashScreen = SaveManager.Data.ShowSplashScreen;
+
         UiManager.IN.Init();
         ScreenManager.IN.Init();
         ShopManager.IN.Init();
         AudioManager.IN.Init();
 
-        var isNewGame = !SaveManager.IN.HasSaveFile;
-
         if (isNewGame)
+        {
             InventoryManager.IN.AddDefaultItemsToInventory();
+        }
         else
+        {
             InventoryManager.IN.AddSavedItemsToInventory();
+        }
+
+        if (showSplashScreen)
+        {
+            UiManager.IN.SplashScreenPanel.PlaySplashAnim();
+            AudioManager.IN.StartSplashScreenAudio();
+        } 
+        else
+        {
+            UiManager.IN.SplashScreenPanel.SetVisible(false);
+            AudioManager.IN.StartGameAudio();
+        }
     
         UiManager.IN.ResourcesPanel.Init();
     }

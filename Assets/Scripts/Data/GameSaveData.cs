@@ -30,6 +30,7 @@ public class GameSaveData
     [Header("Settings")]
     public GameSettingsData SettingsData = new();
     public Color PanelColor = Color.black;
+    public bool ShowSplashScreen = true;
 
     [Header("Time & Weather")]
     public float CurrentGameHour = 8f;
