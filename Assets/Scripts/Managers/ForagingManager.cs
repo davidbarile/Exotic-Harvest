@@ -46,7 +46,6 @@ public class ForagingManager : MonoBehaviour, ITickable
     [Header("Wind Settings --------------")]
     [Range(0,1), SerializeField] private float windItemSpawnChance = 0.1f;
     [SerializeField] private bool debugSpawnAllWindItems; // For testing - force spawn WindItems on start
-    private List<WindItem> activeWindItems = new();
 
     [Space, SerializeField] private WeightedRandom minMaxTimeBetweenWindItems;
     private DateTime lastWindItemTime = DateTime.MinValue;

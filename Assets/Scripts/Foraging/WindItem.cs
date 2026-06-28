@@ -18,6 +18,9 @@ public class WindItem : MonoBehaviour
     {
         this.tempImage.enabled = false;
 
+        if(this.Loot != null)
+            LeanPool.Despawn(this.Loot.gameObject);
+
         this.Loot = Pool.Spawn<Loot>("WindLoot", this.lootParent);
         this.Loot.Configure(inLootData, () =>
         {
@@ -33,7 +36,7 @@ public class WindItem : MonoBehaviour
     public void PlayRandomAnim(float inSpeed)
     {
         this.animator.speed = inSpeed;
-          
+
         var rnd = UnityEngine.Random.Range(0, this.animStates.Length);
         var state = this.animStates[rnd];
         this.animator.Play(state);
@@ -42,6 +45,12 @@ public class WindItem : MonoBehaviour
 
         this.tweener = this.transform.DOMoveX(destPosX, 15f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            if (this.Loot != null)
+            {
+                LeanPool.Despawn(this.Loot.gameObject);
+                this.Loot = null;
+            }
+
             LeanPool.Despawn(this.gameObject);
         });
     }
