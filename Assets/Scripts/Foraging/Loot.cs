@@ -91,7 +91,10 @@ public class Loot : Collectable
             .Append(this.transform.DOScale(0f, 0.1f))
             .OnComplete(() => base.OnCollected());
 
-        var particle = Pool.Spawn<ParticleHelper>("Loot_Particle", UiManager.IN.ParticlesContainer, this.transform.position, Quaternion.identity);
+        var isWorld = this.transform.IsChildOf(UiManager.IN.WorldCanvas.transform);
+        var parentContainer = isWorld ? UiManager.IN.WorldParticlesContainer : UiManager.IN.ScreenParticlesContainer;
+
+        var particle = Pool.Spawn<ParticleHelper>("Loot_Particle", parentContainer, this.transform.position, Quaternion.identity);
         particle.transform.localScale = Vector3.one;
         particle.Play();
     }

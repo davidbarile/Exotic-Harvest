@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private SingletonManager singletonManager;
 
+    public bool HideSplashScreenInEditor;
+
     private void Awake()
     {
         this.singletonManager.Init();
@@ -19,6 +21,9 @@ public class GameManager : MonoBehaviour
 
         var isNewGame = !SaveManager.IN.HasSaveFile;
         var showSplashScreen = SaveManager.Data.ShowSplashScreen;
+
+        if(this.HideSplashScreenInEditor)    
+            showSplashScreen = false;
 
         UiManager.IN.Init();
         ScreenManager.IN.Init();

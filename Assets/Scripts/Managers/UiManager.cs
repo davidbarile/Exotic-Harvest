@@ -28,7 +28,8 @@ public class UiManager : MonoBehaviour
     public Button MaximizeButton => this.maximizeButton;
     public UiCompass Compass => this.compass;
     public Transform Moon => this.moon;
-    public Transform ParticlesContainer => this.particlesContainer;
+    public Transform WorldParticlesContainer => this.worldParticlesContainer;
+    public Transform ScreenParticlesContainer => this.screenParticlesContainer;
 
     public DayNightCycleController DayNightCycleController => this.dayNightCycleController;
 
@@ -61,7 +62,7 @@ public class UiManager : MonoBehaviour
     public TMP_Text DebugText => this.debugText;
     [SerializeField] private TMP_Text debugText;
     [SerializeField] private Transform moon;
-    [SerializeField] private Transform particlesContainer;
+    [SerializeField] private Transform worldParticlesContainer, screenParticlesContainer;
     [SerializeField] private DayNightCycleController dayNightCycleController;
 
     private void Awake()
