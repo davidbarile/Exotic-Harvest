@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -42,5 +43,25 @@ public class Searchable : Loot
         //     .OnComplete(() => base.OnCollected());
 
         base.Spawn();
+    }
+
+     protected override void OnCollected()
+    {
+        var initScale = this.transform.localScale.x;
+        // Collection effect
+        var sequence = DOTween.Sequence()
+            .Append(this.transform.DOScale(1.2f * initScale, 0.1f))
+            .Join(this.canvasGroup.DOFade(0f, 0.3f))
+            .Append(this.transform.DOScale(0f, 0.1f))
+            .OnComplete(() => base.OnCollected());
+
+        // var isWorld = this.transform.IsChildOf(UiManager.IN.WorldCanvas.transform);
+        // var parentContainer = isWorld ? UiManager.IN.WorldParticlesContainer : UiManager.IN.ScreenParticlesContainer;
+
+        var parentContainer = this.transform.parent;
+
+        var particle = Pool.Spawn<ParticleHelper>("Loot_Particle", parentContainer, this.transform.position, Quaternion.identity);
+        particle.transform.localScale = Vector3.one;
+        particle.Play();
     }
 }
