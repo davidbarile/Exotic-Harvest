@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 75735733123627162, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -44.999996
+      value: -36
       objectReference: {fileID: 0}
     - target: {fileID: 75735733123627162, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 75735733123627162, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22.500002
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 617145629638551794, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_Type
@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 617145629638551794, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: fdcbbebbdcb6f4561ad835bc6070a814, type: 2}
     - target: {fileID: 1230576558965008350, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_SizeDelta.x
       value: -112.0516
@@ -234,7 +238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3270201178428596670, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -45
+      value: -36
       objectReference: {fileID: 0}
     - target: {fileID: 3270201178428596670, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -242,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3270201178428596670, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22.5
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3422583370968283031, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
       propertyPath: m_IsActive
@@ -303,5 +307,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8146439875636590689, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9050330656031281124}
   m_SourcePrefab: {fileID: 100100000, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
+--- !u!1 &236516467266451990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8146439875636590689, guid: 45e73eef663bb4b288f26d4e569927a2, type: 3}
+  m_PrefabInstance: {fileID: 8234182790000083575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9050330656031281124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236516467266451990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c634a36f0f1694488bc5130438ed3511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialSwapper
+  eventListenerType: 0
