@@ -31,9 +31,9 @@ public class SaveManager : MonoBehaviour, ITickable
 
     [SerializeField] private int currentPlayerDataVersion = 1; // Increment this when making breaking changes to save data structure to trigger new save creation
     
+    private DateTime lastSaveTime;
     private string savePath;
     
-    private float autoSaveTimer = 0f;
     private float sessionStartTime;
     private bool isDeletingSave;
 
@@ -90,10 +90,9 @@ public class SaveManager : MonoBehaviour, ITickable
     {
         if (this.autoSaveEnabled)
         {
-            ++this.autoSaveTimer;
-            if (this.autoSaveTimer >= this.autoSaveInterval)
+            if (DateTime.Now - this.lastSaveTime > TimeSpan.FromSeconds(this.autoSaveInterval))
             {
-                this.autoSaveTimer = 0f;
+                this.lastSaveTime = DateTime.Now;
                 SaveGame();
             }
         }
@@ -385,12 +384,12 @@ public class SaveManager : MonoBehaviour, ITickable
     
     public void SetAutoSave(bool enabled)
     {
-        autoSaveEnabled = enabled;
+        this.autoSaveEnabled = enabled;
     }
     
     public void SetAutoSaveInterval(float intervalSeconds)
     {
-        autoSaveInterval = Mathf.Max(30f, intervalSeconds); // Minimum 30 seconds
+        this.autoSaveInterval = Mathf.Max(30f, intervalSeconds); // Minimum 30 seconds
     }
     
     // Statistics helpers

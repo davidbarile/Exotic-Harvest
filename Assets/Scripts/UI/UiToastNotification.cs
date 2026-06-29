@@ -93,10 +93,7 @@ public class UiToastNotification : MonoBehaviour, IPoolable
         }
         
         // Set dismiss button visibility
-        if (this.dismissButton != null)
-        {
-            this.dismissButton.gameObject.SetActive(!this.notificationData.AutoDismiss);
-        }
+        this.dismissButton.gameObject.SetActive(!this.notificationData.AutoDismiss);
     }
     
     private void StartShowAnimation()
@@ -116,7 +113,7 @@ public class UiToastNotification : MonoBehaviour, IPoolable
 
     private void AutoDismiss()
     {
-        if (gameObject != null && gameObject.activeInHierarchy)
+        if (this.gameObject != null && this.gameObject.activeInHierarchy)
         {
             Dismiss();
         }

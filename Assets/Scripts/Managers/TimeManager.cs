@@ -116,6 +116,7 @@ public class TimeManager : MonoBehaviour, ITickable
             return ETimeOfDay.Night;
     }
     
+
     public bool IsTimeForResource(EResourceType resourceType)
     {
         switch (resourceType)
