@@ -110,7 +110,7 @@ public class TimeManager : MonoBehaviour, ITickable
             return ETimeOfDay.Morning;
         else if (hour >= 12f && hour < 16f)
             return ETimeOfDay.Afternoon;
-        else if (hour >= 16f && hour < 19f)
+        else if (hour >= 16f && hour < 20f)
             return ETimeOfDay.Evening;
         else
             return ETimeOfDay.Night;
