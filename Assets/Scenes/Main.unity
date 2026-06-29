@@ -10192,8 +10192,8 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _WaveTimeX: 2.817127
-    - _WaveTimeY: 4.338788
+    - _WaveTimeX: 4.294377
+    - _WaveTimeY: 2.862918
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
@@ -20389,6 +20389,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513138133}
   m_CullTransparentMesh: 1
+--- !u!21 &513488608
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.005
+    - _DistanceY: 0.005
+    - _OffsetX: 10
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 3.9675734
+    - _WaveTimeY: 3.9675734
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &527219878
 GameObject:
   m_ObjectHideFlags: 0
@@ -35265,6 +35311,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7f597d6c5b1418fb3f589def2140a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Moonbeam
+--- !u!21 &1093860695
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 2DxFX/Standard/Distortion
+  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _ColorMask: 15
+    - _DistanceX: 0.01
+    - _DistanceY: 0
+    - _OffsetX: 60
+    - _OffsetY: 10
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _WaveTimeX: 1.7275591
+    - _WaveTimeY: 0.12
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1094098222
 GameObject:
   m_ObjectHideFlags: 0
@@ -37779,8 +37871,8 @@ MonoBehaviour:
   _OffsetY: 1
   _DistanceX: 0.015
   _DistanceY: 0.01
-  _WaveTimeX: 4.3637424
-  _WaveTimeY: 2.598031
+  _WaveTimeX: 3.2049305
+  _WaveTimeY: 2.403698
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 2
   AutoPlayWaveY: 1
@@ -53426,52 +53518,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577560497}
   m_CullTransparentMesh: 1
---- !u!21 &1577771242
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.01
-    - _DistanceY: 0
-    - _OffsetX: 60
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 5.7287235
-    - _WaveTimeY: 0.12
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &1579995521 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8712850292872448468, guid: 60bda18ea0d1e485593e3c325a1417ec, type: 3}
@@ -60883,8 +60929,8 @@ MonoBehaviour:
   _OffsetY: 1
   _DistanceX: 0.015
   _DistanceY: 0.01
-  _WaveTimeX: 2.8545585
-  _WaveTimeY: 4.3637424
+  _WaveTimeX: 4.807396
+  _WaveTimeY: 3.2049305
   AutoPlayWaveX: 1
   AutoPlaySpeedX: 3
   AutoPlayWaveY: 1
@@ -61288,8 +61334,8 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _WaveTimeX: 4.338788
-    - _WaveTimeY: 2.5793152
+    - _WaveTimeX: 2.862918
+    - _WaveTimeY: 2.1471884
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
@@ -62695,7 +62741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3423075210695195004, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8305641842401051103, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_text
@@ -62878,52 +62924,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2000476631}
   m_CullTransparentMesh: 1
---- !u!21 &2000577632
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 2DxFX/Standard/Distortion
-  m_Shader: {fileID: 4800000, guid: ad4f123e93904634a90c4733b070f839, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 0
-    - _ColorMask: 15
-    - _DistanceX: 0.005
-    - _DistanceY: 0.005
-    - _OffsetX: 10
-    - _OffsetY: 10
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _WaveTimeX: 2.1202312
-    - _WaveTimeY: 2.1202312
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &2004276045
 GameObject:
   m_ObjectHideFlags: 0
@@ -76459,7 +76459,7 @@ PrefabInstance:
     - target: {fileID: 3139791541344722355, guid: 1c14b8566f62649889740dc5460ce46a, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 1577771242}
+      objectReference: {fileID: 1093860695}
     - target: {fileID: 6193126847836232088, guid: 1c14b8566f62649889740dc5460ce46a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -76543,10 +76543,10 @@ PrefabInstance:
     - target: {fileID: 7075894854979142412, guid: 1c14b8566f62649889740dc5460ce46a, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2000577632}
+      objectReference: {fileID: 513488608}
     - target: {fileID: 7350647562359363934, guid: 1c14b8566f62649889740dc5460ce46a, type: 3}
       propertyPath: _WaveTimeX
-      value: 2.9645555
+      value: 1.0148673
       objectReference: {fileID: 0}
     - target: {fileID: 7858156911562808225, guid: 1c14b8566f62649889740dc5460ce46a, type: 3}
       propertyPath: m_Name
@@ -82072,7 +82072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3423075210695195004, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 8305641842401051103, guid: a2c7d996286c446f3a3f3bd22135e2f5, type: 3}
       propertyPath: m_fontColor32.rgba
