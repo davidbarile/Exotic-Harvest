@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 1957544718844246196}
   - component: {fileID: 8321643538715945035}
   - component: {fileID: 3438412748075195895}
+  - component: {fileID: 1120341983358207325}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -212,6 +213,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1120341983358207325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795752417089029428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc6db1c287234062b88a6b35afad067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnFocusShow
+  eventListenerType: 0
+  invertLogic: 0
+  shouldAppendObjectName: 0
+  showMode: 0
+  shouldModifyCanvasBlockRaycasts: 0
+  fadeDuration: 0.5
+  MinAlpha: 0.1
+  MaxAlpha: 1
 --- !u!1 &5196473531937297033
 GameObject:
   m_ObjectHideFlags: 0
