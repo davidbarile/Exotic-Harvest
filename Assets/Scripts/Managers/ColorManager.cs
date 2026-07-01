@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static ColorPalette;
 using static GlobalEnums;
 
 public class ColorManager : MonoBehaviour
@@ -16,11 +15,22 @@ public class ColorManager : MonoBehaviour
         public ColorPalette Palette;
     }
 
+    [Serializable]
+    public struct NotificationPalette
+    {
+        public ENotificationType Type;
+        public ColorPalette Palette;
+        public Sprite Icon;
+    }
+
     [Header("Panel Colors")]
     public Color PanelColor = Color.black;
 
     [Header("Resource Colors")]
     [SerializeField] private ResourcePalette[] resourceColors;
+
+    [Header("Notification Colors")]
+    [SerializeField] private NotificationPalette[] notificationColors;
 
     [Header("Saturation")]
     public Material SaturateMaterial;
@@ -52,5 +62,20 @@ public class ColorManager : MonoBehaviour
         var palette = GetResourceCategoryColors(resourceType);
         return palette.GetColorByType(colorType);
     }
-    
+
+    public ColorPalette GetNotificationTypeColors(ENotificationType notificationType)
+    {
+        foreach (var notificationColor in this.notificationColors)
+        {
+            if (notificationColor.Type == notificationType)
+                return notificationColor.Palette;
+        }
+        return null;
+    }
+
+    public Color GetNotificationTypeColor(ENotificationType notificationType, EColorType colorType)
+    {
+        var palette = GetNotificationTypeColors(notificationType);
+        return palette.GetColorByType(colorType);
+    }
 }

@@ -21,12 +21,6 @@ public class NotificationManager : MonoBehaviour
     [SerializeField] private int maxNotifications = 5;
     [SerializeField] private float notificationSpacing = 10f;
     
-    [Header("Audio Settings")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip successSound;
-    [SerializeField] private AudioClip errorSound;
-    [SerializeField] private AudioClip infoSound;
-    
     private Queue<UiToastNotification> activeNotifications = new();
     private bool notificationsEnabled = true;
     
@@ -34,9 +28,6 @@ public class NotificationManager : MonoBehaviour
     {
         if (this.notificationParent == null)
             this.notificationParent = transform;
-
-        if (this.audioSource == null)
-            this.audioSource = GetComponent<AudioSource>();
 
         // Listen to game events and show appropriate notifications
         // ResourceData events
@@ -162,18 +153,21 @@ public class NotificationManager : MonoBehaviour
     
     private void PlayNotificationSound(ENotificationType type)
     {
-        if (this.audioSource == null)
-            return;
-            
-        AudioClip clipToPlay = type switch
+        switch (type)
         {
-            ENotificationType.Success or ENotificationType.ResourceGained or ENotificationType.Achievement => this.successSound,
-            ENotificationType.Error or ENotificationType.Warning => this.errorSound,
-            _ => this.infoSound
-        };
-        
-        if (clipToPlay != null)
-            this.audioSource.PlayOneShot(clipToPlay);
+            case ENotificationType.Success:
+            case ENotificationType.ResourceGained:
+            case ENotificationType.Achievement:
+                AudioManager.IN.PlayClip(AudioManager.IN.Notification_SuccessClip, 1);
+                break;
+            case ENotificationType.Error:
+            case ENotificationType.Warning:
+                AudioManager.IN.PlayClip(AudioManager.IN.Notification_ErrorClip, .7f);
+                break;
+            default:
+                AudioManager.IN.PlayClip(AudioManager.IN.Notification_InfoClip, .7f, 2f);
+                break;
+        }
     }
     
     // Event handlers

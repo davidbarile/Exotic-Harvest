@@ -1,17 +1,9 @@
-using System;
 using UnityEngine;
+using static GlobalEnums;
 
 [CreateAssetMenu(fileName = "ColorPalette", menuName = "Exotic Harvest/ColorPalette")]
 public class ColorPalette : ScriptableObject
 {
-    public enum EColorType
-    {
-        Main,
-        Dark,
-        Light,
-        Disabled
-    }
-
     public Color GetColorByType(EColorType colorType)
     {
         switch (colorType)

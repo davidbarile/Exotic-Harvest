@@ -18,10 +18,12 @@ public class ToastNotification
     public float DisplayDuration = 3f;
     public bool AutoDismiss = true;
     public bool PlaySound = true;
-    
+
     [Header("Visual Style")]
     public Color BackgroundColor = Color.white;
-    public Color TextColor = Color.black;
+    public Color OutlineColor = Color.white;
+    public Color TitleTextColor = Color.black;
+    public Color MessageTextColor = Color.black;
     
     public ToastNotification(string title, string message, ENotificationType type = ENotificationType.Info)
     {
@@ -36,36 +38,42 @@ public class ToastNotification
     
     private void SetDefaultStyle()
     {
-        switch (this.Type)
-        {
-            case ENotificationType.Success:
-                this.BackgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
-                this.TextColor = Color.white;
-                break;
-            case ENotificationType.Error:
-                this.BackgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
-                this.TextColor = Color.white;
-                this.DisplayDuration = 5f; // Errors stay longer
-                break;
-            case ENotificationType.Warning:
-                this.BackgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
-                this.TextColor = Color.white;
-                break;
-            case ENotificationType.ResourceGained:
-                this.BackgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
-                this.TextColor = Color.white;
-                this.DisplayDuration = 2f; // Quick for resource gains
-                break;
-            case ENotificationType.Achievement:
-                this.BackgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
-                this.TextColor = Color.white;
-                this.DisplayDuration = 4f; // Achievements stay longer
-                break;
-            default:
-                this.BackgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
-                this.TextColor = Color.white;
-                break;
-        }
+        var colorPallette = ColorManager.IN.GetNotificationTypeColors(this.Type);
+        this.BackgroundColor = colorPallette.GetColorByType(EColorType.Main);
+        this.OutlineColor = colorPallette.GetColorByType(EColorType.Dark);
+        this.TitleTextColor = colorPallette.GetColorByType(EColorType.Light);
+        this.MessageTextColor = colorPallette.GetColorByType(EColorType.Disabled);
+        
+        // switch (this.Type)
+        // {
+        //     case ENotificationType.Success:
+        //         this.BackgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.9f); // Green
+        //         this.TextColor = Color.white;
+        //         break;
+        //     case ENotificationType.Error:
+        //         this.BackgroundColor = new Color(0.8f, 0.2f, 0.2f, 0.9f); // Red
+        //         this.TextColor = Color.white;
+        //         this.DisplayDuration = 5f; // Errors stay longer
+        //         break;
+        //     case ENotificationType.Warning:
+        //         this.BackgroundColor = new Color(0.8f, 0.6f, 0.2f, 0.9f); // Orange
+        //         this.TextColor = Color.white;
+        //         break;
+        //     case ENotificationType.ResourceGained:
+        //         this.BackgroundColor = new Color(0.2f, 0.6f, 0.8f, 0.9f); // Blue
+        //         this.TextColor = Color.white;
+        //         this.DisplayDuration = 2f; // Quick for resource gains
+        //         break;
+        //     case ENotificationType.Achievement:
+        //         this.BackgroundColor = new Color(0.8f, 0.4f, 0.8f, 0.9f); // Purple
+        //         this.TextColor = Color.white;
+        //         this.DisplayDuration = 4f; // Achievements stay longer
+        //         break;
+        //     default:
+        //         this.BackgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.9f); // Gray
+        //         this.TextColor = Color.white;
+        //         break;
+        // }
     }
     
     public static ToastNotification ResourceGained(EResourceType resourceType, int amount)

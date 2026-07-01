@@ -14,6 +14,7 @@ public class UiToastNotification : MonoBehaviour, IPoolable
 {
     [Header("UI Components")]
     [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image outlineImage;
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Image iconImage;
@@ -21,8 +22,8 @@ public class UiToastNotification : MonoBehaviour, IPoolable
     [SerializeField] private RectTransform animRoot;
 
     [Header("Animation Settings")]
-    [SerializeField] private float slideInDuration = 0.5f;
-    [SerializeField] private float slideOutDuration = 0.3f;
+    [Range(0f, 2f), SerializeField] private float slideInDuration = 0.5f;
+    [Range(0f, 2f), SerializeField] private float slideOutDuration = 0.3f;
     [SerializeField] private Ease slideInEase = Ease.OutBack;
     [SerializeField] private Ease slideOutEase = Ease.InBack;
     
@@ -62,12 +63,18 @@ public class UiToastNotification : MonoBehaviour, IPoolable
         {
             this.backgroundImage.color = this.notificationData.BackgroundColor;
         }
+
+        // Set outline color
+        if (this.outlineImage != null)
+        {
+            this.outlineImage.color = this.notificationData.OutlineColor;
+        }
         
         // Set title
         if (this.titleText != null)
         {
             this.titleText.text = this.notificationData.Title;
-            this.titleText.color = this.notificationData.TextColor;
+            this.titleText.color = this.notificationData.TitleTextColor;
             this.titleText.gameObject.SetActive(!string.IsNullOrEmpty(this.notificationData.Title));
         }
         
@@ -75,7 +82,7 @@ public class UiToastNotification : MonoBehaviour, IPoolable
         if (this.messageText != null)
         {
             this.messageText.text = this.notificationData.Message;
-            this.messageText.color = this.notificationData.TextColor;
+            this.messageText.color = this.notificationData.MessageTextColor;
         }
         
         // Set icon

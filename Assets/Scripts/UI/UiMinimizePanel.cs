@@ -8,9 +8,7 @@ public class UiMinimizePanel : UIPanelBase
     [SerializeField] private Transform selectedButtonParent;
     [SerializeField] private Transform buttonMenuParent;
     [SerializeField] private GameObject menuHideTrigger;
-
-    [Space]
-    [SerializeField] private UnityEvent[] buttonActions;
+    [Space, SerializeField] private UnityEvent[] buttonActions;
 
     private int selectedButtonIndex = 0;
 

@@ -47,11 +47,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip ErrorSoundClip;
     public AudioClip GoldenAppleUseClip;
 
-    [Space()]
+    [Space]
     public AudioClip LightningClip;
-    public AudioClip GrasshopperCollectClip;
-    public AudioClip GrasshopperUseClip;
-    public AudioClip GrasshopperJumpClip;
+    public AudioClip GrasshopperCollectClip, GrasshopperUseClip, GrasshopperJumpClip;
+    [Space]
+    public AudioClip Notification_InfoClip;
+    public AudioClip Notification_SuccessClip;
+    public AudioClip Notification_ErrorClip;
 
     private List<AudioSource> audioSources = new List<AudioSource>();
     private int audioSourceIndex, recursionCounter;

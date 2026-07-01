@@ -44,9 +44,9 @@ public class GameSaveData
     public GameStatsData StatsData = new();
 
     [Header("Audio")]
-    public float MusicVolume = 1f;
-    public float EffectsVolume = 1f;
-    public float AmbientVolume = 1f;
+    public float MusicVolume = .7f;
+    public float EffectsVolume = .5f;
+    public float AmbientVolume = .5f;
 
     [Space]
     public float MusicVolume_Minimized = 0.1f;

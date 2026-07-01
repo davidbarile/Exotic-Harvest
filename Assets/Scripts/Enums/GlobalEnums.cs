@@ -8,6 +8,14 @@ public class GlobalEnums
         OnMinimizeMaximizeToggled,
         Both
     }
+
+    public enum EColorType
+    {
+        Main,
+        Dark,
+        Light,
+        Disabled
+    }
     
     [Flags]
     public enum ETimeOfDay

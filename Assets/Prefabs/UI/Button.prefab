@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 8613902500328920864}
   - component: {fileID: 6164622959606699192}
   - component: {fileID: 3742099759322929133}
+  - component: {fileID: 6463710689823425814}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -229,6 +230,31 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6463710689823425814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115074508013006909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdd4f10f26d74c728a58ba124ecf29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonAudio
+  audioClip: {fileID: 0}
+  volumeMinMax:
+    MinQuantity: 1
+    MaxQuantity: 1
+    MinMaxWeightFactor: 0
+  pitchMinMax:
+    MinQuantity: 1
+    MaxQuantity: 1
+    MinMaxWeightFactor: 0
+  delayMinMax:
+    MinQuantity: 0
+    MaxQuantity: 0
+    MinMaxWeightFactor: 0
 --- !u!1 &8772339555184396400
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +358,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
