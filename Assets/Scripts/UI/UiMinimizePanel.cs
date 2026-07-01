@@ -77,6 +77,7 @@ public class UiMinimizePanel : UIPanelBase
             case 0:
                 // Handle first button action
                 ScreenManager.IN.SetMinOrMaximized(false);
+                ScreenManager.IN.SetDecorationsVisibility(false);
                 break;
             case 1:
                 // Handle second button action
